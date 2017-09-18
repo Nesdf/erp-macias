@@ -131,7 +131,7 @@ class MgPersonalController extends Controller
 				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 			} else {
 
-				$data = arry(
+				$data = array(
 					'ap_paterno' => ucwords( $request->input('ap_paterno') ),
 					'ap_materno' => ucwords( $request->input('ap_materno') ),
 					'email' => strtolower( $request->input('correo') ),

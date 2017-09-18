@@ -1,0 +1,16 @@
+{
+    "name": "MgProyectos",
+    "alias": "mgproyectos",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgProyectos\\Providers\\MgProyectosServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

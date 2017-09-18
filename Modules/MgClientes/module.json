@@ -1,0 +1,16 @@
+{
+    "name": "MgClientes",
+    "alias": "mgclientes",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgClientes\\Providers\\MgClientesServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

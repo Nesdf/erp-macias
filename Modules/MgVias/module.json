@@ -1,0 +1,16 @@
+{
+    "name": "MgVias",
+    "alias": "mgvias",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgVias\\Providers\\MgViasServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

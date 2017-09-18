@@ -1,0 +1,16 @@
+{
+    "name": "MgPuestos",
+    "alias": "mgpuestos",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgPuestos\\Providers\\MgPuestosServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -1,0 +1,16 @@
+{
+    "name": "MgSalas",
+    "alias": "mgsalas",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgSalas\\Providers\\MgSalasServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

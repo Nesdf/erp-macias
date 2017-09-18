@@ -16,17 +16,17 @@ class CreateClientesTable extends Migration
         //
 		Schema::create('clientes', function (Blueprint $table) {
             $table->increments('id');
-			$table->string('razon_social')->unique();
-            $table->string('rfc')->unique();
+			$table->string('razon_social', 100)->unique();
+            $table->string('rfc', 15)->unique();
 			$table->integer('paisId')->unsigned();
 			$table->integer('estadoId')->unsigned();
-            $table->timestamps();
 			$table->foreign('paisId')
 				  ->references('id')->on('paises')
 				  ->onDelete('cascade');
 			$table->foreign('estadoId')
 				  ->references('id')->on('estados')
 				  ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

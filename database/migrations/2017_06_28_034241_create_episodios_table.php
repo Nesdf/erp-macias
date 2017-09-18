@@ -16,11 +16,11 @@ class CreateEpisodiosTable extends Migration
         //
 		Schema::create('episodios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('titulo_original');
-			$table->string('titulo_espanol');
-			$table->string('titulo_ingles');
-			$table->string('titulo_eportugues');
-			$table->string('duracion');
+            $table->string('titulo_original', 200);
+			$table->string('titulo_espanol', 200);
+			$table->string('titulo_ingles', 200);
+			$table->string('titulo_eportugues', 200);
+			$table->string('duracion', 15);
 			$table->integer('num_episodio');
 			$table->integer('viaId')->unsigned();
 			$table->string('otro_formato');
@@ -42,6 +42,7 @@ class CreateEpisodiosTable extends Migration
 			$table->boolean('subt_ingles');
 			$table->boolean('subt_portugues');
 			$table->boolean('material_calificado');
+			$table->boolean('material_entregado');
             $table->timestamps();
 			
 			/*$table->foreign('viaId')

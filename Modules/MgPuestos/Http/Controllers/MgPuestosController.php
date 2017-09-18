@@ -51,7 +51,7 @@ class MgPuestosController extends Controller
 			if ( $validator->fails() ) {
 				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 			} else {
-				\Modules\Mgclientes\Entities\Puestos::create([	
+				\Modules\MgClientes\Entities\Puestos::create([	
 					'job' => $request->input('job')
 				]);
 				$request->session()->flash('message', trans('mgpuestos::ui.flash.flash_create_cliente'));
@@ -102,7 +102,7 @@ class MgPuestosController extends Controller
 			if ( $validator->fails() ) {
 				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 			} else {
-				\Modules\Mgclientes\Entities\Puestos::where('id', $request->input('id'))
+				\Modules\MgClientes\Entities\Puestos::where('id', $request->input('id'))
 				->update([					
 					'job' => $request->input('job')
 				]);

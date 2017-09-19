@@ -34,6 +34,7 @@ class HomeController extends Controller
         if($enviado){
             $respuesta = "Enviado";
         } else{
+            \Log::critical("Error crítico: ".$enviado);
             $respuesta = "Fallido";
         }
         return $respuesta;

@@ -28,3 +28,5 @@ Auth::routes();
 Route::get('/', function(){
 	return redirect('login');
 });
+
+Route::get('/email', 'HomeController@sendEmail');

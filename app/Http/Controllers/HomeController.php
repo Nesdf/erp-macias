@@ -36,5 +36,6 @@ class HomeController extends Controller
         } else{
             $respuesta = "Fallido";
         }
+        return $respuesta;
     }
 }

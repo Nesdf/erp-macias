@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Alertas extends Mailable
+class Alerts extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,8 @@ class Alertas extends Mailable
      */
     public function build()
     {
-        return $this->view('email');
+        #return $this->markdown('emails.date-delivery');
+        
+        return $this->subject('Fecha de entrega')->view('emails.entrega');
     }
 }

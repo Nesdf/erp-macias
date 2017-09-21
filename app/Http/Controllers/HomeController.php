@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Mail\Alertas;
+use App\Mail\Alerts;
 
 class HomeController extends Controller
 {
@@ -29,14 +29,12 @@ class HomeController extends Controller
 
     public function sendEmail()
     {
-        $enviado = \Mail::to('nes64df@gmail.com')->send( new Alertas() );
-
-        if($enviado){
-            $respuesta = "Enviado";
-        } else{
-            \Log::critical("Error crítico: ".$enviado);
-            $respuesta = "Fallido" . $enviado;
+        
+        try{
+            $enviado = \Mail::to('ing.nestor.sanz@gmail.com')->send( new Alerts() );
+            return $enviado;
+        } catch( Exception $ex ){
+            dd($ex);
         }
-        return $respuesta;
     }
 }

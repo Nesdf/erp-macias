@@ -16,9 +16,12 @@ class Alerts extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($status, $pro_titulo, $epi_titulo)
     {
         //
+        $this->status = $status;
+        $this->pro_titulo = $pro_titulo;
+        $this->epi_titulo = $epi_titulo;
     }
 
     /**
@@ -29,7 +32,10 @@ class Alerts extends Mailable
     public function build()
     {
         #return $this->markdown('emails.date-delivery');
+        $status = $this->status;
+        $pro_titulo = $this->pro_titulo;
+        $epi_titulo = $this->epi_titulo;
         
-        return $this->subject('Fecha de entrega')->view('emails.entrega');
+        return $this->subject('Fecha de entrega')->view('emails.entrega', compact('status', 'pro_titulo', 'epi_titulo'));
     }
 }

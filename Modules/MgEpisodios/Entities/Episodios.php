@@ -32,4 +32,18 @@ class Episodios extends Model
     {
         return \DB::select( \DB::raw(' DELETE FROM calificar_materiales WHERE id_episodio = ' . $id) );
     }
+
+    public static function jobYesterdayDate()
+    {
+        $ayer = \Carbon\carbon::yesterday()->toDateString(); 
+
+       return \DB::select(\DB::raw("SELECT proyectos.titulo_original as pro_titulo, episodios.titulo_original as  epi_titulo, episodios.date_entrega as epi_entrega FROM proyectos INNER JOIN episodios  ON episodios.\"proyectoId\" = proyectos.id WHERE episodios.date_entrega = '$ayer'" ));
+    }
+
+     public static function jobTomorrowDate()
+    {
+       $manana = \Carbon\carbon::tomorrow()->toDateString(); 
+
+       return \DB::select(\DB::raw("SELECT proyectos.titulo_original as pro_titulo, episodios.titulo_original as  epi_titulo, episodios.date_entrega as epi_entrega FROM proyectos INNER JOIN episodios  ON episodios.\"proyectoId\" = proyectos.id WHERE episodios.date_entrega = '$manana'" ));
+    }
 }

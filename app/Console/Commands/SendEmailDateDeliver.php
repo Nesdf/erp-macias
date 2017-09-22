@@ -40,8 +40,24 @@ class SendEmailDateDeliver extends Command
     {
         //
         try{
-            $enviado = \Mail::to('ing.nestor.sanz@gmail.com')->send( new Alerts() );
-            $this->info('Se enviaron los correos de acuerdo a la entrega de episodios.');
+            $ayer = \Modules\MgEpisodios\Entities\Episodios::jobYesterdayDate();
+            $manana = \Modules\MgEpisodios\Entities\Episodios::jobTomorrowDate();
+
+            if(count($ayer) > 0){
+                foreach ($ayer as $key => $value) {
+                    # code...
+                    $enviado = \Mail::to('ing.nestor.sanz@gmail.com')->send( new Alerts('warning', $value->pro_titulo, $value->epi_titulo) );
+                    $this->info('Se enviaron los correos de acuerdo a la entrega de episodios.');
+                }
+            }
+
+            if(count($manana) > 0){
+                foreach ($manana as $key => $value) {
+                    # code...
+                    $enviado = \Mail::to('ing.nestor.sanz@gmail.com')->send( new Alerts('danger', $value->pro_titulo, $value->epi_titulo) );
+                    $this->info('Se enviaron los correos de acuerdo a la entrega de episodios.');
+                }
+            }
         } catch( Exception $ex ){
             dd($ex);
         }

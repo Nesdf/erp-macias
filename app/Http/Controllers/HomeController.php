@@ -29,12 +29,8 @@ class HomeController extends Controller
 
     public function sendEmail()
     {
+       
+       return \Modules\MgEpisodios\Entities\Episodios::jobYesterdayDate();
         
-        try{
-            $enviado = \Mail::to('ing.nestor.sanz@gmail.com')->send( new Alerts() );
-            return $enviado;
-        } catch( Exception $ex ){
-            dd($ex);
-        }
     }
 }

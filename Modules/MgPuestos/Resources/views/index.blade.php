@@ -24,10 +24,12 @@
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
-						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_puesto" class="btn btn-success">
-							Puesto Nuevo
-						</a>
+						@if(\Request::session()->has('add_puesto'))
+							<!--Results for "Latest Registered Domains"-->
+							<a data-toggle="modal" data-target="#modal_puesto" class="btn btn-success">
+								Puesto Nuevo
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -52,15 +54,20 @@
 										<td>
 											{{ $puesto->job }}
 										</td>
-										<td>
-											<a data-id="{{ $puesto->id }}" data-toggle="modal" data-target="#modal_update_puesto" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $puesto->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
-										</td>
+										@if(\Request::session()->has('update_puesto') && \Request::session()->has('edit_puesto') || \Request::session()->has('delete_puesto') )
+											<td>
+												@if(\Request::session()->has('update_puesto') && \Request::session()->has('edit_puesto'))
+													<a data-id="{{ $puesto->id }}" data-toggle="modal" data-target="#modal_update_puesto" class="btn btn-xs btn-info update_id" title="Editar">
+														<i class="ace-icon fa fa-pencil bigger-120"></i>
+													</a>		
+												@endif
+												@if(\Request::session()->has('delete_puesto'))
+													<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $puesto->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+														<i class="ace-icon fa fa-trash-o bigger-120"></i>
+													</a>
+												@endif
+											</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>

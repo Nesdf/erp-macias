@@ -20,10 +20,12 @@
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
-						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_proyecto" class="btn btn-success">
-							Proyecto Nuevo
-						</a>
+						@if(\Request::session()->has('add_proyecto'))
+							<!--Results for "Latest Registered Domains"-->
+							<a data-toggle="modal" data-target="#modal_proyecto" class="btn btn-success">
+								Proyecto Nuevo
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -37,8 +39,12 @@
 									<th>Título original de la serie</th>
 									<th class="hidden-480">Título aprobado de la serie</th>
 									<th>Cliente</th>
-									<th>Episosdios</th>
-									<th></th>
+									@if(\Request::session()->has('mgepisodios'))
+										<th>Episosdios</th>
+									@endif
+									@if(\Request::session()->has('edit_proyecto') || \Request::session()->has('delete_proyecto'))
+										<th></th>
+									@endif
 								</tr>
 							</thead>
 
@@ -58,18 +64,23 @@
 											{{ $proyecto->cliente }}
 										</td>
 										<td>
-											<a href=" {{ url('mgepisodios/' . $proyecto->id ) }} " title="Generar Episodio">
-												<span class="label label-success arrowed-in arrowed-in-right"> Lista de Episodios </span>
-											</a>
+											@if(\Request::session()->has('mgepisodios'))
+												<a href=" {{ url('mgepisodios/' . $proyecto->id ) }} " title="Generar Episodio">
+													<span class="label label-success arrowed-in arrowed-in-right"> Lista de Episodios </span>
+												</a>
+											@endif
 										</td>
 										<td>
-											<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_update_proyecto" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $proyecto->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
+											@if(\Request::session()->has('edit_proyecto'))
+												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_update_proyecto" class="btn btn-xs btn-info update_id" title="Editar">
+													<i class="ace-icon fa fa-pencil bigger-120"></i>
+												</a>
+											@endif		
+											@if(\Request::session()->has('delete_proyecto'))
+												<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $proyecto->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+													<i class="ace-icon fa fa-trash-o bigger-120"></i>
+												</a>
+											@endif
 										</td>
 									</tr>
 								@endforeach

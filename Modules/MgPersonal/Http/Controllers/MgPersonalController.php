@@ -15,7 +15,7 @@ class MgPersonalController extends Controller
      */
     public function index()
     {
-		$personas = \Modules\MgPersonal\Entities\User::get();
+		$personas = \Modules\MgPersonal\Entities\User::Personal();
 		$puestos = \Modules\MgPersonal\Entities\Jobs::get();
         return view('mgpersonal::index', compact('personas', 'puestos'));
     }
@@ -73,7 +73,7 @@ class MgPersonalController extends Controller
 					'name' => ucwords( $request->input('nombre') ),
 					'job' => $request->input('puesto')
 				]);
-				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_peronal'));
+				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_personal'));
 				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 			}
 		}		
@@ -105,6 +105,7 @@ class MgPersonalController extends Controller
     public function update(Request $request)
     {
 		if( $request->method('post') && $request->ajax() ){
+
 			$rules = [
 				'nombre' => 'required|min:2|max:50',
 				'ap_paterno' => 'required|min:2|max:50',
@@ -144,8 +145,8 @@ class MgPersonalController extends Controller
 				}
 
 				\Modules\MgPersonal\Entities\User::where('id', $request->input('id'))
-				->update([ $data ]);
-				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_peronal'));
+				->update( $data );
+				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_personal'));
 				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 			}
 		}		
@@ -160,5 +161,43 @@ class MgPersonalController extends Controller
 		\Modules\MgPersonal\Entities\User::destroy($id);
 		\Request::session()->flash('message', trans('mgpersonal::ui.flash.flash_delete_peronal'));
 		return redirect('mgpersonal');
+    }
+
+    public function permisos($id)
+    {
+    	$urls = \Modules\MgPersonal\Entities\RoutesAccess::where('user_id', $id)->get();
+    	$urlArray=array();
+    	foreach ($urls as $value) {
+    		$urlArray[$value->alias_name] = $value->alias_name;
+    	}
+    	$empleado = \Modules\MgPersonal\Entities\User::Empleado($id);
+    	return view('mgpersonal::permisos', compact('id', 'empleado', 'urlArray'));
+    }
+
+    public function savePermisos(Request $request)
+    {
+    	if($request->method('post') || $request->ajax()){
+    		$moreNames = explode("-", $request->input('name'));
+
+    		foreach ($moreNames as $key => $value) {
+    			# code...
+    			#$route = $request->input('name');
+	    		#$user_id = $request->input('id');
+    			$route = $value;
+    			$user_id = $request->input('id');
+    			$existe = \Modules\MgPersonal\Entities\RoutesAccess::where(['alias_name' =>  $route, 'user_id' => $user_id])->get();
+
+	    		if(count($existe) > 0){
+	    			\Modules\MgPersonal\Entities\RoutesAccess::destroy($existe[0]->id);
+	    		} else{
+	    			\Modules\MgPersonal\Entities\RoutesAccess::create([
+		    			"alias_name" => $route,
+		    			"user_id" => $request->input('id')
+		    		]);
+	    		}
+    		}
+    		
+    		return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+    	}
     }
 }

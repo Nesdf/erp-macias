@@ -8,14 +8,14 @@ return [
 		'error_email' => 'El campo :attribute no es un formato correcto'
 	],
 	'flash' => [
-		'flash_create_proyecto' => 'Se agregó exitosamente',
-		'flash_delete_proyecto' => 'Se eliminó exitosamente'
+		'flash_create_personal' => 'Se agregó exitosamente',
+		'flash_delete_personal' => 'Se eliminó exitosamente'
 	],
 	'attribute' => [
 		'titulo_serie' => 'Título Original de la Serie',
 		'cliente' => 'Cliente',
 		'idioma' => 'Idioma para el Título de la Serie',
-		'titulo_aprobado' => 'Título Aprobado del Proyecto',
+		'titulo_aprobado' => 'Título Aprobado del Personal',
 		'mande' => 'M&E'
 	]
 ];

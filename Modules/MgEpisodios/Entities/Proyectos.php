@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proyectos extends Model
 {
     protected $table = 'proyectos';
-    protected $fillable = ['titulo_original', 'titulo_aprobado', 'm_and_e', 'statusId', 'idiomaId', 'clienteId', 'created_at', 'updated_at'];
+    protected $fillable = ['titulo_original', 'titulo_aprobado', 'm_and_e','salaId', 'statusId', 'idiomaId', 'clienteId', 'created_at', 'updated_at'];
 
     public static function allProyect($id_episodio, $id_proyecto)
     {

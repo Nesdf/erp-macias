@@ -10,10 +10,6 @@
 |
 */
 
-Route::get('hash', function(){
-	return \Hash::make('1234567890');
-});
-
 Route::middleware(['auth'])->group(function(){
 	Route::get('/home', 'BackendController@index');
 	Route::get('/salir', function(){

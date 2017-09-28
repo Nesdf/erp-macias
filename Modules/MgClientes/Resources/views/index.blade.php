@@ -20,10 +20,12 @@
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
-						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_save_clientes" class="btn btn-success">
-							Cliente Nuevo
-						</a>
+						@if(\Request::session()->has('update_cliente'))
+							<!--Results for "Latest Registered Domains"-->
+							<a data-toggle="modal" data-target="#modal_save_clientes" class="btn btn-success">
+								Cliente Nuevo
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -35,10 +37,11 @@
 								<tr>
 									<th>ID</th>
 									<th>Razón Social</th>
-									<th>R.F.C.</th>
 									<th>País</th>
 									<th>Estado</th>
-									<th></th>
+									@if(\Request::session()->has('update_cliente') || \Request::session()->has('delete_cliente'))
+										<th></th>
+									@endif
 								</tr>
 							</thead>
 
@@ -52,23 +55,25 @@
 											{{ $cliente->razon_social }}
 										</td>
 										<td>
-											{{ $cliente->rfc }}
-										</td>
-										<td>
 											{{ $cliente->pais }}
 										</td>
 										<td>
 											{{ $cliente->estado }}
 										</td>
-										<td>
-											<a data-id="{{ $cliente->id }}" data-toggle="modal" data-target="#modal_update_clientes" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_cliente" data-id="{{ $cliente->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
-										</td>
+										@if(\Request::session()->has('update_cliente') || \Request::session()->has('delete_cliente'))
+											<td>
+												@if(\Request::session()->has('update_cliente'))
+													<a data-id="{{ $cliente->id }}" data-toggle="modal" data-target="#modal_update_clientes" class="btn btn-xs btn-info update_id" title="Editar">
+														<i class="ace-icon fa fa-pencil bigger-120"></i>
+													</a>		
+												@endif
+												@if(\Request::session()->has('delete_cliente'))
+													<a data-toggle="modal" data-target="#modal_delete_cliente" data-id="{{ $cliente->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+														<i class="ace-icon fa fa-trash-o bigger-120"></i>
+													</a>
+												@endif
+											</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>

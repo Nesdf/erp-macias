@@ -78,7 +78,8 @@
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="{{ asset('assets/dashboard/images/avatars/user_1.png') }}" alt="Jason's Photo" />
 								<span class="user-info">
-									<small>Bienvenido,</small>
+									<small>{{\Auth::user()->name}} {{\Auth::user()->ap_paterno}}, </small>
+									<small>{{\Session::get('admin_puesto')}} </small>
 									{{-- Auth::user()->name --}}
 								</span>
 
@@ -99,6 +100,12 @@
 										Profile
 									</a>
 								</li> -->
+								<li>
+									<a href="#">
+										<i class="ace-icon fa fa-user"></i>
+										{{\Session::get('admin_puesto')}} 
+									</a>
+								</li>
 
 								<li class="divider"></li>
 
@@ -163,69 +170,82 @@
 
 				<ul class="nav nav-list">
 					<li class="">
-						<a href="#" class="dropdown-toggle">
-							<i class="menu-icon fa fa-list"></i>
-							<span class="menu-text"> Elementos </span>
+						@if( \Request::session()->has('mgpuestos') || \Request::session()->has('mgsalas') || Request::session()->has('mgvias') )
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-list"></i>
+								<span class="menu-text"> Elementos </span>
 
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
 
-						<b class="arrow"></b>
+							<b class="arrow"></b>
 
-						<ul class="submenu">
-							<li class="">
-								<a href="{{ url('mgpuestos') }}">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Puestos de trabajo
-								</a>
-								<b class="arrow"></b>
-							</li>
-							<li class="">
-								<a href="{{ url('mgsalas') }}">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Salas
-								</a>
-								<b class="arrow"></b>
-							</li>
-							<li class="">
-								<a href="{{ url('mgvias') }}">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Vías
-								</a>
-								<b class="arrow"></b>
-							</li>
-							<li class="">
-								<a href="{{ url('mgtcr') }}">
-									<i class="menu-icon fa fa-caret-right"></i>
-									TCR
-								</a>
-								<b class="arrow"></b>
-							</li>
-						</ul>
+							<ul class="submenu">
+								@if(\Request::session()->has('mgpuestos'))
+									<li class="">
+										<a href="{{ url('mgpuestos') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Puestos de trabajo
+										</a>
+										<b class="arrow"></b>
+									</li>
+								@endif
+								<li class="">
+									@if(\Request::session()->has('mgsalas'))
+										<a href="{{ url('mgsalas') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Salas
+										</a>
+										<b class="arrow"></b>
+									@endif
+								</li>
+								<li class="">
+									@if(\Request::session()->has('mgvias'))
+										<a href="{{ url('mgvias') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Vías
+										</a>
+										<b class="arrow"></b>
+									@endif
+								</li>
+								<li class="">
+									@if(\Request::session()->has('mgtcr'))
+										<a href="{{ url('mgtcr') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											TCR
+										</a>
+										<b class="arrow"></b>
+									@endif
+								</li>
+							</ul>
+						@endif
 					</li>
 					<li class="">
-						<a href="{{ url('mgpersonal') }}">
-							<i class="menu-icon fa fa-child"></i>
-							<span class="menu-text"> Personal </span>
-						</a>
-
-						<b class="arrow"></b>
+						@if(\Request::session()->has('mgpersonal'))
+							<a href="{{ url('mgpersonal') }}">
+								<i class="menu-icon fa fa-child"></i>
+								<span class="menu-text"> Personal </span>
+							</a>
+							<b class="arrow"></b>
+						@endif
 					</li>
 					<li class="">
-						<a href="{{ url('mgclientes') }}">
-							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text"> Clientes </span>
-						</a>
-
-						<b class="arrow"></b>
+						@if(\Request::session()->has('mgclientes'))
+							<a href="{{ url('mgclientes') }}">
+								<i class="menu-icon fa fa-users"></i>
+								<span class="menu-text"> Clientes </span>
+							</a>
+							<b class="arrow"></b>
+						@endif
 					</li>
 					<li class="">
-						<a href="{{ url('mgproyectos') }}">
-							<i class="menu-icon fa fa-tasks"></i>
-							<span class="menu-text"> Proyectos </span>
-						</a>
-
-						<b class="arrow"></b>
+						@if(\Request::session()->has('mgproyectos'))
+							<a href="{{ url('mgproyectos') }}">
+								<i class="menu-icon fa fa-tasks"></i>
+								<span class="menu-text"> Proyectos </span>
+							</a>
+							<b class="arrow"></b>
+						@endif
 					</li>
 				</ul><!-- /.nav-list -->
 

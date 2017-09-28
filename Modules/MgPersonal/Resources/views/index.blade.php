@@ -31,12 +31,13 @@
 						@endif
 					</div>
 					<div class="table-header">
-						<!--Results for "Latest Registered Domains"-->						
-						<a data-toggle="modal" data-target="#modal_save_personal" class="btn btn-success">
-							Usuario Nuevo
-						</a>
+						@if(\Request::session()->has('add_personal'))
+							<!--Results for "Latest Registered Domains"-->						
+							<a data-toggle="modal" data-target="#modal_save_personal" class="btn btn-success">
+								Usuario Nuevo
+							</a>
+						@endif
 					</div>
-
 					<!-- div.table-responsive -->
 
 					<!-- div.dataTables_borderWrap -->
@@ -47,7 +48,8 @@
 									<th>ID</th>
 									<th>Nombre(s)</th>
 									<th>Apellido(s)</th>
-									<th class="hidden-480">Correo</th>
+									<th>Correo</th>
+									<th>Puesto</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -68,14 +70,27 @@
 											{{ $persona->email }}
 										</td>
 										<td>
-											<a data-id="{{ $persona->id }}" data-toggle="modal" data-target="#modal_update_personal" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_personal" data-id="{{ $persona->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
+											{{ $persona->job }}
 										</td>
+										@if(\Request::session()->has('add_permisos') || \Request::session()->has('edit_personal') && \Request::session()->has('update_personal') || \Request::session()->has('delete_personal'))
+											<td>
+												@if(\Request::session()->has('add_permisos'))
+													<a href="{{url('/mgpersonal/permisos'. '/' .$persona->id)}}" class="btn btn-xs btn-primary" title="Agregar permisos">
+														<i class="ace-icon fa fa-book bigger-120"></i>
+													</a>
+												@endif
+												@if(\Request::session()->has('edit_personal') && \Request::session()->has('update_personal'))
+													<a data-id="{{ $persona->id }}" data-toggle="modal" data-target="#modal_update_personal" class="btn btn-xs btn-info update_id" title="Editar">
+														<i class="ace-icon fa fa-pencil bigger-120"></i>
+													</a>
+												@endif		
+												@if(\Request::session()->has('delete_personal'))
+													<a data-toggle="modal" data-target="#modal_delete_personal" data-id="{{ $persona->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+														<i class="ace-icon fa fa-trash-o bigger-120"></i>
+													</a>
+												@endif
+											</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>
@@ -128,7 +143,7 @@
 						<select class="form-control" id="puesto" name="puesto">
 							<option select value="">Seleccionar</option>
 							@foreach($puestos as $puesto)
-								<option value="{{ $puesto->job }}"> {{ $puesto->job }} </option>
+								<option value="{{ $puesto->id }}"> {{ $puesto->job }} </option>
 							@endforeach
 						</select>
 					</div>				
@@ -178,7 +193,7 @@
 						<input type="password" class="form-control" id="password_update" name="password" placeholder="Contraseña">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona el puesto</label>
+						<label for="puesto">Selecciona el puesto</label>
 						<select class="form-control" id="puesto_update" name="puesto">
 							<option select value="">Seleccionar</option>
 							@foreach($puestos as $puesto)

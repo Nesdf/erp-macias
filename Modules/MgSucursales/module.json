@@ -1,0 +1,16 @@
+{
+    "name": "MgSucursales",
+    "alias": "mgsucursales",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgSucursales\\Providers\\MgSucursalesServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

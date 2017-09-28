@@ -7,7 +7,7 @@
 	</li>
 	<li>
 		<i class="ace-icon fa fa-film"></i>
-		<a href="">Episodios</a>
+		<a href="{{url('mgepisodios'.'/'.$id_proyecto)}}">Episodios</a>
 	</li>
 	<li>
 		<i class="ace-icon fa fa-film"></i>
@@ -50,23 +50,31 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue center">Material Calificado</h3>
-					<div class="alert alert-{{$status_entrega}}" role="alert">
-					  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					  <span class="sr-only"></span>
-					  Fecha de entrega: <ins>{{ \Jenssegers\Date\Date::parse($allProyect[0]->fecha_entrega)->format('l j \\d\\e F Y') }}</ins>
-					</div>
+					@if(\Request::session()->has('show_fecha_entrega'))
+						<div class="alert alert-{{$status_entrega}}" role="alert">
+						  <h2>Fecha de entrega: <ins>{{ \Jenssegers\Date\Date::parse($allProyect[0]->fecha_entrega)->format('l j \\d\\e F Y') }}</ins></h2>
+						</div>
+					@endif
 					<h3 class="header smaller lighter blue"><b>Proyecto: <ins>{{$allProyect[0]->titulo_proyecto}}</ins></b></h3>
 					<h3 class="header smaller lighter blue"><b>Episodio: <ins>{{$allProyect[0]->titulo_episodio}}</ins></b></h3>
 					<div class="clearfix">
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
-						<!--Results for "Latest Registered Domains"-->
-						<a href="#" data-toggle="modal" data-target="#modal_timecode" class="btn btn-success">
-							<i class="glyphicon glyphicon-indent-right"></i> &nbsp; Time Code Nuevo
-						</a>
-						<a href="#" data-toggle="modal" data-target="#modal_update_calificacion" class="btn btn-info"><i class="glyphicon glyphicon-edit"> </i>&nbsp; Modificar calificación</a>
-						<a href="{{url('mgepisodios/material-calificado-pdf/'.$id_episodio.'/'.$id_proyecto)}}" target="_blank" class="btn btn-danger"><i class="glyphicon glyphicon-circle-arrow-down"></i> PDF</a>
+						@if(\Request::session()->has('add_timecode'))
+							<!--Results for "Latest Registered Domains"-->
+							<a href="#" data-toggle="modal" data-target="#modal_timecode" class="btn btn-success">
+								<i class="glyphicon glyphicon-indent-right"></i> &nbsp; Time Code Nuevo
+							</a>
+						@endif
+						@if(\Request::session()->has('edit_calificar_material'))
+							<a href="#" data-toggle="modal" data-target="#modal_update_calificacion" class="btn btn-info"><i class="glyphicon glyphicon-edit"> </i>&nbsp; Modificar calificación
+							</a>
+						@endif
+						@if(\Request::session()->has('create_timecode_pdf'))
+							<a href="{{url('mgepisodios/material-calificado-pdf/'.$id_episodio.'/'.$id_proyecto)}}" target="_blank" class="btn btn-danger"><i class="glyphicon glyphicon-circle-arrow-down"></i> PDF
+							</a>
+						@endif
 					</div>
 					<div class="table-body">
 						<div class="row">
@@ -121,11 +129,31 @@
 						 	</thead>
 						 	<tbody>
 						 		@foreach($timecodes as $timecode)
-						 			<tr>
-						 				<td>{{$timecode->fecha}}</td>
-						 				<td>{{$timecode->timecode}}</td>
-						 				<td>{{$timecode->observaciones}}</td>
-						 			</tr>
+
+						 			@php
+					 					$num = 0;
+					 				@endphp
+						 			@foreach($timecodes as $timecode2)						 				
+						 				@if($timecode2->timecode == $timecode->timecode)
+						 					@php
+						 						$num++;
+						 					@endphp
+						 				@endif
+						 			@endforeach
+				 					@if($num > 1)
+					 					<tr style="background: rgba(255, 0, 0, 0.2);">
+							 				<td>{{$timecode->fecha}}</td>
+							 				<td>{{$timecode->timecode}}</td>
+							 				<td>{{$timecode->observaciones}}</td>
+							 			</tr>
+							 		@else
+							 			<tr>
+							 				<td>{{$timecode->fecha}}</td>
+							 				<td>{{$timecode->timecode}}</td>
+							 				<td>{{$timecode->observaciones}}</td>
+							 			</tr>
+							 		@endif
+						 			
 						 		@endforeach
 						 	</tbody>
 						 </table>
@@ -211,7 +239,13 @@
 							</div>
 							<div class="form-group">
 								<label>Mezcla</label>
-								<input type="text" name="mezcla" value="{{$allProyect[0]->mezcla}}"  class="form-control">
+								<select name="mezcla" class="form-control">
+									<option>Seleccionar ...</option>
+									<option value="Mono" @if('Mono' == $allProyect[0]->mezcla) selected @endif>Mono</option>
+									<option value="Stereo" @if('Stereo' == $allProyect[0]->mezcla) selected @endif>Stereo</option>
+									<option value="5.1" @if('5.1' == $allProyect[0]->mezcla) selected @endif>5.1</option>
+									<option value="7.1" @if('7.1' == $allProyect[0]->mezcla) selected @endif>7.1</option>
+								</select>
 							</div>
 							<div class="form-group">
 								<label>TCR</label>

@@ -14,7 +14,7 @@ class MgProyectosController extends Controller
      */
     public function index()
     {
-		$proyectos = \Modules\MgProyectos\Entities\Proyectos::get();
+		$proyectos = \Modules\MgProyectos\Entities\Proyectos::fullProyects();
         $clientes = \Modules\MgProyectos\Entities\Clientes::get();
         $idiomas = \Modules\MgProyectos\Entities\Idiomas::get();
         return view('mgproyectos::index', compact('idiomas', 'clientes', 'proyectos'));

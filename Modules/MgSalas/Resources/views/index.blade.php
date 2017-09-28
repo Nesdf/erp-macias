@@ -52,15 +52,20 @@
 										<td>
 											{{ $sala->sala }}
 										</td>
-										<td>
-											<a data-id="{{ $sala->id }}" data-toggle="modal" data-target="#modal_update_sala" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $sala->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
-										</td>
+											@if(\Request::session()->has('update_sala') && \Request::session()->has('edit_sala') || \Request::session()->has('delete_sala'))
+												<td>
+													@if(\Request::session()->has('update_sala') && \Request::session()->has('edit_sala'))
+														<a data-id="{{ $sala->id }}" data-toggle="modal" data-target="#modal_update_sala" class="btn btn-xs btn-info update_id" title="Editar">
+															<i class="ace-icon fa fa-pencil bigger-120"></i>
+														</a>		
+													@endif
+													@if(\Request::session()->has('delete_sala'))
+														<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $sala->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+															<i class="ace-icon fa fa-trash-o bigger-120"></i>
+														</a>
+													@endif
+												</td>
+											@endif
 									</tr>
 								@endforeach
 							</tbody>

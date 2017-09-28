@@ -75,11 +75,31 @@
 	 	</thead>
 	 	<tbody>
 	 		@foreach($timecodes as $timecode)
-	 			<tr>
-	 				<td>{{$timecode->fecha}}</td>
-	 				<td>{{$timecode->timecode}}</td>
-	 				<td>{{$timecode->observaciones}}</td>
-	 			</tr>
+
+	 			@php
+ 					$num = 0;
+ 				@endphp
+	 			@foreach($timecodes as $timecode2)						 				
+	 				@if($timecode2->timecode == $timecode->timecode)
+	 					@php
+	 						$num++;
+	 					@endphp
+	 				@endif
+	 			@endforeach
+					@if($num > 1)
+ 					<tr style="background: rgba(255, 0, 0, 0.2);">
+		 				<td>{{$timecode->fecha}}</td>
+		 				<td>{{$timecode->timecode}}</td>
+		 				<td>{{$timecode->observaciones}}</td>
+		 			</tr>
+		 		@else
+		 			<tr>
+		 				<td>{{$timecode->fecha}}</td>
+		 				<td>{{$timecode->timecode}}</td>
+		 				<td>{{$timecode->observaciones}}</td>
+		 			</tr>
+		 		@endif
+	 			
 	 		@endforeach
 	 	</tbody>
 	 </table>

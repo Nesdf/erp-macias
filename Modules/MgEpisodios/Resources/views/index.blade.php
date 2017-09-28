@@ -7,7 +7,7 @@
 	</li>
 	<li>
 		<i class="ace-icon fa fa-film"></i>
-		<a href="{{ url('mgepisodios') }}">Episodios</a>
+		<a href="{{ url('mgepisodios'.'/'. $proyecto_id) }}">Episodios</a>
 	</li>
 @stop
 
@@ -25,10 +25,12 @@
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
-						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_save_episodio" class="btn btn-success">
-							Episodio Nuevo
-						</a>
+						@if(\Request::session()->has('add_episodio'))
+							<!--Results for "Latest Registered Domains"-->
+							<a data-toggle="modal" data-target="#modal_save_episodio" class="btn btn-success">
+								Episodio Nuevo
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -44,9 +46,15 @@
 									<th>Título en Inglés</th>
 									<th>Título en Portugués</th>
 									<th>Número de episodio</th>
-									<th>Fecha de entrega episodio</th>
-									<th>Calificar Episodio</th>
-									<th></th>
+									@if(\Request::session()->has('show_fecha_entrega'))
+										<th>Fecha de entrega episodio</th>
+									@endif
+									@if(\Request::session()->has('add_calificar_material'))
+										<th>Calificar Episodio</th>
+									@endif
+									@if(\Request::session()->has('show_episodio') || \Request::session()->has('edit_episodio') || \Request::session()->has('delete_episodio'))
+										<th></th>
+									@endif
 								</tr>
 							</thead>
 
@@ -72,55 +80,66 @@
 										<td>
 											{{ $episodio->num_episodio }}
 										</td>
-										<td>
-											@php
-												 $hoy = \Carbon\carbon::today('America/Mexico_City');
-												 $fechaentrega = \Carbon\carbon::parse($episodio->date_entrega, 'America/Mexico_City');
-												 $diferencia_dias = $fechaentrega->diffInDays($hoy, false);
-												 $status_entrega = '';
-									        @endphp
+										@if(\Request::session()->has('show_fecha_entrega'))
+											<td>
+												@php
+													 $hoy = \Carbon\carbon::today('America/Mexico_City');
+													 $fechaentrega = \Carbon\carbon::parse($episodio->date_entrega, 'America/Mexico_City');
+													 $diferencia_dias = $fechaentrega->diffInDays($hoy, false);
+													 $status_entrega = '';
+										        @endphp
 
-									        @if($diferencia_dias < -2)
-										        @php
-										        	$status_entrega = "success";
-										        @endphp
-											@endif
-										    @if($diferencia_dias >= -2 && $diferencia_dias <= -1)
-										    	@php
-										        	$status_entrega = "warning";
-										        @endphp
-										    @endif
-										    @if($diferencia_dias >= 0)
-										        @php
-										        	$status_entrega = "danger";
-										        @endphp
-										    @endif
+										        @if($diferencia_dias < -2)
+											        @php
+											        	$status_entrega = "success";
+											        @endphp
+												@endif
+											    @if($diferencia_dias >= -2 && $diferencia_dias <= -1)
+											    	@php
+											        	$status_entrega = "warning";
+											        @endphp
+											    @endif
+											    @if($diferencia_dias >= 0)
+											        @php
+											        	$status_entrega = "danger";
+											        @endphp
+											    @endif
+												
+												<span class="label label-{{$status_entrega}}">{{ \Carbon\carbon::parse($episodio->date_entrega)->toFormattedDateString() }}</span>
+											</td>
+										@endif
+										@if(\Request::session()->has('add_calificar_material'))
+											<td>
+												@if( $episodio->material_calificado != true )
+													<a href="#" title="Calificar Episodio" data-toggle="modal" data-target="#modal_save_masterial_calificado">
+														<span class="label label-danger arrowed-in arrowed-in-right"> Sin Calificar </span>
+													</a>
+												@else
+													@if(\Request::session()->has('show_calificar_material'))
+															<a href=" {{ url('mgepisodios/material-calificado/') . '/'. $episodio->id .'/'. $proyecto->id}} " title="Calificar Episodio">
+															<span class="label label-success arrowed-in arrowed-in-right"> Calificado </span>
+														</a>
+													@endif
+												@endif
 											
-											<span class="label label-{{$status_entrega}}">{{ \Carbon\carbon::parse($episodio->date_entrega)->toFormattedDateString() }}</span>
-										</td>
+											</td>
+										@endif
 										<td>
-											@if( $episodio->material_calificado != true )
-												<a href="#" title="Calificar Episodio" data-toggle="modal" data-target="#modal_save_masterial_calificado">
-													<span class="label label-danger arrowed-in arrowed-in-right"> Sin Calificar </span>
-												</a>
-											@else
-												<a href=" {{ url('mgepisodios/material-calificado/') . '/'. $episodio->id .'/'. $proyecto->id}} " title="Calificar Episodio">
-													<span class="label label-success arrowed-in arrowed-in-right"> Calificado </span>
+											@if(\Request::session()->has('show_episodio'))
+												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_ver_episodio" class="btn btn-xs btn-warning show_id" title="Editar">
+													<i class="ace-icon fa fa-book bigger-120"></i>
 												</a>
 											@endif
-										</td>
-										<td>
-											<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_ver_episodio" class="btn btn-xs btn-warning show_id" title="Editar">
-												<i class="ace-icon fa fa-book bigger-120"></i>
-											</a>
-
-											<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_update_episodio" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_episodio" data-id="{{ $episodio->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
+											@if(\Request::session()->has('edit_episodio') || \Request::session()->has('update_episodio'))
+												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_update_episodio" class="btn btn-xs btn-info update_id" title="Editar">
+													<i class="ace-icon fa fa-pencil bigger-120"></i>
+												</a>
+											@endif		
+											@if(\Request::session()->has('delete_episodio'))
+												<a data-toggle="modal" data-target="#modal_delete_episodio" data-id="{{ $episodio->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+													<i class="ace-icon fa fa-trash-o bigger-120"></i>
+												</a>
+											@endif
 										</td>
 									</tr>
 								@endforeach
@@ -150,7 +169,24 @@
 			  <div class="modal-body">
 					{{ csrf_field() }}		
 				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
-
+				<div class="form-group">
+					<label for="exampleInputEmail1">Seleccionar Productor</label>
+					<select class="form-control" id="productor" name="productor">
+						<option value="">Seleccionar</option>
+						@foreach($productores as $productor)
+							<option value="{{ $productor->id }} "> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
+						@endforeach
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Seleccionar Responsable</label>
+					<select class="form-control" id="responsable" name="responsable">
+						<option value="">Seleccionar</option>
+						@foreach($responsables as $responsable)
+							<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
+						@endforeach
+					</select>
+				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio" name="titulo_original_episodio" placeholder="Título Original del episodio">
@@ -168,6 +204,15 @@
 						<option value="">Seleccionar</option>
 						@foreach($vias as $via)
 							<option value="{{ $via->id }}"> {{ $via->via }} </option>
+						@endforeach
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Seleccionar Sala</label>
+					<select class="form-control" id="sala" name="sala">
+						<option value="">Seleccionar</option>
+						@foreach($salas as $sala)
+							<option value="{{ $sala->id }}"> {{ $sala->sala }} </option>
 						@endforeach
 					</select>
 				</div>	
@@ -305,7 +350,24 @@
 					{{ csrf_field() }}
 					<input type="hidden" name="id" id="id_update">		
 				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
-
+				<div class="form-group">
+					<label for="exampleInputEmail1">Seleccionar Productor</label>
+					<select class="form-control" id="productor_update" name="productor">
+						<option value="">Seleccionar</option>
+						@foreach($productores as $productor)
+							<option value="{{ $productor->id }}"> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
+						@endforeach
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Seleccionar Responsable</label>
+					<select class="form-control" id="responsable_update" name="responsable">
+						<option value="">Seleccionar</option>
+						@foreach($responsables as $responsable)
+							<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
+						@endforeach
+					</select>
+				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio_update" name="titulo_original_episodio" placeholder="Título Original del episodio">
@@ -341,7 +403,16 @@
 							<option value="{{ $via->id }}"> {{ $via->via }} </option>
 						@endforeach
 					</select>
-				</div>	
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Seleccionar Sala</label>
+					<select class="form-control" id="sala_update" name="sala">
+						<option value="">Seleccionar</option>
+						@foreach($salas as $sala)
+							<option value="{{ $sala->id }}"> {{ $sala->sala }} </option>
+						@endforeach
+					</select>
+				</div>		
 				<div class="form-group">
 					<label for="exampleInputEmail1">Número de Episodio</label>
 					<input type="text" class="form-control" id="num_episodio_update" name="num_episodio" placeholder="Número de episodio">
@@ -496,10 +567,18 @@
 				<h4 class="modal-title " id="myModalLabel">Consulta Episodio</h4>
 			  </div>
 			  <div class="modal-body">
-			  	<div id="alerta_fecha"> </div>
+			  	@if(\Request::session()->has('show_fecha_entrega'))
+			  		<div id="alerta_fecha"> </div>
+			  	@endif
 			  	<div class="row">
 			  		<div class="col-md-6">
 			  			<table class="table">
+					  		<tr>
+					  			<th><h4>Responsable:</h4> <span id="responsable_show"></span></th>
+					  		</tr>
+					  		<tr>
+					  			<th><h4>Productor:</h4> <span id="productor_show"></span></th>
+					  		</tr>
 					  		<tr>
 					  			<th><h4>Título Original del episodio: </h4><span id="titulo_original_show"></span></th> 
 					  		</tr>
@@ -512,21 +591,26 @@
 					  		<tr>
 					  			<th><h4>Vìa:</h4> <span id="viaId_show"></span></th>
 					  		</tr>
-					  		<tr>
-					  			<th><h4>Número de Episodio:</h4> <span id="num_episodio_show"></span></th>
-					  		</tr>
 					  	</table>
 			  		</div>
 			  		<div class="col-md-6">
 			  			<table class="table">			  				
 					  		<tr>
-					  			<th><h4>Observaciones</h4> <span id="observaciones_show"></span></th>					  			
+					  			<th><h4>Número de Episodio:</h4> <span id="num_episodio_show"></span></th>
 					  		</tr>
 					  		<tr>
+					  			<th><h4>Sala:</h4> <span id="sala_show"></span></th>
+					  		</tr>			  				
+					  		<tr>
+					  			<th><h4>Observaciones</h4> <span id="observaciones_show"></span></th>					  			
+					  		</tr>
+					  		<tr>					  			
 					  			<th><h4>Fecha de entrega M&E</h4> <span id="date_m_and_e_show"></span></th>
 					  		</tr>
 					  		<tr>
-					  			<th><h4>Fecha de entrega episodio</h4> <span id="fecha_entrega_show"></span></th>
+					  			@if(\Request::session()->has('show_fecha_entrega'))
+					  				<th><h4>Fecha de entrega episodio</h4> <span id="fecha_entrega_show"></span></th>
+					  			@endif
 					  		</tr>
 					  		<tr>
 					  			<th><h4>Doblaje</h4> <span id="doblaje_show"></span></th>
@@ -550,7 +634,7 @@
 			<div class="modal-content">
 			  <div class="modal-header">
 				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-				<h4 class="modal-title" id="t_header">Episodio Nuevo</h4>
+				<h4 class="modal-title" id="t_header">Calificar Material</h4>
 				<div id="error_create_episodio"></div>
 			  </div>
 			  <form role="form" id="form_create_calificar_material">
@@ -573,7 +657,13 @@
 					</div>
 					<div class="form-group">
 						<label for="mezcla">Mezcla</label>
-						<input type="text" class="form-control" id="mezcla" name="mezcla" placeholder="Mezcla">
+						<select name="mezcla" class="form-control">
+							<option>Seleccionar ...</option>
+							<option value="Mono">Mono</option>
+							<option value="Stereo">Stereo</option>
+							<option value="5.1">5.1</option>
+							<option value="7.1">7.1</option>
+						</select>
 					</div>
 					<div class="form-group">
 						<label for="tipo_reporte">Tcr</label>
@@ -633,8 +723,11 @@
 						$('#num_episodio_update').val(data.num_episodio);
 						$('#observaciones_update').val(data.observaciones);
 						$('#entrega_episodio_update').val(data.date_entrega);
+						$("#responsable_update option[value="+ data.responsable +"]").attr("selected",true);
+						$("#productor_update option[value="+ data.productor +"]").attr("selected",true);
 						$('#entrega_me_update').val(data.date_m_and_e_update);
 						$("#via_update option[value="+ data.viaId +"]").attr("selected",true);
+						$("#sala_update option[value="+ data.salaId +"]").attr("selected",true);
 						//Checkbox titulos español
 						if(data.dobl_espanol20 == 1){
 							$( "#doblaje_espanol20_update" ).prop( "checked", true );
@@ -776,10 +869,13 @@
 						$('#titulo_espanol_show').html(data.msg[0].titulo_espanol);
 						$('#duracion_show').html(data.msg[0].duracion);
 						$('#num_episodio_show').html(data.msg[0].num_episodio);
+						$('#responsable_show').html(data.msg[0].responsable + ' '+ data.msg[0].responsable_ap_paterno + ' ' + data.msg[0].responsable_ap_materno);
+						$('#productor_show').html(data.msg[0].productor + ' '+ data.msg[0].productor_ap_paterno + ' ' + data.msg[0].productor_ap_materno);
 						$('#viaId_show').html(data.msg[0].viaId);
+						$('#sala_show').html(data.msg[0].salaId);
 						$('#observaciones_show').html(data.msg[0].observaciones);
 						$('#fecha_entrega_show').html("<span class='label label-"+ data.status_entrega + " '> " + data.msg[0].date_entrega + "</span>");
-						$('#alerta_fecha').html("<div class='alert alert-" + data.status_entrega + "'> Fecha de entrega:  "+ data.msg[0].date_entrega +"</div>");
+						$('#alerta_fecha').html("<div class='alert alert-" + data.status_entrega + "'> <h2>Fecha de entrega:  "+ data.msg[0].date_entrega +"</h2></div>");
 
 						var doblaje = "";
 						if(data.msg[0].dobl_espano20 == true){

@@ -23,7 +23,10 @@ class Episodios extends Model
 
     	return \DB::table('episodios')
             ->join('vias', 'episodios.viaId', '=', 'vias.id')
-            ->select('episodios.*', 'vias.via as viaId' )
+            ->join('salas', 'episodios.salaId', '=', 'salas.id')
+            ->join('users as responsable', 'episodios.responsable', '=', 'responsable.id')
+            ->join('users as productor', 'episodios.productor', '=', 'productor.id')
+            ->select('episodios.*', 'vias.via as viaId', 'salas.sala as salaId', 'responsable.name as responsable', 'responsable.ap_paterno as responsable_ap_paterno', 'responsable.ap_materno as responsable_ap_materno', 'productor.name as productor', 'productor.ap_paterno as productor_ap_paterno', 'productor.ap_materno as productor_ap_materno')
             ->where ('episodios.id', '=', $id)
             ->get();
     }

@@ -20,7 +20,10 @@ class MgEpisodiosController extends Controller
         $proyecto_id = $id;
         $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
         $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
-        return view('mgepisodios::index', compact('proyecto', 'vias', 'proyecto_id', 'episodios', 'tcrs'));
+        $salas = \Modules\MgEpisodios\Entities\Salas::All();
+        $productores = \Modules\MgEpisodios\Entities\Users::Productores();
+        $responsables = \Modules\MgEpisodios\Entities\Users::All();
+        return view('mgepisodios::index', compact('proyecto', 'vias', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables'));
     }
 
     /**
@@ -74,6 +77,9 @@ class MgEpisodiosController extends Controller
                     'num_episodio' => ucwords( $request->input('num_episodio') ),
                     'observaciones' => ucwords( $request->input('observaciones') ),
                     'date_m_and_e' => $request->input('date_m_and_e'),
+                    'productor' => $request->input('productor'),
+                    'responsable' => $request->input('responsable'),
+                    'salaId' => $request->input('sala'),
                     'date_entrega' => $request->input('entrega_episodio') ,
                     'dobl_espanol20' => ( $request->input('doblaje_espanol20') ) ? true : false,
                     'dobl_espanol51' => ( $request->input('doblaje_espanol51') ) ? true : false,
@@ -172,7 +178,10 @@ class MgEpisodiosController extends Controller
                         'proyectoId' => $request->input('proyectoId'),
                         'num_episodio' => ucwords( $request->input('num_episodio') ),
                         'observaciones' => ucwords( $request->input('observaciones') ),
+                        'salaId' => $request->input('sala'),
                         'date_m_and_e' => $request->input('date_m_and_e'),
+                        'productor' => $request->input('productor'),
+                        'responsable' => $request->input('responsable'),
                         'date_entrega' => $request->input('entrega_episodio') ,
                         'dobl_espanol20' => ( $request->input('doblaje_espanol20') ) ? true : false,
                         'dobl_espanol51' => ( $request->input('doblaje_espanol51') ) ? true : false,

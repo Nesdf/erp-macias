@@ -145,7 +145,7 @@ class MgCalificarMaterialController extends Controller
     {
         $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
         $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
-        $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->get();
+        $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
         return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes'));
     }
 
@@ -179,7 +179,7 @@ class MgCalificarMaterialController extends Controller
                 //return redirect('/mgepisodios/material-calificado/'.$request->input('id_episodio').'/'.$request->input('id_proyecto'));
                 $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
                 $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
-                $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->get();
+                $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
 
                 return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes'));
             }
@@ -190,7 +190,7 @@ class MgCalificarMaterialController extends Controller
     public function pdf($id_episodio, $id_proyecto)
     {
         $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
-        $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->get();
+        $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
 
         $pdf = \PDF::loadView('mgepisodios::calificar-material-pdf', compact('allProyect', 'id_episodio', 'id_proyecto', 'timecodes'));
         return $pdf->stream();

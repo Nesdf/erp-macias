@@ -176,7 +176,7 @@
 								<input type="checkbox" name="permisos_acceso"  @if( isset($urlArray['permisos_acceso']) ) checked @endif >&nbsp;
 								<label>Permisos de acceso</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="add_permisos"  @if( isset($urlArray['add_permisos']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="add_permisos-permisos_acceso"  @if( isset($urlArray['add_permisos']) ) checked @endif >&nbsp;
 								<label>Agregar Permisos</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							</p>

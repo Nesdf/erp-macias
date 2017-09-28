@@ -50,7 +50,9 @@
 									<th>Apellido(s)</th>
 									<th>Correo</th>
 									<th>Puesto</th>
-									<th></th>
+									@if(\Request::session()->has('add_permisos') || \Request::session()->has('edit_personal') && \Request::session()->has('update_personal') || \Request::session()->has('delete_personal'))
+										<th></th>
+									@endif
 								</tr>
 							</thead>
 

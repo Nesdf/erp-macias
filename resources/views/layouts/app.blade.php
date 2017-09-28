@@ -191,6 +191,15 @@
 									</li>
 								@endif
 								<li class="">
+									@if(\Request::session()->has('mgsucursales'))
+										<a href="{{ url('mgsucursales') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Paises y Estados
+										</a>
+										<b class="arrow"></b>
+									@endif
+								</li>
+								<li class="">
 									@if(\Request::session()->has('mgsalas'))
 										<a href="{{ url('mgsalas') }}">
 											<i class="menu-icon fa fa-caret-right"></i>

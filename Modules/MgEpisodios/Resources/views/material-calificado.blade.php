@@ -119,7 +119,7 @@
 								</table>
 							</div>
 						</div>
-						 <table id="table-cm" class="stripe row-border"	>
+						 <table id="table-cm" 	>
 						 	<thead>
 					 			<tr>
 					 				<th>Fecha</th>
@@ -141,7 +141,7 @@
 						 				@endif
 						 			@endforeach
 				 					@if($num > 1)
-					 					<tr style="background: rgba(255, 0, 0, 0.2);">
+					 					<tr style="background: rgba(255, 117, 020, 0.4);">
 							 				<td>{{$timecode->fecha}}</td>
 							 				<td>{{$timecode->timecode}}</td>
 							 				<td>{{$timecode->observaciones}}</td>
@@ -281,6 +281,7 @@
 			$('#timecode, #duracion, #duracion_update').mask('00:00:00:00');
 
 			$('#table-cm').DataTable({
+				order: [[ 1, "asc" ]],
 				language: {
 					search:   "Buscar: ",
 		            lengthMenu: "Mostrar _MENU_ registros por página",

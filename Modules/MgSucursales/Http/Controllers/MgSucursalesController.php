@@ -15,7 +15,8 @@ class MgSucursalesController extends Controller
     public function index()
     {
         $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
-        return view('mgsucursales::index', compact('sucursales'));
+        $paises = \Modules\MgSucursales\Entities\Paises::All();
+        return view('mgsucursales::index', compact('sucursales', 'paises'));
     }
 
     /**
@@ -34,6 +35,30 @@ class MgSucursalesController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->method('post')){
+            \Modules\MgSucursales\Entities\Paises::create([
+                'pais' => $request->input('pais')
+            ]);
+            $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
+            return $this->index();
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param  Request $request
+     * @return Response
+     */
+    public function storeCiudad(Request $request)
+    {
+        if($request->method('post')){
+            \Modules\MgSucursales\Entities\Estados::create([
+                'paisesId' => $request->input('paisId'),
+                'estado' => $request->input('estado')
+            ]);
+            $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
+            return $this->index();
+        }
     }
 
     /**
@@ -69,5 +94,15 @@ class MgSucursalesController extends Controller
      */
     public function destroy()
     {
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @return Response
+     */
+    public function destroyCiudad($id)
+    {
+        \Modules\MgSucursales\Entities\Estados::destroy($id);
+        return redirect('mgsucursales');
     }
 }

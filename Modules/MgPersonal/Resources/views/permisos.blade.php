@@ -17,7 +17,7 @@
 					<h3 class="header smaller lighter blue">Permisos de acceso - Macias Group</h3>
 					<div class="alert alert-info">
 						<i class="glyphicon glyphicon-info-sign"></i>
-						En esta sección indicarás a que secciones puede ingresar el usuario.
+						Seleccionar a que sección puede ingresará el usuario.
 					</div>
 
 					<div class="clearfix">
@@ -54,7 +54,7 @@
 						</div>
 						<div class="col-md-12">
 							<h4><strong>Configuración del sistema</strong></h4>
-							<label class="alert alert-info">
+							<label class="alert alert-info col-md-12">
 								INDICACIONES:
 								<ul>
 									<li>
@@ -63,13 +63,26 @@
 									<li>
 										Los campos de color <span style="background-color: blue; color: white;">azul</span> son clave dentro del sistema.
 									</li>
-									<li>
-										Los campos de color <span style="background-color: green; color: white;">verde</span>, se deben activar juntos.
-									</li>
 								</ul>
 							</label><br><br>
 						</div>
 						{{ csrf_field() }}
+
+						<!-- -->
+						<div >
+							<h4><strong>Administrar Paises y Ciudades</strong></h4>
+							<p>
+								<input type="checkbox" name="mgsucursales"  @if( isset($urlArray['mgsucursales']) ) checked @endif >&nbsp;
+								<label>Dashboard Paises y Ciudades</label>
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+								<input type="checkbox" name="add_sucursales"  @if( isset($urlArray['add_sucursales']) ) checked @endif >&nbsp;
+								<label>Agregar Ciudad</label>
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+								<input type="checkbox" name="delete_sucursal"  @if( isset($urlArray['delete_sucursal']) ) checked @endif >&nbsp;
+								<label>Eliminar Ciudad</label>
+							</p>
+						</div>
+						<hr>
 						<!-- -->
 						<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
 							<h4><strong>Administrar Puestos de Trabajo</strong></h4>
@@ -77,14 +90,11 @@
 								<input type="checkbox" name="mgpuestos"  @if( isset($urlArray['mgpuestos']) ) checked @endif >&nbsp;
 								<label>Dashboard Puesto de Trabajo</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="add_puesto"  @if( isset($urlArray['add_puesto']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="add_puesto-"  @if( isset($urlArray['add_puesto']) ) checked @endif >&nbsp;
 								<label>Agregar Puesto de Trabajo</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_puesto"  @if( isset($urlArray['edit_puesto']) ) checked @endif >&nbsp;
-								<label style="color: green;">Editar Puesto de Trabajo</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="update_puesto"  @if( isset($urlArray['update_puesto']) ) checked @endif >&nbsp;
-								<label style="color: green;">Actualizar Puesto de Trabajo</label>
+								<input type="checkbox" name="edit_puesto-update_puesto"  @if( isset($urlArray['edit_puesto']) ) checked @endif >&nbsp;
+								<label>Editar Puesto de Trabajo</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="delete_puesto"  @if( isset($urlArray['delete_puesto']) ) checked @endif >&nbsp;
 								<label>Eliminar Puesto de Trabajo</label>
@@ -101,11 +111,8 @@
 								<input type="checkbox" name="add_tcr"  @if( isset($urlArray['add_tcr']) ) checked @endif >&nbsp;
 								<label>Agregar TCR</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_tcr"  @if( isset($urlArray['edit_tcr']) ) checked @endif >&nbsp;
-								<label style="color: green;">Editar TCR</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="update_tcr"  @if( isset($urlArray['update_tcr']) ) checked @endif >&nbsp;
-								<label style="color: green;">Actualizar TCR</label>
+								<input type="checkbox" name="edit_tcr-update_tcr"  @if( isset($urlArray['edit_tcr']) ) checked @endif >&nbsp;
+								<label>Editar TCR</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="delete_tcr"  @if( isset($urlArray['delete_tcr']) ) checked @endif >&nbsp;
 								<label>Eliminar TCR</label>
@@ -122,11 +129,8 @@
 								<input type="checkbox" name="add_via"  @if( isset($urlArray['add_via']) ) checked @endif >&nbsp;
 								<label>Agregar Via</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_via"  @if( isset($urlArray['edit_via']) ) checked @endif >&nbsp;
-								<label style="color: green;">Editar Via</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="update_via"  @if( isset($urlArray['update_via']) ) checked @endif >&nbsp;
-								<label style="color: green;">Actualizar Via</label>
+								<input type="checkbox" name="edit_via-update_via"  @if( isset($urlArray['edit_via']) ) checked @endif >&nbsp;
+								<label>Editar Via</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="delete_via"  @if( isset($urlArray['delete_via']) ) checked @endif >&nbsp;
 								<label>Eliminar Via</label>
@@ -143,11 +147,8 @@
 								<input type="checkbox" name="add_sala"  @if( isset($urlArray['add_sala']) ) checked @endif >&nbsp;
 								<label>Agregar Sala</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_sala"  @if( isset($urlArray['edit_sala']) ) checked @endif >&nbsp;
-								<label style="color: green;">Editar Sala</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="update_sala"  @if( isset($urlArray['update_sala']) ) checked @endif >&nbsp;
-								<label style="color: green;">Actualizar Sala</label>
+								<input type="checkbox" name="edit_sala-update_sala"  @if( isset($urlArray['edit_sala']) ) checked @endif >&nbsp;
+								<label>Editar Sala</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="delete_sala"  @if( isset($urlArray['delete_sala']) ) checked @endif >&nbsp;
 								<label>Eliminar Sala</label>
@@ -164,11 +165,8 @@
 								<input type="checkbox" name="add_personal"  @if( isset($urlArray['add_personal']) ) checked @endif >&nbsp;
 								<label>Agregar Personal</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_personal"  @if( isset($urlArray['edit_personal']) ) checked @endif >&nbsp;
-								<label style="color: green;">Editar Personal</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="update_personal"  @if( isset($urlArray['update_personal']) ) checked @endif >&nbsp;
-								<label style="color: green;">Actualizar Personal</label>
+								<input type="checkbox" name="edit_personal-update_personal"  @if( isset($urlArray['edit_personal']) ) checked @endif >&nbsp;
+								<label>Editar Personal</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="delete_personal"  @if( isset($urlArray['delete_personal']) ) checked @endif >&nbsp;
 								<label>Eliminar Personal</label>
@@ -191,11 +189,8 @@
 							<input type="checkbox" name="add_clientes"  @if( isset($urlArray['add_clientes']) ) checked @endif >&nbsp;
 							<label>Agregar Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_clientes"  @if( isset($urlArray['edit_clientes']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="edit_clientes-update_clientes"  @if( isset($urlArray['edit_clientes']) ) checked @endif >&nbsp;
 							<label>Editar Cliente</label>
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_clientes"  @if( isset($urlArray['update_clientes']) ) checked @endif >&nbsp;
-							<label>Actualizar Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<input type="checkbox" name="delete_clientes"  @if( isset($urlArray['delete_clientes']) ) checked @endif >&nbsp;
 							<label>Eliminar Cliente</label>
@@ -212,11 +207,8 @@
 								<input type="checkbox" name="add_proyecto"   @if( isset($urlArray['add_proyecto']) ) checked @endif >&nbsp;
 								<label>Agregar Proyecto</label></label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_proyecto"   @if( isset($urlArray['edit_proyecto']) ) checked @endif >&nbsp;
-								<label style="color: green;">Editar Proyecto</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="update_proyecto"   @if( isset($urlArray['update_proyecto']) ) checked @endif >&nbsp;
-								<label style="color: green;">Actualizar Proyecto</label>
+								<input type="checkbox" name="edit_proyecto-update_proyecto"   @if( isset($urlArray['edit_proyecto']) ) checked @endif >&nbsp;
+								<label>Editar Proyecto</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="delete_proyecto"   @if( isset($urlArray['delete_proyecto']) ) checked @endif >&nbsp;
 								<label>Eliminar Proyecto</label>
@@ -236,11 +228,8 @@
 							<input type="checkbox" name="add_episodio"   @if( isset($urlArray['add_episodio']) ) checked @endif >&nbsp;
 							<label>Agregar Episodio</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_episodio"  @if( isset($urlArray['edit_episodio']) ) checked @endif >&nbsp;
-							<label style="color: green;">Editar Episodio</label>
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="update_episodio"  @if( isset($urlArray['update_episodio']) ) checked @endif >&nbsp;
-							<label style="color: green;">Actualizar Episodio</label>
+							<input type="checkbox" name="edit_episodio-update_episodio"  @if( isset($urlArray['edit_episodio']) ) checked @endif >&nbsp;
+							<label>Editar Episodio</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<input type="checkbox" name="delete_episodio"  @if( isset($urlArray['delete_episodio']) ) checked @endif >&nbsp;
 							<label>Eliminar Episodio</label>
@@ -262,11 +251,9 @@
 								<input type="checkbox" name="show_calificar_material" @if( isset($urlArray['show_calificar_material']) ) checked @endif >&nbsp;
 								<label>Consultar Calificación de Material</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_calificar_material" @if( isset($urlArray['edit_calificar_material']) ) checked @endif >&nbsp;
-								<label style="color: green;">Editar Calificación de Material</label>
+								<input type="checkbox" name="edit_calificar_material-update_calificar_material" @if( isset($urlArray['edit_calificar_material']) ) checked @endif >&nbsp;
+								<label>Editar Calificación de Material</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="update_calificar_material" @if( isset($urlArray['update_calificar_material']) ) checked @endif >&nbsp;
-								<label style="color: green;">Actualizar Calificación de Material</label>
 							</p>
 						</div>
 						<hr>

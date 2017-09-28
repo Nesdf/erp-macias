@@ -194,7 +194,7 @@
 									@if(\Request::session()->has('mgsucursales'))
 										<a href="{{ url('mgsucursales') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
-											Paises y Estados
+											Paises y Ciudades
 										</a>
 										<b class="arrow"></b>
 									@endif

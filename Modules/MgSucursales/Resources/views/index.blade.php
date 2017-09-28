@@ -32,7 +32,7 @@
 							Estado Nuevo
 						</a>
 					</div>
-
+					<br><br><br>
 					<!-- div.table-responsive -->
 						<table id="table_sucursales" class="stripe row-border">
 							<thead>
@@ -53,7 +53,7 @@
 											{{ $sucursal->estado }}
 										</td>
 										<td>
-											<a data-toggle="modal" data-target="#modal_delete_estado" data-id="{{ $sucursal->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+											<a data-toggle="modal" data-target="#modal_delete_ciudad" data-id="{{ $sucursal->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
 												<i class="ace-icon fa fa-trash-o bigger-120"></i>
 											</a>
 										</td>
@@ -83,11 +83,11 @@
 				<h4 class="modal-title" id="t_header">País Nuevo</h4>
 				<div id="error_create_personal"></div>
 			  </div>
-			  <form role="form" id="form_create_cliente">
+			  <form role="form" action="{{url('/mgsucursales/save_sucursal')}}" method="POST">
 			  <div class="modal-body">
 					{{ csrf_field() }}
 					<div class="form-group">
-						<label for="exampleInputEmail1">País</label>
+						<label for="pais">País</label>
 						<input type="text" class="form-control" id="pais" name="pais" placeholder="País" required="">
 					</div>			
 			  </div>
@@ -110,18 +110,21 @@
 				<h4 class="modal-title" id="t_header">País Nuevo</h4>
 				<div id="error_create_personal"></div>
 			  </div>
-			  <form role="form" id="form_create_cliente">
+			  <form role="form" method="POST" action="{{url('mgsucursales/add_ciudad')}}">
 			  <div class="modal-body">
 					{{ csrf_field() }}
 					<div class="form-group">
-						<label>Pais</label>
-						<select class="form-control">
+						<label>Ciudad</label>
+						<select class="form-control" name="paisId">
 							<option>Selecciona ...</option>
+							@foreach($paises as $pais)
+								<option value="{{$pais->id}}">{{$pais->pais}}</option>
+							@endforeach
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputEmail1">Estado</label>
-						<input type="text" class="form-control" id="estado" name="estado" placeholder="Estado" required="">
+						<input type="text" class="form-control" id="estado" name="estado" placeholder="Ciudad" required="">
 					</div>			
 			  </div>
 			  <div class="modal-footer">
@@ -133,25 +136,52 @@
 		  </div>
 		</div>
 	</div>
+	<!-- Modal Delete Ciudad-->
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_delete_ciudad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title " id="myModalLabel">Eliminar Ciudad</h4>
+			  </div>
+			  <form id="form_delete_ciudad" method="GET" action="{{ url('mgpersonal/form_delete') }}">
+			  <img src="{{ asset('assets/dashboard/images/error/peligro.png') }}">
+			  {{ csrf_field() }}
+			  <div id="inputs"></div>
+			  <label>¿Realmente deseas eliminarla?</label>
+			  <div class="modal-footer">
+				<button type="submit" class="btn btn-danger">Eliminar</button>
+			  </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
 @stop
 
 @section('script')
 	<script type="text/javascript">
 		$('#table_sucursales').DataTable({
-				language: {
-					search:   "Buscar: ",
-		            lengthMenu: "Mostrar _MENU_ registros por página",
-		            zeroRecords: "No se encontraron registros",
-		            info: "Página _PAGE_ de _PAGES_",
-		            infoEmpty: "Se buscó en",
-		            infoFiltered: "(_MAX_ registros)",
-		            paginate: {
-		                first:      "Primero",
-		                previous:   "Previo",
-		                next:       "Siguiente",
-		                last:       "Anterior"
-	        		},
-		        }
-			});
+			language: {
+				search:   "Buscar: ",
+	            lengthMenu: "Mostrar _MENU_ registros por página",
+	            zeroRecords: "No se encontraron registros",
+	            info: "Página _PAGE_ de _PAGES_",
+	            infoEmpty: "Se buscó en",
+	            infoFiltered: "(_MAX_ registros)",
+	            paginate: {
+	                first:      "Primero",
+	                previous:   "Previo",
+	                next:       "Siguiente",
+	                last:       "Anterior"
+        		},
+	        }
+		});
+
+		$('#modal_delete_ciudad').on('show.bs.modal', function(e) {    
+		    var id = $(e.relatedTarget).data().id;
+		    $('#form_delete_ciudad').attr('action', '{{ url("mgsucursales/delete_ciudad") }}/' + id);
+		});
 	</script>
 @stop

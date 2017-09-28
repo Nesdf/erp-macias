@@ -65,7 +65,7 @@
 		</thead>
 	</table> 
 	<br><hr><br>
-	<table id="table-cm" class="dg-table">
+	<table id="table-cm">
 	 	<thead>
  			<tr class="head">
  				<th style="width: 150px;">Fecha</th>
@@ -87,7 +87,7 @@
 	 				@endif
 	 			@endforeach
 					@if($num > 1)
- 					<tr style="background: rgba(255, 0, 0, 0.2);">
+ 					<tr style="background: rgba(255, 117, 020, 0.3);">
 		 				<td>{{$timecode->fecha}}</td>
 		 				<td>{{$timecode->timecode}}</td>
 		 				<td>{{$timecode->observaciones}}</td>

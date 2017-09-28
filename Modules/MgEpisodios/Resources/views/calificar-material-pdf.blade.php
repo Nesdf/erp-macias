@@ -49,18 +49,24 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Minutos: </th>
-				<th class="text-color-blue"><ins>{{$allProyect[0]->duracion}} &nbsp;</ins></th>
-				<th>TCR: </th>
-				<th class="text-color-blue"><ins>{{$allProyect[0]->tcr}}</ins></th>
-				<th>Comentarios <br>transfer: </th>
-				<th class="text-color-blue"><ins>{{$allProyect[0]->descripcion}}</ins></th>
+				<th>Minutos: 
+					<span class="text-color-blue"><ins>{{$allProyect[0]->duracion}} &nbsp;</ins></span>
+				</th>
+				<th>Tipo de reporte: 
+					<span class="text-color-blue"><ins>{{$allProyect[0]->tipo_reporte}}</ins></span>
+				</th>
+				<th>TCR: 
+					<span class="text-color-blue"><ins>{{$allProyect[0]->tcr}}</ins></span>
+				</th>
 			</tr>
-			<tr>
-				<th>Tipo de reporte: </th>
-				<th class="text-color-blue"><ins>{{$allProyect[0]->tipo_reporte}}</ins></th>
-				<th>Mezcla: </th>
-				<th class="text-color-blue"><ins>{{$allProyect[0]->mezcla}}</ins></th>
+			<tr>				
+				<th>Mezcla: 
+					<span class="text-color-blue"><ins>{{$allProyect[0]->mezcla}}</ins></span>
+				</th>
+				<th>Comentarios transfer: 
+					<span class="text-color-blue"><ins>{{$allProyect[0]->descripcion}}</ins></span>
+				</th>
+				<th></th>
 			</tr>
 		</thead>
 	</table> 

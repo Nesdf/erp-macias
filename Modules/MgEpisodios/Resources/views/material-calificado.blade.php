@@ -81,38 +81,45 @@
 							<div class="col-md-12">
 								<table class="table">
 									<tr>
-										<td><h4>Minutos:</h4></td>
 										<td>
+											<h4>Minutos:</h4>
+
 											<div class="form-group has-{{$label}} has-feedback">
 												<input type="text" value="{{$allProyect[0]->duracion}}" class="form-control" readonly="true">
 											</div>
 										</td>
-										<td><h4>TCR:</h4></td>
 										<td>
+											<h4>TCR:</h4>
 											<div class="form-group has-{{$label}} has-feedback">
 												<input type="text" value="{{$allProyect[0]->tcr}}" class="form-control" readonly="true">
 											</div>
-										</td>
-										<td><h4>Comentarios <br>transfer:</h4> </td>
+										</td>									
 										<td>
-										<div  class="form-group has-{{$label}} has-feedback">
-											<textarea class="form-control" readonly="true">{{$allProyect[0]->descripcion}}</textarea>
-										</div>
-										</td>
-									</tr>
-									<tr>
-										<td><h4>Tipo de reporte:</h4></td>
-										<td>
+											<h4>Tipo de reporte:</h4>
+
 											<div class="form-group has-{{$label}} has-feedback">
 												<input type="text" value="{{$allProyect[0]->tipo_reporte}}" class="form-control" readonly="true">
 											</div>
 										</td>
-										<td><h4>Mezcla:</h4></td>
+									</tr>
+									<tr>
+
 										<td>
+											<h4>Mezcla:</h4>
+
 											<div class="form-group has-{{$label}} has-feedback">
 												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
 											</div>
 										</td>
+
+										<td>
+											<h4>Comentarios transfer:</h4> 
+
+											<div  class="form-group has-{{$label}} has-feedback">
+												<textarea class="form-control" readonly="true">{{$allProyect[0]->descripcion}}</textarea>
+											</div>
+										</td>
+
 										<td></td>
 										<td></td>
 									</tr>

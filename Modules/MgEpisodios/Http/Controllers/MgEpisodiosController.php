@@ -22,7 +22,7 @@ class MgEpisodiosController extends Controller
         $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
         $salas = \Modules\MgEpisodios\Entities\Salas::All();
         $productores = \Modules\MgEpisodios\Entities\Users::Productores();
-        $responsables = \Modules\MgEpisodios\Entities\Users::All();
+        $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
         return view('mgepisodios::index', compact('proyecto', 'vias', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables'));
     }
 

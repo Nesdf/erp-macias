@@ -186,13 +186,13 @@
 							<input type="checkbox" name="mgclientes-list_countries"  @if( isset($urlArray['mgclientes']) ) checked @endif >&nbsp;
 							<label>Dashboard Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="add_clientes"  @if( isset($urlArray['add_clientes']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="add_cliente"  @if( isset($urlArray['add_cliente']) ) checked @endif >&nbsp;
 							<label>Agregar Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_clientes-update_clientes"  @if( isset($urlArray['edit_clientes']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="edit_clientes-update_cliente"  @if( isset($urlArray['edit_cliente']) ) checked @endif >&nbsp;
 							<label>Editar Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="delete_clientes"  @if( isset($urlArray['delete_clientes']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="delete_cliente"  @if( isset($urlArray['delete_cliente']) ) checked @endif >&nbsp;
 							<label>Eliminar Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 						</p>

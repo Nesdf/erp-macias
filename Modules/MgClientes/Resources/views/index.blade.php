@@ -20,7 +20,7 @@
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
-						@if(\Request::session()->has('update_cliente'))
+						@if(\Request::session()->has('add_cliente'))
 							<!--Results for "Latest Registered Domains"-->
 							<a data-toggle="modal" data-target="#modal_save_clientes" class="btn btn-success">
 								Cliente Nuevo

@@ -40,15 +40,15 @@ class MgProyectosController extends Controller
 			
 			$rules = [
 				'cliente' => 'required',
-				'titulo_proyecto' => 'required'
+				#'titulo_proyecto' => 'required'
 				
 			];
 			
 			$messages = [
 				'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')]),
-				'titulo_proyecto.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
-				'titulo_proyecto.min' => trans('mgproyectos::ui.display.error_min2', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
-				'titulo_proyecto.max' => trans('mgproyectos::ui.display.error_max255', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')])
+				#'titulo_proyecto.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
+				#'titulo_proyecto.min' => trans('mgproyectos::ui.display.error_min2', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
+				#'titulo_proyecto.max' => trans('mgproyectos::ui.display.error_max255', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')])
 			]; 
 			
 			$validator = \Validator::make($request->all(), $rules, $messages);			

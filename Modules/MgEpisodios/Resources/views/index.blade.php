@@ -173,18 +173,22 @@
 					<label for="exampleInputEmail1">Seleccionar Productor</label>
 					<select class="form-control" id="productor" name="productor">
 						<option value="">Seleccionar</option>
-						@foreach($productores as $productor)
-							<option value="{{ $productor->id }} "> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
-						@endforeach
+						@if(count($productores) > 0)
+							@foreach($productores as $productor)
+								<option value="{{ $productor->id }} "> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
+							@endforeach
+						@endif
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Responsable</label>
 					<select class="form-control" id="responsable" name="responsable">
 						<option value="">Seleccionar</option>
-						@foreach($responsables as $responsable)
-							<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
-						@endforeach
+						@if(count($responsables) > 0)
+							@foreach($responsables as $responsable)
+								<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
+							@endforeach
+						@endif
 					</select>
 				</div>
 				<div class="form-group">

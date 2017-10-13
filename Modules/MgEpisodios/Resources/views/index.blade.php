@@ -42,9 +42,6 @@
 								<tr>
 									<th>ID</th>
 									<th>Título Original Episodio</th>
-									<th>Título en Español</th>
-									<th>Título en Inglés</th>
-									<th>Título en Portugués</th>
 									<th>Número de episodio</th>
 									@if(\Request::session()->has('show_fecha_entrega'))
 										<th>Fecha de entrega episodio</th>
@@ -67,15 +64,6 @@
 										</td>
 										<td>
 											{{ $episodio->titulo_original }}
-										</td>
-										<td>
-											{{ $episodio->titulo_espanol }}
-										</td>
-										<td>
-											{{ $episodio->titulo_ingles }}
-										</td>
-										<td>
-											{{ $episodio->titulo_portugues }}
 										</td>
 										<td>
 											{{ $episodio->num_episodio }}
@@ -125,6 +113,11 @@
 											</td>
 										@endif
 										<td>
+											@if(\Request::session()->has('add_asignar_traductor'))
+												<a data-toggle="modal" data-target="#modal_coordinador" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary coordinador" title="Coordinador">
+														<i class="ace-icon fa fa-eye bigger-120"></i>
+												</a>
+											@endif
 											@if(\Request::session()->has('show_episodio'))
 												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_ver_episodio" class="btn btn-xs btn-warning show_id" title="Editar">
 													<i class="ace-icon fa fa-book bigger-120"></i>
@@ -195,22 +188,10 @@
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio" name="titulo_original_episodio" placeholder="Título Original del episodio">
 				</div>
-				<div id="input_titulo_espanol" class="form-group"></div>
-				<div id="input_titulo_ingles" class="form-group"></div>
-				<div id="input_titulo_portugues" class="form-group"></div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Duración</label>
 					<input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duración">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Vía</label>
-					<select class="form-control" id="via" name="via">
-						<option value="">Seleccionar</option>
-						@foreach($vias as $via)
-							<option value="{{ $via->id }}"> {{ $via->via }} </option>
-						@endforeach
-					</select>
-				</div>
+				</div>				
 				<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Sala</label>
 					<select class="form-control" id="sala" name="sala">
@@ -224,11 +205,6 @@
 					<label for="exampleInputEmail1">Número de Episodio</label>
 					<input type="text" class="form-control" id="num_episodio" name="num_episodio" placeholder="Número de episodio">
 				</div>
-				
-				<div class="form-group">
-					<label for="exampleInputEmail1">Observaciones</label>
-					<textarea class="form-control" id="observaciones" name="observaciones"></textarea>
-				</div>
 				@if( $proyecto->m_and_e == true )
 				<div class="form-group">
 					<label for="exampleInputEmail1">Fecha de entrega M&E</label>
@@ -239,95 +215,7 @@
 					<label for="entrega_episodio">Fecha de entrega del Episodio</label>
 					<input type="text" class="form-control" id="entrega_episodio" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 				</div>
-				<label for="doblaje">Doblaje</label>
-				<table class="table">
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol20" name="doblaje_espanol20">
-								<label for="doblaje_espanol20">Doblaje Español 2.0</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_inglesl20" name="doblaje_inglesl20">
-									<label for="doblaje_inglesl20">Doblaje Inglés 2.0</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues20" name="doblaje_portugues20">
-								<label for="doblaje_portugues20">Doblaje Portugués 2.0</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol51" name="doblaje_espanol51">
-								<label for="doblaje_espanol51">Doblaje Español 5.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles51" name="doblaje_ingles51">
-									<label for="doblaje_ingles51">Doblaje Inglés 5.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues51" name="doblaje_portugues51">
-								<label for="doblaje_portugues51">Doblaje Portugués 5.1</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol71" name="doblaje_espanol71">
-								<label for="doblaje_espanol71">Doblaje Español 7.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles71" name="doblaje_ingles71">
-									<label for="doblaje_ingles71">Doblaje Inglés 7.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues71" name="doblaje_portugues71">
-								<label for="doblaje_portugues71">Doblaje Portugués 7.1</label>
-							</div>
-						</td>
-					</tr>
-				</table>
-				<label for="subtitulaje">Subtitulaje</label>
-				<table class="table">
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_espanol" name="subtitulaje_espanol">
-								<label for="subtitulaje_espanol">Español</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_ingles" name="subtitulaje_ingles">
-								<label for="subtitulaje_ingles">Inglés</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="sutitulaje_portugues" name="sutitulaje_portugues">
-								<label for="sutitulaje_portugues">Portugués</label>
-							</div>
-						</td>
-					</tr>
-				</table>
+				
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 				<button type="submit" class="btn btn-primary">Guardar</button>
@@ -399,15 +287,7 @@
 					<label for="exampleInputEmail1">Duración</label>
 					<input type="text" class="form-control" id="duracion_update" name="duracion" placeholder="Duración">
 				</div>
-				<div class="form-group">
-					<label for="via">Seleccionar Vía</label>
-					<select class="form-control" id="via_update" name="via">
-						<option select value="">Seleccionar</option>
-						@foreach($vias as $via)
-							<option value="{{ $via->id }}"> {{ $via->via }} </option>
-						@endforeach
-					</select>
-				</div>
+				
 				<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Sala</label>
 					<select class="form-control" id="sala_update" name="sala">
@@ -437,95 +317,7 @@
 					<label for="entrega_episodio">Fecha de entrega del Episodio</label>
 					<input type="text" class="form-control" id="entrega_episodio_update" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 				</div>
-				<label for="doblaje">Doblaje</label>
-				<table class="table">
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol20_update" name="doblaje_espanol20">
-								<label for="doblaje_espanol20">Doblaje Español 2.0</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles20_update" name="doblaje_ingles20">
-									<label for="doblaje_ingles20">Doblaje Inglés 2.0</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues20_update" name="doblaje_portugues20">
-								<label for="doblaje_portugues20">Doblaje Portugues 2.0</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol51_update" name="doblaje_espanol51">
-								<label for="doblaje_espanol51">Doblaje Español 5.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles51_update" name="doblaje_ingles51">
-									<label for="doblaje_ingles51">Doblaje Inglés 5.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues51_update" name="doblaje_portugues51">
-								<label for="doblaje_portugues51">Doblaje Portugues 5.1</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol71_update" name="doblaje_espanol71">
-								<label for="doblaje_espanol71">Doblaje Español 7.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles71_update" name="doblaje_ingles71">
-									<label for="doblaje_ingles71">Doblaje Inglés 7.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues71_update" name="doblaje_porugues71">
-								<label for="doblaje_porugues71">Doblaje Portugues 7.1</label>
-							</div>
-						</td>
-					</tr>
-				</table>
-				<label for="subtitulaje">Subtitulaje</label>
-				<table class="table">
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_espanol_update" name="subtitulaje_espanol">
-								<label for="subtitulaje_espanol">Español</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_ingles_update" name="subtitulaje_ingles">
-								<label for="subtitulaje_ingles">Inglés</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_portugues_update" name="subtitulaje_portugues">
-								<label for="sutitulaje_portugues">Portugues</label>
-							</div>
-						</td>
-					</tr>
-				</table>		
+						
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -587,13 +379,7 @@
 					  			<th><h4>Título Original del episodio: </h4><span id="titulo_original_show"></span></th> 
 					  		</tr>
 					  		<tr>
-					  			<th><h4>Título del episodio en español: </h4> <span id="titulo_espanol_show"></span></th>  			
-					  		</tr>
-					  		<tr>
 					  			<th><h4>Duración</h4> <span id="duracion_show"></span></th>
-					  		</tr>
-					  		<tr>
-					  			<th><h4>Vìa:</h4> <span id="viaId_show"></span></th>
 					  		</tr>
 					  	</table>
 			  		</div>
@@ -604,23 +390,16 @@
 					  		</tr>
 					  		<tr>
 					  			<th><h4>Sala:</h4> <span id="sala_show"></span></th>
-					  		</tr>			  				
-					  		<tr>
-					  			<th><h4>Observaciones</h4> <span id="observaciones_show"></span></th>					  			
-					  		</tr>
-					  		<tr>					  			
-					  			<th><h4>Fecha de entrega M&E</h4> <span id="date_m_and_e_show"></span></th>
-					  		</tr>
+					  		</tr>	
+					  		@if( $proyecto->m_and_e == true )	
+						  		<tr>					  			
+						  			<th><h4>Fecha de entrega M&E</h4> <span id="date_m_and_e_show"></span></th>
+						  		</tr>
+						  	@endif
 					  		<tr>
 					  			@if(\Request::session()->has('show_fecha_entrega'))
 					  				<th><h4>Fecha de entrega episodio</h4> <span id="fecha_entrega_show"></span></th>
 					  			@endif
-					  		</tr>
-					  		<tr>
-					  			<th><h4>Doblaje</h4> <span id="doblaje_show"></span></th>
-					  		</tr>
-					  		<tr>
-					  			<th><h4>Subtitulaje</h4> <span id=subtitulaje_show></span></th>
 					  		</tr>
 					  	</table>
 			  		</div>
@@ -683,6 +462,49 @@
 						<textarea name="observaciones" id="observaciones" placeholder="Observaciones" class="form-control"></textarea>
 					</div>
 					
+					 <div class="modal-footer">
+					   <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+					   <button type="submit" class="btn btn-primary">Guardar</button>
+					 </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
+
+	<!-- Asignar Traductor-->
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_coordinador" data-name="modal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+				<h4 class="modal-title" >Asignar Traductor</h4>
+				<div id="error_add_traductor"></div>
+			  </div>
+			  <form role="form" id="form_add_traductor" >
+				  <div class="modal-body">
+						{{ csrf_field() }}	
+					<div class="form-group">
+						<label for="duracion">Fecha Actual</label>
+						<input type="text" class="form-control" id="fecha_generada_traductor" name="fecha_generada_traductor" value="{{date('d-m-Y')}}" disabled="true">
+					</div>	
+					<div class="form-group">
+						<label for="fecha_entrega_traductor">Fecha de Entrega por el Traductor</label>
+						<input type="text" class="form-control" id="fecha_entrega_traductor" name="fecha_entrega_traductor" >
+					</div>
+					<div class="form-group">
+						<label for="traductor">Asignar Traductor</label>
+						<select name="traductor" class="form-control">
+							<option value="">Seleccionar...</option>
+							@foreach($traductores as $traductor)
+								<option value="{{$traductor->id}}">{{$traductor->name}} {{$traductor->ap_paterno}} {{$traductor->ap_materno}}</option>
+							@endforeach
+						</select>
+					</div>					
+					<input type="checkbox" id="script" name="script">
+					<label>Con Script</label>
+					<input type="hidden" name="episodioId" id="episodioId" >
 					 <div class="modal-footer">
 					   <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 					   <button type="submit" class="btn btn-primary">Guardar</button>
@@ -800,6 +622,11 @@
 				 id = $( this ).data('id');
 				  $('#form_delete_episodio').attr('action', '{{ url("mgepisodios/delete") }}/' + id + '/' + {{$proyecto->id}} );
 			 });
+
+			$('.coordinador').on('click', function(){
+				 id = $( this ).data('id');
+				 $('#episodioId').val(id);
+			 });
 			
 			$('#form_create_episodio').on('submit', function(event){
 				event.preventDefault();
@@ -818,6 +645,27 @@
 							err += error.responseJSON.msg[i] + "<br>";														
 						}
 						$('#error_create_episodio').html('<div class="alert alert-danger">' + err + '</div>');
+					}
+				});
+			});
+
+			$('#form_add_traductor').on('submit', function(event){
+				event.preventDefault();
+				$.ajax({
+					url: "{{ url('mgepisodios/assign-traductor') }}",
+					type: "POST",
+					data: $( this ).serialize(),
+					success: function( data ){
+						if(data.msg == 'success'){
+							window.location.reload(true);
+						}
+					},
+					error: function(error){
+						var err = "";
+						for(var i in error.responseJSON.msg){
+							err += error.responseJSON.msg[i] + "<br>";														
+						}
+						$('#error_add_traductor').html('<div class="alert alert-danger">' + err + '</div>');
 					}
 				});
 			});
@@ -866,7 +714,7 @@
 			$('.show_id').on('click', function(){
 				 id = $( this ).data('id');				
 				$.ajax({
-					url: "{{ url('mgepisodios/show_episodio') }}" + "/" + id,
+					url: "{{ url('mgproyectos/show_eproyecto') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
 						$('#titulo_original_show').html(data.msg[0].titulo_original);
@@ -875,61 +723,20 @@
 						$('#num_episodio_show').html(data.msg[0].num_episodio);
 						$('#responsable_show').html(data.msg[0].responsable + ' '+ data.msg[0].responsable_ap_paterno + ' ' + data.msg[0].responsable_ap_materno);
 						$('#productor_show').html(data.msg[0].productor + ' '+ data.msg[0].productor_ap_paterno + ' ' + data.msg[0].productor_ap_materno);
-						$('#viaId_show').html(data.msg[0].viaId);
+						$('#date_m_and_e_show').html(data.msg[0].date_m_and_e);
 						$('#sala_show').html(data.msg[0].salaId);
-						$('#observaciones_show').html(data.msg[0].observaciones);
+						
 						$('#fecha_entrega_show').html("<span class='label label-"+ data.status_entrega + " '> " + data.msg[0].date_entrega + "</span>");
 						$('#alerta_fecha').html("<div class='alert alert-" + data.status_entrega + "'> <h2>Fecha de entrega:  "+ data.msg[0].date_entrega +"</h2></div>");
 
-						var doblaje = "";
-						if(data.msg[0].dobl_espano20 == true){
-							doblaje +=  "Español 2.0 ";
-						}
-						if(data.msg[0].dobl_espano51 == true){
-							doblaje +=  "Español 5.1 ";
-						}
-						if(data.msg[0].dobl_espano71 == true){
-							doblaje +=  "Español 7.1 ";
-						}
-						if(data.msg[0].dobl_ingles20 == true){
-							doblaje +=  "Inglés 2.0";
-						}
-						if(data.msg[0].dobl_ingles51 == true){
-							doblaje +=  "Inglés 5.1 ";
-						}
-						if(data.msg[0].dobl_ingles71 == true){
-							doblaje +=  "Inglés 7.1 ";
-						}
-						if(data.msg[0].dobl_portugues20 == true){
-							doblaje +=  "Portugues 2.0 ";
-						}
-						if(data.msg[0].dobl_portugues51 == true){
-							doblaje +=  "Portugues 5.1 ";
-						}
-						if(data.msg[0].dobl_portugues71 == true){
-							doblaje +=  "Portugues 7.1 ";
-						}
 						
-						$('#doblaje_show').html(doblaje);
-
-						var subtitulaje = "";
-						if(data.msg[0].subt_espanol == true){
-							subtitulaje +=  "Español ";
-						}
-						if(data.msg[0].subt_ingles == true){
-							subtitulaje +=  "Inglés ";
-						}
-						if(data.msg[0].subt_portugues == true){
-							subtitulaje +=  "Portugues ";
-						}
 						
-						$('#subtitulaje_show').html(subtitulaje);
 					}
 				});
 			 });
 
 			//Calendarios
-				$('#entrega_episodio, #entrega_episodio_update, #entrega_me').datepicker({
+				$('#entrega_episodio, #entrega_episodio_update, #entrega_me, #fecha_entrega_traductor').datepicker({
 					dateFormat: "yy-mm-dd",
 					minDate: 0,
 					closeText: 'Cerrar',
@@ -949,58 +756,9 @@
 				console.log('click');
             };*/
 
-
-            //Sección de inputs para crear
-            $('#doblaje_espanol20, #doblaje_espanol51, #doblaje_espanol71').on('click', function(){
-            	if($('#doblaje_espanol20, #doblaje_espanol51, #doblaje_espanol71').is(':checked')){
-            		 $('#input_titulo_espanol').html('<label for="titulo_episodio_espanol">Título del Episodio en Español</label> <input type="text" class="form-control" id="titulo_episodio_espanol" name="titulo_episodio_espanol" placeholder="Título del Episodio en Español">');
-            	} else{
-            		$('#input_titulo_espanol').html('');
-            	}
-            });
-
-            $('#doblaje_ingles20, #doblaje_ingles51, #doblaje_ingles71').on('click', function(){
-            	if($('#doblaje_ingles20, #doblaje_ingles51, #doblaje_ingles71').is(':checked')){
-            		 $('#input_titulo_ingles').html('<label for="titulo_episodio_ingles">Título del Episodio en Inglés</label> <input type="text" class="form-control" id="titulo_episodio_ingles" name="titulo_episodio_ingles" placeholder="Título del Episodio en Inglés">');
-            	} else{
-            		$('#input_titulo_ingles').html('');
-            	}
-            });
-
-            $('#doblaje_portugues20, #doblaje_portugues51, #doblaje_portugues71').on('click', function(){
-            	if($('#doblaje_portugues20, #doblaje_portugues51, #doblaje_portugues71').is(':checked')){
-            		 $('#input_titulo_portugues').html('<label for="titulo_episodio_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control" id="titulo_episodio_portugues" name="titulo_episodio_portugues" placeholder="Título del Episodio en Portugués">');
-            	} else{
-            		$('#input_titulo_portugues').html('');
-            	}
-            });
-
-            //Sección para update
-            $('#doblaje_espanol20_update, #doblaje_espanol51_update, #doblaje_espanol71_update').on('click', function(){
-            	if($('#doblaje_espanol20_update, #doblaje_espanol51_update, #doblaje_espanol71_update').is(':checked')){
-            		 $('#titulo_espanol_update').html('<label for="titulo_episodio_espanol">Título del Episodio en Español</label> <input type="text" class="form-control" id="titulo_episodio_espanol" name="titulo_episodio_espanol" placeholder="Título del Episodio en Español" required>');
-            	} else{
-            		$('#titulo_espanol_update').html('');
-            	}
-            });
-
-            $('#doblaje_ingles20_update, #doblaje_ingles51_update, #doblaje_ingles71_update').on('click', function(){
-            	if($('#doblaje_ingles20_update, #doblaje_ingles51_update, #doblaje_ingles71_update').is(':checked')){
-            		 $('#titulo_ingles_update').html('<label for="titulo_episodio_espanol">Título del Episodio en Inglés</label> <input type="text" class="form-control"  name="titulo_episodio_ingles" placeholder="Título del Episodio en Inglés" required>');
-            	} else{
-            		$('#titulo_ingles_update').html('');
-            	}
-            });
-
-            $('#doblaje_portugues20_update, #doblaje_portugues51_update, #doblaje_portugues71_update').on('click', function(){
-            	if($('#doblaje_portugues20_update, #doblaje_portugues51_update, #doblaje_portugues71_update').is(':checked')){
-            		 $('#titulo_portugues_update').html('<label for="titulo_episodio_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control"  name="titulo_episodio_portugues" placeholder="Título del Episodio en Portugués" required>');
-            	} else{
-            		$('#titulo_portugues_update').html('');
-            	}
-            });
-
             $('#duracion_material, #duracion, #duracion_update').mask('00:00:00:00');
-		});
+
+         });
+           
 	</script>
 @stop

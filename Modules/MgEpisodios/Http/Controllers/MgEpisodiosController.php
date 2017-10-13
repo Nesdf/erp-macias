@@ -16,14 +16,15 @@ class MgEpisodiosController extends Controller
     public function index($id)
     {
         $proyecto = \Modules\MgEpisodios\Entities\Proyectos::find($id);
-        $vias = \Modules\MgEpisodios\Entities\Vias::get();
+        
         $proyecto_id = $id;
         $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
         $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
         $salas = \Modules\MgEpisodios\Entities\Salas::All();
         $productores = \Modules\MgEpisodios\Entities\Users::Productores();
         $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
-        return view('mgepisodios::index', compact('proyecto', 'vias', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables'));
+        $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
+        return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores'));
     }
 
     /**
@@ -45,19 +46,10 @@ class MgEpisodiosController extends Controller
         if( $request->method('post') && $request->ajax() ){
             
             $rules = [
-                'titulo_original_episodio' => 'required|min:2|max:50',
-                'via' => 'required',
-                'proyectoId' => 'required',
-                'num_episodio' => 'required',
                 'entrega_episodio' => 'required',
             ];
             
             $messages = [
-                'titulo_original_episodio.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.titulo_original_episodio')]),
-                'titulo_original_episodio.min' => trans('mgepisodios::ui.display.error_min2', ['attribute' => trans('mgepisodios::ui.attribute.titulo_original_episodio')]),
-                'titulo_original_episodio.max' => trans('mgepisodios::ui.display.error_max50', ['attribute' => trans('mgepisodios::ui.attribute.titulo_original_episodio')]),
-                'via.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.via')]),
-                'num_episodio.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.num_episodio')]),
                 'entrega_episodio.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.entrega_episodio')])
             ]; 
             
@@ -68,31 +60,14 @@ class MgEpisodiosController extends Controller
             } else {
                 \Modules\mgepisodios\Entities\Episodios::create([      
                     'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
-                    'titulo_espanol' => ( $request->input('titulo_episodio_espanol') ) ? ucwords( $request->input('titulo_episodio_espanol') ) : null,
-                    'titulo_ingles' => ($request->input('titulo_episodio_ingles'))? ucwords( $request->input('titulo_episodio_ingles') ) : null,
-                    'titulo_portugues' => ($request->input('titulo_episodio_portugues'))? ucwords( $request->input('titulo_episodio_portugues') ) : null,
                     'duracion' => ucwords( $request->input('duracion') ),
-                    'viaId' => ucwords( $request->input('via') ),
+                    'date_entrega' => $request->input('entrega_episodio') ,
                     'proyectoId' => $request->input('proyectoId'),
                     'num_episodio' => ucwords( $request->input('num_episodio') ),
-                    'observaciones' => ucwords( $request->input('observaciones') ),
-                    'date_m_and_e' => $request->input('date_m_and_e'),
+                    'date_m_and_e' => $request->input('entrega_me'),
                     'productor' => $request->input('productor'),
                     'responsable' => $request->input('responsable'),
                     'salaId' => $request->input('sala'),
-                    'date_entrega' => $request->input('entrega_episodio') ,
-                    'dobl_espanol20' => ( $request->input('doblaje_espanol20') ) ? true : false,
-                    'dobl_espanol51' => ( $request->input('doblaje_espanol51') ) ? true : false,
-                    'dobl_espanol71' => ( $request->input('doblaje_espanol71') ) ? true : false,
-                    'dobl_ingles20' => ( $request->input('doblaje_ingles20') ) ? true : false,
-                    'dobl_ingles51' => ( $request->input('doblaje_ingles51') ) ? true : false,
-                    'dobl_ingles71' => ( $request->input('doblaje_ingles71') ) ? true : false,
-                    'dobl_portugues20' => ( $request->input('doblaje_portugues20') ) ? true : false,
-                    'dobl_portugues51' => ( $request->input('doblaje_portugues51') ) ? true : false,
-                    'dobl_portugues71' => ( $request->input('doblaje_portugues71') ) ? true : false,
-                    'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
-                    'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
-                    'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false,
                     'material_calificado' => false,
                     'material_entregado' => false
                 ]);
@@ -215,5 +190,47 @@ class MgEpisodiosController extends Controller
         }
         \Request::session()->flash('message', trans('mgclientes::ui.flash.flash_delete_episodio'));
         return redirect('mgepisodios/'.$id_proyecto);
+    }
+
+    public function assignTraductor(Request $request)
+    {
+        if( $request->method('post') && $request->ajax() ){
+            $rules = [
+                'fecha_entrega_traductor' => 'required',
+                'traductor' => 'required'
+            ];
+            
+            $messages = [
+                'fecha_entrega_traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_entrega_traductor')]),
+                'traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.traductor')])
+            ]; 
+            
+            $validator = \Validator::make($request->all(), $rules, $messages);   
+            if ( $validator->fails() ) {
+                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+            } else {
+                try{
+                    $hoy = Carbon::today('America/Mexico_City');
+                    $update = \Modules\mgepisodios\Entities\Episodios::where('id', $request->input('episodioId'))
+                        ->update([      
+                            'fecha_asignacion_traductor' => $hoy->now(),
+                            'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),
+                            'script' => ( $request->input('script') == 'on') ? true : false,
+                            'traductorId' => $request->input('traductor'),
+                            'status_coordinador' => true
+
+                        ]);
+                        if(!$update){
+                            return "Fallido";
+                        }
+
+                    $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }catch(Exception $e){
+                     report($e);
+                     return false;
+                }
+            }
+        }
     }
 }

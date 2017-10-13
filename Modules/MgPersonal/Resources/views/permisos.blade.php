@@ -189,7 +189,7 @@
 							<input type="checkbox" name="add_cliente"  @if( isset($urlArray['add_cliente']) ) checked @endif >&nbsp;
 							<label>Agregar Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_clientes-update_cliente"  @if( isset($urlArray['edit_cliente']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="edit_cliente-update_cliente"  @if( isset($urlArray['edit_cliente']) ) checked @endif >&nbsp;
 							<label>Editar Cliente</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<input type="checkbox" name="delete_cliente"  @if( isset($urlArray['delete_cliente']) ) checked @endif >&nbsp;
@@ -266,8 +266,20 @@
 							<input type="checkbox" name="create_timecode_pdf" @if( isset($urlArray['create_timecode_pdf']) ) checked @endif >&nbsp;
 							<label>PDF Time Code</label>
 						</p>
+					<hr>
+					<!-- -->
+					<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
+						<h4><strong>Coordinación</strong></h4>
+						<p >
+							<input type="checkbox" name="add_asignar_traductor" @if( isset($urlArray['add_asignar_traductor']) ) checked @endif >&nbsp;
+							<label>Asignar Traductor</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="checkbox" name="edit_asignar_traductor" @if( isset($urlArray['edit_asignar_traductor']) ) checked @endif >&nbsp;
+							<label>Editar Asignación de Traductor</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						</p>
 					</div>
-
+					<hr>
 				</div>
 			</div>		
 

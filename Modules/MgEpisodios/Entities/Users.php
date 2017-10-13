@@ -21,4 +21,19 @@ class Users extends Model
     	return \DB::select( \DB::raw('select name, ap_paterno, ap_materno, id from users
 where name in(\'Héctor\', \'Lorena\', \'Alexandro\') AND ap_paterno in(\'Solís\', \'Mejía\', \'Galina\')'));
     }
+
+    public static function Traductores()
+    {
+        return \DB::table('users')
+            ->join('jobs', 'users.job', '=', 'jobs.id')
+            ->where('jobs.job', 'Traductor')
+            ->select([
+                'users.id',
+                'users.name', 
+                'users.email', 
+                'jobs.job', 
+                'users.ap_paterno', 
+                'users.ap_materno'])
+            ->get();
+    }
 }

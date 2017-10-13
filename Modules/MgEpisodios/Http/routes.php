@@ -8,6 +8,7 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mge
 	Route::get('/edit/{id}', 'MgEpisodiosController@edit')->name('edit_episodio');//Editar
 	Route::post('/update', 'MgEpisodiosController@update')->name('update_episodio');//Update
 	Route::get('/show_episodio/{id}', 'MgEpisodiosController@show')->name('show_episodio');//Mostrar
+	Route::post('/assign-traductor', 'MgEpisodiosController@assignTraductor')->name('add_asignar_traductor');//Mostrar
 
 
 	Route::post('/calificar_material', 'MgCalificarMaterialController@store')->name('add_calificar_material');

@@ -15,38 +15,24 @@ class CreateEpisodiosTable extends Migration
     {
         //
 		Schema::create('episodios', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('productor', 200);
-            $table->string('responsable', 200);
-            $table->string('titulo_original', 200);
-			$table->string('titulo_espanol', 200);
-			$table->string('titulo_ingles', 200);
-			$table->string('titulo_eportugues');
-			$table->integer('salaId', 200);
-			$table->string('duracion', 15);
-			$table->string('num_episodio', 100);
-			$table->integer('viaId')->unsigned();
-			$table->string('otro_formato');
-			$table->text('observaciones');
-			$table->date('date_m_and_e')->nullable();
+			$table->increments('id');
+			$table->string('titulo_original', 200);
+			$table->string('responsable', 200);
+			$table->string('productor', 200);
+            $table->string('duracion', 15);
+            $table->strng('num_episodio');
 			$table->date('date_entrega');
-			$table->integer('proyectoId');
-			$table->boolean('dobl_espanol20');
-			$table->boolean('dobl_espanol51');
-			$table->boolean('dobl_espanol71');
-			$table->boolean('dobl_ingles20');
-			$table->boolean('dobl_ingles51');
-			$table->boolean('dobl_ingles71');
-			$table->boolean('dobl_portugues20');
-			$table->boolean('dobl_portugues51');
-			$table->boolean('dobl_portugues71');
-			//---------Subtitulaje
-			$table->boolean('subt_espanol');
-			$table->boolean('subt_ingles');
-			$table->boolean('subt_portugues');
-			$table->boolean('material_calificado');
-			$table->boolean('material_entregado');
-            $table->timestamps();
+            $table->integer('salaId');
+            $table->integer('proyectoId');
+            $table->date('date_m_and_e');
+			$table->integer('traductorId');
+			$table->date('fecha_asignacion_traductor');
+			$table->date('fecha_entrega_traductor');
+            $table->boolean('script');
+            $table->boolean('material_calificado');
+			$table->boolean('status_coordinador');//True si ya asignó al traductor
+			$table->boolean('validador_traductor'); //True cuando si el Traductor valido la información
+			$table->timestamps();         
 			
 			/*$table->foreign('viaId')
 				  ->references('id')->on('vias')

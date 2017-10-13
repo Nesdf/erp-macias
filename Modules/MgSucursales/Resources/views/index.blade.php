@@ -34,32 +34,28 @@
 					</div>
 					<br><br><br>
 					<!-- div.table-responsive -->
-						<table id="table_sucursales" class="stripe row-border">
-							<thead>
-								<tr>
-									<th>Estado</th>
-									<th>País</th>
-									<th></th>
-								</tr>
-							</thead>
-
-							<tbody>
-								@foreach($sucursales as $sucursal)
-									<tr>
-										<td>
-											{{ $sucursal->pais }}
-										</td>
-										<td>
-											{{ $sucursal->estado }}
-										</td>
-										<td>
-											<a data-toggle="modal" data-target="#modal_delete_ciudad" data-id="{{ $sucursal->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
-										</td>
-								@endforeach
-							</tbody>
-						</table>
+					<ul>
+						@foreach($paises as $pais)
+							<li>
+								<span style="font-size: 22px;">{{$pais->pais}}</span>
+								<ul>
+									@php
+										$sucursales = \Modules\MgSucursales\Entities\Paises::sucursal($pais->id);
+									@endphp
+									@foreach($sucursales as $sucursal)
+										<li><span style="font-size: 16px;">{{$sucursal->estado}}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+											<a data-id="{{ $sucursal->id }}" href="{{url('/mgsucursales/delete_ciudad'. '/'.$sucursal->id)}}" class="btn btn-xs btn-danger" title="Eliminar">
+												<i class="ace-icon fa fa-trash bigger-120"></i>
+											</a>	
+										</li>
+									@endforeach
+									@if(count($sucursales) == 0)
+										<li style="color:red;">No hay sucursal</li>
+									@endif
+								</ul> 
+							</li>
+						@endforeach
+					</ul>
 					<!-- div.dataTables_borderWrap -->
 					<div><br><br>
 
@@ -182,6 +178,11 @@
 		$('#modal_delete_ciudad').on('show.bs.modal', function(e) {    
 		    var id = $(e.relatedTarget).data().id;
 		    $('#form_delete_ciudad').attr('action', '{{ url("mgsucursales/delete_ciudad") }}/' + id);
+		});
+
+		$('.presentation').on('click', function(){
+			var id = $(this).attr('id');
+			$('.presentation a[href="#'+id+'"]').tab('show')
 		});
 	</script>
 @stop

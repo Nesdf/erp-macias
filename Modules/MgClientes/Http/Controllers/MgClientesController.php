@@ -61,7 +61,7 @@ class MgClientesController extends Controller
 			} else {
 				\Modules\MgClientes\Entities\Clientes::create([					
 					'razon_social' => ( $request->input('razon_social') ) ?  ucwords( $request->input('razon_social') ) : '',
-					'rfc' => strtoupper( $request->input('rfc') ),
+					'rfc' => ($request->input('rfc')) ? $request->input('rfc') : '',
 					'paisId' => $request->input('pais'),
 					'estadoId' => $request->input('localidad')
 				]);

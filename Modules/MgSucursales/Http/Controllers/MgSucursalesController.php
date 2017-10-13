@@ -14,9 +14,12 @@ class MgSucursalesController extends Controller
      */
     public function index()
     {
-        $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
         $paises = \Modules\MgSucursales\Entities\Paises::All();
-        return view('mgsucursales::index', compact('sucursales', 'paises'));
+        #$sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
+        
+        
+        
+        return view('mgsucursales::index', compact('paises'));
     }
 
     /**
@@ -94,6 +97,7 @@ class MgSucursalesController extends Controller
      */
     public function destroy()
     {
+        
     }
 
     /**

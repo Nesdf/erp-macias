@@ -23,6 +23,8 @@ return [
 		'num_episodio' => 'Número de episodio',
 		'observaciones' => 'Observaciones',
 		'entrega_episodio' => 'Fecha de entrega del episodio',
-		'tcr' => 'TCR'
+		'tcr' => 'TCR',
+		'fecha_entrega_traductor' => 'Fecha de Entrega',
+		'traductor' => 'Traductor'
 	]
 ];

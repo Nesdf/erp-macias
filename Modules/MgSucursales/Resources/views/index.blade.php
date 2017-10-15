@@ -28,16 +28,17 @@
 						<a data-toggle="modal" data-target="#modal_add_pais" class="btn btn-success">
 							País Nuevo
 						</a>
-						<a data-toggle="modal" data-target="#modal_add_estado" class="btn btn-success">
-							Estado Nuevo
-						</a>
 					</div>
 					<br><br><br>
 					<!-- div.table-responsive -->
 					<ul>
 						@foreach($paises as $pais)
 							<li>
-								<span style="font-size: 22px;">{{$pais->pais}}</span>
+								<span style="font-size: 22px;">{{$pais->pais}}
+									<a hreff="#" style="font-size: 10px;" data-toggle="modal" data-target="#modal_add_estado" >
+										Estado Nuevo
+									</a>
+								</span>
 								<ul>
 									@php
 										$sucursales = \Modules\MgSucursales\Entities\Paises::sucursal($pais->id);
@@ -50,7 +51,7 @@
 										</li>
 									@endforeach
 									@if(count($sucursales) == 0)
-										<li style="color:red;">No hay sucursal</li>
+										<li style="color:red;">No hay estados</li>
 									@endif
 								</ul> 
 							</li>
@@ -110,7 +111,7 @@
 			  <div class="modal-body">
 					{{ csrf_field() }}
 					<div class="form-group">
-						<label>Ciudad</label>
+						<label>País</label>
 						<select class="form-control" name="paisId">
 							<option>Selecciona ...</option>
 							@foreach($paises as $pais)

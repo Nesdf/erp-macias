@@ -19,7 +19,7 @@ class Users extends Model
     public static function Responsables()
     {
     	return \DB::select( \DB::raw('select name, ap_paterno, ap_materno, id from users
-where name in(\'Héctor\', \'Lorena\', \'Alexandro\') AND ap_paterno in(\'Solís\', \'Mejía\', \'Galina\')'));
+where name in(\'Héctor\', \'Lorena\', \'Alexandro\') AND ap_paterno in(\'Solis\', \'Mejia\', \'Galina\')'));
     }
 
     public static function Traductores()

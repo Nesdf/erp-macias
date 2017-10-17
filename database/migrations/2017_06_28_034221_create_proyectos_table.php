@@ -20,7 +20,7 @@ class CreateProyectosTable extends Migration
 			$table->string('titulo_aprobado', 200);
 			$table->date('fecha_llegada');
 			$table->boolean('m_and_e');
-			$table->string('temporada', 60);
+			$table->string('temporada', 120);
 			$table->integer('statusId')->unsigned();
 			$table->integer('clienteId')->unsigned();
 			#--

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Episodios extends Model
 {
     protected $table = 'episodios';
-    protected $fillable = ['titulo_original',  'duracion', 'num_episodio', 'proyectoId', 'salaId', 'productor', 'responsable', 'validador_traductor', 'date_m_and_e', 'date_entrega',  'fecha_asignacion_traductor', 'fecha_entrega_traductor', 'script', 'traductorId', 'status_coordinador', 'created_at', 'updated_at'];
+    protected $fillable = ['titulo_original',  'duracion', 'num_episodio', 'proyectoId', 'salaId', 'productor', 'responsable', 'validador_traductor', 'date_m_and_e', 'date_entrega',  'fecha_asignacion_traductor', 'fecha_entrega_traductor', 'script', 'traductorId', 'status_coordinador', 'configuracion', 'created_at', 'updated_at'];
 
     /*public static function allEpisodioOfProject($id)
     {

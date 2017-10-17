@@ -20,6 +20,7 @@ class CreateEpisodiosTable extends Migration
 			$table->string('responsable', 200);
 			$table->string('productor', 200);
             $table->string('duracion', 15);
+            $table->text('configuracion');
             $table->strng('num_episodio');
 			$table->date('date_entrega');
             $table->integer('salaId');

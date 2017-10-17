@@ -191,7 +191,11 @@
 				<div class="form-group">
 					<label for="exampleInputEmail1">Duración</label>
 					<input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duración">
-				</div>				
+				</div>		
+				<div class="form-group">
+					<label for="configuracion">Configuración</label>
+					<textarea id="configuracion" name="configuracion" class="form-control"></textarea>
+				</div>		
 				<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Sala</label>
 					<select class="form-control" id="sala" name="sala">
@@ -265,13 +269,14 @@
 					<input type="text" class="form-control" id="titulo_original_episodio_update" name="titulo_original_episodio" placeholder="Título Original del episodio">
 				</div>
 				
-				
-				
 				<div class="form-group">
 					<label for="exampleInputEmail1">Duración</label>
 					<input type="text" class="form-control" id="duracion_update" name="duracion" placeholder="Duración">
 				</div>
-				
+				<div class="form-group">
+					<label for="configuracion">Configuración</label>
+					<textarea id="configuracion_update" name="configuracion" class="form-control"></textarea>
+				</div>	
 				<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Sala</label>
 					<select class="form-control" id="sala_update" name="sala">
@@ -531,11 +536,13 @@
 						$('#titulo_original_episodio_update').val(data.titulo_original);
 						$('#duracion_update').val(data.duracion);
 						$('#num_episodio_update').val(data.num_episodio);
+						$('#configuracion_update').val(data.configuracion);
 						$('#observaciones_update').val(data.observaciones);
 						$('#entrega_episodio_update').val(data.date_entrega);
 						$("#responsable_update option[value="+ data.responsable +"]").attr("selected",true);
 						$("#productor_update option[value="+ data.productor +"]").attr("selected",true);
-						$('#entrega_me_update').val(data.date_m_and_e_update);
+						$('#entrega_me_update').val(data.date_m_and_e);
+						$('#entrega_episodio_update').val(data.date_entrega);
 						$("#sala_update option[value="+ data.salaId +"]").attr("selected",true);
 						
 						
@@ -646,7 +653,7 @@
 			$('.show_id').on('click', function(){
 				 id = $( this ).data('id');				
 				$.ajax({
-					url: "{{ url('mgproyectos/show_eproyecto') }}" + "/" + id,
+					url: "{{ url('mgepisodios/show_episodio') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
 						$('#titulo_original_show').html(data.msg[0].titulo_original);

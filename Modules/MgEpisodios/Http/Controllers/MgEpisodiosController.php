@@ -58,7 +58,7 @@ class MgEpisodiosController extends Controller
             if ( $validator->fails() ) {
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
-                \Modules\mgepisodios\Entities\Episodios::create([      
+                \Modules\MgEpisodios\Entities\Episodios::create([      
                     'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                     'duracion' => ucwords( $request->input('duracion') ),
                     'date_entrega' => $request->input('entrega_episodio') ,
@@ -136,7 +136,7 @@ class MgEpisodiosController extends Controller
             if ( $validator->fails() ) {
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
-                \Modules\mgepisodios\Entities\Episodios::where('id', $request->input('id'))
+                \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
                     ->update([      
                         'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                         'duracion' => ucwords( $request->input('duracion') ),

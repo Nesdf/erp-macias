@@ -38,7 +38,14 @@ class MgSucursalesController extends Controller
      */
     public function store(Request $request)
     {
+
+
         if($request->method('post')){
+
+            \Validator::make($request->all(), [
+                'pais' => 'required|unique:paises',
+            ])->validate();
+
             \Modules\MgSucursales\Entities\Paises::create([
                 'pais' => $request->input('pais')
             ]);
@@ -55,6 +62,11 @@ class MgSucursalesController extends Controller
     public function storeCiudad(Request $request)
     {
         if($request->method('post')){
+
+            \Validator::make($request->all(), [
+                'estado' => 'required|unique:estados',
+            ])->validate();
+
             \Modules\MgSucursales\Entities\Estados::create([
                 'paisesId' => $request->input('paisId'),
                 'estado' => $request->input('estado')

@@ -122,13 +122,10 @@ class MgEpisodiosController extends Controller
         if( $request->method('post') && $request->ajax() ){
 
             $rules = [
-                'titulo_original_episodio' => 'required|min:2|max:50',
                 'proyectoId' => 'required',
             ];
             
             $messages = [
-                'titulo_original_episodio.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.titulo_original_episodio')]),
-                'titulo_original_episodio.min' => trans('mgepisodios::ui.display.error_min2', ['attribute' => trans('mgepisodios::ui.attribute.titulo_original_episodio')]),
             ]; 
             
             $validator = \Validator::make($request->all(), $rules, $messages);          
@@ -148,8 +145,6 @@ class MgEpisodiosController extends Controller
                         'productor' => $request->input('productor'),
                         'responsable' => $request->input('responsable'),
                         'salaId' => $request->input('sala'),
-                        'material_calificado' => false,
-                        'material_entregado' => false
                     ]);
                 $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

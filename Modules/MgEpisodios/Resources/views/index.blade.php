@@ -290,12 +290,6 @@
 					<label for="exampleInputEmail1">Número de Episodio</label>
 					<input type="text" class="form-control" id="num_episodio_update" name="num_episodio" placeholder="Número de episodio">
 				</div>
-				
-				<div class="form-group">
-					<label for="exampleInputEmail1">Observaciones</label>
-					<textarea class="form-control" id="observaciones_update" name="observaciones">					
-					</textarea>
-				</div>
 				@if( $proyecto->m_and_e == true )
 				<div class="form-group">
 					<label for="exampleInputEmail1">Fecha de entrega M&E</label>

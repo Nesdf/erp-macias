@@ -123,6 +123,10 @@
 							@endforeach
 						</select>
 					</div>	
+					<div class="form-group">
+						<label for="temporada">Temporada</label>
+						<input type="text" class="form-control" id="temporada" name="temporada" placeholder="Temporada">
+					</div>
 					<div id="input_titulo_espanol" class="form-group"></div>
 					<div id="input_titulo_ingles" class="form-group"></div>
 					<div id="input_titulo_portugues" class="form-group"></div>
@@ -133,11 +137,7 @@
 					<div class="form-group">
 						<label for="titulo_proyecto">Título Aprobado del Proyecto</label>
 						<input type="text" class="form-control" id="titulo_proyecto" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
-					</div>		
-					<div class="form-group">
-						<input type="checkbox"  id="mande" name="mande" placeholder="Título Original de la Serie">
-						<label for="mande">Activar M&E</label>
-					</div>
+					</div>	
 					<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Vía</label>
 					<select class="form-control" id="via" name="via">
@@ -267,19 +267,19 @@
 							<tr>
 					  			<th><h4>Cliente:</h4> <span id="cliente_show"></span></th>
 					  		</tr>
-								<tr>
+							<tr>
 					  			<th><h4>Proyecto:</h4> <span id="titulo_original_show"></span></th>
 					  		</tr>
+					  		<tr id="temporada_show"></tr>
 					  		<tr>
 					  			<th><h4>Título Aprobado:</h4> <span id="titulo_aprobado_show"></span></th>
 					  		</tr>
-					  		<tr>
-					  			<th><h4>M&E: </h4><span id="m_and_e_show"></span></th> 
-					  		</tr>
-								<tr id="titulo_espanol_show"></tr>
-								<tr id="titulo_ingles_show"></tr>
-								<tr id="titulo_portugues_show"></tr>
-								<th><h4>Subtitulo(s):</h4> <span id="subtitulo_show"></span></th>
+							<tr id="titulo_espanol_show"></tr>
+							<tr id="titulo_ingles_show"></tr>
+							<tr id="titulo_portugues_show"></tr>
+
+					  		<tr id="via_show"></tr>
+							<tr id="subtitulo_show"></tr>
 					  	</table>
 			  		</div>
 			  	</div>
@@ -313,16 +313,32 @@
 						</select>
 					</div>	
 					<div class="form-group">
+						<label for="temporada">Temporada</label>
+						<input type="text" class="form-control" id="temporada_update" name="temporada" placeholder="Temporada">
+
+						<!--  -->
+						<div id="titulo_espanol_update" class="form-group">
+							<label for="exampleInputEmail1">Título en Español</label>
+							<input type="text" class="form-control" name="titulo_espanol" id="input_titulo_espanol_update" placeholder="Título en Español">
+						</div>
+						<div id="titulo_ingles_update" class="form-group">
+							<label for="input_titulo_ingles_update">Título en Inglés</label>
+							<input type="text" class="form-control" name="titulo_ingles" id="input_titulo_ingles_update" placeholder="Título en Inglés">
+						</div>
+						<div id="titulo_portugues_update" class="form-group">
+							<label >Título en Portugués</label>
+							<input type="text" class="form-control" name="titulo_portugues"  id="input_titulo_portugues_update" placeholder="Título en Portugués">
+						</div>
+
+					<!-- -->
+					</div>	
+					<div class="form-group">
 						<label for="exampleInputEmail1">Título Original de la Serie</label>
 						<input type="text" class="form-control" id="titulo_original_update" name="titulo_serie" placeholder="Título Original de la Serie">
 					</div>	
 					<div class="form-group">
 						<label for="exampleInputEmail1">Título Aprobado del Proyecto</label>
 						<input type="text" class="form-control" id="titulo_aprobado_update" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
-					</div>	
-					<div class="form-group">
-						<input type="checkbox"  id="mande_update" name="mande" placeholder="Título Original de la Serie">
-						<label for="exampleInputEmail1">Activar M&E</label>
 					</div>					
 					<div class="form-group">
 						<label for="via">Seleccionar Vía</label>
@@ -489,11 +505,65 @@
 						$('#id_update').val(data.id);
 						$('#titulo_original_update').val(data.titulo_original);
 						$('#titulo_aprobado_update').val(data.titulo_aprobado);
+						$('#temporada_update').val(data.temporada);
 						$("#cliente_update option[value="+ data.clienteId +"]").attr("selected",true);
 						$("#idioma_update option[value="+ data.idiomaId +"]").attr("selected",true);
-						if(data.m_and_e == 1){
-							$( "#mande_update" ).prop( "checked", true );
+						$("#via_update option[value="+ data.viaId +"]").attr("selected",true);
+
+						//titulo en otros idiomas
+						$('#input_titulo_espanol_update').val(data.titulo_espanol);
+						$('#input_titulo_ingles_update').val(data.titulo_ingles);
+						$('#input_titulo_portugues_update').val(data.titulo_portugues);
+						if(data.titulo_espanol === null ){
+							$('#titulo_espanol_update').html("");
 						}
+						if( data.titulo_ingles === null ){
+							$('#titulo_ingles_update').html("");
+						}
+						if( data.titulo_portugues === null ){
+							$('#titulo_portugues_update').html("");
+						}		
+						//Checkbox titulos español
+						if(data.dobl_espanol20 == 1){
+							$( "#doblaje_espanol20_update" ).prop( "checked", true );
+						}
+						if(data.dobl_espanol51 == 1){
+							$( "#doblaje_espanol51_update" ).prop( "checked", true );
+						}
+						if(data.dobl_espanol71 == 1){
+							$( "#doblaje_espanol71_update" ).prop( "checked", true );
+						}
+						//Checkbox titulos inglés
+						if(data.dobl_ingles20 == 1){
+							$( "#doblaje_ingles20_update" ).prop( "checked", true );
+						}
+						if(data.dobl_ingles51 == 1){
+							$( "#doblaje_ingles51_update" ).prop( "checked", true );
+						}
+						if(data.dobl_ingles71 == 1){
+							$( "#doblaje_ingles71_update" ).prop( "checked", true );
+						}
+						//Checkbox titulos portugues
+						if(data.dobl_portugues20 == 1){
+							$( "#doblaje_portugues20_update" ).prop( "checked", true );
+						}
+						if(data.dobl_portugues51 == 1){
+							$( "#doblaje_portugues51_update" ).prop( "checked", true );
+						}
+						if(data.dobl_portugues71 == 1){
+							$( "#doblaje_portugues71_update" ).prop( "checked", true );
+						}
+						//Checkbox Subtitulos 
+						if(data.subt_espanol == 1){
+							$( "#subtitulaje_espanol_update" ).prop( "checked", true );
+						}
+						if(data.subt_ingles == 1){
+							$( "#subtitulaje_ingles_update" ).prop( "checked", true );
+						}
+						if(data.subt_portugues == 1){
+							$( "#subtitulaje_portugues_update" ).prop( "checked", true );
+						}				
+						
 					}
 				});
 			 });
@@ -504,10 +574,19 @@
 					url: "{{ url('mgproyectos/show_proyecto') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
+						console.log(data.proyecto[0]);
 						
-						$('#titulo_original_show').html(data.proyecto[0].titulo_original);
-						$('#titulo_aprobado_show').html(data.proyecto[0].titulo_aprobado);
+						
+						if(data.proyecto[0].titulo_original != null){
+							$('#titulo_original_show').html(data.proyecto[0].titulo_original);
+						}
+						if(data.proyecto[0].titulo_aprobado != null){
+							$('#titulo_aprobado_show').html(data.proyecto[0].titulo_aprobado);
+						}
+						
 						$('#cliente_show').html(data.proyecto[0].cliente);
+						$('#temporada_show').html('<td><h4>Temporada:</h4> <span>'+data.proyecto[0].temporada+'</span></td>');
+						$('#via_show').html('<td><h4>Vía:</h4> <span>'+data.proyecto[0].viaId+'</span></td>');
 						
 						if(data.proyecto[0].titulo_espanol != null){
 							$('#titulo_espanol_show').html('<th><h4>Título en Español:</h4> <span>'+data.proyecto[0].titulo_espanol +'</span></th>');
@@ -524,11 +603,6 @@
 						}else{
 							$('#titulo_portugues_show').html();
 						}
-						if(data.proyecto[0].m_and_e ==true){
-							$('#m_and_e_show').html('Con M&E');
-						}else{
-							$('#m_and_e_show').html('Sin M&E');
-						}
 						var subtitulo = '';
 						if(data.proyecto[0].subt_espanol == true){
 							subtitulo = '<li>Espanol</li>';
@@ -539,9 +613,9 @@
 						if(data.proyecto[0].subt_portugues == true){
 							subtitulo += '<li>Espanol</li>';
 						}
-						console.log(data.proyecto[0].subt_espanol);
-						console.log(subtitulo);
-						$('#subtitulo_show').html('<ul>'+subtitulo+'</ul>');
+						if(data.proyecto[0].subt_espanol == true || data.proyecto[0].subt_ingles == true || data.proyecto[0].subt_portugues == true ){
+							$('#subtitulo_show').html('<td><h4>Subtitulo(s):</h4><ul>'+subtitulo+'</ul></td>');
+						}
 					}
 				});
 			 });
@@ -600,7 +674,7 @@
 			 //Sección de inputs para crear
 			 $('#doblaje_espanol20, #doblaje_espanol51, #doblaje_espanol71').on('click', function(){
 						if($('#doblaje_espanol20, #doblaje_espanol51, #doblaje_espanol71').is(':checked')){
-								$('#input_titulo_espanol').html('<label for="titulo_episodio_espanol">Título del Episodio en Español</label> <input type="text" class="form-control" id="titulo_episodio_espanol" name="titulo_episodio_espanol" placeholder="Título del Episodio en Español">');
+								$('#input_titulo_espanol').html('<label for="titulo_espanol">Título en Español</label> <input type="text" class="form-control" id="titulo_espanol" name="titulo_espanol" placeholder="Título en Español">');
 						} else{
 							$('#input_titulo_espanol').html('');
 						}
@@ -608,7 +682,7 @@
 
 					$('#doblaje_ingles20, #doblaje_ingles51, #doblaje_ingles71').on('click', function(){
 						if($('#doblaje_ingles20, #doblaje_ingles51, #doblaje_ingles71').is(':checked')){
-								$('#input_titulo_ingles').html('<label for="titulo_episodio_ingles">Título del Episodio en Inglés</label> <input type="text" class="form-control" id="titulo_episodio_ingles" name="titulo_episodio_ingles" placeholder="Título del Episodio en Inglés">');
+								$('#input_titulo_ingles').html('<label for="titulo_ingles">Título en Inglés</label> <input type="text" class="form-control" id="titulo_ingles" name="titulo_ingles" placeholder="Título en Inglés">');
 						} else{
 							$('#input_titulo_ingles').html('');
 						}
@@ -616,7 +690,7 @@
 
 					$('#doblaje_portugues20, #doblaje_portugues51, #doblaje_portugues71').on('click', function(){
 						if($('#doblaje_portugues20, #doblaje_portugues51, #doblaje_portugues71').is(':checked')){
-								$('#input_titulo_portugues').html('<label for="titulo_episodio_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control" id="titulo_episodio_portugues" name="titulo_episodio_portugues" placeholder="Título del Episodio en Portugués">');
+								$('#input_titulo_portugues').html('<label for="titulo_portugues">Título en Portugués</label> <input type="text" class="form-control" id="titulo_portugues" name="titulo_ portugues" placeholder="Título en Portugués">');
 						} else{
 							$('#input_titulo_portugues').html('');
 						}
@@ -625,7 +699,7 @@
 					//Sección para update
 					$('#doblaje_espanol20_update, #doblaje_espanol51_update, #doblaje_espanol71_update').on('click', function(){
 						if($('#doblaje_espanol20_update, #doblaje_espanol51_update, #doblaje_espanol71_update').is(':checked')){
-								$('#titulo_espanol_update').html('<label for="titulo_episodio_espanol">Título del Episodio en Español</label> <input type="text" class="form-control" id="titulo_episodio_espanol" name="titulo_episodio_espanol" placeholder="Título del Episodio en Español" required>');
+								$('#titulo_espanol_update').html('<label for="titulo_espanol">Título en Español</label> <input type="text" class="form-control" id="titulo_espanol" name="titulo_espanol" placeholder="Título en Español" required>');
 						} else{
 							$('#titulo_espanol_update').html('');
 						}
@@ -633,7 +707,7 @@
 
 					$('#doblaje_ingles20_update, #doblaje_ingles51_update, #doblaje_ingles71_update').on('click', function(){
 						if($('#doblaje_ingles20_update, #doblaje_ingles51_update, #doblaje_ingles71_update').is(':checked')){
-								$('#titulo_ingles_update').html('<label for="titulo_episodio_espanol">Título del Episodio en Inglés</label> <input type="text" class="form-control"  name="titulo_episodio_ingles" placeholder="Título del Episodio en Inglés" required>');
+								$('#titulo_ingles_update').html('<label for="titulo_espanol">Título en Inglés</label> <input type="text" class="form-control"  name="titulo_ingles" placeholder="Título en Inglés" required>');
 						} else{
 							$('#titulo_ingles_update').html('');
 						}
@@ -641,7 +715,7 @@
 
 					$('#doblaje_portugues20_update, #doblaje_portugues51_update, #doblaje_portugues71_update').on('click', function(){
 							if($('#doblaje_portugues20_update, #doblaje_portugues51_update, #doblaje_portugues71_update').is(':checked')){
-									$('#titulo_portugues_update').html('<label for="titulo_episodio_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control"  name="titulo_episodio_portugues" placeholder="Título del Episodio en Portugués" required>');
+									$('#titulo_portugues_update').html('<label for="titulo_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control"  name="titulo_portugues" placeholder="Título en Portugués" required>');
 							} else{
 								$('#titulo_portugues_update').html('');
 							}

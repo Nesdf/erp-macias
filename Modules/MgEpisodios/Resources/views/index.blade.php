@@ -263,22 +263,6 @@
 				<div class="form-group">
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio_update" name="titulo_original_episodio" placeholder="Título Original del episodio">
-
-					<!--  -->
-						<div id="titulo_espanol_update" class="form-group">
-							<label for="exampleInputEmail1">Título del Episodio en Español</label>
-							<input type="text" class="form-control" name="titulo_episodio_espanol" id="input_titulo_espanol_update" placeholder="Título del Episodio en Español">
-						</div>
-						<div id="titulo_ingles_update" class="form-group">
-							<label for="exampleInputEmail1">Título del Episodio en Inglés</label>
-							<input type="text" class="form-control" id="titulo_episodio_ingles_update" name="titulo_episodio_ingles" placeholder="Título del Episodio en Inglés">
-						</div>
-						<div id="titulo_portugues_update" class="form-group">
-							<label for="titulo_episodio_ingles">Título del Episodio en Portugués</label>
-							<input type="text" class="form-control" name="titulo_episodio_portugues"  id="input_titulo_portugues_update" placeholder="Título del Episodio en Portugués">
-						</div>
-
-					<!-- -->
 				</div>
 				
 				
@@ -552,61 +536,9 @@
 						$("#responsable_update option[value="+ data.responsable +"]").attr("selected",true);
 						$("#productor_update option[value="+ data.productor +"]").attr("selected",true);
 						$('#entrega_me_update').val(data.date_m_and_e_update);
-						$("#via_update option[value="+ data.viaId +"]").attr("selected",true);
 						$("#sala_update option[value="+ data.salaId +"]").attr("selected",true);
-						//Checkbox titulos español
-						if(data.dobl_espanol20 == 1){
-							$( "#doblaje_espanol20_update" ).prop( "checked", true );
-						}
-						if(data.dobl_espanol51 == 1){
-							$( "#doblaje_espanol51_update" ).prop( "checked", true );
-						}
-						if(data.dobl_espanol71 == 1){
-							$( "#doblaje_espanol71_update" ).prop( "checked", true );
-						}
-						//Checkbox titulos inglés
-						if(data.dobl_ingles20 == 1){
-							$( "#doblaje_ingles20_update" ).prop( "checked", true );
-						}
-						if(data.dobl_ingles51 == 1){
-							$( "#doblaje_ingles51_update" ).prop( "checked", true );
-						}
-						if(data.dobl_ingles71 == 1){
-							$( "#doblaje_ingles71_update" ).prop( "checked", true );
-						}
-						//Checkbox titulos portugues
-						if(data.dobl_portugues20 == 1){
-							$( "#doblaje_portugues20_update" ).prop( "checked", true );
-						}
-						if(data.dobl_portugues51 == 1){
-							$( "#doblaje_portugues51_update" ).prop( "checked", true );
-						}
-						if(data.dobl_portugues71 == 1){
-							$( "#doblaje_portugues71_update" ).prop( "checked", true );
-						}
-						//Checkbox Subtitulos 
-						if(data.subt_espanol == 1){
-							$( "#subtitulaje_espanol_update" ).prop( "checked", true );
-						}
-						if(data.subt_ingles == 1){
-							$( "#subtitulaje_ingles_update" ).prop( "checked", true );
-						}
-						if(data.subt_portugues == 1){
-							$( "#subtitulaje_portugues_update" ).prop( "checked", true );
-						}
-						//titulo en otros idiomas
-						$('#input_titulo_espanol_update').val(data.titulo_espanol);
-						$('#input_titulo_ingles_update').val(data.titulo_ingles);
-						$('#input_titulo_portugues_update').val(data.titulo_portugues);
-						if(data.titulo_espanol === null ){
-							$('#titulo_espanol_update').html("");
-						}
-						if( data.titulo_ingles === null ){
-							$('#titulo_ingles_update').html("");
-						}
-						if( data.titulo_portugues === null ){
-							$('#titulo_portugues_update').html("");
-						}						
+						
+						
 					},
 					error: function(error){
 						var err = "";

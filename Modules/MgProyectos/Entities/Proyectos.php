@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proyectos extends Model
 {
     protected $table = 'proyectos';
-    protected $fillable = ['titulo_original', 'titulo_aprobado', 'm_and_e', 'statusId', 'idiomaId', 'clienteId', 'viaId', 'titulo_espanol', 'titulo_ingles', 'titulo_portugues', 'dobl_espanol20', 'dobl_espanol51', 'dobl_espanol71', 'dobl_ingles20', 'dobl_ingles51', 'dobl_ingles71', 'dobl_portugues20', 'dobl_portugues51', 'dobl_portugues71', 'subt_espanol', 'subt_ingles', 'subt_portugues', 'material_entregado', 'created_at', 'updated_at'];
+    protected $fillable = ['titulo_original', 'titulo_aprobado', 'm_and_e', 'statusId', 'idiomaId', 'clienteId', 'viaId', 'titulo_espanol', 'titulo_ingles', 'titulo_portugues', 'dobl_espanol20', 'dobl_espanol51', 'dobl_espanol71', 'dobl_ingles20', 'dobl_ingles51', 'dobl_ingles71', 'dobl_portugues20', 'dobl_portugues51', 'dobl_portugues71', 'subt_espanol', 'subt_ingles', 'subt_portugues', 'material_entregado', 'temporada', 'created_at', 'updated_at'];
 	
 	public static function fullProyects()
 	{
@@ -42,7 +42,11 @@ class Proyectos extends Model
 				'proyectos.titulo_portugues',
 				'proyectos.subt_espanol',
 				'proyectos.subt_ingles',
-				'proyectos.subt_portugues'
+				'proyectos.subt_portugues',
+				'proyectos.temporada',
+				'proyectos.dobl_espanol20',
+				'proyectos.dobl_espanol51',
+				'proyectos.dobl_espanol71'
 			])
 			->get();
 	}

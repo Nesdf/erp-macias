@@ -63,11 +63,12 @@ class MgProyectosController extends Controller
 					'titulo_original' => ucwords( $request->input('titulo_serie') ),
 					'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
 					'statusId' => true,
-					'm_and_e' => ( $request->input('mande') ) ? true :false,
+					'm_and_e' => true,
 					'titulo_espanol' => ( $request->input('titulo_episodio_espanol') ) ? ucwords( $request->input('titulo_episodio_espanol') ) : null,
 					'titulo_ingles' => ($request->input('titulo_episodio_ingles')) ? ucwords( $request->input('titulo_episodio_ingles') ) : null,
 					'titulo_portugues' => ($request->input('titulo_episodio_portugues')) ? ucwords( $request->input('titulo_episodio_portugues') ) : null,
 					'viaId' => $request->input('via') ,
+					'temporada' => $request->input('temporada'),
 					'dobl_espanol20' => ( $request->input('doblaje_espanol20') ) ? true : false,
 					'dobl_espanol51' => ( $request->input('doblaje_espanol51') ) ? true : false,
 					'dobl_espanol71' => ( $request->input('doblaje_espanol71') ) ? true : false,
@@ -134,36 +135,31 @@ class MgProyectosController extends Controller
 			if ( $validator->fails() ) {
 				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 			} else {
-				if( $request->input('mande') ){
-					\Modules\MgProyectos\Entities\Proyectos::where('id', $request->input('id'))
+				\Modules\MgProyectos\Entities\Proyectos::where('id', $request->input('id'))
 					->update([					
 						'clienteId' => $request->input('cliente'),
 						'titulo_original' => ucwords( $request->input('titulo_serie') ),
 						'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
 						'statusId' => true,
-						'm_and_e' => true
+						'm_and_e' => true,
+						'titulo_espanol' => ( $request->input('titulo_espanol') ) ? ucwords( $request->input('titulo_espanol') ) : null,
+						'titulo_ingles' => ($request->input('titulo_ingles')) ? ucwords( $request->input('titulo_ingles') ) : null,
+						'titulo_portugues' => ($request->input('titulo_portugues')) ? ucwords( $request->input('titulo_portugues') ) : null,
+						'viaId' => $request->input('via') ,
+						'temporada' => $request->input('temporada'),
+						'dobl_espanol20' => ( $request->input('doblaje_espanol20') ) ? true : false,
+						'dobl_espanol51' => ( $request->input('doblaje_espanol51') ) ? true : false,
+						'dobl_espanol71' => ( $request->input('doblaje_espanol71') ) ? true : false,
+						'dobl_ingles20' => ( $request->input('doblaje_ingles20') ) ? true : false,
+						'dobl_ingles51' => ( $request->input('doblaje_ingles51') ) ? true : false,
+						'dobl_ingles71' => ( $request->input('doblaje_ingles71') ) ? true : false,
+						'dobl_portugues20' => ( $request->input('doblaje_portugues20') ) ? true : false,
+						'dobl_portugues51' => ( $request->input('doblaje_portugues51') ) ? true : false,
+						'dobl_portugues71' => ( $request->input('doblaje_portugues71') ) ? true : false,
+						'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
+						'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
+						'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
 					]);
-				} else {
-					if( $request->input('mande') ){
-					\Modules\MgProyectos\Entities\Proyectos::where('id', $request->input('id'))
-					->update([					
-						'clienteId' => $request->input('cliente'),
-						'titulo_original' => ucwords( $request->input('titulo_serie') ),
-						'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
-						'statusId' => true,
-						'm_and_e' => true
-					]);
-					} else {
-						\Modules\MgProyectos\Entities\Proyectos::where('id', $request->input('id'))
-						->update([					
-							'clienteId' => $request->input('cliente'),
-							'titulo_original' => ucwords( $request->input('titulo_serie') ),
-							'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
-							'statusId' => true,
-							'm_and_e' => false
-						]);
-					}
-				}
 				
 				$request->session()->flash('message', trans('mgproyectos::ui.flash.flash_create_cliente'));
 				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

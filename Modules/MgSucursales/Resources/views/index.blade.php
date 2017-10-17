@@ -35,7 +35,7 @@
 						@foreach($paises as $pais)
 							<li>
 								<span style="font-size: 22px;">{{$pais->pais}}
-									<a hreff="#" style="font-size: 10px;" data-toggle="modal" data-target="#modal_add_estado" >
+									<a href="#" data-id="{{$pais->id}}" data-pais="{{$pais->pais}}"  style="font-size: 10px;" data-toggle="modal" data-target="#modal_add_estado" >
 										Estado Nuevo
 									</a>
 								</span>
@@ -110,17 +110,10 @@
 			  <form role="form" method="POST" action="{{url('mgsucursales/add_ciudad')}}">
 			  <div class="modal-body">
 					{{ csrf_field() }}
+					<div id="pais"></div>
+					<input type="hidden" id="id" name="paisId" >
 					<div class="form-group">
-						<label>País</label>
-						<select class="form-control" name="paisId">
-							<option>Selecciona ...</option>
-							@foreach($paises as $pais)
-								<option value="{{$pais->id}}">{{$pais->pais}}</option>
-							@endforeach
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputEmail1">Estado</label>
+						<label for="estado">Estado</label>
 						<input type="text" class="form-control" id="estado" name="estado" placeholder="Ciudad" required="">
 					</div>			
 			  </div>
@@ -180,6 +173,13 @@
 		    var id = $(e.relatedTarget).data().id;
 		    $('#form_delete_ciudad').attr('action', '{{ url("mgsucursales/delete_ciudad") }}/' + id);
 		});
+
+		$('#modal_add_estado').on('show.bs.modal', function(e) {    
+		     var id = $(e.relatedTarget).data().id;
+		     var pais = $(e.relatedTarget).data().pais;
+		      $(e.currentTarget).find('#id').val(id);
+		      $(e.currentTarget).find('#pais').html('<h2>'+pais+'</h2>');
+		  });
 
 		$('.presentation').on('click', function(){
 			var id = $(this).attr('id');

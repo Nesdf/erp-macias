@@ -1,0 +1,15 @@
+{
+    "name": "nwidart/mgcalendar",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Modules\\MgCalendar\\": ""
+        }
+    }
+}

@@ -21,7 +21,7 @@ class CreateEpisodiosTable extends Migration
 			$table->string('productor', 200);
             $table->string('duracion', 15);
             $table->text('configuracion');
-            $table->strng('num_episodio');
+            $table->string('num_episodio');
 			$table->date('date_entrega');
             $table->integer('salaId');
             $table->integer('proyectoId');

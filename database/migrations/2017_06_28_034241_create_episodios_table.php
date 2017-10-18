@@ -17,27 +17,24 @@ class CreateEpisodiosTable extends Migration
 		Schema::create('episodios', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('titulo_original', 200);
-			$table->string('responsable', 200);
-			$table->string('productor', 200);
             $table->string('duracion', 15);
-            $table->text('configuracion');
-            $table->string('num_episodio');
-			$table->date('date_entrega');
+            $table->date('date_entrega');
             $table->integer('salaId');
+            $table->string('productor', 200);
+            $table->string('responsable', 200);
+            $table->boolean('validador_traductor'); //True cuando si el Traductor valido la información
+            $table->date('fecha_asignacion_traductor');
+            $table->date('fecha_entrega_traductor');
+			$table->boolean('script');
+            $table->boolean('status_coordinador');//True si ya asignó al traductor
+            $table->integer('traductorId');
+            $table->string('num_episodio');
             $table->integer('proyectoId');
             $table->date('date_m_and_e');
-			$table->integer('traductorId');
-			$table->date('fecha_asignacion_traductor');
-			$table->date('fecha_entrega_traductor');
-            $table->boolean('script');
             $table->boolean('material_calificado');
-			$table->boolean('status_coordinador');//True si ya asignó al traductor
-			$table->boolean('validador_traductor'); //True cuando si el Traductor valido la información
+            $table->text('configuracion');
 			$table->timestamps();         
 			
-			/*$table->foreign('viaId')
-				  ->references('id')->on('vias')
-				  ->onDelete('cascade');*/
         });
     }
 

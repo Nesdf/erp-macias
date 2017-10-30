@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Episodios extends Model
 {
     protected $table = 'episodios';
-    protected $fillable = ['titulo_original',  'duracion', 'num_episodio', 'proyectoId', 'salaId', 'productor', 'responsable', 'validador_traductor', 'date_m_and_e', 'date_entrega',  'fecha_asignacion_traductor', 'fecha_entrega_traductor', 'script', 'traductorId', 'status_coordinador', 'configuracion', 'created_at', 'updated_at'];
+    protected $fillable = ['titulo_original', 'num_episodio', 'proyectoId', 'salaId', 'productor', 'responsable', 'validador_traductor', 'date_m_and_e', 'date_entrega',  'fecha_asignacion_traductor', 'fecha_entrega_traductor', 'script', 'traductorId', 'status_coordinador', 'configuracion', 'bw', 'lockcut', 'netcut', 'final', 'date_bw', 'date_lockcut', 'date_netcut', 'date_final', 'folio', 'created_at', 'updated_at'];
 
     /*public static function allEpisodioOfProject($id)
     {
@@ -21,7 +21,7 @@ class Episodios extends Model
     {
 
         return \DB::table('episodios')
-            ->select('id', 'titulo_original', 'duracion', 'num_episodio', 'proyectoId', 'date_m_and_e', 'date_entrega', 'material_calificado')
+            ->select('id', 'titulo_original', 'status_coordinador', 'num_episodio', 'proyectoId', 'date_m_and_e', 'date_entrega', 'material_calificado', 'bw', 'netcut', 'lockcut', 'final', 'date_bw', 'date_netcut', 'date_lockcut', 'date_final')
             ->where ('proyectoId', '=', $id)
             ->get();
     }

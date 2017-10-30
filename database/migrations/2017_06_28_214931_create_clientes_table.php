@@ -17,15 +17,9 @@ class CreateClientesTable extends Migration
 		Schema::create('clientes', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('razon_social', 100)->unique();
-            $table->string('rfc', 15);
+            $table->string('rfc', 15)->unsigned();
 			$table->integer('paisId')->unsigned();
 			$table->integer('estadoId')->unsigned();
-			$table->foreign('paisId')
-				  ->references('id')->on('paises')
-				  ->onDelete('cascade');
-			$table->foreign('estadoId')
-				  ->references('id')->on('estados')
-				  ->onDelete('cascade');
             $table->timestamps();
         });
     }

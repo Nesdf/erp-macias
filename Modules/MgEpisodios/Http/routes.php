@@ -7,6 +7,7 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mge
 	Route::get('/delete/{id}/{id_proyecto}', 'MgEpisodiosController@destroy')->name('delete_episodio');//Eliminar
 	Route::get('/edit/{id}', 'MgEpisodiosController@edit')->name('edit_episodio');//Editar
 	Route::post('/update', 'MgEpisodiosController@update')->name('update_episodio');//Update
+	Route::post('/update-configuracion', 'MgEpisodiosController@updateConfiguration')->name('update_configuracion_episodio');//Update
 	Route::get('/show_episodio/{id}', 'MgEpisodiosController@show')->name('show_episodio');//Mostrar
 	Route::post('/assign-traductor', 'MgEpisodiosController@assignTraductor')->name('add_asignar_traductor');//Mostrar
 

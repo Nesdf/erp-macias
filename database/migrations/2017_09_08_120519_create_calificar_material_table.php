@@ -16,13 +16,13 @@ class CreateCalificarMaterialTable extends Migration
         //
         Schema::create('calificar_materiales', function(Blueprint $table){
             $table->increments('id');
-            $table->string('correo_activo', 100);
-            $table->string('duracion', 25);
-            $table->string('tipo_reporte', 100);
-            $table->string('mezcla', 100);
-            $table->integer('tcr');
+            $table->string('correo_activo', 100)->nullable();
+            $table->string('duracion', 25)->nullable();
+            $table->string('tipo_reporte', 100)->nullable();
+            $table->string('mezcla', 100)->nullable();
+            $table->integer('tcr')->nullable();
             $table->integer('id_episodio');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

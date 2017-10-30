@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/font-awesome/4.5.0/css/font-awesome.min.css') }}" />
 
 		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/fullcalendar.min.css') }}" />
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/fonts.googleapis.com.css') }}" />
@@ -27,6 +28,7 @@
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/ace-rtl.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/calendario/jquery-ui.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/datatable/media/css/jquery.dataTables.min.css') }}" />
+		<link rel="stylesheet" href="{{ asset('assets/multiselect/bootstrap-multiselect.css') }}" />
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -226,6 +228,15 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
+								<li class="">
+									@if(\Request::session()->has('mgtiporeporte'))
+										<a href="{{ url('mgtiporeporte') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Tipo de Reporte
+										</a>
+										<b class="arrow"></b>
+									@endif
+								</li>
 							</ul>
 						@endif
 					</li>
@@ -255,6 +266,33 @@
 							</a>
 							<b class="arrow"></b>
 						@endif
+					</li>
+					<li>
+						<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-list"></i>
+								<span class="menu-text"> Llamados </span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li>
+									<a href="{{ url('mgactores') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Actores
+										</a>
+										<b class="arrow"></b>
+								</li>
+								<li>
+									<a href="{{ url('mgcalendar') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Llamado
+										</a>
+										<b class="arrow"></b>
+								</li>
+							</ul>
 					</li>
 				</ul><!-- /.nav-list -->
 
@@ -377,7 +415,7 @@
 <script src="assets/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			if('ontouchstart' in document.documentElement) document.write("<script src='assets/dasboard/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 		<script src="{{ asset('assets/dashboard/js/bootstrap.min.js') }}"></script>
 
@@ -388,7 +426,11 @@
 		<script src="{{ asset('assets/dashboard/js/ace.min.js') }}"></script>
 		<script src="{{ asset('assets/calendario/jquery-ui.min.js') }}"></script>
 		<script src="{{ asset('assets/datatable/media/js/jquery.dataTables.min.js') }}"></script>
-		<script src="{{asset('/assets/mask/dist/jquery.mask.js')}}"></script>
+		<script src="{{ asset('assets/mask/dist/jquery.mask.js')}}"></script>
+		<script src="{{ asset('assets/dashboard/js/moment.min.js')}}"></script>
+	    <script src="{{ asset('assets/dashboard/js/fullcalendar.min.js')}}"></script>
+	    <script src="{{ asset('assets/dashboard/js/bootbox.js')}}"></script>
+	    <script src="{{ asset('assets/multiselect/bootstrap-multiselect.js')}}"></script>
 
 		<!-- inline scripts related to this page -->
 		@yield('script')

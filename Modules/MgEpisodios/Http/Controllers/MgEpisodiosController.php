@@ -207,7 +207,7 @@ class MgEpisodiosController extends Controller
             } else {
                 try{
                     $hoy = Carbon::today('America/Mexico_City');
-                    $update = \Modules\mgepisodios\Entities\Episodios::where('id', $request->input('episodioId'))
+                    $update = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('episodioId'))
                         ->update([      
                             'fecha_asignacion_traductor' => $hoy->now(),
                             'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),

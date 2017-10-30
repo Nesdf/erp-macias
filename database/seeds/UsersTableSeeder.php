@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     {
         //
 		$carbon = new \Carbon\Carbon();
-		DB::table('users')->insert([
+		/*DB::table('users')->insert([
 			'name' => 'Nestor',
 			'ap_paterno' => 'Perez',
 			'ap_materno' => 'Sanchez',
@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
 			'job' => 3,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
-		]);
+		]);*/
 		DB::table('users')->insert([
 			'name' => 'Jesùs',
 			'ap_paterno' => 'Pacheco',

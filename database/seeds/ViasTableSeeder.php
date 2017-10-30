@@ -19,27 +19,27 @@ class ViasTableSeeder extends Seeder
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
 		DB::table('vias')->insert([
-			'Fox Fast' => 'Aspera',
+			'via' => 'Fox Fast',
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
 		DB::table('vias')->insert([
-			'WB DETE' => 'Aspera',
+			'via' => 'WB DETE',
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
 		DB::table('vias')->insert([
-			'WB MPI ASPERA' => 'Aspera',
+			'via' => 'WB MPI ASPERA',
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
 		DB::table('vias')->insert([
-			'WB MPI ASPERA' => 'Aspera',
+			'via' => 'WB MPI ASPERA',
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
 		DB::table('vias')->insert([
-			'DELUXE MEDIA' => 'Aspera',
+			'via' => 'DELUXE MEDIA',
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);

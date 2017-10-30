@@ -28,7 +28,7 @@ class JobsTableSeeder extends Seeder
         ];
 		$carbon = new \Carbon\Carbon();
         $num = 0;
-        foreach ($variable as $key => $value) {
+        foreach ($jobs as $key => $value) {
             DB::table('jobs')->insert([
                 'job' => $jobs[$num],
                 'created_at' => $carbon->now()->format('Y-m-d H:i:s'),

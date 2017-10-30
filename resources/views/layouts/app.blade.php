@@ -28,6 +28,7 @@
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/ace-rtl.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/calendario/jquery-ui.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/datatable/media/css/jquery.dataTables.min.css') }}" />
+		<link rel="stylesheet" href="{{ asset('assets/multiselect/bootstrap-multiselect.css') }}" />
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -227,6 +228,15 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
+								<li class="">
+									@if(\Request::session()->has('mgtiporeporte'))
+										<a href="{{ url('mgtiporeporte') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Tipo de Reporte
+										</a>
+										<b class="arrow"></b>
+									@endif
+								</li>
 							</ul>
 						@endif
 					</li>
@@ -256,6 +266,33 @@
 							</a>
 							<b class="arrow"></b>
 						@endif
+					</li>
+					<li>
+						<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-list"></i>
+								<span class="menu-text"> Llamados </span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li>
+									<a href="{{ url('mgactores') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Actores
+										</a>
+										<b class="arrow"></b>
+								</li>
+								<li>
+									<a href="{{ url('mgcalendar') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Llamado
+										</a>
+										<b class="arrow"></b>
+								</li>
+							</ul>
 					</li>
 				</ul><!-- /.nav-list -->
 
@@ -393,6 +430,7 @@
 		<script src="{{ asset('assets/dashboard/js/moment.min.js')}}"></script>
 	    <script src="{{ asset('assets/dashboard/js/fullcalendar.min.js')}}"></script>
 	    <script src="{{ asset('assets/dashboard/js/bootbox.js')}}"></script>
+	    <script src="{{ asset('assets/multiselect/bootstrap-multiselect.js')}}"></script>
 
 		<!-- inline scripts related to this page -->
 		@yield('script')

@@ -14,6 +14,13 @@ class CreateCalendarLlamadosTable extends Migration
     public function up()
     {
         //
+        Schema::create('calendario', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('evento', 60);
+            $table->datetime('horario');
+            $table->string('folio', 20)->nullable();;
+            $table->timestamps();
+        });
     }
 
     /**

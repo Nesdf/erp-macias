@@ -1,0 +1,16 @@
+{
+    "name": "MgActores",
+    "alias": "mgactores",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgActores\\Providers\\MgActoresServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

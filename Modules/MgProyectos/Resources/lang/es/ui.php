@@ -15,10 +15,25 @@ return [
 		'flash_create_cliente' => 'Se agregó exitosamente',
 		'flash_delete_cliente' => 'Se eliminó exitosamente'
 	],
+	'label' => [
+		'doblaje' => 'Doblaje',
+		'seleccionar' => 'Seleccionar',
+		'tipo_trabajo' => 'Tipo de Trabajo',
+		'observaciones' => 'Observaciones',
+		'subtitulaje' => 'Subtitulaje',
+		'deseas_eliminarlo' => '¿Realmente deseas eliminarlo?',
+		'adr' => 'ADR',
+		'ingles' => 'Inglés',
+		'portugues' => 'Portugués',
+		'espanol' => 'Español',
+		'mix' => 'MIX',
+		'm_e' => 'M&E',
+		'relleno' => 'Relleno'
+	],
 	'attribute' => [	
 		'cliente' => 'Cliente',
-		'titulo_serie' => 'Título Original de la Serie',
+		'titulo_serie' => 'Título Original',
 		'idioma' => 'Idioma para el Título de la Serie',
-		'titulo_proyecto' => 'Título Aprobado del Proyecto'
+		'titulo_proyecto' => 'Serie/LM'
 	]
 ];

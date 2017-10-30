@@ -35,7 +35,6 @@ class MgCalificarMaterialController extends Controller
     public function store(Request $request)
     {
         if( $request->method('post') && $request->ajax() ){
-
             $rules = [
                 'duracion' => 'required|min:2|max:50',
                 'tcr' => 'required'
@@ -51,10 +50,11 @@ class MgCalificarMaterialController extends Controller
             if ( $validator->fails() ) {
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
         } else {
+            $id = $request->input('id_episodio');
             $calificacion = \Modules\MgEpisodios\Entities\MaterialCalificado::create([      
                 'correo_activo' => Auth::user()->email,
                 'duracion' => $request->input('duracion'),
-                'tipo_reporte' => $request->input('tipo_reporte'),
+                'tipo_reporte' => $request->input('reporte'),
                 'mezcla' => $request->input('mezcla'),
                 'tcr' => $request->input('tcr'),
                 'id_episodio' => $request->input('id_episodio'),
@@ -62,7 +62,7 @@ class MgCalificarMaterialController extends Controller
             ]);
 
             if( $calificacion ){
-                \Modules\MgEpisodios\Entities\Episodios::where( 'id', $request->input('id_episodio') )
+                \Modules\MgEpisodios\Entities\Episodios::where( 'id',  $id)
                     ->update([  
                         'material_calificado' => true 
                     ]);
@@ -121,7 +121,7 @@ class MgCalificarMaterialController extends Controller
                 \Modules\MgEpisodios\Entities\MaterialCalificado::select('id' , $request->input('id_episodio'))
                     ->update([ 
                         'duracion' => $request->input('duracion'),
-                        'tipo_reporte' => $request->input('tipo_reporte'),
+                        'tipo_reporte' => $request->input('reporte'),
                         'mezcla' => $request->input('mezcla'),
                         'tcr' => $request->input('tcr'),
                         'descripcion' => $request->input('observaciones')
@@ -145,8 +145,9 @@ class MgCalificarMaterialController extends Controller
     {
         $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
         $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
+        $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
         $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'desc')->get();
-        return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes'));
+        return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes'));
     }
 
     public function saveTimecode(Request $request)

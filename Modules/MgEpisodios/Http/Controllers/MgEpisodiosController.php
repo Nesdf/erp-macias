@@ -19,12 +19,15 @@ class MgEpisodiosController extends Controller
         
         $proyecto_id = $id;
         $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
+
+        #dd($episodios);
         $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
         $salas = \Modules\MgEpisodios\Entities\Salas::All();
         $productores = \Modules\MgEpisodios\Entities\Users::Productores();
         $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
         $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
-        return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores'));
+        $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
+        return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes'));
     }
 
     /**
@@ -58,15 +61,25 @@ class MgEpisodiosController extends Controller
             if ( $validator->fails() ) {
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
+                 Carbon::today('America/Mexico_City');
+                $hoy = Carbon::now();
                 \Modules\MgEpisodios\Entities\Episodios::create([      
                     'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
-                    'duracion' => ucwords( $request->input('duracion') ),
+                    'bw' => ($request->input('bw') == 'on') ? true : false ,
+                    'netcut' => ($request->input('netcut') == 'on') ? true : false ,
+                    'lockcut' => ($request->input('lockcut') == 'on') ? true : false ,
+                    'final' => ($request->input('final') == 'on') ? true : false ,
+                    'date_bw' => ($request->input('bw') == 'on') ? $hoy : null ,
+                    'date_netcut' => ($request->input('netcut') == 'on') ? $hoy : null ,
+                    'date_lockcut' => ($request->input('lockcut') == 'on') ? $hoy : null ,
+                    'date_final' => ($request->input('final') == 'on') ? $hoy : null ,
                     'date_entrega' => $request->input('entrega_episodio') ,
                     'proyectoId' => $request->input('proyectoId'),
                     'configuracion' => $request->input('configuracion'),
                     'num_episodio' => ucwords( $request->input('num_episodio') ),
                     'date_m_and_e' => $request->input('entrega_me'),
                     'productor' => $request->input('productor'),
+                    'folio' => $request->input('folio'),
                     'responsable' => $request->input('responsable'),
                     'salaId' => $request->input('sala'),
                     'material_calificado' => false,
@@ -126,6 +139,7 @@ class MgEpisodiosController extends Controller
             ];
             
             $messages = [
+                'proyectoId.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.entrega_episodio')])
             ]; 
             
             $validator = \Validator::make($request->all(), $rules, $messages);          
@@ -133,21 +147,29 @@ class MgEpisodiosController extends Controller
             if ( $validator->fails() ) {
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
-                \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
-                    ->update([      
-                        'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
-                        'duracion' => ucwords( $request->input('duracion') ),
-                        'date_entrega' => $request->input('entrega_episodio') ,
-                        'proyectoId' => $request->input('proyectoId'),
-                        'configuracion' => $request->input('configuracion'),
-                        'num_episodio' => ucwords( $request->input('num_episodio') ),
-                        'date_m_and_e' => $request->input('entrega_me'),
-                        'productor' => $request->input('productor'),
-                        'responsable' => $request->input('responsable'),
-                        'salaId' => $request->input('sala'),
-                    ]);
-                $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
-                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                try{
+                    \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+                        ->update([      
+                            'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
+                            'configuracion' => $request->input('configuracion'),
+                            'date_entrega' => $request->input('entrega_episodio') ,
+                            'proyectoId' => $request->input('proyectoId'),
+                            'configuracion' => $request->input('configuracion'),
+                            'num_episodio' => $request->input('num_episodio'),
+                            'date_m_and_e' => $request->input('entrega_me'),
+                            'productor' => $request->input('productor'),
+                            'responsable' => $request->input('responsable'),
+                            'folio' => $request->input('folio'),
+                            'salaId' => $request->input('sala')
+                        ]);
+                        $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+                        return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                       
+                } catch(\Exception $e){
+                    report($e);
+                    return false;
+                }
+                
             }
         }
     }
@@ -189,7 +211,9 @@ class MgEpisodiosController extends Controller
                         ->update([      
                             'fecha_asignacion_traductor' => $hoy->now(),
                             'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),
+                            'salaId' => $request->input('sala'),
                             'script' => ( $request->input('script') == 'on') ? true : false,
+                            'rayado' => ( $request->input('rayado') == 'on') ? true : false,
                             'traductorId' => $request->input('traductor'),
                             'status_coordinador' => true
 
@@ -206,5 +230,31 @@ class MgEpisodiosController extends Controller
                 }
             }
         }
+    }
+
+    public function updateConfiguration(Request $request)
+    {
+        Carbon::today('America/Mexico_City');
+        $hoy = Carbon::now();
+
+        $data = [];
+
+        if($request->input('bw') == 'on'){
+            $data = ['bw' => $request->input('bw'), 'date_bw' => $hoy];
+        }
+        if($request->input('netcut') == 'on'){
+            $data = ['netcut' => $request->input('netcut'), 'date_netcut' => $hoy];
+        }
+        if($request->input('lockcut') == 'on'){
+            $data = ['lockcut' => $request->input('lockcut'), 'date_lockcut' => $hoy];
+        }
+        if($request->input('final') == 'on'){
+            $data = ['final' => $request->input('final'), 'date_final' => $hoy];
+        }
+
+        \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+            ->update($data);
+        $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+        return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
     }
 }

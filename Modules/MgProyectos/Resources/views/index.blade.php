@@ -36,8 +36,8 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Título original de la serie</th>
-									<th class="hidden-480">Título aprobado de la serie</th>
+									<th>{{trans('mgproyectos::ui.attribute.titulo_serie')}}</th>
+									<th class="hidden-480">{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</th>
 									<th>Cliente</th>
 									@if(\Request::session()->has('mgepisodios'))
 										<th>Episosdios</th>
@@ -123,6 +123,9 @@
 							@endforeach
 						</select>
 					</div>	
+					<div id="input_titulo_espanol" class="form-group"></div>
+					<div id="input_titulo_ingles" class="form-group"></div>
+					<div id="input_titulo_portugues" class="form-group"></div>
 					<div class="form-group">
 						<label for="temporada">Temporada</label>
 						<input type="text" class="form-control" id="temporada" name="temporada" placeholder="Temporada">
@@ -131,111 +134,125 @@
 					<div id="input_titulo_ingles" class="form-group"></div>
 					<div id="input_titulo_portugues" class="form-group"></div>
 					<div class="form-group">
-						<label for="titulo_serie">Título Original de la Serie</label>
+						<label for="titulo_serie">{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
 						<input type="text" class="form-control" id="titulo_serie" name="titulo_serie" placeholder="Título Original de la Serie">
 					</div>	
 					<div class="form-group">
-						<label for="titulo_proyecto">Título Aprobado del Proyecto</label>
+						<label for="titulo_proyecto">{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
 						<input type="text" class="form-control" id="titulo_proyecto" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
 					</div>	
 					<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Vía</label>
 					<select class="form-control" id="via" name="via">
-						<option value="">Seleccionar</option>
+						<option value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
 						@foreach($vias as $via)
 							<option value="{{ $via->id }}"> {{ $via->via }} </option>
 						@endforeach
 					</select>
 				</div>
 					<div class="form-group">
-					<label for="exampleInputEmail1">Observaciones</label>
+					<label for="exampleInputEmail1">{{trans('mgproyectos::ui.label.observaciones')}}</label>
 					<textarea class="form-control" id="observaciones" name="observaciones"></textarea>
 				</div>
-					<label for="doblaje">Doblaje</label>
+
+				<label for="doblaje">{{trans('mgproyectos::ui.label.tipo_trabajo')}}</label>
+				<hr>
+				<label> {{trans('mgproyectos::ui.label.adr')}}</label>
 				<table class="table">
 					<tr>
 						<td>
 							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol20" name="doblaje_espanol20">
-								<label for="doblaje_espanol20">Doblaje Español 2.0</label>
+								<input type="checkbox" id="adr_ingles" name="adr_ingles">
+								<label for="adr_ingles">{{trans('mgproyectos::ui.label.ingles')}}</label>
 							</div>
 						</td>
 						<td>
 							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles20" name="doblaje_ingles20">
-									<label for="doblaje_ingles20">Doblaje Inglés 2.0</label>
+								<input type="checkbox" id="adr_portugues" name="adr_portugues">
+									<label for="adr_portugues">{{trans('mgproyectos::ui.label.portugues')}}</label>
 								</div>
 							</div>
 						</td>
 						<td>
 							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues20" name="doblaje_portugues20">
-								<label for="doblaje_portugues20">Doblaje Portugués 2.0</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol51" name="doblaje_espanol51">
-								<label for="doblaje_espanol51">Doblaje Español 5.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles51" name="doblaje_ingles51">
-									<label for="doblaje_ingles51">Doblaje Inglés 5.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues51" name="doblaje_portugues51">
-								<label for="doblaje_portugues51">Doblaje Portugués 5.1</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol71" name="doblaje_espanol71">
-								<label for="doblaje_espanol71">Doblaje Español 7.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles71" name="doblaje_ingles71">
-									<label for="doblaje_ingles71">Doblaje Inglés 7.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues71" name="doblaje_portugues71">
-								<label for="doblaje_portugues71">Doblaje Portugués 7.1</label>
+								<input type="checkbox" id="adr_espanol" name="adr_espanol">
+								<label for="adr_espanol">{{trans('mgproyectos::ui.label.espanol')}}</label>
 							</div>
 						</td>
 					</tr>
 				</table>
-				<label for="subtitulaje">Subtitulaje</label>
+				<label> {{trans('mgproyectos::ui.label.mix')}}</label>
+				<table class="table">
+					<tr>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="mix20" name="mix20">
+								<label for="mix20">2.0</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+								<input type="checkbox" id="mix51" name="mix51">
+									<label for="mix51">5.1</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="mix71" name="mix71">
+								<label for="mix71">7.1</label>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<label> {{trans('mgproyectos::ui.label.m_e')}}</label>
+				<table class="table">
+					<tr>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="relleno_mande" name="relleno_mande">
+								<label for="relleno_mande">{{trans('mgproyectos::ui.label.relleno')}}</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="m_e_20" name="m_e_20">
+								<label for="m_e_20">2.0</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="m_e_51" name="m_e_51">
+								<label for="m_e_51">5.1</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="m_e_71" name="m_e_71">
+								<label for="m_e_71">7.1</label>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<label for="subtitulaje">{{trans('mgproyectos::ui.label.subtitulaje')}}</label>
 				<table class="table">
 					<tr>
 						<td>
 							<div class="form-group">				
 								<input type="checkbox" id="subtitulaje_espanol" name="subtitulaje_espanol">
-								<label for="subtitulaje_espanol">Español</label>
+								<label for="subtitulaje_espanol">{{trans('mgproyectos::ui.label.espanol')}}</label>
 							</div>
 						</td>
 						<td>
 							<div class="form-group">				
 								<input type="checkbox" id="subtitulaje_ingles" name="subtitulaje_ingles">
-								<label for="subtitulaje_ingles">Inglés</label>
+								<label for="subtitulaje_ingles">{{trans('mgproyectos::ui.label.ingles')}}</label>
 							</div>
 						</td>
 						<td>
 							<div class="form-group">				
 								<input type="checkbox" id="sutitulaje_portugues" name="sutitulaje_portugues">
-								<label for="sutitulaje_portugues">Portugués</label>
+								<label for="sutitulaje_portugues">{{trans('mgproyectos::ui.label.portugues')}}</label>
 							</div>
 						</td>
 					</tr>
@@ -268,16 +285,15 @@
 					  			<th><h4>Cliente:</h4> <span id="cliente_show"></span></th>
 					  		</tr>
 							<tr>
-					  			<th><h4>Proyecto:</h4> <span id="titulo_original_show"></span></th>
+					  			<th><h4>{{trans('mgproyectos::ui.attribute.titulo_serie')}}:</h4> <span id="titulo_original_show"></span></th>
 					  		</tr>
 					  		<tr id="temporada_show"></tr>
 					  		<tr>
-					  			<th><h4>Título Aprobado:</h4> <span id="titulo_aprobado_show"></span></th>
+					  			<th><h4>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}:</h4> <span id="titulo_aprobado_show"></span></th>
 					  		</tr>
-							<tr id="titulo_espanol_show"></tr>
-							<tr id="titulo_ingles_show"></tr>
-							<tr id="titulo_portugues_show"></tr>
-
+							<tr id="adr_show"></tr>
+							<tr id="mix_show"></tr>
+							<tr id="relleno_mande_show"></tr>
 					  		<tr id="via_show"></tr>
 							<tr id="subtitulo_show"></tr>
 					  	</table>
@@ -306,116 +322,117 @@
 					<div class="form-group">
 						<label for="exampleInputEmail1">Selecciona un Cliente</label>
 						<select class="form-control" id="cliente_update" name="cliente">
-							<option select value="">Seleccionar</option>
+							<option select value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
 							@foreach($clientes as $cliente)
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>
 							@endforeach
 						</select>
 					</div>	
+					<div id="input_titulo_espanol_update" class="form-group"></div>
+					<div id="input_titulo_ingles_update" class="form-group"></div>
+					<div id="input_titulo_portugues_update" class="form-group"></div>
 					<div class="form-group">
 						<label for="temporada">Temporada</label>
 						<input type="text" class="form-control" id="temporada_update" name="temporada" placeholder="Temporada">
 
-						<!--  -->
-						<div id="titulo_espanol_update" class="form-group">
-							<label for="exampleInputEmail1">Título en Español</label>
-							<input type="text" class="form-control" name="titulo_espanol" id="input_titulo_espanol_update" placeholder="Título en Español">
-						</div>
-						<div id="titulo_ingles_update" class="form-group">
-							<label for="input_titulo_ingles_update">Título en Inglés</label>
-							<input type="text" class="form-control" name="titulo_ingles" id="input_titulo_ingles_update" placeholder="Título en Inglés">
-						</div>
-						<div id="titulo_portugues_update" class="form-group">
-							<label >Título en Portugués</label>
-							<input type="text" class="form-control" name="titulo_portugues"  id="input_titulo_portugues_update" placeholder="Título en Portugués">
-						</div>
-
 					<!-- -->
 					</div>	
 					<div class="form-group">
-						<label for="exampleInputEmail1">Título Original de la Serie</label>
+						<label for="titulo_original_update">{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
 						<input type="text" class="form-control" id="titulo_original_update" name="titulo_serie" placeholder="Título Original de la Serie">
 					</div>	
 					<div class="form-group">
-						<label for="exampleInputEmail1">Título Aprobado del Proyecto</label>
+						<label for="titulo_aprobado_update">{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
 						<input type="text" class="form-control" id="titulo_aprobado_update" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
 					</div>					
 					<div class="form-group">
 						<label for="via">Seleccionar Vía</label>
 						<select class="form-control" id="via_update" name="via">
-							<option select value="">Seleccionar</option>
+							<option select value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
 							@foreach($vias as $via)
 								<option value="{{ $via->id }}"> {{ $via->via }} </option>
 							@endforeach
 						</select>
 					</div>
-					<label for="doblaje">Doblaje</label>
+					<label> {{trans('mgproyectos::ui.label.adr')}}</label>
 				<table class="table">
 					<tr>
 						<td>
 							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol20_update" name="doblaje_espanol20">
-								<label for="doblaje_espanol20">Doblaje Español 2.0</label>
+								<input type="checkbox" id="adr_ingles_update" name="adr_ingles">
+								<label for="adr_ingles">{{trans('mgproyectos::ui.label.ingles')}}</label>
 							</div>
 						</td>
 						<td>
 							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles20_update" name="doblaje_ingles20">
-									<label for="doblaje_ingles20">Doblaje Inglés 2.0</label>
+								<input type="checkbox" id="adr_portugues_update" name="adr_portugues">
+									<label for="adr_portugues">{{trans('mgproyectos::ui.label.portugues')}}</label>
 								</div>
 							</div>
 						</td>
 						<td>
 							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues20_update" name="doblaje_portugues20">
-								<label for="doblaje_portugues20">Doblaje Portugues 2.0</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol51_update" name="doblaje_espanol51">
-								<label for="doblaje_espanol51">Doblaje Español 5.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles51_update" name="doblaje_ingles51">
-									<label for="doblaje_ingles51">Doblaje Inglés 5.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues51_update" name="doblaje_portugues51">
-								<label for="doblaje_portugues51">Doblaje Portugues 5.1</label>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_espanol71_update" name="doblaje_espanol71">
-								<label for="doblaje_espanol71">Doblaje Español 7.1</label>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">
-								<input type="checkbox" id="doblaje_ingles71_update" name="doblaje_ingles71">
-									<label for="doblaje_ingles71">Doblaje Inglés 7.1</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="doblaje_portugues71_update" name="doblaje_porugues71">
-								<label for="doblaje_porugues71">Doblaje Portugues 7.1</label>
+								<input type="checkbox" id="adr_espanol_update" name="adr_espanol">
+								<label for="adr_espanol">{{trans('mgproyectos::ui.label.espanol')}}</label>
 							</div>
 						</td>
 					</tr>
 				</table>
-				<label for="subtitulaje">Subtitulaje</label>
+				<label> {{trans('mgproyectos::ui.label.mix')}}</label>
+				<table class="table">
+					<tr>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="mix20_update" name="mix20">
+								<label for="mix20">2.0</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+								<input type="checkbox" id="mix51_update" name="mix51">
+									<label for="mix51">5.1</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="mix71_update" name="mix71">
+								<label for="mix71">7.1</label>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<label> {{trans('mgproyectos::ui.label.m_e')}}</label>
+				<table class="table">
+					<tr>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="relleno_mande_update" name="relleno_mande">
+								<label for="relleno_mande_update">{{trans('mgproyectos::ui.label.relleno')}}</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="m_e_20_update" name="m_e_20">
+								<label for="m_e_20_update">2.0</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="m_e_51_update" name="m_e_51">
+								<label for="m_e_51_update">5.1</label>
+							</div>
+						</td>
+						<td>
+							<div class="form-group">				
+								<input type="checkbox" id="m_e_71_update" name="m_e_71">
+								<label for="m_e_71_update">7.1</label>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+				<label for="subtitulaje">{{trans('mgproyectos::ui.label.subtitulaje')}}</label>
 				<table class="table">
 					<tr>
 						<td>
@@ -463,7 +480,7 @@
 				  <img src="{{ asset('assets/dashboard/images/error/peligro.png') }}">
 				  {{ csrf_field() }}
 				  <div id="inputs"></div>
-				  <label>¿Realmente deseas eliminarlo?</label>
+				  <label>{{trans('mgproyectos::ui.label.deseas_eliminarlo')}}</label>
 				  <div class="modal-footer">
 					<button type="submit" class="btn btn-danger">Eliminar</button>
 				  </div>
@@ -523,35 +540,38 @@
 						if( data.titulo_portugues === null ){
 							$('#titulo_portugues_update').html("");
 						}		
-						//Checkbox titulos español
-						if(data.dobl_espanol20 == 1){
-							$( "#doblaje_espanol20_update" ).prop( "checked", true );
+						//Checkbox ADR
+						if(data.adr_espanol == 1){
+							$( "#adr_espanol_update" ).prop( "checked", true );
 						}
-						if(data.dobl_espanol51 == 1){
-							$( "#doblaje_espanol51_update" ).prop( "checked", true );
+						if(data.adr_ingles == 1){
+							$( "#adr_ingles_update" ).prop( "checked", true );
 						}
-						if(data.dobl_espanol71 == 1){
-							$( "#doblaje_espanol71_update" ).prop( "checked", true );
+						if(data.adr_portugues == 1){
+							$( "#adr_portugues_update" ).prop( "checked", true );
 						}
-						//Checkbox titulos inglés
-						if(data.dobl_ingles20 == 1){
-							$( "#doblaje_ingles20_update" ).prop( "checked", true );
+						//Checkbox MIX
+						if(data.mix20 == 1){
+							$( "#mix20_update" ).prop( "checked", true );
 						}
-						if(data.dobl_ingles51 == 1){
-							$( "#doblaje_ingles51_update" ).prop( "checked", true );
+						if(data.mix51 == 1){
+							$( "#mix51_update" ).prop( "checked", true );
 						}
-						if(data.dobl_ingles71 == 1){
-							$( "#doblaje_ingles71_update" ).prop( "checked", true );
+						if(data.mix71 == 1){
+							$( "#mix71_update" ).prop( "checked", true );
 						}
-						//Checkbox titulos portugues
-						if(data.dobl_portugues20 == 1){
-							$( "#doblaje_portugues20_update" ).prop( "checked", true );
+						//Relleno M&E
+						if(data.relleno_mande == 1){
+							$( "#relleno_mande_update" ).prop( "checked", true );
 						}
-						if(data.dobl_portugues51 == 1){
-							$( "#doblaje_portugues51_update" ).prop( "checked", true );
+						if(data.m_e_20 == 1){
+							$( "#m_e_20_update" ).prop( "checked", true );
 						}
-						if(data.dobl_portugues71 == 1){
-							$( "#doblaje_portugues71_update" ).prop( "checked", true );
+						if(data.m_e_51 == 1){
+							$( "#m_e_51_update" ).prop( "checked", true );
+						}
+						if(data.m_e_71 == 1){
+							$( "#m_e_71_update" ).prop( "checked", true );
 						}
 						//Checkbox Subtitulos 
 						if(data.subt_espanol == 1){
@@ -574,8 +594,6 @@
 					url: "{{ url('mgproyectos/show_proyecto') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
-						console.log(data.proyecto[0]);
-						
 						
 						if(data.proyecto[0].titulo_original != null){
 							$('#titulo_original_show').html(data.proyecto[0].titulo_original);
@@ -587,31 +605,60 @@
 						$('#cliente_show').html(data.proyecto[0].cliente);
 						$('#temporada_show').html('<td><h4>Temporada:</h4> <span>'+data.proyecto[0].temporada+'</span></td>');
 						$('#via_show').html('<td><h4>Vía:</h4> <span>'+data.proyecto[0].viaId+'</span></td>');
-						
-						if(data.proyecto[0].titulo_espanol != null){
-							$('#titulo_espanol_show').html('<th><h4>Título en Español:</h4> <span>'+data.proyecto[0].titulo_espanol +'</span></th>');
-						}else{
-							$('#titulo_espanol_show').html();
+						var adr = '';
+						if(data.proyecto[0].adr_espanol == true){
+							adr += '<li>Español: &nbsp;'+data.proyecto[0].titulo_espanol+'</li>';
 						}
-						if(data.proyecto[0].titulo_ingles != null){
-							$('#titulo_ingles_show').html('<th><h4>Título en Inglés:</h4> <span>'+data.proyecto[0].titulo_ingles +'</span></th>');
-						}else{
-							$('#titulo_ingles_show').html();
+						if(data.proyecto[0].adr_ingles == true){
+							adr += '<li>Inglés: &nbsp;'+data.proyecto[0].titulo_ingles+'</li>';
 						}
-						if(data.proyecto[0].titulo_portugues != null){
-							$('#titulo_portugues_show').html('<th><h4>Título en Portugués:</h4> <span>'+data.proyecto[0].titulo_portugues +'</span></th>');
-						}else{
-							$('#titulo_portugues_show').html();
+						if(data.proyecto[0].adr_portugues == true){
+							adr += '<li>Portugués: &nbsp;'+data.proyecto[0].titulo_portugues+'</li>';
 						}
+						if(data.proyecto[0].adr_espanol == true || data.proyecto[0].adr_ingles == true || data.proyecto[0].adr_portugues == true ){
+							$('#adr_show').html('<td><h4>ADR(s):</h4><ul>'+adr+'</ul></td>');
+						}
+
+						var mix = '';
+						if(data.proyecto[0].mix20 == true){
+							mix += '<li>2.0</li>';
+						}
+						if(data.proyecto[0].mix51 == true){
+							mix += '<li>5.1</li>';
+						}
+						if(data.proyecto[0].mix71 == true){
+							mix += '<li>7.1</li>';
+						}
+						if(data.proyecto[0].mix20 == true || data.proyecto[0].mix51 == true || data.proyecto[0].mix71 == true ){
+							$('#mix_show').html('<td><h4>MIX(s):</h4><ul>'+mix+'</ul></td>');
+						}
+
+						var m_e = '';
+						if(data.proyecto[0].relleno_mande == true){
+							m_e += '<li>M&E</li>';
+						}						
+						if(data.proyecto[0].m_e_20 == true){
+							$m_e += '<li>2.0</li>';
+						}
+						if(data.proyecto[0].m_e_51 == true){
+							m_e += '<li>5.1</li>';
+						}
+						if(data.proyecto[0].m_e_71 == true){
+							m_e += '<li>7.1</li>';
+						}
+						if(data.proyecto[0].relleno_mande == true || data.proyecto[0].m_e_20 == true || data.proyecto[0].m_e_51 == true || data.proyecto[0].m_e_71 == true ){
+							$('#relleno_mande_show').html('<td><h4>Relleno:</h4><ul>'+m_e+'</ul></td>');
+						}
+
 						var subtitulo = '';
 						if(data.proyecto[0].subt_espanol == true){
-							subtitulo = '<li>Espanol</li>';
+							subtitulo += '<li>Espanol</li>';
 						}
 						if(data.proyecto[0].subt_ingles == true){
-							subtitulo += '<li>Espanol</li>';
+							subtitulo += '<li>Inglés</li>';
 						}
 						if(data.proyecto[0].subt_portugues == true){
-							subtitulo += '<li>Espanol</li>';
+							subtitulo += '<li>Portugués</li>';
 						}
 						if(data.proyecto[0].subt_espanol == true || data.proyecto[0].subt_ingles == true || data.proyecto[0].subt_portugues == true ){
 							$('#subtitulo_show').html('<td><h4>Subtitulo(s):</h4><ul>'+subtitulo+'</ul></td>');
@@ -672,24 +719,24 @@
 			});
 
 			 //Sección de inputs para crear
-			 $('#doblaje_espanol20, #doblaje_espanol51, #doblaje_espanol71').on('click', function(){
-						if($('#doblaje_espanol20, #doblaje_espanol51, #doblaje_espanol71').is(':checked')){
+			 $('#adr_espanol').on('click', function(){
+						if($('#adr_espanol').is(':checked')){
 								$('#input_titulo_espanol').html('<label for="titulo_espanol">Título en Español</label> <input type="text" class="form-control" id="titulo_espanol" name="titulo_espanol" placeholder="Título en Español">');
 						} else{
 							$('#input_titulo_espanol').html('');
 						}
 					});
 
-					$('#doblaje_ingles20, #doblaje_ingles51, #doblaje_ingles71').on('click', function(){
-						if($('#doblaje_ingles20, #doblaje_ingles51, #doblaje_ingles71').is(':checked')){
+					$('#adr_ingles').on('click', function(){
+						if($('#adr_ingles').is(':checked')){
 								$('#input_titulo_ingles').html('<label for="titulo_ingles">Título en Inglés</label> <input type="text" class="form-control" id="titulo_ingles" name="titulo_ingles" placeholder="Título en Inglés">');
 						} else{
 							$('#input_titulo_ingles').html('');
 						}
 					});
 
-					$('#doblaje_portugues20, #doblaje_portugues51, #doblaje_portugues71').on('click', function(){
-						if($('#doblaje_portugues20, #doblaje_portugues51, #doblaje_portugues71').is(':checked')){
+					$('#adr_portugues').on('click', function(){
+						if($('#adr_portugues').is(':checked')){
 								$('#input_titulo_portugues').html('<label for="titulo_portugues">Título en Portugués</label> <input type="text" class="form-control" id="titulo_portugues" name="titulo_ portugues" placeholder="Título en Portugués">');
 						} else{
 							$('#input_titulo_portugues').html('');
@@ -697,27 +744,27 @@
 					});
 
 					//Sección para update
-					$('#doblaje_espanol20_update, #doblaje_espanol51_update, #doblaje_espanol71_update').on('click', function(){
-						if($('#doblaje_espanol20_update, #doblaje_espanol51_update, #doblaje_espanol71_update').is(':checked')){
-								$('#titulo_espanol_update').html('<label for="titulo_espanol">Título en Español</label> <input type="text" class="form-control" id="titulo_espanol" name="titulo_espanol" placeholder="Título en Español" required>');
+					$('#adr_espanol_update').on('click', function(){
+						if($('#adr_espanol_update').is(':checked')){
+								$('#input_titulo_espanol_update').html('<label for="titulo_espanol">Título en Español</label> <input type="text" class="form-control" id="titulo_espanol" name="titulo_espanol" placeholder="Título en Español" required>');
 						} else{
-							$('#titulo_espanol_update').html('');
+							$('#input_titulo_espanol_update').html('');
 						}
 					});
 
-					$('#doblaje_ingles20_update, #doblaje_ingles51_update, #doblaje_ingles71_update').on('click', function(){
-						if($('#doblaje_ingles20_update, #doblaje_ingles51_update, #doblaje_ingles71_update').is(':checked')){
-								$('#titulo_ingles_update').html('<label for="titulo_espanol">Título en Inglés</label> <input type="text" class="form-control"  name="titulo_ingles" placeholder="Título en Inglés" required>');
+					$('#adr_ingles_update').on('click', function(){
+						if($('#adr_ingles_update').is(':checked')){
+								$('#input_titulo_ingles_update').html('<label for="titulo_espanol">Título en Inglés</label> <input type="text" class="form-control"  name="titulo_ingles" placeholder="Título en Inglés" required>');
 						} else{
-							$('#titulo_ingles_update').html('');
+							$('#input_titulo_ingles_update').html('');
 						}
 					});
 
-					$('#doblaje_portugues20_update, #doblaje_portugues51_update, #doblaje_portugues71_update').on('click', function(){
-							if($('#doblaje_portugues20_update, #doblaje_portugues51_update, #doblaje_portugues71_update').is(':checked')){
-									$('#titulo_portugues_update').html('<label for="titulo_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control"  name="titulo_portugues" placeholder="Título en Portugués" required>');
+					$('#adr_portugues_update').on('click', function(){
+							if($('#adr_portugues_update').is(':checked')){
+									$('#input_titulo_portugues_update').html('<label for="titulo_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control"  name="titulo_portugues" placeholder="Título en Portugués" required>');
 							} else{
-								$('#titulo_portugues_update').html('');
+								$('#input_titulo_portugues_update').html('');
 							}
 						});
 				});

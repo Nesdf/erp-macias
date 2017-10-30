@@ -97,8 +97,8 @@
 										<td>
 											<h4>Tipo de reporte:</h4>
 
-											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->tipo_reporte}}" class="form-control" readonly="true">
+											<div class="form-group has-{{$label}} has-feedback ">
+												<textarea class="form-control" readonly="true">{{$allProyect[0]->tipo_reporte}}</textarea>
 											</div>
 										</td>
 									</tr>
@@ -241,8 +241,13 @@
 								<input type="text" name="duracion" value="{{$allProyect[0]->duracion}}" class="form-control">
 							</div>
 							<div class="form-group">
-								<label>Tipo de reporte</label>
-								<input type="text" name="tipo_reporte" value="{{$allProyect[0]->tipo_reporte}}" class="form-control">
+								<label for="tipo_reporte">Tipo de reporte</label><br>
+								<select id="tipo_reporte" name="tipo_reporte" multiple="multiple" >
+									@foreach($reportes as $reporte)
+										<option value="{{$reporte->tipo}}">{{$reporte->tipo}}</option>
+									@endforeach
+								</select>
+								<input type="hidden" name="reporte" id="reporte" value="">
 							</div>
 							<div class="form-group">
 								<label>Mezcla</label>
@@ -304,6 +309,24 @@
 	        		}
 	        	}
 	        });
+	        
+	        
+ 			$('#modal_update_calificacion').on('shown.bs.modal', function () {
+ 				
+ 				var data = '{{$allProyect[0]->tipo_reporte}}';
+		        var valArr = data.split(",");
+
+				$('#tipo_reporte').multiselect('select', valArr);
+				$('#tipo_reporte').multiselect('refresh');
+				//$('#tipo_reporte').multiselect('select', valArr);
+			});
+            $('#tipo_reporte').on('change', function(){
+            	
+            	var tipo_reporte = $(this).val();
+            	reporte= tipo_reporte.join(",");
+            	$('#reporte').val(reporte);
+            	console.log($('#reporte').val());
+            });
 		});
 	</script>
 @stop

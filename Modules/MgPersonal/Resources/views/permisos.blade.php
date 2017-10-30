@@ -228,7 +228,7 @@
 							<input type="checkbox" name="add_episodio"   @if( isset($urlArray['add_episodio']) ) checked @endif >&nbsp;
 							<label>Agregar Episodio</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_episodio-update_episodio"  @if( isset($urlArray['edit_episodio']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="edit_episodio-update_episodio-update_configuracion_episodio"  @if( isset($urlArray['edit_episodio']) ) checked @endif >&nbsp;
 							<label>Editar Episodio</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<input type="checkbox" name="delete_episodio"  @if( isset($urlArray['delete_episodio']) ) checked @endif >&nbsp;

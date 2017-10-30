@@ -12,11 +12,29 @@ class JobsTableSeeder extends Seeder
     public function run()
     {
         //
+        $jobs = [
+            'Director', 
+            'Productor', 
+            'Administrador', 
+            'CEO', 
+            'Gerente Corporativo de proyectos', 
+            'Operador de audio', 
+            'Regrabador', 
+            'Sincronizador',
+            'Editor de pistas internacionales',
+            'Director de doblaje',
+            'Coordinador de Llamados',
+            'Auxiliar de Llamados'
+        ];
 		$carbon = new \Carbon\Carbon();
-		DB::table('jobs')->insert([
-			'job' => 'Técnico foley pads',
-			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
-			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
-		]);
+        $num = 0;
+        foreach ($variable as $key => $value) {
+            DB::table('jobs')->insert([
+                'job' => $jobs[$num],
+                'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
+                'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
+            ]);
+            $num++;
+        }
     }
 }

@@ -46,10 +46,7 @@ class MgProyectosController extends Controller
 			];
 			
 			$messages = [
-				'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')]),
-				#'titulo_proyecto.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
-				#'titulo_proyecto.min' => trans('mgproyectos::ui.display.error_min2', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
-				#'titulo_proyecto.max' => trans('mgproyectos::ui.display.error_max255', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')])
+				'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')])
 			]; 
 			
 			$validator = \Validator::make($request->all(), $rules, $messages);			
@@ -64,20 +61,21 @@ class MgProyectosController extends Controller
 					'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
 					'statusId' => true,
 					'm_and_e' => true,
-					'titulo_espanol' => ( $request->input('titulo_episodio_espanol') ) ? ucwords( $request->input('titulo_episodio_espanol') ) : null,
-					'titulo_ingles' => ($request->input('titulo_episodio_ingles')) ? ucwords( $request->input('titulo_episodio_ingles') ) : null,
-					'titulo_portugues' => ($request->input('titulo_episodio_portugues')) ? ucwords( $request->input('titulo_episodio_portugues') ) : null,
+					'titulo_espanol' => ( $request->input('titulo_espanol') ) ? ucwords( $request->input('titulo_espanol') ) : null,
+					'titulo_ingles' => ($request->input('titulo_ingles')) ? ucwords( $request->input('titulo_ingles') ) : null,
+					'titulo_portugues' => ($request->input('titulo_portugues')) ? ucwords( $request->input('titulo_portugues') ) : null,
 					'viaId' => $request->input('via') ,
 					'temporada' => $request->input('temporada'),
-					'dobl_espanol20' => ( $request->input('doblaje_espanol20') ) ? true : false,
-					'dobl_espanol51' => ( $request->input('doblaje_espanol51') ) ? true : false,
-					'dobl_espanol71' => ( $request->input('doblaje_espanol71') ) ? true : false,
-					'dobl_ingles20' => ( $request->input('doblaje_ingles20') ) ? true : false,
-					'dobl_ingles51' => ( $request->input('doblaje_ingles51') ) ? true : false,
-					'dobl_ingles71' => ( $request->input('doblaje_ingles71') ) ? true : false,
-					'dobl_portugues20' => ( $request->input('doblaje_portugues20') ) ? true : false,
-					'dobl_portugues51' => ( $request->input('doblaje_portugues51') ) ? true : false,
-					'dobl_portugues71' => ( $request->input('doblaje_portugues71') ) ? true : false,
+					'adr_ingles' => ( $request->input('adr_ingles') ) ? true : false,
+					'adr_portugues' => ( $request->input('adr_portugues') ) ? true : false,
+					'adr_espanol' => ( $request->input('adr_espanol') ) ? true : false,
+					'mix20' => ( $request->input('mix20') ) ? true : false,
+					'mix51' => ( $request->input('mix51') ) ? true : false,
+					'mix71' => ( $request->input('mix71') ) ? true : false,
+					'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
+					'm_e_20' => ( $request->input('m_e_20') ) ? true : false,
+					'm_e_51' => ( $request->input('m_e_51') ) ? true : false,
+					'm_e_71' => ( $request->input('m_e_71') ) ? true : false,
 					'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
 					'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
 					'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
@@ -118,16 +116,12 @@ class MgProyectosController extends Controller
 		if( $request->method('post') && $request->ajax() ){
 			
 			$rules = [
-				'cliente' => 'required',
-				'titulo_proyecto' => 'required'
+				'cliente' => 'required'
 				
 			];
 			
 			$messages = [
-				'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')]),
-				'titulo_proyecto.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
-				'titulo_proyecto.min' => trans('mgproyectos::ui.display.error_min2', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')]),
-				'titulo_proyecto.max' => trans('mgproyectos::ui.display.error_max255', ['attribute' => trans('mgproyectos::ui.attribute.titulo_proyecto')])
+				'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')])
 			]; 
 			
 			$validator = \Validator::make($request->all(), $rules, $messages);			
@@ -147,15 +141,17 @@ class MgProyectosController extends Controller
 						'titulo_portugues' => ($request->input('titulo_portugues')) ? ucwords( $request->input('titulo_portugues') ) : null,
 						'viaId' => $request->input('via') ,
 						'temporada' => $request->input('temporada'),
-						'dobl_espanol20' => ( $request->input('doblaje_espanol20') ) ? true : false,
-						'dobl_espanol51' => ( $request->input('doblaje_espanol51') ) ? true : false,
-						'dobl_espanol71' => ( $request->input('doblaje_espanol71') ) ? true : false,
-						'dobl_ingles20' => ( $request->input('doblaje_ingles20') ) ? true : false,
-						'dobl_ingles51' => ( $request->input('doblaje_ingles51') ) ? true : false,
-						'dobl_ingles71' => ( $request->input('doblaje_ingles71') ) ? true : false,
-						'dobl_portugues20' => ( $request->input('doblaje_portugues20') ) ? true : false,
-						'dobl_portugues51' => ( $request->input('doblaje_portugues51') ) ? true : false,
-						'dobl_portugues71' => ( $request->input('doblaje_portugues71') ) ? true : false,
+						'temporada' => $request->input('temporada'),
+						'adr_ingles' => ( $request->input('adr_ingles') ) ? true : false,
+						'adr_portugues' => ( $request->input('adr_portugues') ) ? true : false,
+						'adr_espanol' => ( $request->input('adr_espanol') ) ? true : false,
+						'mix20' => ( $request->input('mix20') ) ? true : false,
+						'mix51' => ( $request->input('mix51') ) ? true : false,
+						'mix71' => ( $request->input('mix71') ) ? true : false,
+						'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
+						'm_e_20' => ( $request->input('m_e_20') ) ? true : false,
+						'm_e_51' => ( $request->input('m_e_51') ) ? true : false,
+						'm_e_71' => ( $request->input('m_e_71') ) ? true : false,
 						'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
 						'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
 						'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false

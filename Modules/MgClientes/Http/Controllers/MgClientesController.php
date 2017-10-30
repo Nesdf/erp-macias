@@ -146,6 +146,5 @@ class MgClientesController extends Controller
 	{
 		$estados = \Modules\MgClientes\Entities\Estados::lista_countries($id);
 		return Response(['msg' => $estados], 200)->header('Content-Type', 'application/json');
-		
 	}
 }

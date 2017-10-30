@@ -16,8 +16,14 @@ class CreateLlamadosTable extends Migration
         //
         Schema::create('llamado', function(Blueprint $table){
             $table->increments('id');
-            $table->string('nombre_completo', 60);
-            $table->string('folio', 20);
+            $table->string('actor', 255);
+            $table->string('director', 255);
+            $table->string('folio_id', 10);
+            $table->dateTime('cita_start');
+            $table->dateTime('cita_end');
+            $table->boolean('estatus_grupo');
+            $table->text('descripcion');
+            $table->boolean('estatus');
             $table->timestamps();
         });
     }

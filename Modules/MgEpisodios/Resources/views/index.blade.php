@@ -19,7 +19,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue center">Episodios de Macias Group</h3>
-					<h3 class="header smaller lighter blue"><b>Proyecto: </b>{{ $proyecto->titulo_original }} </h3>
+					<h3 class="header smaller lighter blue"><b>{{trans('mgproyectos::ui.attribute.titulo_serie')}}: </b>{{ $proyecto->titulo_original }} </h3>
 
 					<div class="clearfix">
 						<div class="pull-right tableTools-container"></div>
@@ -42,6 +42,7 @@
 								<tr>
 									<th>ID</th>
 									<th>Título Original Episodio</th>
+									<th>Configuración</th>
 									<th>Número de episodio</th>
 									@if(\Request::session()->has('show_fecha_entrega'))
 										<th>Fecha de entrega episodio</th>
@@ -66,7 +67,40 @@
 											{{ $episodio->titulo_original }}
 										</td>
 										<td>
-											{{ $episodio->num_episodio }}
+											@php
+												$arraymax =[];
+												$episodio->bw;
+
+												if($episodio->bw == true){
+													$arraymax = ['BW' => $episodio->date_bw];
+												}
+												if($episodio->netcut == true){
+													$arraymax = ['NetCut' => $episodio->date_netcut];
+												}
+												if($episodio->lockcut == true){
+													$arraymax = ['Lockcut' => $episodio->date_lockcut];
+												}
+												if($episodio->final == true){
+													$arraymax = ['Final' => $episodio->date_final];
+												}
+												if( count($arraymax) > 0 ){
+													$max = array_search(max($arraymax), $arraymax);
+											    }else{
+											    	$max = "Sin configuración";
+												}
+												
+
+											@endphp
+											{{$max}}
+										</td>
+										<td>
+											@if( $episodio->status_coordinador == true)
+												{{ $episodio->num_episodio }}
+											@else
+												<a href="" data-toggle="modal" data-target="#modal_coordinador" data-id="{{ $episodio->id }}" class="coordinador" title="Coordinador">{{ $episodio->num_episodio }}
+													</a>
+											@endif
+											<a href="" data-toggle="modal" data-target="#modal_update_" data-id="{{ $episodio->id }} class="num_episodio"></a>
 										</td>
 										@if(\Request::session()->has('show_fecha_entrega'))
 											<td>
@@ -113,11 +147,9 @@
 											</td>
 										@endif
 										<td>
-											@if(\Request::session()->has('add_asignar_traductor'))
-												<a data-toggle="modal" data-target="#modal_coordinador" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary coordinador" title="Coordinador">
-														<i class="ace-icon fa fa-eye bigger-120"></i>
-												</a>
-											@endif
+											<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning edit_configuracion" title="Configuracion">
+														<i class="ace-icon fa fa-tv bigger-120"></i>
+											</a>
 											@if(\Request::session()->has('show_episodio'))
 												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_ver_episodio" class="btn btn-xs btn-warning show_id" title="Editar">
 													<i class="ace-icon fa fa-book bigger-120"></i>
@@ -187,27 +219,28 @@
 				<div class="form-group">
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio" name="titulo_original_episodio" placeholder="Título Original del episodio">
-				</div>
+				</div>	
 				<div class="form-group">
-					<label for="exampleInputEmail1">Duración</label>
-					<input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duración">
-				</div>		
+					<label for="exampleInputEmail1">Folio</label>
+					<input type="text" class="form-control" id="folio" name="folio" placeholder="Folio">
+				</div>
 				<div class="form-group">
 					<label for="configuracion">Configuración</label>
 					<textarea id="configuracion" name="configuracion" class="form-control"></textarea>
-				</div>		
-				<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Sala</label>
-					<select class="form-control" id="sala" name="sala">
-						<option value="">Seleccionar</option>
-						@foreach($salas as $sala)
-							<option value="{{ $sala->id }}"> {{ $sala->sala }} </option>
-						@endforeach
-					</select>
 				</div>	
 				<div class="form-group">
 					<label for="exampleInputEmail1">Número de Episodio</label>
 					<input type="text" class="form-control" id="num_episodio" name="num_episodio" placeholder="Número de episodio">
+				</div>
+				<div>
+					<table class="table">
+				  		<tr>
+				  			<td><input type="checkbox" name="bw"><label> &nbsp; BW</label></td>
+				  			<td><input type="checkbox" name="netcut"><label> &nbsp; NetCut</label></td>
+				  			<td><input type="checkbox" name="lockcut"><label> &nbsp; LockCut</label></td>
+				  			<td><input type="checkbox" name="final"><label> &nbsp; Final</label></td>
+				  		</tr>
+				  	</table>
 				</div>
 				@if( $proyecto->m_and_e == true )
 				<div class="form-group">
@@ -220,6 +253,49 @@
 					<input type="text" class="form-control" id="entrega_episodio" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 				</div>
 				
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+				<button type="submit" class="btn btn-primary">Guardar</button>
+			  </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
+
+	<!-- Modal Configuración Update-->
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_update_configuracion" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+				<h4 class="modal-title" id="t_header">Modificar Configuración</h4>
+				<div id="error_update_episodios"></div>
+			  </div>
+			  <form role="form" id="form_update_configuracion">
+			  <div class="modal-body">
+					<div class="modal-body">
+					{{ csrf_field() }}
+				<input type="hidden" name="id" id="id_update">		
+				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
+				<table class="table table-striped ">
+					<tr>
+						<td>
+							<input type="checkbox"  id="bw_update" name="bw"> BW
+						</td>
+						<td>
+							<input type="checkbox"  id="netcut_update" name="netcut"> NetCut
+						</td>
+						<td>
+							<input type="checkbox"  id="lockcut_update" name="lockcut"> LockCut
+						</td>
+						<td>
+							<input type="checkbox"  id="final_update" name="final"> Final
+						</td>
+					</tr>
+				</table>
+			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 				<button type="submit" class="btn btn-primary">Guardar</button>
@@ -244,7 +320,7 @@
 			  <div class="modal-body">
 					<div class="modal-body">
 					{{ csrf_field() }}
-					<input type="hidden" name="id" id="id_update">		
+					<input type="hidden" name="id" id="id_episodio_update">		
 				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 				<div class="form-group">
 					<label for="exampleInputEmail1">Seleccionar Productor</label>
@@ -268,10 +344,9 @@
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio_update" name="titulo_original_episodio" placeholder="Título Original del episodio">
 				</div>
-				
 				<div class="form-group">
-					<label for="exampleInputEmail1">Duración</label>
-					<input type="text" class="form-control" id="duracion_update" name="duracion" placeholder="Duración">
+					<label for="exampleInputEmail1">Folio</label>
+					<input type="text" class="form-control" id="folio_update" name="folio" placeholder="Folio">
 				</div>
 				<div class="form-group">
 					<label for="configuracion">Configuración</label>
@@ -362,7 +437,9 @@
 					  			<th><h4>Título Original del episodio: </h4><span id="titulo_original_show"></span></th> 
 					  		</tr>
 					  		<tr>
-					  			<th><h4>Duración</h4> <span id="duracion_show"></span></th>
+					  			@if(\Request::session()->has('show_fecha_entrega'))
+					  				<th><h4>Fecha de entrega episodio</h4> <span id="fecha_entrega_show"></span></th>
+					  			@endif
 					  		</tr>
 					  	</table>
 			  		</div>
@@ -380,9 +457,7 @@
 						  		</tr>
 						  	@endif
 					  		<tr>
-					  			@if(\Request::session()->has('show_fecha_entrega'))
-					  				<th><h4>Fecha de entrega episodio</h4> <span id="fecha_entrega_show"></span></th>
-					  			@endif
+					  			<th><h4>Configuración</h4><span id="configuracion_show"></span></th>
 					  		</tr>
 					  	</table>
 			  		</div>
@@ -418,8 +493,13 @@
 						<input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duración" data_mask="hho">
 					</div>
 					<div class="form-group">
-						<label for="tipo_reporte">Tipo de reporte</label>
-						<input type="text" class="form-control" id="tipo_reporte" name="tipo_reporte" placeholder="Tipo de reporte">
+						<label for="tipo_reporte">Tipo de reporte</label><br>
+						<select id="tipo_reporte" name="tipo_reporte" multiple="multiple" >
+							@foreach($reportes as $reporte)
+								<option value="{{$reporte->tipo}}">{{$reporte->tipo}}</option>
+							@endforeach
+						</select>
+						<input type="hidden" name="reporte" id="reporte" value="">
 					</div>
 					<div class="form-group">
 						<label for="mezcla">Mezcla</label>
@@ -454,7 +534,6 @@
 		  </div>
 		</div>
 	</div>
-
 	<!-- Asignar Traductor-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_coordinador" data-name="modal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
@@ -477,6 +556,15 @@
 						<input type="text" class="form-control" id="fecha_entrega_traductor" name="fecha_entrega_traductor" >
 					</div>
 					<div class="form-group">
+						<label for="sala">Seleccionar Sala</label>
+						<select class="form-control" id="sala" name="sala" id="sala">
+							<option value="">Seleccionar</option>
+							@foreach($salas as $sala)
+								<option value="{{ $sala->id }}"> {{ $sala->sala }} </option>
+							@endforeach
+						</select>
+					</div>	
+					<div class="form-group">
 						<label for="traductor">Asignar Traductor</label>
 						<select name="traductor" class="form-control">
 							<option value="">Seleccionar...</option>
@@ -486,7 +574,9 @@
 						</select>
 					</div>					
 					<input type="checkbox" id="script" name="script">
-					<label>Con Script</label>
+					<label>Con Script</label> &nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" id="rayado" name="rayado">
+					<label>Rayado</label>
 					<input type="hidden" name="episodioId" id="episodioId" >
 					 <div class="modal-footer">
 					   <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -526,9 +616,10 @@
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
-						$('#id_update').val(data.id);
+						$('#id_episodio_update').val(data.id);
 						$('#titulo_original_episodio_update').val(data.titulo_original);
 						$('#duracion_update').val(data.duracion);
+						$('#folio_update').val(data.folio);
 						$('#num_episodio_update').val(data.num_episodio);
 						$('#configuracion_update').val(data.configuracion);
 						$('#observaciones_update').val(data.observaciones);
@@ -624,6 +715,60 @@
 				});
 			});
 
+			$('.edit_configuracion').on('click', function(){
+				id = $( this ).data('id');
+				$.ajax({
+					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
+					type: "GET",
+					success: function( data ){
+						$('#id_update').val(data.id);
+						
+						if(data.bw == true){
+							$('#bw_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('#bw_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'bw');
+						}
+						if(data.lockcut == true){
+							$('#lockcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('lockcut');
+						} else {
+						if(data.netcut == true){
+							$('#netcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						}							$('#bw_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'netcut');
+						if(data.final == true){
+							$('#final_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('final');
+						}						}
+					},
+					error: function(error){
+						var err = "";
+						for(var i in error.responseJSON.msg){
+							err += error.responseJSON.msg[i] + "<br>";														
+						}
+						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
+					}
+				});
+			 });
+
+			$('#form_update_configuracion').on('submit', function(event){
+				event.preventDefault();
+				$.ajax({
+					url: "{{ url('mgepisodios/update-configuracion') }}",
+					type: "POST",
+					data: $( this ).serialize(),
+					success: function( data ){
+						if(data.msg == 'success'){
+							window.location.reload(true);
+						}
+					},
+					error: function(error){
+						var err = "";
+						for(var i in error.responseJSON.msg){
+							err += error.responseJSON.msg[i] + "<br>";														
+						}
+						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
+					}
+				});
+			});
+
 			$('#form_create_calificar_material').on('submit', function(event){
 				event.preventDefault();
 				$.ajax({
@@ -658,9 +803,10 @@
 						$('#productor_show').html(data.msg[0].productor + ' '+ data.msg[0].productor_ap_paterno + ' ' + data.msg[0].productor_ap_materno);
 						$('#date_m_and_e_show').html(data.msg[0].date_m_and_e);
 						$('#sala_show').html(data.msg[0].salaId);
-						
+						('#folio_show').html(data.msg[0].folio);
 						$('#fecha_entrega_show').html("<span class='label label-"+ data.status_entrega + " '> " + data.msg[0].date_entrega + "</span>");
 						$('#alerta_fecha').html("<div class='alert alert-" + data.status_entrega + "'> <h2>Fecha de entrega:  "+ data.msg[0].date_entrega +"</h2></div>");
+						//$('#configuracion_show').html();
 
 						
 						
@@ -686,10 +832,17 @@
 			//Permite mostrar input para insertar el idioma del episodio
 			
             /*if( $('#doblaje_espanol20').click(':checked') ){
-				console.log('click');
+				
             };*/
 
             $('#duracion_material, #duracion, #duracion_update').mask('00:00:00:00');
+            $('#tipo_reporte').multiselect();
+            $('#tipo_reporte').on('change', function(){
+            	
+            	var tipo_reporte = $(this).val();
+            	reporte= tipo_reporte.join(",");
+            	$('#reporte').val(reporte);
+            });
 
          });
            

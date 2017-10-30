@@ -19,7 +19,7 @@ class CreateSalasTable extends Migration
             $table->string('sala', 30);
             $table->integer('estudio_id')->unsigned();
             $table->timestamps();
-            
+
         });
     }
 

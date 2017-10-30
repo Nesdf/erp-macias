@@ -39,6 +39,7 @@ class SalasTableSeeder extends Seeder
         foreach ($salas as $key => $value) {
             DB::table('salas')->insert([
                 'sala' => $salas[$num],
+                'estudio_id' =>1,
                 'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
                 'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
             ]);

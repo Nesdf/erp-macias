@@ -280,6 +280,37 @@
 						</p>
 					</div>
 					<hr>
+					<!-- -->
+					<h4><strong>Administrar Actores</strong></h4>
+					<p>
+						<input type="checkbox" name="mgactores"  @if( isset($urlArray['mgactores']) ) checked @endif >&nbsp;
+						<label>Dashboard Actores</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="add_actor"  @if( isset($urlArray['add_actor']) ) checked @endif >&nbsp;
+						<label>Agregar Actor</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="edit_actor-update_actor"  @if( isset($urlArray['edit_actor']) ) checked @endif >&nbsp;
+						<label>Editar Actor</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="delete_actor"  @if( isset($urlArray['delete_actor']) ) checked @endif >&nbsp;
+						<label>Eliminar Actor</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					</p>
+					<hr>
+					<!-- -->
+					<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
+						<h4><strong>Llamados</strong></h4>
+						<p >
+							<input type="checkbox" name="mgactores"  @if( isset($urlArray['mgactores']) ) checked @endif >&nbsp;
+							<label>Generar llamado</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="checkbox" name="add_actor"  @if( isset($urlArray['add_actor']) ) checked @endif >&nbsp;
+							<label>Agregar llamado</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="checkbox" name="edit_actor-update_actor"  @if( isset($urlArray['edit_actor']) ) checked @endif >&nbsp;
+							
+						</p>
+					</div
 				</div>
 			</div>		
 

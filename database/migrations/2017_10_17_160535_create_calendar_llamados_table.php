@@ -16,9 +16,14 @@ class CreateCalendarLlamadosTable extends Migration
         //
         Schema::create('calendario', function(Blueprint $table){
             $table->increments('id');
-            $table->string('evento', 60);
-            $table->datetime('horario');
-            $table->string('folio', 20)->nullable();;
+            $table->string('actor', 50);
+            $table->string('cita_start', 50);
+            $table->string('cita_end', 50);
+            $table->string('folio_id', 20)->nullable();
+            $table->boolean('estatus_grupo', 50);
+            $table->boolean('estatus', 50);
+            $table->text('descripcion', 50);
+            $table->string('director', 50);
             $table->timestamps();
         });
     }
@@ -31,5 +36,6 @@ class CreateCalendarLlamadosTable extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('calendario');
     }
 }

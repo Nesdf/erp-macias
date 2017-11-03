@@ -102,7 +102,7 @@ class MgTcrController extends Controller
             if ( $validator->fails() ) {
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
-                \Modules\Mgtcr\Entities\Tcr::where('id', $request->input('id'))
+                \Modules\MgTcr\Entities\Tcr::where('id', $request->input('id'))
                 ->update([                  
                     'tcr' => ucwords( $request->input('tcr') )
                 ]);

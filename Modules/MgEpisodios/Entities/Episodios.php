@@ -56,4 +56,10 @@ class Episodios extends Model
 
        return \DB::select(\DB::raw("SELECT proyectos.titulo_original as pro_titulo, episodios.titulo_original as  epi_titulo, episodios.date_entrega as epi_entrega FROM proyectos INNER JOIN episodios  ON episodios.\"proyectoId\" = proyectos.id WHERE episodios.date_entrega = '$manana'" ));
     }
+
+    public static function searchFolio($folio)
+    {
+        $search = \DB::table('episodios')->where('folio', '=', $folio)->get();
+        return (count($search) > 0) ? true : true;
+    }
 }

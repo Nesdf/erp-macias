@@ -17,6 +17,9 @@ class CreateLlamadosTable extends Migration
         Schema::create('llamado', function(Blueprint $table){
             $table->increments('id');
             $table->string('actor', 255);
+            $table->string('credencial', 10);
+            $table->string('loops', 10);
+            $table->string('sala', 50);
             $table->string('director', 255);
             $table->string('folio_id', 10);
             $table->dateTime('cita_start');

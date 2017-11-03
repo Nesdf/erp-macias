@@ -75,11 +75,12 @@ class MgCalendarController extends Controller
     {
     }
 
-    public function listSalas($id)
+    public function listSalas($id, $id_episodio)
     {
-        $salas = \Modules\MgCalendar\Entities\Salas::listSalas($id);        
-        $llamados = \Modules\MgCalendar\Entities\Llamados::listaLlamados();
-        return Response(['msg' => $salas, 'llamados', $llamados], 200)->header('Content-Type', 'application/json');
+        $salas = \Modules\MgCalendar\Entities\Salas::listSalas($id);
+        $llamados = \Modules\MgCalendar\Entities\Llamados::listaLlamados($salas[0]->sala);
+        $folio = \Modules\MgCalendar\Entities\Episodios::find($id_episodio);
+        return Response(['msg' => $salas, 'llamados', $llamados, 'folio' => $folio->folio], 200)->header('Content-Type', 'application/json');
     }
 
 
@@ -100,7 +101,7 @@ class MgCalendarController extends Controller
         try{
             if($request->method('post') && $request->ajax()){
 
-                $meses = ['Aug'=>'8','Sep'=>'09','Oct'=>'10'];
+                $meses = ['Aug'=>'8','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dic'=>'12'];
                 $date = explode(' ', $request->input('dia'));
                 $hora_entrada = explode(':', $request->input('entrada'));
                 $hora_salida = explode(':', $request->input('salida'));
@@ -114,17 +115,79 @@ class MgCalendarController extends Controller
                     'director' => $request->input('director'),
                     'cita_start' => $cita_entrada,
                     'cita_end' => $cita_salida,
-                    'folio' => 'folio',
-                    'descripcion' => ($request->input('final') == 'on') ? true : false ,
-                    'estatus_grupo' => ($request->input('bw') == 'on') ? true : false,
+                    'folio' => $request->input('folio'),
+                    'credencial' => $request->input('credencial'),
+                    'loops' => $request->input('loops'),
+                    'sala' => $request->input('sala'),
+                    'descripcion' => $request->input('descripcion') ,
+                    'estatus_grupo' => ($request->input('estatus_grupo') == 'on') ? true : false,
                     'estatus' => true
                 ]);
+
+
+
                 $request->session()->flash('message', trans('mgcalendar::ui.flash.flash_create_llamdo'));
-                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                return Response(['msg' => 'success', 'actor'=>$request->input('actor'), 'start'=>$cita_entrada, 'end'=>$cita_salida], 200)->header('Content-Type', 'application/json');
             }
 
         } catch(\Exception $e){
             return "Error: " . $e;
         }
+    }
+
+    public function listLlamados(){
+        $salas = \Modules\MgCalendar\Entities\Salas::get();
+        return view('mgcalendar::list-llamados', compact('salas'));
+    }
+
+    public function searchLlamados(Request $request){
+
+        try{
+            if( $request->method('post') && $request->ajax() ){
+                $llamados = \Modules\MgCalendar\Entities\Llamados::allLlamados($request->input('search_sala'), $request->input('search_fecha'));
+                $allFolios = [];
+                foreach ($llamados as $key => $value) {
+                    # code...
+                    $allFolios[] = $value->folio;
+                }
+                $proyectos = \Modules\MgCalendar\Entities\Proyectos::allProyects($allFolios);
+                return Response(['llamados' => $llamados, 'proyectos' => $proyectos], 200)->header('Content-Type', 'application/json');
+            }
+
+        } catch(\Exception $e){
+            return Response(['msg' => $e->getMessage()], 402)->header('Content-Type', 'application/json');
+        }
+    }
+
+    public function credencialesActores($id)
+    {
+        $credenciales = \Modules\MgCalendar\Entities\Actores::credencialesActores($id);
+        return Response(['credenciales' => $credenciales], 200)->header('Content-Type', 'application/json');
+    }
+
+    public function editLlamado($id)
+    {
+        $llamado = \Modules\MgCalendar\Entities\Actores::find($id);
+        return Response(['llamado' => $llamado], 200)->header('Content-Type', 'application/json');
+    }
+
+    public function deleteLlamado($id)
+    {
+        if(\Modules\MgCalendar\Entities\Llamados::destroy($id)){
+            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+        }
+        
+    }
+
+    public function pdfLlamados($sala)
+    {
+        //$allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
+        //$timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
+        dd($sala);
+
+
+        $pdf = \PDF::loadView('mgcalendar::list-llamados-pdf');
+        $pdf->stream();
+        return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
     }
 }

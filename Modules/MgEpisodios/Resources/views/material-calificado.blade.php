@@ -82,7 +82,7 @@
 								<table class="table">
 									<tr>
 										<td>
-											<h4>Minutos:</h4>
+											<h4>Duración:</h4>
 
 											<div class="form-group has-{{$label}} has-feedback">
 												<input type="text" value="{{$allProyect[0]->duracion}}" class="form-control" readonly="true">
@@ -91,7 +91,7 @@
 										<td>
 											<h4>TCR:</h4>
 											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->tcr}}" class="form-control" readonly="true">
+												<input type="text" value="{{$allProyect[0]->tcr2}}" class="form-control" readonly="true">
 											</div>
 										</td>									
 										<td>
@@ -237,8 +237,8 @@
 							<input type="hidden" name="id_episodio" value="{{$id_episodio}}">
 							<input type="hidden" name="id_proyecto" value="{{$id_proyecto}}">
 							<div class="form-group">
-								<label>Minutos</label>
-								<input type="text" name="duracion" value="{{$allProyect[0]->duracion}}" class="form-control">
+								<label>Duración</label>
+								<input type="text" name="duracion" value="{{$allProyect[0]->duracion}}" placeholder="--:--:--:--" class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="tipo_reporte">Tipo de reporte</label><br>
@@ -315,6 +315,11 @@
  				
  				var data = '{{$allProyect[0]->tipo_reporte}}';
 		        var valArr = data.split(",");
+		        for(var i=0; i<valArr.length; i++){
+		        	valArr[i] = valArr[i].replace('&amp;', '&')
+		        }
+		        console.log('M&E');
+		        console.log(valArr);
 
 				$('#tipo_reporte').multiselect('select', valArr);
 				$('#tipo_reporte').multiselect('refresh');
@@ -325,7 +330,6 @@
             	var tipo_reporte = $(this).val();
             	reporte= tipo_reporte.join(",");
             	$('#reporte').val(reporte);
-            	console.log($('#reporte').val());
             });
 		});
 	</script>

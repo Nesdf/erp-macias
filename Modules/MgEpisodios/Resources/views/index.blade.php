@@ -221,10 +221,6 @@
 					<input type="text" class="form-control" id="titulo_original_episodio" name="titulo_original_episodio" placeholder="Título Original del episodio">
 				</div>	
 				<div class="form-group">
-					<label for="exampleInputEmail1">Folio</label>
-					<input type="text" class="form-control" id="folio" name="folio" placeholder="Folio">
-				</div>
-				<div class="form-group">
 					<label for="configuracion">Configuración</label>
 					<textarea id="configuracion" name="configuracion" class="form-control"></textarea>
 				</div>	
@@ -343,10 +339,6 @@
 				<div class="form-group">
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio_update" name="titulo_original_episodio" placeholder="Título Original del episodio">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputEmail1">Folio</label>
-					<input type="text" class="form-control" id="folio_update" name="folio" placeholder="Folio">
 				</div>
 				<div class="form-group">
 					<label for="configuracion">Configuración</label>
@@ -490,7 +482,7 @@
 					@endif
 					<div class="form-group">
 						<label for="duracion">Duración</label>
-						<input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duración" data_mask="hho">
+						<input type="text" class="form-control" id="duracion" name="duracion" placeholder="--:--:--:--" data_mask="hho">
 					</div>
 					<div class="form-group">
 						<label for="tipo_reporte">Tipo de reporte</label><br>
@@ -577,7 +569,10 @@
 					<label>Con Script</label> &nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="checkbox" id="rayado" name="rayado">
 					<label>Rayado</label>
-					<input type="hidden" name="episodioId" id="episodioId" >
+					<input type="hidden" name="episodioId" id="episodioId" ><br>
+					<label>
+						<input type="checkbox" name="aprobacion_cliente" id="aprobacion_cliente"> Aprobación del Cliente
+					</label>
 					 <div class="modal-footer">
 					   <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 					   <button type="submit" class="btn btn-primary">Guardar</button>

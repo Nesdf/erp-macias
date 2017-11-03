@@ -52,7 +52,7 @@ class MgTipoReporteController extends Controller
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
                 \Modules\MgTipoReporte\Entities\TipoReporte::create([  
-                    'tipo' => ucwords( $request->input('reporte') )
+                    'tipo' => ucwords( $request->input('reporte'))
                 ]);
                 $request->session()->flash('message', trans('mgtiporeporte::ui.flash.flash_create_reporte'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

@@ -75,7 +75,7 @@ class MgTcrController extends Controller
      */
     public function edit($id)
     {
-        return \Modules\Mgtcr\Entities\Tcr::find($id); 
+        return \Modules\MgTcr\Entities\Tcr::find($id); 
     }
 
     /**

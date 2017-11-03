@@ -23,4 +23,12 @@ class Actores extends Model
                 'users.ap_materno'])
             ->get();
     }
+
+    public static function credencialesActores($id)
+    {
+        return \DB::table('folio_actores')
+            ->where('actor_id', '=', $id)
+            ->select('folio')
+            ->get();
+    }
 }

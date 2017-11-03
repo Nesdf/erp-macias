@@ -21,7 +21,7 @@ class CreateLlamadosTable extends Migration
             $table->string('loops', 10);
             $table->string('sala', 50);
             $table->string('director', 255);
-            $table->string('folio_id', 10);
+            $table->string('folio', 20);
             $table->dateTime('cita_start');
             $table->dateTime('cita_end');
             $table->boolean('estatus_grupo');

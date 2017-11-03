@@ -95,13 +95,14 @@
 
 			$('#form_search').on('submit', function(event){
 				event.preventDefault();
-				val sala = $("#search_sala").value();
+				$('form_search').removeAttr('action');
+				$('form_search').removeAttr('method');
 				$.ajax({
                   url: '{{url("mgcalendar/search-llamados")}}',
                   type: 'POST',
                   data: $( this ).serialize(),
                   success: function(data){
-                  	$('#create-pdf').html('<br><br><a href="javascript:void(0)" class="btn btn-danger" id="btn-pdf">Generar Reporte PDF</a>');
+                  	$('#create-pdf').html('<br><br><a href="" class="btn btn-danger" id="btn-pdf">Generar Reporte PDF</a>');
                   	$('#list-table').html('<br><br>\
                   		<div class="col-md-12"><table class=" table table-condensed">\
                   		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>EPISODIO</td><td>FOLIO</td></tr></tbody>\

@@ -49,14 +49,14 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Minutos: 
+				<th>Duración: 
 					<span class="text-color-blue"><ins>{{$allProyect[0]->duracion}} &nbsp;</ins></span>
 				</th>
 				<th>Tipo de reporte: 
 					<span class="text-color-blue"><ins>{{$allProyect[0]->tipo_reporte}}</ins></span>
 				</th>
 				<th>TCR: 
-					<span class="text-color-blue"><ins>{{$allProyect[0]->tcr}}</ins></span>
+					<span class="text-color-blue"><ins>{{$allProyect[0]->tcr2}}</ins></span>
 				</th>
 			</tr>
 			<tr>				

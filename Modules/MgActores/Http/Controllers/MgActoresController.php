@@ -95,8 +95,30 @@ class MgActoresController extends Controller
                             'actor_id' => $save->id
                         ]);
                     }
-
-                        
+                    if($request->input('folio7')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio7'),
+                            'actor_id' => $save->id
+                        ]);
+                    }
+                    if($request->input('folio7')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio7'),
+                            'actor_id' => $save->id
+                        ]);
+                    }
+                    if($request->input('folio8')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio8'),
+                            'actor_id' => $save->id
+                        ]);
+                    }
+                    if($request->input('folio9')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio9'),
+                            'actor_id' => $save->id
+                        ]);
+                    }
                     
                 }
                 $request->session()->flash('message', trans('mgactores::ui.flash.flash_create_actor'));
@@ -122,7 +144,9 @@ class MgActoresController extends Controller
      */
     public function edit($id)
     {
-        return \Modules\MgActores\Entities\Actores::find($id); 
+        $actor =  \Modules\MgActores\Entities\Actores::find($id); 
+        $credenciales =  \Modules\MgActores\Entities\FolioActores::Folios($id);
+        return Response(['msg' => 'success', 'actor' => $actor, 'credenciales' => $credenciales], 200)->header('Content-Type', 'application/json');
     }
 
     /**
@@ -155,6 +179,71 @@ class MgActoresController extends Controller
                     'nombre_artistico' => ( $request->input('nombre_artistico') ) ?  ucwords($request->input('nombre_artistico'))  : null
                 ]);
 
+                    if($save){
+
+                    if($request->input('folio1')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio1'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio2')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio2'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio3')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio3'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio4')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio4'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio5')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio5'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio6')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio6'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio7')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio7'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio7')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio7'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio8')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio8'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    if($request->input('folio9')){
+                        \Modules\MgActores\Entities\FolioActores::create([                 
+                            'folio' => $request->input('folio9'),
+                            'actor_id' => $id
+                        ]);
+                    }
+                    
+                }
+
                 $request->session()->flash('message', trans('mgactores::ui.flash.flash_update_actor'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
             }
@@ -172,5 +261,15 @@ class MgActoresController extends Controller
         \Modules\MgActores\Entities\Actores::destroy($id);
         \Request::session()->flash('message', trans('mgactores::ui.flash.flash_delete_actor'));
         return redirect('mgactores');
+    }
+
+    public function destroyFolio($id)
+    {
+        $folio = \Modules\MgActores\Entities\FolioActores::find($id);
+        if(count($folio) > 0){
+            \Modules\MgActores\Entities\FolioActores::destroy($id);
+        }
+        return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+        
     }
 }

@@ -20,7 +20,6 @@ class MgEpisodiosController extends Controller
         $proyecto_id = $id;
         $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
 
-        #dd($episodios);
         $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
         $salas = \Modules\MgEpisodios\Entities\Salas::All();
         $productores = \Modules\MgEpisodios\Entities\Users::Productores();
@@ -63,6 +62,10 @@ class MgEpisodiosController extends Controller
             } else {
                  Carbon::today('America/Mexico_City');
                 $hoy = Carbon::now();
+                $folio = $this->generateFolio();
+                if(\Modules\MgEpisodios\Entities\Episodios::searchFolio($folio)){
+                    $folio = $this->generateFolio();
+                } 
                 \Modules\MgEpisodios\Entities\Episodios::create([      
                     'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                     'bw' => ($request->input('bw') == 'on') ? true : false ,
@@ -79,7 +82,7 @@ class MgEpisodiosController extends Controller
                     'num_episodio' => ucwords( $request->input('num_episodio') ),
                     'date_m_and_e' => $request->input('entrega_me'),
                     'productor' => $request->input('productor'),
-                    'folio' => $request->input('folio'),
+                    'folio' => $folio,
                     'responsable' => $request->input('responsable'),
                     'salaId' => $request->input('sala'),
                     'material_calificado' => false,
@@ -159,7 +162,6 @@ class MgEpisodiosController extends Controller
                             'date_m_and_e' => $request->input('entrega_me'),
                             'productor' => $request->input('productor'),
                             'responsable' => $request->input('responsable'),
-                            'folio' => $request->input('folio'),
                             'salaId' => $request->input('sala')
                         ]);
                         $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
@@ -191,6 +193,7 @@ class MgEpisodiosController extends Controller
     public function assignTraductor(Request $request)
     {
         if( $request->method('post') && $request->ajax() ){
+
             $rules = [
                 'fecha_entrega_traductor' => 'required',
                 'traductor' => 'required'
@@ -218,9 +221,6 @@ class MgEpisodiosController extends Controller
                             'status_coordinador' => true
 
                         ]);
-                        if(!$update){
-                            return "Fallido";
-                        }
 
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
@@ -256,5 +256,22 @@ class MgEpisodiosController extends Controller
             ->update($data);
         $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
         return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+    }
+
+    public function generateFolio()
+    {
+        Carbon::today('America/Mexico_City');
+        $hoy = Carbon::now();
+        $num = explode('-', $hoy->format('d-m-y'));
+        $caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        $dos='';
+        $tres='';
+        for($i=0;$i<3;$i++){
+            $tres .= strtoupper(substr($caracteres,rand(0,strlen($caracteres)),1));
+        }
+        for($i=0;$i<2;$i++){
+            $dos .= strtoupper(substr($caracteres,rand(0,strlen($caracteres)),1));
+        }
+        return $dos.'-'.$tres.$num[2].$num[1];
     }
 }

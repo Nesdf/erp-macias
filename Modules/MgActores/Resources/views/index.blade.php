@@ -47,10 +47,6 @@
 										<td>{{$actor->nombre_completo}}</td>
 										<td>{{$actor->nombre_artistico}}</td>
 										<td>
-											<a data-id="{{ $actor->id }}" data-toggle="modal" data-target="#modal_folios_actor" class="btn btn-xs btn-warning folios_id" title="Editar">
-												<i class="ace-icon fa fa-book bigger-120"></i>
-											</a>
-
 											<a data-id="{{ $actor->id }}" data-toggle="modal" data-target="#modal_update_actor" class="btn btn-xs btn-info edit_id" title="Editar">
 												<i class="ace-icon fa fa-pencil bigger-120"></i>
 											</a>	
@@ -92,13 +88,13 @@
 						<input type="text" class="form-control" id="nombre_completo" name="nombre_completo" placeholder="Nombre Completo">
 					</div>
 					<div class="form-group">
-						<label for="nombre_artistico">Nombre Artítico</label>
+						<label for="nombre_artistico">Nombre Artístico</label>
 						<input type="text" class="form-control" id="nombre_artistico" name="nombre_artistico" placeholder="Nombre Artístico">
 					</div>	
 					<div>
 						Agregar Folio <a href="javascript:void(0)" id="add_folio" class="btn btn-xs btn-info" >+</a>
 						<hr>
-						<div id="input_folios"></div>
+						<div class="input_folios"></div>
 					</div>				
 			  </div>
 			  <div class="modal-footer">
@@ -133,6 +129,11 @@
 						<label for="nombre_artistico">Nombre Artítico</label>
 						<input type="text" class="form-control" id="nombre_artistico_update" name="nombre_artistico" placeholder="Nombre Artístico">
 					</div>	
+					<div>
+						Agregar Folio <a href="javascript:void(0)" id="add_folio_update" class="btn btn-xs btn-info" >+</a>
+						<hr>
+						<div class="input_folios"></div>
+					</div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -195,7 +196,7 @@
 
 		$('#add_folio').on('click', function(){
 			conteo++;
-			var h = $('#input_folios').append('<div id="div'+conteo+'"  ><label>Folio '+conteo+'</label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar"> eliminar</a> <input type="text" name="folio'+conteo+'" class="form-control" required></div>');
+			var h = $('.input_folios').append('<div id="div'+conteo+'"  ><label>Folio '+conteo+'</label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar"> eliminar</a> <input type="text" name="folio'+conteo+'" class="form-control" required></div>');
 
 			$('.eliminar').on('click', function(){
 
@@ -232,10 +233,42 @@
 				url: "{{ url('mgactores/edit_actor') }}" + "/" + id,
 				type: "GET",
 				success: function( data ){
-					console.log(data);
-					$('#id_update').val(data.id);
-					$('#nombre_completo_update').val(data.nombre_completo);
-					$('#nombre_artistico_update').val(data.nombre_artistico);
+					
+					$('#id_update').val(data.actor.id);
+					$('#nombre_completo_update').val(data.actor.nombre_completo);
+					$('#nombre_artistico_update').val(data.actor.nombre_artistico);
+						var conteo = 0;
+
+						var add='';
+							for(var i=0; i<data.credenciales.length; i++){
+								conteo++;
+								add += '<div id="div'+conteo+'"  ><label>Folio '+conteo+'</label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar" data-id="'+data.credenciales[i].id+'"> eliminar</a> <input type="text"  class="form-control" value="'+data.credenciales[i].folio+'" disabled required></div>';
+							}
+						var h = $('.input_folios').append(add);
+						$('#add_folio_update').on('click', function(){
+
+								conteo++;
+							    h = $('.input_folios').append('<div id="div'+conteo+'"  ><label>Folio '+conteo+'</label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar"> eliminar</a> <input type="text" name="folio'+conteo+'" class="form-control" required></div>');
+						});
+
+						$('.eliminar').on('click', function(){
+							var id = $(this).data('id');
+							$.ajax({
+								url: "{{ url('mgactores/delete-folio-actor') }}"+'/'+id,
+								type: "GET",
+								success: function( data ){
+									console.log(data);
+								}
+							});
+
+							var id = $(this).attr('id');
+							$('div#div'+id).remove();
+						});
+
+					var add='';
+					for(var i=0; i<data.credenciales.length; i++){
+						add += '<div>'
+					}
 				}
 			});
 		 });

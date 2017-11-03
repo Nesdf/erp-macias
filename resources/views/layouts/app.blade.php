@@ -141,33 +141,6 @@
 				</script>
 
 				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-					<!-- <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-						<button class="btn btn-success">
-							<i class="ace-icon fa fa-signal"></i>
-						</button>
-
-						<button class="btn btn-info">
-							<i class="ace-icon fa fa-pencil"></i>
-						</button>
-
-						<button class="btn btn-warning">
-							<i class="ace-icon fa fa-users"></i>
-						</button>
-
-						<button class="btn btn-danger">
-							<i class="ace-icon fa fa-cogs"></i>
-						</button>
-					</div> -->
-
-					<!-- <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-						<span class="btn btn-success"></span>
-
-						<span class="btn btn-info"></span>
-
-						<span class="btn btn-warning"></span>
-
-						<span class="btn btn-danger"></span>
-					</div> -->
 				</div><!-- /.sidebar-shortcuts -->			
 
 				<ul class="nav nav-list">
@@ -229,13 +202,13 @@
 									@endif
 								</li>
 								<li class="">
-									@if(\Request::session()->has('mgtiporeporte'))
+									
 										<a href="{{ url('mgtiporeporte') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
 											Tipo de Reporte
 										</a>
 										<b class="arrow"></b>
-									@endif
+									
 								</li>
 							</ul>
 						@endif
@@ -280,17 +253,24 @@
 							<ul class="submenu">
 								<li>
 									<a href="{{ url('mgactores') }}">
-											<i class="menu-icon fa fa-caret-right"></i>
-											Actores
-										</a>
+										<i class="menu-icon fa fa-caret-right"></i>
+										Actores
+									</a>
 										<b class="arrow"></b>
 								</li>
 								<li>
 									<a href="{{ url('mgcalendar') }}">
-											<i class="menu-icon fa fa-caret-right"></i>
-											Llamado
-										</a>
-										<b class="arrow"></b>
+										<i class="menu-icon fa fa-caret-right"></i>
+										Calendario
+									</a>
+									<b class="arrow"></b>
+								</li>
+								<li>
+									<a href="{{ url('mgcalendar/list-llamados') }}">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Lista de llamados
+									</a>
+									<b class="arrow"></b>
 								</li>
 							</ul>
 					</li>
@@ -424,10 +404,10 @@
 		<!-- ace scripts -->
 		<script src="{{ asset('assets/dashboard/js/ace-elements.min.js') }}"></script>
 		<script src="{{ asset('assets/dashboard/js/ace.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/moment.min.js')}}"></script>
 		<script src="{{ asset('assets/calendario/jquery-ui.min.js') }}"></script>
 		<script src="{{ asset('assets/datatable/media/js/jquery.dataTables.min.js') }}"></script>
 		<script src="{{ asset('assets/mask/dist/jquery.mask.js')}}"></script>
-		<script src="{{ asset('assets/dashboard/js/moment.min.js')}}"></script>
 	    <script src="{{ asset('assets/dashboard/js/fullcalendar.min.js')}}"></script>
 	    <script src="{{ asset('assets/dashboard/js/bootbox.js')}}"></script>
 	    <script src="{{ asset('assets/multiselect/bootstrap-multiselect.js')}}"></script>

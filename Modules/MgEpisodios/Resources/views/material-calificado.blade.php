@@ -318,8 +318,6 @@
 		        for(var i=0; i<valArr.length; i++){
 		        	valArr[i] = valArr[i].replace('&amp;', '&')
 		        }
-		        console.log('M&E');
-		        console.log(valArr);
 
 				$('#tipo_reporte').multiselect('select', valArr);
 				$('#tipo_reporte').multiselect('refresh');

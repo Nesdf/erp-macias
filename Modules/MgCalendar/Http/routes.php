@@ -9,8 +9,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'mgcalendar', 'namespace' => 'M
 	Route::post('/cita-llamado', 'MgCalendarController@citaLlamado')->name('llamado');
 	Route::get('/list-llamados', 'MgCalendarController@listLlamados')->name('list-llamado');
 	Route::post('/search-llamados', 'MgCalendarController@searchLlamados')->name('search-llamado');
-	Route::get('/pdf-llamados/{sala}', 'MgCalendarController@pdfLlamados')->name('search-llamado');
+	Route::post('/pdf-llamados', 'MgCalendarController@pdfLlamados')->name('pdf-llamado');
 	Route::get('/credenciales-actores/{id}', 'MgCalendarController@credencialesActores')->name('credenciales-actores');
-    //Route::get('/edit-llamado', 'MgCalendarController@editllamado')->name('edit-llamado');
+    Route::get('/edit-llamado/{id}', 'MgCalendarController@editllamado')->name('edit-llamado');
     Route::get('/delete_llamado/{id}', 'MgCalendarController@deleteLlamado')->name('delete-llamado');
 });

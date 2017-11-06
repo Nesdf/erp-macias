@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Llamados extends Model
 {
 	protected $table = 'calendario';
-    protected $fillable = ['actor', 'director', 'cita_start', 'cita_end', 'folio', 'descripcion', 'estatus_grupo', 'estatus', 'sala', 'credencial', 'loops', 'created_at', 'updated_at'];
+    protected $fillable = ['actor', 'director', 'cita_start', 'cita_end', 'folio', 'descripcion', 'estatus_grupo', 'estatus', 'sala', 'credencial', 'loops', 'capitulo', 'created_at', 'updated_at'];
 
 
     public static function listaLlamados($sala)

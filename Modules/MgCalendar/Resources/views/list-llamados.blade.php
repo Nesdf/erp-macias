@@ -50,7 +50,11 @@
 								<button class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>								
 							</div>
 							<div class="col-md-12">
-								<div id="create-pdf"></div>
+								<div id="create-pdf" style="display: none;">
+									<br><br>
+									<a data-toggle="modal" data-target="#modal_headers" class="btn btn-danger" id="btn-pdf">Generar Reporte PDF
+									</a>
+								</div>
 							</div>
 						</form>
 					</div>
@@ -70,7 +74,43 @@
 @stop
 
 @section('modales')
-	
+	<!-- Actualizar calificación-->
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_headers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title " id="myModalLabel">Generar PDF</h4>
+			  </div>
+			  <div class="modal-body">
+			  	<div id="alerta_fecha"> </div>
+			  	<div class="row">
+		  			<form method="post" action="{{ url('/mgcalendar/pdf-llamados') }}" >
+					    <div class="modal-body">
+					    	{{ csrf_field() }}
+					    	<input type="hidden" name="sala" id="sala">
+					    	<input type="hidden" name="fecha" id="fecha">
+					    	<input type="hidden" name="search" id="search">
+					    	<input type="hidden" name="data" id="data">
+					    	<input type="hidden" name="headers" id="headers">
+							<div class="alert alert-info" role="alert">
+								Seleccionar las columas que requieres imprimir.
+							</div>
+							<label>Columnas: </label><br>
+					    	<select id="select_headers" multiple="multiple" ></select>
+							<br><br>
+						 <div class="modal-footer">
+						   <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+						   <button type="submit" class="btn btn-primary">Generar PDF</button>
+						 </div>
+				    </form>
+			  	</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	</div>
 @stop
 
 @section('script')
@@ -79,7 +119,7 @@
 			//Calendarios
 				$('#search_fecha').datepicker({
 					dateFormat: "yy-mm-dd",
-					minDate: 0,
+					//minDate: 0,
 					closeText: 'Cerrar',
 				    prevText: '<Ant',
 				    nextText: 'Sig>',
@@ -92,6 +132,8 @@
 				});
 
 			
+				
+                
 
 			$('#form_search').on('submit', function(event){
 				event.preventDefault();
@@ -102,7 +144,7 @@
                   type: 'POST',
                   data: $( this ).serialize(),
                   success: function(data){
-                  	$('#create-pdf').html('<br><br><a href="" class="btn btn-danger" id="btn-pdf">Generar Reporte PDF</a>');
+
                   	$('#list-table').html('<br><br>\
                   		<div class="col-md-12"><table class=" table table-condensed">\
                   		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>EPISODIO</td><td>FOLIO</td></tr></tbody>\
@@ -115,7 +157,7 @@
 			                  <th>ID</th>\
 			                  <th>Actor</th>\
 			                  <th>Credencial</th>\
-			                  <th>Descripción</th>\
+			                  <th>Personaje</th>\
 			                  <th>Director</th>\
 			                  <th>Sala</th>\
 			                  <th>Estudio</th>'+encabezados(data)+'\
@@ -128,21 +170,28 @@
 			              <tbody> '+contenido(data)+'\
 			              </tbody>\
 			            </table>');
+                  	$('#select_headers').append('\
+                  		<option value="Actor">Actor</option>\
+                  		<option value="Credencial">Credencial</option>\
+                  		<option value="Personaje">Personaje</option>\
+                  		<option value="Director">Director</option>\
+                  		<option value="Sala">Sala</option>\
+						<option value="Estudio">Estudio</option>'+encabezadosSelect(data)+'\
+						<option value="Total Loops">Total Loops</option>\
+						<option value="Entrada">Entrada</option>\
+						<option value="Salida">Salida</option>\
+                  		'); 
+					$('#select_headers').multiselect();
+					$('#select_headers').multiselect('refresh');
+					$('#select_headers').on('change', function(){
+            	
+		            	var select_headers = $(this).val();
+		            	var headers= select_headers.join(",");
+		            	$('#headers').val(headers);
+		            });
 
-                  	//Generar PDF
-			$('#btn-pdf').on('click', function(event){
-				event.preventDefault();
-				$.ajax({
-                  url: '{{url("mgcalendar/pdf-llamados")}}',
-                  type: 'GET',
-                  data: $( this ).serialize(),
-                  success: function(data){
-
-                  }
-                });
-			});
                   	
-                  	$('#table_actores').DataTable({
+                  	var midata = $('#table_actores').DataTable({
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",
@@ -150,18 +199,50 @@
 				            info: "Página _PAGE_ de _PAGES_",
 				            infoEmpty: "Se buscó en",
 				            infoFiltered: "(_MAX_ registros)",
+				            responsive:     true,
 				            paginate: {
 				                first:      "Primero",
 				                previous:   "Previo",
 				                next:       "Siguiente",
 				                last:       "Anterior"
 			        		},
-				        }
+				        },
+
 					});
+
+					//console.log(midata.row());
+					//console.log(midata.data());
+
+
+					$('#create-pdf').css({display: 'block'});
+                  	if( $('#create-pdf').is(":visible") ){
+                  		$('#sala').val($('#search_sala').val());
+                  		$('#fecha').val($('#search_fecha').val());
+	              	}
+	              	
+	              	midata.on('search.dt', function() {
+					    var num = midata.rows( { filter : 'applied'} ).data();
+					    $('#data').val(num);  
+					    var n = 'ID,Actor,Credencial,Personaje,Director,Sala,Estudio,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
+					    for(var i=0; i<num.length; i++){
+					    	n +=  num[i]+';';
+					    } 
+					    $('#data').val(n);                
+					});
+					var num2 = midata.rows( { filter : 'applied'} ).data();
+					    $('#data').val(num2);  
+					    var n2 = 'ID,Actor,Credencial,Personaje,Director,Sala,Estudio,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
+					    for(var i=0; i<num2.length; i++){
+					    	n2 +=  num2[i]+';';
+					    } 
+					    $('#data').val(n2); 
+	              	
+					/*$('input[type="search"]').keyup(function(event) {
+						$('#search').val($(this).val());						
+					});*/
                   }
                 });
 			});
-
 		});
 
 
@@ -210,10 +291,10 @@
       			list_proyectos += "<tr>";
       			list_proyectos += "<td>"+data.proyectos[i].proyectos+"</td>";
       			list_proyectos += "<td>"+data.proyectos[i].episodios+"</td>";
-      			list_proyectos += "<td>"+data.proyectos[i].folios+"</td>";
+      			list_proyectos += "<td>"+data.proyectos[i].capitulo+"</td>";
       			list_proyectos += "</tr>";
       		}
-      		
+      			console.log(list_proyectos);
       			return list_proyectos;
       	}
 
@@ -223,9 +304,36 @@
 			}
       		var list_encabezados = new Array();
       		for(var i=0; i<data.proyectos.length; i++){
-      			list_encabezados += "<td id="+data.proyectos[i].folios+">"+data.proyectos[i].folios+"</td>";
+      			list_encabezados += "<td id="+data.proyectos[i].capitulo+">"+data.proyectos[i].capitulo+"</td>";
+      		}
+      			console.log(list_encabezados);
+      			return list_encabezados;
+      	}
+
+      	function encabezadosSelect(data){
+      		console.log(data);
+			if(data.proyectos.length <= 0){
+				return "";
+			}
+      		var list_encabezados = new Array();
+      		for(var i=0; i<data.proyectos.length; i++){
+      			list_encabezados += "<option value="+data.proyectos[i].capitulo+">"+data.proyectos[i].capitulo+"</option>";
       		}
       		
+      			return list_encabezados;
+      	}
+
+      	function encabezadosPdf(data){
+			if(data.proyectos.length <= 0){
+				return "";
+			}
+
+      		var list_encabezados = new Array();
+
+      		for(var i=0; i<data.proyectos.length; i++){
+      			list_encabezados += data.proyectos[i].capitulo+",";
+      		}
+      			
       			return list_encabezados;
       	}
 

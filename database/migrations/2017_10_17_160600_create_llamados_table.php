@@ -22,6 +22,7 @@ class CreateLlamadosTable extends Migration
             $table->string('sala', 50);
             $table->string('director', 255);
             $table->string('folio', 20);
+            $table->string('capitulo', 20);
             $table->dateTime('cita_start');
             $table->dateTime('cita_end');
             $table->boolean('estatus_grupo');

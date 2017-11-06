@@ -11,6 +11,7 @@
         "jenssegers/date": "^3.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "laravelcollective/html": "^5.4.0",
         "nesbot/carbon": "^1.22",
         "nwidart/laravel-modules": "^1.23"
     },

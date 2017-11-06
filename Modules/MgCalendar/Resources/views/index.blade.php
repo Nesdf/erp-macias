@@ -202,7 +202,7 @@
                                 },
                                 selectable: true,
                                 monthNames: [ "Enero","Febrero","Marzo","Abril","Mayo","Junio", "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre" ],
-                                monthNamesShort: [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec" ],
+                                monthNamesShort: [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ],
                                 dayNames: [ "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" ],
                                 dayNamesShort: [ "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab" ], // For formatting
                                 dayNamesMin: [ "Do","Lu","Ma","Mi","Ju","Vi","Sa" ],
@@ -231,6 +231,7 @@
                                           <input type="hidden" name="sala"  value="'+sala+'"/>\
                                           <input type="hidden" name="dia" id="dia" value="'+end._d+'"/>\
                                           <input type="hidden" name="folio" id="folio" value="'+data.folio+'"/>\
+                                          <input type="hidden" name="capitulo" id="capitulo" value="'+data.capitulo+'"/>\
                                           <label> Actor: &nbsp;</label>\
                                           <select class="form-control actor" name="actor" id="actor" required>\
                                           <option value="">Selecccionar</option>\
@@ -253,9 +254,9 @@
                                           <input type="number" min="1" name="loops" class="form-control" required>\
                                           <hr>\
                                           Hora de Entrada:\
-                                          <input type="time" name="entrada" id="entrada" value="01:00" class="entrada" required> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
+                                          <input type="time" name="entrada" id="entrada" data-entrada="" value="08:00" class="entrada" required> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
                                           Hora de Salida:\
-                                          <input type="time" name="salida" id="salida" value="00:00" class="salida" required>\
+                                          <input type="time" name="salida" id="salida" data-salida="" value="08:01" class="salida" required>\
                                           <br><br><label>\
                                           <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario\
                                           </label>\
@@ -272,6 +273,52 @@
                                   </div>';
 
                                   var modal = $(modal).appendTo('body');
+                                  //Asignar hora y minutos
+                                    var d = new Date();
+                                    var h = d.getHours();
+                                    var m = d.getMinutes();
+                                    var tiempo = {'1':'01', '2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08', '9':'09' , '10':'10', '11':'11', '12':'12', '13':'13', '14':'14', '15':'15', '16':'16', '17':'17', '18':'18', '19':'19', '20':'20', '21':'21', '22':'22', '23':'23', '24':'24', '25':'25', '26':'26', '27':'27', '28':'28', '29':'29' , '30':'30', '31':'31', '32':'32', '33':'33', '34':'34', '35':'35', '36':'36', '37':'37', '38':'38', '39':'39' , '40':'40', '41':'41', '42':'42', '43':'43', '44':'44', '45':'45', '46':'46', '47':'47', '48':'48', '49':'49', '50':'50', '51':'51', '52':'52', '53':'53', '54':'54', '55':'55', '56':'56', '57':'57', '58':'58', '59':'59' , '0':'00', '00':'00'};
+                                                                       
+                                    $('#entrada, #salida').val(tiempo[h]+':'+tiempo[m]);
+                                    var dia = end._d;
+                                    dia = dia.toString();
+                                    var hoy = dia.split(" ");
+
+                                  //Cambia el horario de salida para que no sea menor al de entrada
+                                  $('.entrada').on('change', function(){
+                                    var entrada = $(this).val();
+                                    var newEntrada = toDate(entrada,"h:m");
+                                    var newHoraActual = toDate(tiempo[h]+':'+tiempo[m],"h:m");
+                                    if(newEntrada < newHoraActual && hoy[2] == d.getDate()){
+                                      alert('Horario no disponible');
+                                      $(this).val(tiempo[h]+':'+tiempo[m]);
+                                    }
+
+                                    $('#salida').val(tiempo[h]+':'+tiempo[m]);
+                                  });
+                                  //Verifica que la salida no sea menor al de entrada
+                                  $('.salida').on('change', function(){
+                                    var salida = $(this).val();
+                                    var newSalida = toDate(salida,"h:m");
+
+                                    var entrada = $('#entrada').val();
+                                    var newEntrada = toDate(entrada,"h:m");
+                                    if(newSalida < newEntrada){
+                                      alert('Horario no disponible');
+                                      $(this).val($('#entrada').val());
+                                    }
+                                  });
+
+                                  function toDate(dStr,format) {
+                                    var now = new Date();
+                                    if (format == "h:m") {
+                                      now.setHours(dStr.substr(0,dStr.indexOf(":")));
+                                      now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
+                                      now.setSeconds(0);
+                                      return now;
+                                    }else 
+                                      return "Invalid Format";
+                                  }
                                   modal.find('form').on('submit', function(ev){
                                     ev.preventDefault();
                                     $.ajax({
@@ -279,7 +326,6 @@
                                       type: 'POST',
                                       data: $( this ).serialize(),
                                       success: function(data){
-                                        console.log(data.start);
                                         var inicio = data.start;
                                         var fin = data.end
                                         var start = inicio.split(" ");
@@ -333,16 +379,15 @@
                                   
                                 },
                                 eventClick: function(calEvent, jsEvent, view) {
-                                  console.log(calEvent);
                                   $.ajax({
                                     url: '{{url("mgcalendar/edit-llamado")}}'+'/'+id,
                                     type: 'GET',
                                     success: function(data){
                                       $(".credencial").html('');
                                       $(".credencial").html('<option value="">Seleccionar...</option>');
-                                      for(var i=0;  i < data.credenciales.length; i++ ){
+                                      /*for(var i=0;  i < data.credenciales.length; i++ ){
                                         $(".credencial").append('<option value='+ data.credenciales[i].folio + '>' + data.credenciales[i].folio +'</option>');
-                                      } 
+                                      } */ 
                                     }
                                   });
 
@@ -365,17 +410,54 @@
                                        <div>\
                                      </div>\
                                      <div class="modal-footer">\
-                                      <button type="button" class="btn btn-sm btn-danger" data-action="delete"><i class="ace-icon fa fa-trash-o"></i> Eliminar Evento</button>\
+                                      <button  type="button"  class="btn btn-sm btn-danger btn-eliminar"  data-action="delete"><i class="ace-icon fa fa-trash-o"></i> Eliminar Evento</button>\
                                       <button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> Cancelar</button>\
                                      </div>\
                                     </div>\
                                    </div>\
                                   </div>';
 
+                                  var tiempo = {'1':'01', '2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08', '9':'09', '01':'01', '02':'02', '03':'03', '04':'04', '05':'05', '06':'06', '07':'07', '08':'08', '09':'09', '10':'10', '11':'11', '12':'12', '13':'13', '14':'14', '15':'15', '16':'16', '17':'17', '18':'18', '19':'19', '20':'20', '21':'21', '22':'22', '23':'23', '24':'24', '25':'25', '26':'26', '27':'27', '28':'28', '29':'29' , '30':'30', '31':'31', '32':'32', '33':'33', '34':'34', '35':'35', '36':'36', '37':'37', '38':'38', '39':'39' , '40':'40', '41':'41', '42':'42', '43':'43', '44':'44', '45':'45', '46':'46', '47':'47', '48':'48', '49':'49', '50':'50', '51':'51', '52':'52', '53':'53', '54':'54', '55':'55', '56':'56', '57':'57', '58':'58', '59':'59' , '0':'00', '00':'00'};
+                                
+                                  /*var mes = {"Ene":'01', "Feb":'02', "Mar":'03', "Abr":'04', "May":'05', "Jun":'06', "Jul":'07', "Ago":'08', "Sep":'09', "Oct":'10', "Nov":'11', "Dic":'12'};
+                                  var d = new Date();
+                                  var fechaHoy = d.getFullYear()+'-'+tiempo[d.getMonth()]+'-'+tiempo[d.getDay()]+' '+tiempo[d.getHours()]+':'+tiempo[d.getMinutes()]+':'+tiempo[d.getMinutes()];
+                                  console.log(fechaHoy);*/
 
-                                
-                                
+                                  var eSplit = String(calEvent.cita_start);
+                                  eSplit = eSplit.split(" ");
+                                  var f0Evento = eSplit[0].split('-');
+                                  var f1Evento = eSplit[1].split(':');
+                                  var diaEvento = tiempo[f0Evento[2]];
+                                  var mesEvento = tiempo[f0Evento[1]];
+                                  var anioEvento = f0Evento[0];
+                                  var horaEvento = tiempo[f1Evento[0]];
+                                  var minutosEvento = tiempo[f1Evento[1]];
+                                  var segundosEvento = tiempo[f1Evento[2]];
+                                  var fechaEvento = new Date( anioEvento, mesEvento, diaEvento );
+                                  fechaEvento.setHours(horaEvento, minutosEvento, segundosEvento, 0);
+                                  var utc = new Date();
+                                  var d = new Date().toLocaleString('en-ES', { timeZone: 'America/Mexico_City' }).toString();
+                                  dSplit = d.split(" ");
+                                  var fecha0 = dSplit[0].split('/');
+                                  fecha0[2] = fecha0[2].substr(0,4); 
+                                  var fecha1 = dSplit[1].split(':');
+                                  var diaActual = tiempo[fecha0[1]];
+                                  var mesActual = tiempo[fecha0[0]];
+                                  var anioActual = fecha0[2];
+                                  var horaActual = tiempo[fecha1[0]];
+                                  var minutosActual = tiempo[fecha1[1]];
+                                  var segundosctual = tiempo[fecha1[2]];
+                                  var fechaActual = new Date(anioActual, mesActual, diaActual);
+                                  fechaActual.setHours(horaActual, minutosActual, segundosctual, 0);
+                                  
                                   var modal = $(modal).appendTo('body');
+                                  if( fechaEvento.getTime() <= fechaActual.getTime() ){
+                                    modal.find('.btn-eliminar').css({display:"none"});
+                                  } else {
+                                    modal.find('.btn-eliminar').css({display:"block"});
+                                  }
+                                  
                                   modal.find('form').on('submit', function(ev){
                                     ev.preventDefault();
 

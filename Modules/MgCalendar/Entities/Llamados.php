@@ -26,4 +26,9 @@ class Llamados extends Model
         WHERE  cita_start::text LIKE '%".$date."%' AND sala='".$sala."'"));
 
     }
+
+    public static function EntreFechas($dateInicial, $dateFinal)
+    {
+        return \DB::select(\DB::raw("SELECT * FROM calendario where cita_start BETWEEN '".$dateInicial."' AND '".$dateFinal."' OR cita_end BETWEEN '".$dateInicial."' AND '".$dateFinal."'"));
+    }
 }

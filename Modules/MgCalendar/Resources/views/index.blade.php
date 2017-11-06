@@ -260,8 +260,9 @@
                                           <br><br><label>\
                                           <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario\
                                           </label>\
-                                          <br><label>Descripción</label>\
+                                          <br><label>Personaje</label>\
                                           <textarea name="descripcion" class="form-control"></textarea>\
+                                          <div class="msj-error" ></div>\
                                           <br><br><button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Guardar</button>\
                                        </form>\
                                      </div>\
@@ -342,6 +343,14 @@
                                           },
                                           false // make the event "stick"
                                         );
+                                      },
+                                      error: function(error){
+                                        console.log(error.responseJSON.msg );
+                                          modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">Este horario ya se encuentra ocupado.</div>');
+
+                                          modal.on('click', function(){
+                                            modal.find('.msj-error').html('');
+                                          });
                                       }
                                     });
 
@@ -406,7 +415,7 @@
                                        <h3>Loops: </h3> '+calEvent.loops+'<br>\
                                        <h3>Entrada: </h3> '+calEvent.cita_start+'<br>\
                                        <h3>Salida: </h3> '+calEvent.cita_end+'<br>\
-                                       <h3>Descripción: </h3> '+calEvent.descr+'<br>\
+                                       <h3>Personaje: </h3> '+calEvent.descr+'<br>\
                                        <div>\
                                      </div>\
                                      <div class="modal-footer">\
@@ -530,6 +539,7 @@
             } 
           },
           error: function(error){
+
           }
         });
       });

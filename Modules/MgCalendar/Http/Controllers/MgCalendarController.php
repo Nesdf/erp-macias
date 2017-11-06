@@ -101,6 +101,7 @@ class MgCalendarController extends Controller
     {
         try{
             if($request->method('post') && $request->ajax()){
+
                 
                 $meses = ['Ene'=>'01', 'Feb'=>'02', 'Mar'=>'03','Abr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'8','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dic'=>'12'];
                 $date = explode(' ', $request->input('dia'));
@@ -110,6 +111,17 @@ class MgCalendarController extends Controller
                 $dt = Carbon::now();
                 $cita_entrada = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($hora_entrada[0])->minute($hora_entrada[1])->second(00)->toDateTimeString();
                 $cita_salida = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($hora_salida[0])->minute($hora_salida[1])->second(00)->toDateTimeString(); 
+                //Validar fecha y hora disponible
+                
+                $searchFecha = \Modules\MgCalendar\Entities\Llamados::EntreFechas($cita_entrada, $cita_salida);
+
+                if($request->input('estatus_grupo') != 'on'){
+                    if( count($searchFecha) > 0){
+                        return Response(['msg' => 'error'], 404)->header('Content-Type', 'application/json');
+                    } 
+                }
+                //Termina validación de fecha disponible
+
                 
                 \Modules\MgCalendar\Entities\Llamados::create([      
                     'actor' => $request->input('actor'),
@@ -133,7 +145,7 @@ class MgCalendarController extends Controller
             }
 
         } catch(\Exception $e){
-            return "Error: " . $e;
+            return "Error: " . $e->getMessage();
         }
     }
 

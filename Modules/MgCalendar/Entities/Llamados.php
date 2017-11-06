@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Llamados extends Model
 {
 	protected $table = 'calendario';
-    protected $fillable = ['actor', 'director', 'cita_start', 'cita_end', 'folio', 'descripcion', 'estatus_grupo', 'estatus', 'sala', 'credencial', 'loops', 'created_at', 'updated_at'];
+    protected $fillable = ['actor', 'director', 'cita_start', 'cita_end', 'folio', 'descripcion', 'estatus_grupo', 'estatus', 'sala', 'credencial', 'loops', 'capitulo', 'created_at', 'updated_at'];
 
 
     public static function listaLlamados($sala)
@@ -25,5 +25,10 @@ class Llamados extends Model
         FROM calendario 
         WHERE  cita_start::text LIKE '%".$date."%' AND sala='".$sala."'"));
 
+    }
+
+    public static function EntreFechas($dateInicial, $dateFinal)
+    {
+        return \DB::select(\DB::raw("SELECT * FROM calendario where cita_start BETWEEN '".$dateInicial."' AND '".$dateFinal."' OR cita_end BETWEEN '".$dateInicial."' AND '".$dateFinal."'"));
     }
 }

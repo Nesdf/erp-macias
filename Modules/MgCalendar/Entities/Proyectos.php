@@ -14,7 +14,7 @@ class Proyectos extends Model
         return \DB::table('proyectos')
             ->join('episodios', 'proyectos.id', '=', 'episodios.proyectoId')
             ->whereIn('episodios.folio',  $folios)
-            ->select('proyectos.titulo_original as proyectos', 'episodios.titulo_original as episodios','episodios.folio as folios' )
+            ->select('proyectos.titulo_original as proyectos', 'episodios.titulo_original as episodios','episodios.folio as folios', 'episodios.num_episodio as capitulo' )
             ->get();
     }
 }

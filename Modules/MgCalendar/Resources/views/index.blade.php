@@ -165,6 +165,19 @@
                                   right: 'month,agendaWeek,agendaDay'
 
                                 },
+                                viewRender: function() {
+                                  $(".fc-sun, .fc-mon, .fc-tue, .fc-wed, .fc-thu, .fc-fri, .fc-sat").css("color", "#000");
+                                  $(".fc-sun").css("background-color", "#A9D0F5");
+                                  $(".fc-mon").css("background-color", "#F781BE");
+                                  $(".fc-tue").css("background-color", "#F6CECE");
+                                  $(".fc-wed").css("background-color", "#F5D0A9");                                  
+                                  $(".fc-thu").css("background-color", "#CEE3F6");
+                                  $(".fc-fri").css("background-color", "#F5A9BC");
+                                  $(".fc-sat").css("background-color", "#E0F8E6");
+                                  $("table").css("border-collapse", "collapse");
+                                  $("table, td, tr").css("border", "1px solid #555");
+                                },
+                                
                                 events: llamado(),
                                 eventAfterRender: function(event, element) {
                                   element.find('.fc-content').html(event.descripcion);
@@ -224,6 +237,7 @@
                                      <div class="modal-body">\
                                        <button type="button" class="close" data-dismiss="modal" style="margin-top:-10px;">&times;</button>\
                                        <h2>Crear Llamado</h2>\
+                                       <h4 class="diaColor">Fecha:</h4>\
                                        <form class="no-margin">\
                                           {{ csrf_field() }}\
                                           <input type="hidden" name="proyecto" value="'+proyecto+'"/>\
@@ -275,6 +289,38 @@
                                   </div>';
 
                                   var modal = $(modal).appendTo('body');
+                                  modal.find(function(){
+                                    var dia_ingles = end._d;
+                                    dia_ingles = dia_ingles.toString();
+                                    var dia_semana = dia_ingles.split(" ");
+
+                                    if(dia_semana[0] == 'Sun'){
+                                      $('.diaColor').css("background-color", "#A9D0F5");
+                                    }
+                                    if(dia_semana[0] == 'Mon'){
+                                      $('.diaColor').css("background-color", "#F781BE");
+                                    }
+                                    if(dia_semana[0] == 'Tue'){
+                                      $('.diaColor').css("background-color", "#F6CECE");
+                                    }
+                                    if(dia_semana[0] == 'Wed'){
+                                      $('.diaColor').css("background-color", "#F5D0A9");
+                                    }
+                                    if(dia_semana[0] == 'Thu'){
+                                      $('.diaColor').css("background-color", "#CEE3F6");
+                                    }
+                                    if(dia_semana[0] == 'Fri'){
+                                      $('.diaColor').css("background-color", "#F5A9BC");
+                                    }
+                                    if(dia_semana[0] == 'Sat'){
+                                      $('.diaColor').css("background-color", "#E0F8E6");
+                                    }
+                                    var Days = { "Sun":"Domingo", "Mon":"Lunes", "Tue":"Martes", "Wed":"Miércoles", "Thu":"Jueves", "Fri":"Viernes", "Sat":"Sábado" };
+
+                                    $('.diaColor').css({"font-size": "15px", "padding": "5px", "text-align": "center"}).html(Days[dia_semana[0]]+' '+dia_semana[2]+' de '+ dia_semana[3]);
+                                    
+                                    console.log(end);
+                                  });
                                   //Asignar hora y minutos
                                     var d = new Date();
                                     var h = d.getHours();
@@ -288,7 +334,7 @@
 
                                     $('#fecha').val($('#data_episodios').val())
 
-                                    $('#data_episodios').v
+                                    //$('#data_episodios').v
 
                                   //Cambia el horario de salida para que no sea menor al de entrada
                                   $('.entrada').on('change', function(){

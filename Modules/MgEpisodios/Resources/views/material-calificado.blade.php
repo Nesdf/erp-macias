@@ -243,9 +243,7 @@
 							<div class="form-group">
 								<label for="tipo_reporte">Tipo de reporte</label><br>
 								<select id="tipo_reporte" name="tipo_reporte" multiple="multiple" >
-									@foreach($reportes as $reporte)
-										<option value="{{$reporte->tipo}}">{{$reporte->tipo}}</option>
-									@endforeach
+									
 								</select>
 								<input type="hidden" name="reporte" id="reporte" value="">
 							</div>

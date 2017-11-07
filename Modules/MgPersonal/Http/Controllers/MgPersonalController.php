@@ -66,11 +66,11 @@ class MgPersonalController extends Controller
 				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 			} else {
 				\Modules\MgPersonal\Entities\User::create([					
-					'ap_paterno' => ucwords( $request->input('ap_paterno') ),
-					'ap_materno' => ucwords( $request->input('ap_materno') ),
+					'ap_paterno' => ucwords( strtolower($request->input('ap_paterno')) ),
+					'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
 					'password' => Hash::make( $request->input('password') ),
 					'email' => strtolower( $request->input('correo') ),
-					'name' => ucwords( $request->input('nombre') ),
+					'name' => ucwords( strtolower($request->input('nombre')) ),
 					'job' => $request->input('puesto')
 				]);
 				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_personal'));
@@ -133,10 +133,10 @@ class MgPersonalController extends Controller
 			} else {
 
 				$data = array(
-					'ap_paterno' => ucwords( $request->input('ap_paterno') ),
-					'ap_materno' => ucwords( $request->input('ap_materno') ),
+					'ap_paterno' => ucwords( strtolower($request->input('ap_paterno')) ),
+					'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
 					'email' => strtolower( $request->input('correo') ),
-					'name' => ucwords( $request->input('nombre') ),
+					'name' => ucwords( strtolower($request->input('nombre')) ),
 					'job' => $request->input('puesto')
 				);
 

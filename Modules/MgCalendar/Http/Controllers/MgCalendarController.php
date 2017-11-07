@@ -206,9 +206,11 @@ class MgCalendarController extends Controller
                     # code...
                     $allFolios[] = $value->folio;
                 }
+                $listFecha = explode('-', $request->input('fecha'));
+                $fecha = $listFecha[2].'-'.$listFecha[1].'-'.$listFecha[0]; 
                 $proyectos = \Modules\MgCalendar\Entities\Proyectos::allProyects($allFolios);
                 
-                $pdf = \PDF::loadView('mgcalendar::list-llamados-pdf', compact('explode_data', 'array_multiselect', 'proyectos'))->setPaper('a4', 'landscape');
+                $pdf = \PDF::loadView('mgcalendar::list-llamados-pdf', compact('explode_data', 'array_multiselect', 'proyectos', 'fecha'))->setPaper('a4', 'landscape');
                 return $pdf->stream('exito');
             }
 

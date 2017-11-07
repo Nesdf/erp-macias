@@ -129,11 +129,7 @@
 				    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
 				    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
 				    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-				});
-
-			
-				
-                
+				});      
 
 			$('#form_search').on('submit', function(event){
 				event.preventDefault();
@@ -146,8 +142,8 @@
                   success: function(data){
 
                   	$('#list-table').html('<br><br>\
-                  		<div class="col-md-12"><table class=" table table-condensed">\
-                  		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>EPISODIO</td><td>NÚMERO DE EPISODIO</td></tr></tbody>\
+                  		<div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
+                  		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>NÚMERO DE EPISODIO</td></tr></tbody>\
                   		<tbody>'+proyectos(data)+'</tbody>\
                   		</table></div>\
                   		<table id="table_actores" \
@@ -290,7 +286,6 @@
       		for(var i=0; i<data.proyectos.length; i++){
       			list_proyectos += "<tr>";
       			list_proyectos += "<td>"+data.proyectos[i].proyectos+"</td>";
-      			list_proyectos += "<td>"+data.proyectos[i].episodios+"</td>";
       			list_proyectos += "<td>"+data.proyectos[i].capitulo+"</td>";
       			list_proyectos += "</tr>";
       		}

@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
 		DB::table('users')->insert([
-			'name' => 'Loreana',
+			'name' => 'Lorena',
 			'ap_paterno' => 'Mejia',
 			'ap_materno' => 'Escamilla',
 			'password' => \Hash::make( '123456' ),

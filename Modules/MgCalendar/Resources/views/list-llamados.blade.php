@@ -147,7 +147,7 @@
 
                   	$('#list-table').html('<br><br>\
                   		<div class="col-md-12"><table class=" table table-condensed">\
-                  		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>EPISODIO</td><td>FOLIO</td></tr></tbody>\
+                  		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>EPISODIO</td><td>NÚMERO DE EPISODIO</td></tr></tbody>\
                   		<tbody>'+proyectos(data)+'</tbody>\
                   		</table></div>\
                   		<table id="table_actores" \

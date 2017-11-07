@@ -269,9 +269,9 @@
                                           <input type="number" min="1" name="loops" class="form-control" required>\
                                           <hr>\
                                           Hora de Entrada:\
-                                          <input type="time" name="entrada" id="entrada" data-entrada="" value="08:00" class="entrada" required> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
+                                          <input type="text" name="entrada" id="entrada" data-entrada="" class="entrada form-control" required>\
                                           Hora de Salida:\
-                                          <input type="time" name="salida" id="salida" data-salida="" value="08:01" class="salida" required>\
+                                          <input type="time" name="salida" id="salida" data-salida=""  class="salida form-control" required>\
                                           <br><br><label>\
                                           <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario\
                                           </label>\
@@ -318,8 +318,6 @@
                                     var Days = { "Sun":"Domingo", "Mon":"Lunes", "Tue":"Martes", "Wed":"Miércoles", "Thu":"Jueves", "Fri":"Viernes", "Sat":"Sábado" };
 
                                     $('.diaColor').css({"font-size": "15px", "padding": "5px", "text-align": "center"}).html(Days[dia_semana[0]]+' '+dia_semana[2]+' de '+ dia_semana[3]);
-                                    
-                                    console.log(end);
                                   });
                                   //Asignar hora y minutos
                                     var d = new Date();
@@ -327,6 +325,20 @@
                                     var m = d.getMinutes();
                                     var tiempo = {'1':'01', '2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08', '9':'09' , '10':'10', '11':'11', '12':'12', '13':'13', '14':'14', '15':'15', '16':'16', '17':'17', '18':'18', '19':'19', '20':'20', '21':'21', '22':'22', '23':'23', '24':'24', '25':'25', '26':'26', '27':'27', '28':'28', '29':'29' , '30':'30', '31':'31', '32':'32', '33':'33', '34':'34', '35':'35', '36':'36', '37':'37', '38':'38', '39':'39' , '40':'40', '41':'41', '42':'42', '43':'43', '44':'44', '45':'45', '46':'46', '47':'47', '48':'48', '49':'49', '50':'50', '51':'51', '52':'52', '53':'53', '54':'54', '55':'55', '56':'56', '57':'57', '58':'58', '59':'59' , '0':'00', '00':'00'};
                                                                        
+                                    $('.entrada').timepicker({
+                                      timeOnlyTitle: 'Hora de Entrada',
+                                      showSecond: false,
+                                      showMillisec: false,
+                                      showMicrosec: false,
+                                      showTimezone: false
+                                    });
+                                    $('.salida').timepicker({
+                                      timeOnlyTitle: 'Hora de Salida',
+                                      showSecond: false,
+                                      showMillisec: false,
+                                      showMicrosec: false,
+                                      showTimezone: false
+                                    });
                                     $('#entrada, #salida').val(tiempo[h]+':'+tiempo[m]);
                                     var dia = end._d;
                                     dia = dia.toString();

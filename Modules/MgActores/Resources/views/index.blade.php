@@ -191,12 +191,15 @@
 		        }
 			});
 		
+		$('#modal_save_artista').on('shown.bs.modal', function () {
+		  $('.input_folios').html('');
+		});
 
 		var conteo = 0;
 
 		$('#add_folio').on('click', function(){
 			conteo++;
-			var h = $('.input_folios').append('<div id="div'+conteo+'"  ><label>Folio '+conteo+'</label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar"> eliminar</a> <input type="text" name="folio'+conteo+'" class="form-control" required></div>');
+			var h = $('.input_folios').append('<div id="div'+conteo+'"  ><label>Folio </label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar"> eliminar</a> <input type="text" name="folio'+conteo+'" class="form-control" required></div>');
 
 			$('.eliminar').on('click', function(){
 
@@ -238,17 +241,17 @@
 					$('#nombre_completo_update').val(data.actor.nombre_completo);
 					$('#nombre_artistico_update').val(data.actor.nombre_artistico);
 						var conteo = 0;
-
+						var h = $('.input_folios').html('');
 						var add='';
 							for(var i=0; i<data.credenciales.length; i++){
 								conteo++;
-								add += '<div id="div'+conteo+'"  ><label>Folio '+conteo+'</label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar" data-id="'+data.credenciales[i].id+'"> eliminar</a> <input type="text"  class="form-control" value="'+data.credenciales[i].folio+'" disabled required></div>';
+								add += '<div id="div'+conteo+'"  ><label>Folio </label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar" data-id="'+data.credenciales[i].id+'"> eliminar</a> <input type="text"  class="form-control" value="'+data.credenciales[i].folio+'" disabled required></div>';
 							}
-						var h = $('.input_folios').append(add);
+						h = $('.input_folios').append(add);
 						$('#add_folio_update').on('click', function(){
 
 								conteo++;
-							    h = $('.input_folios').append('<div id="div'+conteo+'"  ><label>Folio '+conteo+'</label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar"> eliminar</a> <input type="text" name="folio'+conteo+'" class="form-control" required></div>');
+							    h = $('.input_folios').append('<div id="div'+conteo+'"  ><label>Folio </label><a href="javascript:void(0)" id="'+conteo+'" style="color:red;"  class="eliminar"> eliminar</a> <input type="text" name="folio'+conteo+'" class="form-control" required></div>');
 						});
 
 						$('.eliminar').on('click', function(){
@@ -281,6 +284,7 @@
 				data: $( this ).serialize(),
 				success: function( data ){
 					if(data.msg == 'success'){
+						//$('.input_folios').html('');
 						window.location.reload(true);
 					}
 				},

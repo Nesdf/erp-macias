@@ -17,13 +17,14 @@
 		th {
 			background: #CCC;
 		}
-		h3 {
+		h3, .centrado {
 			text-align: center;
 		}
 		img{
 			width: 150px;
 			padding-bottom: 20px;
 		}
+
 	</style>
 </head>
 <body>
@@ -32,19 +33,16 @@
 	<h3 >Macias Group</h3>
 	<div class="logo"></div>
 	<img src="http://vignette2.wikia.nocookie.net/doblaje/images/5/57/Macias_group_logo.jpg/revision/latest?cb=20121231084422&path-prefix=es" sty>
+		<h2 class="centrado">Fecha: {{ $fecha }}</h2>
 	<table class="table">
 		<tr>
 			<th>PROYECTO</th>
-			<th>EPISODIO</th>
-			<th>CAPÍTULO</th>
+			<th>NÚMERO DE EPISODIO</th>
 		</tr>
 		@foreach($proyectos as $proyecto)
 			<tr>
 				<td>
 					{{ $proyecto->proyectos }}
-				</td>
-				<td>
-					{{ $proyecto->episodios }}
 				</td>
 				<td>
 					{{ $proyecto->capitulo }}

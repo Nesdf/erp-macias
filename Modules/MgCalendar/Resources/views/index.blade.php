@@ -232,6 +232,7 @@
                                           <input type="hidden" name="dia" id="dia" value="'+end._d+'"/>\
                                           <input type="hidden" name="folio" id="folio" value="'+data.folio+'"/>\
                                           <input type="hidden" name="capitulo" id="capitulo" value="'+data.capitulo+'"/>\
+                                          <input type="hidden" name="fecha" id="fecha" />\
                                           <label> Actor: &nbsp;</label>\
                                           <select class="form-control actor" name="actor" id="actor" required>\
                                           <option value="">Selecccionar</option>\
@@ -284,6 +285,10 @@
                                     var dia = end._d;
                                     dia = dia.toString();
                                     var hoy = dia.split(" ");
+
+                                    $('#fecha').val($('#data_episodios').val())
+
+                                    $('#data_episodios').v
 
                                   //Cambia el horario de salida para que no sea menor al de entrada
                                   $('.entrada').on('change', function(){

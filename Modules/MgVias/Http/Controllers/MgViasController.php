@@ -34,30 +34,34 @@ class MgViasController extends Controller
      */
     public function store(Request $request)
     {
-		if( $request->method('post') && $request->ajax() ){
-			
-			$rules = [
-				'via' => 'required|min:2|max:50'				
-			];
-			
-			$messages = [
-				'via.required' => trans('mgvias::ui.display.error_required', ['attribute' => trans('mgvias::ui.attribute.via')]),
-				'via.min' => trans('mgvias::ui.display.error_min2', ['attribute' => trans('mgvias::ui.attribute.via')]),
-				'via.max' => trans('mgvias::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.via')])
-			]; 
-			
-			$validator = \Validator::make($request->all(), $rules, $messages);			
-			
-			if ( $validator->fails() ) {
-				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-			} else {
-				\Modules\MgVias\Entities\Vias::create([					
-					'via' => ucwords( $request->input('via') )
-				]);
-				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_peronal'));
-				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-			}
-		}	
+		try{
+            if( $request->method('post') && $request->ajax() ){
+            
+                $rules = [
+                    'via' => 'required|min:2|max:50'                
+                ];
+                
+                $messages = [
+                    'via.required' => trans('mgvias::ui.display.error_required', ['attribute' => trans('mgvias::ui.attribute.via')]),
+                    'via.min' => trans('mgvias::ui.display.error_min2', ['attribute' => trans('mgvias::ui.attribute.via')]),
+                    'via.max' => trans('mgvias::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.via')])
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else {
+                    \Modules\MgVias\Entities\Vias::create([                 
+                        'via' => ucwords( $request->input('via') )
+                    ]);
+                    $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_peronal'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
+            } catch(\Exception $e){
+                return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+            }
+        }	
     }
 
     /**
@@ -119,7 +123,7 @@ class MgViasController extends Controller
     public function destroy($id)
     {
 		\Modules\MgVias\Entities\Vias::destroy($id);
-		\Request::session()->flash('message', trans('mgvias::ui.flash.flash_delete_via'));
+		//\Request::session()->flash('message', trans('mgvias::ui.flash.flash_delete_via'));
 		return redirect('mgvias');
     }
 }

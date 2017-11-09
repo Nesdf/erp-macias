@@ -126,7 +126,7 @@
 								</table>
 							</div>
 						</div>
-						 <table id="table-cm" 	>
+						 <table id="table-cm" class="cell-border" 	>
 						 	<thead>
 					 			<tr>
 					 				<th>Fecha</th>
@@ -148,7 +148,7 @@
 						 				@endif
 						 			@endforeach
 				 					@if($num > 1)
-					 					<tr style="background: rgba(255, 117, 020, 0.4);">
+					 					<tr style="background: rgba(255, 117, 020, 0.4); ">
 							 				<td>{{$timecode->fecha}}</td>
 							 				<td>{{$timecode->timecode}}</td>
 							 				<td>{{$timecode->observaciones}}</td>
@@ -200,11 +200,15 @@
 								<input type="hidden" name="id_episodio" value="{{$id_episodio}}">
 								<input type="hidden" name="id_proyecto" value="{{$id_proyecto}}">
 								<label>Time Code</label>
-								<input type="text" id="timecode" name="timecode" class="form-control" required="true">
+								<input type="text" id="timecode" name="timecode" class="form-control" required="true" placeholder="00:00:00:00">
 							</div>
 							<div class="form-group">
 								<label>Observaciones</label>
-								<textarea name="observaciones" class="form-control" required="true"></textarea>
+								<select name="observaciones" class="form-control" required>
+									@foreach($observaciones as $observacion)
+										<option value="{{ $observacion->timecode }}">{{ $observacion->timecode }}</option>
+									@endforeach
+								</select>
 							</div>
 						
 						 <div class="modal-footer">

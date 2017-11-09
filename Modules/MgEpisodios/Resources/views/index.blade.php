@@ -151,7 +151,7 @@
 														<i class="ace-icon fa fa-tv bigger-120"></i>
 											</a>
 											@if(\Request::session()->has('show_episodio'))
-												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_ver_episodio" class="btn btn-xs btn-warning show_id" title="Editar">
+												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_ver_episodio" class="btn btn-xs btn-warning show_id" title="Consultar">
 													<i class="ace-icon fa fa-book bigger-120"></i>
 												</a>
 											@endif
@@ -798,7 +798,7 @@
 						$('#productor_show').html(data.msg[0].productor + ' '+ data.msg[0].productor_ap_paterno + ' ' + data.msg[0].productor_ap_materno);
 						$('#date_m_and_e_show').html(data.msg[0].date_m_and_e);
 						$('#sala_show').html(data.msg[0].salaId);
-						('#folio_show').html(data.msg[0].folio);
+						$('#folio_show').html(data.msg[0].folio);
 						$('#fecha_entrega_show').html("<span class='label label-"+ data.status_entrega + " '> " + data.msg[0].date_entrega + "</span>");
 						$('#alerta_fecha').html("<div class='alert alert-" + data.status_entrega + "'> <h2>Fecha de entrega:  "+ data.msg[0].date_entrega +"</h2></div>");
 						//$('#configuracion_show').html();

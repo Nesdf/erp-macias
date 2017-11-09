@@ -205,6 +205,7 @@
 							<div class="form-group">
 								<label>Observaciones</label>
 								<select name="observaciones" class="form-control" required>
+									<option value="">Seleccionar...</option>
 									@foreach($observaciones as $observacion)
 										<option value="{{ $observacion->timecode }}">{{ $observacion->timecode }}</option>
 									@endforeach

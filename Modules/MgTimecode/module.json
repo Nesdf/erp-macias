@@ -1,0 +1,16 @@
+{
+    "name": "MgTimecode",
+    "alias": "mgtimecode",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgTimecode\\Providers\\MgTimecodeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

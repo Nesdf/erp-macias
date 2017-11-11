@@ -125,7 +125,7 @@
 										@if(\Request::session()->has('add_calificar_material'))
 											<td>
 												@if( $episodio->material_calificado != true )
-													<a href="#" title="Calificar Episodio" data-toggle="modal" data-target="#modal_save_masterial_calificado">
+													<a href="#" title="Calificar Episodio" data-toggle="modal" data-target="#modal_calificar_material" data-id="{{ $episodio->id }}">
 														<span class="label label-danger arrowed-in arrowed-in-right"> Sin Calificar </span>
 													</a>
 												@else
@@ -145,7 +145,7 @@
 											<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Traductor">
 														<i class="glyphicon glyphicon-indent-right"></i>
 											</a>
-											<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning edit_configuracion" title="Configuracion">
+											<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning " title="Configuracion">
 														<i class="ace-icon fa fa-tv bigger-120"></i>
 											</a>
 											@if(\Request::session()->has('show_episodio'))
@@ -193,9 +193,8 @@
 					{{ csrf_field() }}		
 				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 				<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Productor</label>
-					<select class="form-control" id="productor" name="productor">
-						<option value="">Seleccionar</option>
+					<label>Seleccionar Productor</label>
+					<select class="form-control selectpicker" id="productor" name="productor" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 						@if(count($productores) > 0)
 							@foreach($productores as $productor)
 								<option value="{{ $productor->id }} "> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
@@ -204,9 +203,8 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Responsable</label>
-					<select class="form-control" id="responsable" name="responsable">
-						<option value="">Seleccionar</option>
+					<label>Seleccionar Responsable</label>
+					<select class="form-control selectpicker" id="responsable" name="responsable" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 						@if(count($responsables) > 0)
 							@foreach($responsables as $responsable)
 								<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
@@ -544,13 +542,13 @@
 
 	<!-- Calificar material del episodio Crear-->
 	<div class="col-md-12">
-		<div class="modal fade" id="modal_save_masterial_calificado" data-name="modal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal fade" id="modal_calificar_material" data-name="modal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">
 				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
 				<h4 class="modal-title" id="t_header">Calificar Material</h4>
-				<div id="error_create_episodio"></div>
+				<div id="error_create_calificar_material"></div>
 			  </div>
 			  <form role="form" id="form_create_calificar_material">
 				  <div class="modal-body">
@@ -558,7 +556,7 @@
 
 					<div class="form-group">
 					@if( !empty($episodio->id) )
-					<input type="hidden" name="id_episodio" value="{{ $episodio->id }}">
+					<input type="hidden" name="id" id="episodioId">
 						<input type="text" class="form-control" id="correo_activo"  name="correo_activo" readonly="true" value="{{ Auth::user()->email }}">
 					</div>
 					@endif
@@ -577,8 +575,7 @@
 					</div>
 					<div class="form-group">
 						<label for="mezcla">Mezcla</label>
-						<select name="mezcla" class="form-control">
-							<option>Seleccionar ...</option>
+						<select name="mezcla" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							<option value="Mono">Mono</option>
 							<option value="Stereo">Stereo</option>
 							<option value="5.1">5.1</option>
@@ -587,8 +584,7 @@
 					</div>
 					<div class="form-group">
 						<label for="tipo_reporte">Tcr</label>
-						<select class="form-control" name="tcr">
-							<option>Seleccionar TCR...</option>
+						<select class="form-control selectpicker" name="tcr" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							@foreach($tcrs as $tcr)
 								<option value="{{$tcr->id}}">{{$tcr->tcr}}</option>
 							@endforeach
@@ -792,10 +788,10 @@
 				});
 			});
 
-			$('.edit_configuracion').on('click', function(){
+			/*$('.edit_configuracion').on('click', function(){
 				id = $( this ).data('id');
 				$.ajax({
-					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
+					url: "{{-- url('mgepisodios/edit') --}}" + "/" + id,
 					type: "GET",
 					success: function( data ){
 						$('#id_update').val(data.id);
@@ -823,12 +819,12 @@
 						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
 					}
 				});
-			 });
+			 });*/
 
-			$('#form_update_configuracion').on('submit', function(event){
+			/*$('#form_update_configuracion').on('submit', function(event){
 				event.preventDefault();
 				$.ajax({
-					url: "{{ url('mgepisodios/update-configuracion') }}",
+					url: "{{-- url('mgepisodios/update-configuracion') --}}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
@@ -844,28 +840,81 @@
 						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
 					}
 				});
-			});
+			});*/
 
-			$('#form_create_calificar_material').on('submit', function(event){
-				event.preventDefault();
+			/*
+			* Modal para actualizar la configuración 
+			* BW, NetCut, LockCut y Final
+			*/
+			$('#modal_update_configuracion').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+
 				$.ajax({
-					url: "{{ url('mgepisodios/calificar_material') }}",
-					type: "POST",
-					data: $( this ).serialize(),
+					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
+					type: "GET",
 					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
+						
+						//BW
+						if(data.bw == true){
+							$('#bw_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('#bw_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'bw');
 						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
+
+						//LOCKOUT
+						if(data.lockcut == true){
+							$('#lockcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('#lockcut_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'lockcut');
 						}
-						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
+
+						//NETCUT
+						if(data.netcut == true){
+							$('#netcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('#netcut_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'netcut');
+						}
+
+						//FINAL
+						if(data.final == true){
+							$('#final_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('#final_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'FINAL');
+						}
 					}
 				});
 			});
+
+			/*
+			* Modal para calificar Material
+			*/
+			$('#modal_calificar_material').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+				$('#episodioId').val(id);
+
+				$('#form_create_calificar_material').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgepisodios/calificar_material') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_calificar_material').html('<div class="alert alert-danger">' + err + '</div>');
+						}
+					});
+				});
+			});
+
+			
 			$('.show_id').on('click', function(){
 				 id = $( this ).data('id');				
 				$.ajax({
@@ -884,7 +933,6 @@
 						$('#fecha_entrega_show').html("<span class='label label-"+ data.status_entrega + " '> " + data.msg[0].date_entrega + "</span>");
 						$('#alerta_fecha').html("<div class='alert alert-" + data.status_entrega + "'> <h2>Fecha de entrega:  "+ data.msg[0].date_entrega +"</h2></div>");
 						//$('#configuracion_show').html();
-
 						
 						
 					}

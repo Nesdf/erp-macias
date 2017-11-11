@@ -204,8 +204,7 @@
 							</div>
 							<div class="form-group">
 								<label>Observaciones</label>
-								<select name="observaciones" class="form-control" required>
-									<option value="">Seleccionar...</option>
+								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 									@foreach($observaciones as $observacion)
 										<option value="{{ $observacion->timecode }}">{{ $observacion->timecode }}</option>
 									@endforeach

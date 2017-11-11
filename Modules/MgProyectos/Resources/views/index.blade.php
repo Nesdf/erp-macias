@@ -116,8 +116,7 @@
 					{{ csrf_field() }}
 					<div class="form-group">
 						<label for="exampleInputEmail1">Cliente</label>
-						<select class="form-control" id="cliente" name="cliente">
-							<option select value="">Seleccionar</option>
+						<select class="form-control selectpicker" id="cliente" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							@foreach($clientes as $cliente)
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>
 							@endforeach
@@ -142,9 +141,8 @@
 						<input type="text" class="form-control" id="titulo_proyecto" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
 					</div>	
 					<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Vía</label>
-					<select class="form-control" id="via" name="via">
-						<option value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
+					<label for="exampleInputEmail1">Vía</label>
+					<select class="form-control selectpicker" id="via" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 						@foreach($vias as $via)
 							<option value="{{ $via->id }}"> {{ $via->via }} </option>
 						@endforeach
@@ -321,7 +319,7 @@
 					<input type="hidden" id="id_update" name="id">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Selecciona un Cliente</label>
-						<select class="form-control" id="cliente_update" name="cliente">
+						<select class="form-control" id="cliente_update" name="cliente" >
 							<option select value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
 							@foreach($clientes as $cliente)
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>

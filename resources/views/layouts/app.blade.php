@@ -205,13 +205,11 @@
 									@endif
 								</li>
 								<li class="">
-									@if(\Request::session()->has('mgtimecode'))
-										<a href="{{ url('mgtimmecode') }}">
+										<a href="{{ url('mgtimecode') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
 											Descripción de Timecode
 										</a>
 										<b class="arrow"></b>
-									@endif
 								</li>
 								<li class="">
 									

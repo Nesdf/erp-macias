@@ -35,42 +35,48 @@ class MgCalificarMaterialController extends Controller
     public function store(Request $request)
     {
         if( $request->method('post') && $request->ajax() ){
-            $rules = [
-                'duracion' => 'required|min:2|max:50',
-                'tcr' => 'required'
-            ];
-            
-            $messages = [
-                'duracion.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.duracion')]),
-                'tcr.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.tcr')])
-            ]; 
-            
-            $validator = \Validator::make($request->all(), $rules, $messages);          
-            
-            if ( $validator->fails() ) {
-                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-        } else {
-            $id = $request->input('id_episodio');
-            $calificacion = \Modules\MgEpisodios\Entities\MaterialCalificado::create([      
-                'correo_activo' => Auth::user()->email,
-                'duracion' => $request->input('duracion'),
-                'tipo_reporte' => $request->input('reporte'),
-                'mezcla' => $request->input('mezcla'),
-                'tcr' => $request->input('tcr'),
-                'id_episodio' => $request->input('id_episodio'),
-                'descripcion' => $request->input('observaciones')
-            ]);
 
-            if( $calificacion ){
-                \Modules\MgEpisodios\Entities\Episodios::where( 'id',  $id)
-                    ->update([  
-                        'material_calificado' => true 
+            try{
+
+                $rules = [
+                    'duracion' => 'required|min:2|max:50',
+                    'tcr' => 'required'
+                ];
+                
+                $messages = [
+                    'duracion.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.duracion')]),
+                    'tcr.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.tcr')])
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else {
+                    $id = $request->input('id');
+                    $calificacion = \Modules\MgEpisodios\Entities\MaterialCalificado::create([      
+                        'correo_activo' => Auth::user()->email,
+                        'duracion' => $request->input('duracion'),
+                        'tipo_reporte' => $request->input('reporte'),
+                        'mezcla' => $request->input('mezcla'),
+                        'tcr' => $request->input('tcr'),
+                        'id_episodio' => $id,
+                        'descripcion' => $request->input('observaciones')
                     ]);
-            }
 
-            $request->session()->flash('message', trans('mgepisodio::ui.flash.flash_create_cliente'));
-            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-        }
+                    if( $calificacion ){
+                        \Modules\MgEpisodios\Entities\Episodios::where( 'id',  $id)
+                            ->update([  
+                                'material_calificado' => true 
+                            ]);
+                    }
+
+                    $request->session()->flash('message', trans('mgepisodio::ui.flash.flash_create_cliente'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
+            } catch(\Exception $e){
+                return Response(['error' => $e.getMessage()], 400)->header('Content-Type', 'application/json');
+            }
 
         }
     }

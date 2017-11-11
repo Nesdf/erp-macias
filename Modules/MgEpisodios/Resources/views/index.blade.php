@@ -93,15 +93,7 @@
 											@endphp
 											{{$max}}
 										</td>
-										<td>
-											@if( $episodio->status_coordinador == true)
-												{{ $episodio->num_episodio }}
-											@else
-												<a href="" data-toggle="modal" data-target="#modal_coordinador" data-id="{{ $episodio->id }}" class="coordinador" title="Coordinador">{{ $episodio->num_episodio }}
-													</a>
-											@endif
-											<a href="" data-toggle="modal" data-target="#modal_update_" data-id="{{ $episodio->id }} class="num_episodio"></a>
-										</td>
+										<td> {{ $episodio->num_episodio }} </td>
 										@if(\Request::session()->has('show_fecha_entrega'))
 											<td>
 												@php
@@ -147,6 +139,12 @@
 											</td>
 										@endif
 										<td>
+											<a data-toggle="modal" data-target="#modal_create_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Productor">
+														<i class="glyphicon glyphicon-film "></i>
+											</a>
+											<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Traductor">
+														<i class="glyphicon glyphicon-indent-right"></i>
+											</a>
 											<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning edit_configuracion" title="Configuracion">
 														<i class="ace-icon fa fa-tv bigger-120"></i>
 											</a>
@@ -259,7 +257,91 @@
 		</div>
 	</div>
 
-	<!-- Modal Configuración Update-->
+	<!-- Agregar Productor -->
+		<div class="modal fade" id="modal_create_productor" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+				<h4 class="modal-title" id="t_header">Asignar Productor</h4>
+				<div id="error_agregar_productor"></div>
+			  </div>
+			  <form role="form" id="form_agregar_productor">
+			  <div class="modal-body">
+					<div class="modal-body">
+					{{ csrf_field() }}
+				<input type="hidden" name="id" id="id">		
+				<label>Sala</label>
+				<select name="sala" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+					@foreach($salas as $sala)
+						<option value="{{ $sala->id }}">{{ $sala->sala }}</option>
+					@endforeach
+				</select>
+				<label>Director</label>
+				<select name="director" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+					@foreach($directores as $director)
+						<option value="{{ $director->id }}">{{ $director->name }} {{ $director->ap_paterno }} {{ $director->ap_materno }}</option>
+					@endforeach
+				</select>
+				<label>Fecha Doblaje</label>
+				<input type="" name="fecha_doblaje" id="fecha_doblaje" class="form-control" required>
+				<br>
+				<div id="add_date_script"></div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+				<button type="submit" class="btn btn-primary">Guardar</button>
+			  </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
+		<!-- Agregar Traductor -->
+		<div class="modal fade" id="modal_create_traductor" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+				<h4 class="modal-title" id="t_header">Asignar Traductor</h4>
+				<div id="error_agregar_traductor"></div>
+			  </div>
+			  <form role="form" id="form_agregar_traductor">
+				  <div class="modal-body">
+						<div class="modal-body">
+						{{ csrf_field() }}
+					<input type="hidden" name="id" id="id_episodio">		
+					<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
+					<label>Traductor</label>
+					<select name="traductor" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+						@foreach($traductores as $traductor)
+							<option value="{{ $traductor->id }}">{{ $traductor->ap_paterno}} {{ $traductor->name }} @if($traductor->name) {{ $traductor->ap_materno }} @endif</option>
+						@endforeach
+					</select>
+					<label>Fecha de entrega del traductor</label>
+					<input type="text" name="fecha_entrega_traductor" id="fecha_entrega_traductor" class="form-control" required>
+					<label>
+					<input type="checkbox" name="aprobacion_cliente" id="aprobacion_cliente" > Aprobación del cliente
+					</label><br>
+					<div id="input_aprobacion_cliente"></div>
+					<label>
+					<input type="checkbox" name="sin_script" id="sin_script" > Sin script
+					</label><br>
+					<label>
+					<input type="checkbox" name="rayado" id="rayado" > Rayado
+					</label><br>
+					<div id="input_rayado"></div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+					<button type="submit" class="btn btn-primary">Guardar</button>
+				  </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
+	<!-- Modal Configuración Update Eliminar Modal-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_update_configuracion" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -809,8 +891,138 @@
 				});
 			 });
 
+			//Ventana modal par asignar Productor
+			$('#modal_create_productor').on('show.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+				$('#id').val(id);
+				$.ajax({
+					url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
+					type: 'GET',
+					success: function(data){
+						console.log(data.sin_script)
+						if(data.sin_script == false){
+							$('#add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script" name="fecha_script" class="form-control" required></input>');
+
+							$('#fecha_script').datepicker({
+								dateFormat: "yy-mm-dd",
+								minDate: 0,
+								closeText: 'Cerrar',
+							    prevText: '<Ant',
+							    nextText: 'Sig>',
+							    currentText: 'Hoy',
+							    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+							    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+							    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+							    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+							});
+						}
+					},
+					error: function(error){
+
+					}
+				});
+
+				$('#form_agregar_productor').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('/mgepisodios/add-productor') }}",
+						type: "POST",
+						data: $(this).serialize(),
+						success: function(data){
+							if(data.msg = 'success'){
+								location.reload();
+							}							
+						},
+						error: function(error){
+							console.log(error)
+							if(error.responseJSON.validator.length > 0){
+								var err = "";
+								for(var i in error.responseJSON.validator){
+									err += error.responseJSON.validator[i] + "<br>";														
+								}
+								$('#error_agregar_productor').html('<div class="alert alert-danger">' + err + '</div>');
+							}
+						}
+					});
+				});
+
+			});
+
+			//Ventana modal par asignar traductor
+			$('#modal_create_traductor').on('shown.bs.modal', function (e) {
+				var id = $(e.relatedTarget).data().id;
+				$('#id_episodio').val(id);
+				$('#aprobacion_cliente').on('click',function(){
+					if($(this).is(':checked')){
+							$('#input_aprobacion_cliente').html('<label for="titulo_espanol">Fecha aprobación del cliente</label> <input type="text" class="form-control"  name="fecha_aprobacion_cliente" id="fecha_aprobacion_cliente" required>');
+							$('#fecha_aprobacion_cliente').datepicker({
+								dateFormat: "yy-mm-dd",
+								minDate: 0,
+								closeText: 'Cerrar',
+							    prevText: '<Ant',
+							    nextText: 'Sig>',
+							    currentText: 'Hoy',
+							    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+							    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+							    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+							    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+							});
+					} else{
+						$('#input_aprobacion_cliente').html('');
+					}
+				});
+
+				$('#rayado').on('click',function(){
+					if($(this).is(':checked')){
+							$('#input_rayado').html('<label >Fecha de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" readonly required>');
+							$('#fecha_rayado').datepicker({
+								dateFormat: "yy-mm-dd",
+								minDate: 0,
+								closeText: 'Cerrar',
+							    prevText: '<Ant',
+							    nextText: 'Sig>',
+							    currentText: 'Hoy',
+							    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+							    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+							    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+							    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+							});
+					} else{
+						$('#input_rayado').html('');
+					}
+				});
+
+				$('#form_agregar_traductor').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('/mgepisodios/add-traductor') }}",
+						type: "POST",
+						data: $(this).serialize(),
+						success: function(data){
+							location.reload();
+						},
+						error: function(error){
+							console.log(error)
+							if(error.responseJSON.validator.length > 0){
+								var err = "";
+								for(var i in error.responseJSON.validator){
+									err += error.responseJSON.validator[i] + "<br>";														
+								}
+								$('#error_agregar_traductor').html('<div class="alert alert-danger">' + err + '</div>');
+							}
+						}
+					});
+				});
+
+			});
+
+			
+
 			//Calendarios
-				$('#entrega_episodio, #entrega_episodio_update, #entrega_me, #fecha_entrega_traductor').datepicker({
+				$('#entrega_episodio, #entrega_episodio_update, #entrega_me, #fecha_entrega_traductor, #fecha_doblaje, fecha_entrega_traductor').datepicker({
 					dateFormat: "yy-mm-dd",
 					minDate: 0,
 					closeText: 'Cerrar',

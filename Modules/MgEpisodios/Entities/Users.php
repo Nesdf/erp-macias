@@ -16,6 +16,16 @@ class Users extends Model
     	return \Modules\MgEpisodios\Entities\Users::where('job', $jobs[0]->id)->get();
     }
 
+    public static function Directores()
+    {
+
+        return \DB::table('users')
+        ->join('jobs', 'users.job', '=', 'jobs.id')
+        ->where('jobs.job', '=', 'Director')
+        ->select('users.id','users.name', 'users.ap_paterno', 'users.ap_materno')
+        ->get();
+    }
+
     public static function Responsables()
     {
     	return \DB::select( \DB::raw('select name, ap_paterno, ap_materno, id from users

@@ -24,9 +24,10 @@ class MgEpisodiosController extends Controller
         $salas = \Modules\MgEpisodios\Entities\Salas::All();
         $productores = \Modules\MgEpisodios\Entities\Users::Productores();
         $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
+        $directores = \Modules\MgEpisodios\Entities\Users::Directores();
         $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
         $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
-        return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes'));
+        return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores'));
     }
 
     /**
@@ -190,7 +191,7 @@ class MgEpisodiosController extends Controller
         return redirect('mgepisodios/'.$id_proyecto);
     }
 
-    public function assignTraductor(Request $request)
+    /*public function assignTraductor(Request $request)
     {
         if( $request->method('post') && $request->ajax() ){
 
@@ -230,7 +231,7 @@ class MgEpisodiosController extends Controller
                 }
             }
         }
-    }
+    }*/
 
     public function updateConfiguration(Request $request)
     {
@@ -273,5 +274,106 @@ class MgEpisodiosController extends Controller
             $dos .= strtoupper(substr($caracteres,rand(0,strlen($caracteres)),1));
         }
         return $dos.'-'.$tres.$num[2].$num[1];
+    }
+
+    public function addTraductor(Request $request)
+    {
+        if($request->isMethod('post') && $request->ajax()){
+
+            try{
+                $rules = [
+                    'traductor' => 'required',
+                    'fecha_entrega_traductor' => 'required',
+                ];
+                
+                $messages = [
+                    'traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.traductor')]),
+                    'fecha_entrega_traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_entrega_traductor')]),
+                ]; 
+
+
+                /*if(!$request->input('fecha_aprobacion_cliente')){
+                    $rules['fecha_aprobacion_cliente'] = 'required';
+                    $messages['fecha_aprobacion_cliente.required'] = trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_aprobacion_cliente')]);
+                }*/
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['validator' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else{
+
+                    $arrayData = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))->get();
+
+                    \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+                    ->update([      
+                        'traductorId' => ucwords( $request->input('traductor') ),
+                        'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),
+                        'aprobacion_cliente' => $request->input('aprobacion_cliente'),
+                        'fecha_aprobacion_cliente' => $request->input('fecha_aprobacion_cliente'),
+                        'sin_script' => ($request->input('sin_script') == 'on') ? true : false ,
+                        'rayado' => ($request->input('rayado') == 'on') ? true : false ,
+                        'fecha_rayado' => $request->input('fecha_rayado'),
+                        'quien_modifico_traductor' => $arrayData[0]->quien_modifico_traductor.','. \Auth::user()->name.' '.\Auth::user()->ap_paterno.' '.\Auth::user()->name
+
+                    ]);
+                    $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
+            } catch(\Excepton $e){
+                return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+            }
+        }
+
+    }
+
+    public function addProductor(Request $request)
+    {
+        if($request->isMethod('post') && $request->ajax()){
+            
+            try{
+                $rules = [
+                    'sala' => 'required',
+                    'director' => 'required',
+                    'fecha_doblaje' => 'required',
+                ];
+                
+                $messages = [
+                    'sala.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.sala')]),
+                    'fecha_doblaje.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_doblaje')]),
+                    'director.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.director')]),
+                ]; 
+
+
+                /*if(!$request->input('fecha_aprobacion_cliente')){
+                    $rules['fecha_aprobacion_cliente'] = 'required';
+                    $messages['fecha_aprobacion_cliente.required'] = trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_aprobacion_cliente')]);
+                }*/
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['validator' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else{
+
+                    $arrayData = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))->get();
+
+                    \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+                    ->update([      
+                        'salaId' => ucwords( $request->input('sala') ),
+                        'directorId' => $request->input('director'),
+                        'fecha_doblaje' => $request->input('fecha_doblaje'),
+                        'fecha_script' => ($request->input('fecha_script')) ? $request->input('fecha_script') : null,
+                        'quien_modifico_productor' => $arrayData[0]->quien_modifico_traductor.','. \Auth::user()->name.' '.\Auth::user()->ap_paterno.' '.\Auth::user()->name
+
+                    ]);
+                    $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
+            } catch(\Excepton $e){
+                return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+            }
+        }
+
     }
 }

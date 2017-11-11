@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgepisodios', 'namespace' => 'Modules\MgEpisodios\Http\Controllers'], function()
+Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgepisodios', 'namespace' => 'Modules\MgEpisodios\Http\Controllers'], function()
 {
     Route::get('/{id}', 'MgEpisodiosController@index')->name('mgepisodios');//Cargar el listado
 	Route::post('/save', 'MgEpisodiosController@store')->name('add_episodio');//Crear 
@@ -17,5 +17,8 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mge
 	Route::post('/update-material-calificado/{id_episodio}/{id_proyecto}', 'MgCalificarMaterialController@update')->name('update_calificar_material');
 	Route::post('/save-timecode', 'MgCalificarMaterialController@saveTimecode')->name('add_timecode');
 	Route::get('/material-calificado-pdf/{id_episodio}/{id_proyecto}', 'MgCalificarMaterialController@pdf')->name('create_timecode_pdf');
+
+	Route::post('/add-traductor', 'MgEpisodiosController@addTraductor')->name('add_traductor');
+	Route::post('/add-productor', 'MgEpisodiosController@addProductor')->name('add_productor');
 
 });

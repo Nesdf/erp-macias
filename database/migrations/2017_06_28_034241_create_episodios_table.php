@@ -19,12 +19,19 @@ class CreateEpisodiosTable extends Migration
 			$table->string('titulo_original', 200)->nullable();
             $table->date('date_entrega')->nullable();
             $table->integer('salaId')->nullable();
+            $table->integer('directorId')->nullable();
             $table->string('productor', 200)->nullable();
             $table->string('responsable', 200)->nullable();
             $table->boolean('validador_traductor')->nullable(); //True cuando si el Traductor valido la información
             $table->date('fecha_asignacion_traductor')->nullable();
+            $table->date('fecha_doblaje')->nullable();
+            $table->text('quien_modifico_productor')->nullable();
+            $table->text('quien_modifico_traductor')->nullable();
             $table->date('fecha_entrega_traductor')->nullable();
-			$table->boolean('script')->nullable();
+            $table->date('fecha_erayado')->nullable();
+            $table->date('fecha_aprobacion_cliente')->nullable();
+			$table->boolean('sin_script')->nullable();
+            $table->boolean('aprobacion_cliente')->nullable();
             $table->boolean('rayado')->nullable();
             $table->boolean('status_coordinador')->nullable();//True si ya asignó al traductor
             $table->integer('traductorId')->nullable();

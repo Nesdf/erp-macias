@@ -25,6 +25,11 @@ return [
 		'entrega_episodio' => 'Fecha de entrega del episodio',
 		'tcr' => 'TCR',
 		'fecha_entrega_traductor' => 'Fecha de Entrega',
-		'traductor' => 'Traductor'
+		'traductor' => 'Traductor',
+		'fecha_aprobacion_cliente' => 'Fecha aprobación del cliente',
+		'sala' => 'Sala',
+		'fecha_doblaje' => 'Fecha Doblaje',
+		'productor' => 'Productor',
+		'director' => 'Director'
 	]
 ];

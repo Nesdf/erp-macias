@@ -58,10 +58,10 @@ class MgViasController extends Controller
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_peronal'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }
-            } catch(\Exception $e){
-                return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
             }
-        }	
+        } catch(\Exception $e){
+                return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+        }
     }
 
     /**

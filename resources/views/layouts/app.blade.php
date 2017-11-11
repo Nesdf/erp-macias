@@ -30,6 +30,8 @@
 		<link rel="stylesheet" href="{{ asset('assets/datatable/media/css/jquery.dataTables.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/multiselect/bootstrap-multiselect.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/timepicker/css/timepicker.css') }}" />
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -422,6 +424,7 @@
 	    <script src="{{ asset('assets/dashboard/js/bootbox.js')}}"></script>
 	    <script src="{{ asset('assets/multiselect/bootstrap-multiselect.js')}}"></script>
 	    <script src="{{ asset('assets/timepicker/js/timepicker.js')}}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
 		<!-- inline scripts related to this page -->
 		@yield('script')

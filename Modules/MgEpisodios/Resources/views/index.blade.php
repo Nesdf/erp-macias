@@ -139,12 +139,19 @@
 											</td>
 										@endif
 										<td>
-											<a data-toggle="modal" data-target="#modal_create_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Productor">
+											@if(is_null($episodio->quien_modifico_productor))
+												<a data-toggle="modal" data-target="#modal_create_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Productor">
 														<i class="glyphicon glyphicon-film "></i>
-											</a>
-											<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Traductor">
+												</a>
+											@endif
+
+											@if(is_null($episodio->quien_modifico_traductor))
+												<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Traductor">
 														<i class="glyphicon glyphicon-indent-right"></i>
-											</a>
+												</a>
+											@endif
+											
+											
 											<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning " title="Configuracion">
 														<i class="ace-icon fa fa-tv bigger-120"></i>
 											</a>

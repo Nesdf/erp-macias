@@ -15,19 +15,26 @@ class MgEpisodiosController extends Controller
      */
     public function index($id)
     {
-        $proyecto = \Modules\MgEpisodios\Entities\Proyectos::find($id);
-        
-        $proyecto_id = $id;
-        $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
+        try{
 
-        $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
-        $salas = \Modules\MgEpisodios\Entities\Salas::All();
-        $productores = \Modules\MgEpisodios\Entities\Users::Productores();
-        $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
-        $directores = \Modules\MgEpisodios\Entities\Users::Directores();
-        $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
-        $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
-        return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores'));
+            $proyecto = \Modules\MgEpisodios\Entities\Proyectos::find($id);
+        
+            $proyecto_id = $id;
+            $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
+
+            $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
+            $salas = \Modules\MgEpisodios\Entities\Salas::All();
+            $productores = \Modules\MgEpisodios\Entities\Users::Productores();
+            $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
+            $directores = \Modules\MgEpisodios\Entities\Users::Directores();
+            $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
+            $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
+            return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores'));
+
+        } catch(\Exception $e){
+            return $request->session()->flash('message', trans('Error ala carfar los datos, favor de revisar con el administrador'));
+        }
+        
     }
 
     /**

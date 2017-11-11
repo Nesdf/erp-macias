@@ -53,51 +53,55 @@ class MgEpisodiosController extends Controller
      */
     public function store(Request $request)
     {
-        if( $request->method('post') && $request->ajax() ){
-            
-            $rules = [
-                'entrega_episodio' => 'required',
-            ];
-            
-            $messages = [
-                'entrega_episodio.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.entrega_episodio')])
-            ]; 
-            
-            $validator = \Validator::make($request->all(), $rules, $messages);          
-            
-            if ( $validator->fails() ) {
-                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-            } else {
-                 Carbon::today('America/Mexico_City');
-                $hoy = Carbon::now();
-                $folio = $this->generateFolio();
-                if(\Modules\MgEpisodios\Entities\Episodios::searchFolio($folio)){
+        if( $request->isMethod('post') && $request->ajax() ){
+            try{
+                $rules = [
+                    'entrega_episodio' => 'required',
+                ];
+                
+                $messages = [
+                    'entrega_episodio.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.entrega_episodio')])
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else {
+                     Carbon::today('America/Mexico_City');
+                    $hoy = Carbon::now();
                     $folio = $this->generateFolio();
-                } 
-                \Modules\MgEpisodios\Entities\Episodios::create([      
-                    'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
-                    'bw' => ($request->input('bw') == 'on') ? true : false ,
-                    'netcut' => ($request->input('netcut') == 'on') ? true : false ,
-                    'lockcut' => ($request->input('lockcut') == 'on') ? true : false ,
-                    'final' => ($request->input('final') == 'on') ? true : false ,
-                    'date_bw' => ($request->input('bw') == 'on') ? $hoy : null ,
-                    'date_netcut' => ($request->input('netcut') == 'on') ? $hoy : null ,
-                    'date_lockcut' => ($request->input('lockcut') == 'on') ? $hoy : null ,
-                    'date_final' => ($request->input('final') == 'on') ? $hoy : null ,
-                    'date_entrega' => $request->input('entrega_episodio') ,
-                    'proyectoId' => $request->input('proyectoId'),
-                    'configuracion' => $request->input('configuracion'),
-                    'num_episodio' => ucwords( $request->input('num_episodio') ),
-                    'date_m_and_e' => $request->input('entrega_me'),
-                    'productor' => $request->input('productor'),
-                    'folio' => $folio,
-                    'responsable' => $request->input('responsable'),
-                    'salaId' => $request->input('sala'),
-                    'material_calificado' => false,
-                    'material_entregado' => false
-                ]);
-                $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
-                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                    if(\Modules\MgEpisodios\Entities\Episodios::searchFolio($folio)){
+                        $folio = $this->generateFolio();
+                    } 
+                    
+                    \Modules\MgEpisodios\Entities\Episodios::create([      
+                        'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
+                        'bw' => ($request->input('bw') == 'on') ? true : false ,
+                        'netcut' => ($request->input('netcut') == 'on') ? true : false ,
+                        'lockcut' => ($request->input('lockcut') == 'on') ? true : false ,
+                        'final' => ($request->input('final') == 'on') ? true : false ,
+                        'date_bw' => ($request->input('bw') == 'on') ? $hoy : null ,
+                        'date_netcut' => ($request->input('netcut') == 'on') ? $hoy : null ,
+                        'date_lockcut' => ($request->input('lockcut') == 'on') ? $hoy : null ,
+                        'date_final' => ($request->input('final') == 'on') ? $hoy : null ,
+                        'date_entrega' => $request->input('entrega_episodio') ,
+                        'proyectoId' => $request->input('proyectoId'),
+                        'configuracion' => $request->input('configuracion'),
+                        'num_episodio' => ucwords( $request->input('num_episodio') ),
+                        'date_m_and_e' => $request->input('entrega_me'),
+                        'productor' => $request->input('productor'),
+                        'folio' => $folio,
+                        'responsable' => $request->input('responsable'),
+                        'salaId' => $request->input('sala'),
+                        'material_calificado' => false,
+                        'material_entregado' => false
+                    ]);
+                    $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
+            } catch(\Exception $e){
+                return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
             }
         }
     }

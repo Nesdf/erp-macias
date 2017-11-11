@@ -497,14 +497,18 @@
 				<h4 class="modal-title ">Consulta Episodio</h4>
 			  </div>
 			  <div class="modal-body">
+			  	<h2 class="center" role="alert"></h2>
 		  		<table class="table table-striped">
 		  			<tr><td><h5>Responsable:</h5></td><td id="responsable"></td></tr>
 		  			<tr><td><h5>Productor:</h5></td><td id="productor"></td></tr>
 		  			<tr><td><h5>Título Original del episodio:</h5></td><td id="titulo_original"></td></tr>
 		  			@if(\Request::session()->has('show_fecha_entrega'))
-		  				<tr><td><h5>Fecha de entrega episodio</h5></td> <td id="fecha_entrega"></td></tr>
+		  				<tr><td><h5>Fecha de entrega episodio:</h5></td> <td id="fecha_entrega"></td></tr>
 		  			@endif
 		  			<tr><td><h5>Número de Episodio:</h5></td><td id="num_episodio"></td></tr>
+		  			<tr><td><h5>Sala:</h5></td><td id="sala"></td></tr>
+		  			<tr><td><h5>Fecha de entrega M&E:</h5></td><td id="fecha_mande"></td></tr>
+		  			<tr><td><h5>Configuración:</h5></td><td id="configuracion"></td></tr>
 		  		</table>
 			  </div>
 			  <div class="modal-footer">
@@ -714,33 +718,32 @@
 			* Modal para eliminar episodios
 			*/
 			$('#modal_delete_episodio').on('shown.bs.modal', function(e){
-				id = $(e.relatedTarget).data().id;
+				var id = $(e.relatedTarget).data().id;
 				  $('#form_delete_episodio').attr('action', '{{ url("mgepisodios/delete") }}/' + id + '/' + {{$proyecto->id}} );
 			});
 
-			/*$('.coordinador').on('click', function(){
-				 id = $( this ).data('id');
-				 $('#episodioId').val(id);
-			 });*/
-			
-			$('#form_create_episodio').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgepisodios/save') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
+			$('#modal_save_episodio').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+
+				$('#form_create_episodio').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgepisodios/save') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_episodio').html('<div class="alert alert-danger">' + err + '</div>');
 						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_create_episodio').html('<div class="alert alert-danger">' + err + '</div>');
-					}
+					});
 				});
 			});
 
@@ -844,7 +847,8 @@
 					url: "{{ url('mgepisodios/show_episodio	') }}" + "/" + id,
 					type: "GET",
 					success: function(data){
-						console.log(data);
+						
+						$('h2').html('Fecha de entrega: '+data.episodios[0].date_entrega).addClass('alert alert-'+data.status_entrega);
 
 						if(data.msg = 'success'){
 							$('td#responsable').html(data.episodios[0].responsable+' '+data.episodios[0].responsable_ap_paterno+' '+data.episodios[0].responsable_ap_materno);
@@ -852,6 +856,17 @@
 							$('td#titulo_original').html(data.episodios[0].titulo_original);
 							$('td#fecha_entrega').html('<span class="label label-'+data.status_entrega+'">'+data.episodios[0].date_entrega+'<span>');
 							$('td#num_episodio').html(data.episodios[0].num_episodio);
+							if(data.episodios[0].salaId == null){
+								$('td#sala').html('Sin asgnación');
+							} else {
+								$('td#sala').html(data.episodios[0].salaId);
+							}
+							$('td#fecha_mande').html(data.episodios[0].date_m_and_e);
+							if(data.episodios[0].configuracion == null){
+								$('td#configuracion').html('Sin Configuración');
+							} else {
+								$('td#configuracion').html(data.episodios[0].configuracion);
+							}							
 						}
 					},
 					error: function(error){
@@ -859,32 +874,10 @@
 					}
 				});
 			});
-			
-			/*$('.show_id').on('click', function(){
-				 id = $( this ).data('id');				
-				$.ajax({
-					url: "{{-- url('mgepisodios/show_episodio') --}}" + "/" + id,
-					type: "GET",
-					success: function( data ){
-						$('#titulo_original_show').html(data.msg[0].titulo_original);
-						$('#titulo_espanol_show').html(data.msg[0].titulo_espanol);
-						$('#duracion_show').html(data.msg[0].duracion);
-						$('#num_episodio_show').html(data.msg[0].num_episodio);
-						$('#responsable_show').html(data.msg[0].responsable + ' '+ data.msg[0].responsable_ap_paterno + ' ' + data.msg[0].responsable_ap_materno);
-						$('#productor_show').html(data.msg[0].productor + ' '+ data.msg[0].productor_ap_paterno + ' ' + data.msg[0].productor_ap_materno);
-						$('#date_m_and_e_show').html(data.msg[0].date_m_and_e);
-						$('#sala_show').html(data.msg[0].salaId);
-						$('#folio_show').html(data.msg[0].folio);
-						$('#fecha_entrega_show').html("<span class='label label-"+ data.status_entrega + " '> " + data.msg[0].date_entrega + "</span>");
-						$('#alerta_fecha').html("<div class='alert alert-" + data.status_entrega + "'> <h2>Fecha de entrega:  "+ data.msg[0].date_entrega +"</h2></div>");
-						//$('#configuracion_show').html();
-						
-						
-					}
-				});
-			 });*/
 
-			//Ventana modal par asignar Productor
+			/*
+			* Ventana modal par asignar Productor
+			*/
 			$('#modal_create_productor').on('show.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
 				$('#id').val(id);
@@ -1011,7 +1004,6 @@
 				});
 
 			});
-
 			
 
 			//Calendarios

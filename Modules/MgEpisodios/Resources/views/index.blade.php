@@ -140,13 +140,21 @@
 										@endif
 										<td>
 											@if(is_null($episodio->quien_modifico_productor))
-												<a data-toggle="modal" data-target="#modal_create_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Productor">
+												<a data-toggle="modal" data-target="#modal_create_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Agregar Productor">
+														<i class="glyphicon glyphicon-film "></i>
+												</a>
+											@else
+												<a data-toggle="modal" data-target="#modal_update_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-success" title="Modificar Productor">
 														<i class="glyphicon glyphicon-film "></i>
 												</a>
 											@endif
 
 											@if(is_null($episodio->quien_modifico_traductor))
-												<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Traductor">
+												<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Agregar Traductor">
+														<i class="glyphicon glyphicon-indent-right"></i>
+												</a>
+											@else 
+												<a data-toggle="modal" data-target="#modal_update_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-success" title="Modificar Traductor">
 														<i class="glyphicon glyphicon-indent-right"></i>
 												</a>
 											@endif
@@ -401,58 +409,47 @@
 			  </div>
 			  <form role="form" id="form_update_episodio">
 			  <div class="modal-body">
-					<div class="modal-body">
-					{{ csrf_field() }}
-					<input type="hidden" name="id" id="id_episodio_update">		
-				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
+						{{ csrf_field() }}
+						<input type="hidden" name="id" >		
+						<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
+						<div class="form-group">
+							<label >Seleccionar Productor</label>
+							<select class="form-control selectpicker" name="productor" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+								@foreach($productores as $productor)
+									<option value="{{ $productor->id }}"> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
+								@endforeach
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Seleccionar Responsable</label>
+							<select class="form-control selectpicker" name="responsable" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+								<option value="">Seleccionar</option>
+								@foreach($responsables as $responsable)
+									<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
+								@endforeach
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Título Original del episodio</label>
+							<input type="text" class="form-control" name="titulo_original_episodio" placeholder="Título Original del episodio">
+						</div>
+						<div class="form-group">
+							<label>Configuración</label>
+							<textarea name="configuracion" class="form-control"></textarea>
+						</div>	
+						<div class="form-group">
+							<label>Número de Episodio</label>
+							<input type="text" class="form-control" name="num_episodio" placeholder="Número de episodio">
+						</div>
+						@if( $proyecto->m_and_e == true )
+						<div class="form-group">
+							<label>Fecha de entrega M&E</label>
+							<input type="text" class="form-control" name="entrega_me" readonly="true" placeholder="Fecha de entrega M&E">
+						</div>
+						@endif
 				<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Productor</label>
-					<select class="form-control" id="productor_update" name="productor">
-						<option value="">Seleccionar</option>
-						@foreach($productores as $productor)
-							<option value="{{ $productor->id }}"> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
-						@endforeach
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Responsable</label>
-					<select class="form-control" id="responsable_update" name="responsable">
-						<option value="">Seleccionar</option>
-						@foreach($responsables as $responsable)
-							<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
-						@endforeach
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="exampleInputEmail1">Título Original del episodio</label>
-					<input type="text" class="form-control" id="titulo_original_episodio_update" name="titulo_original_episodio" placeholder="Título Original del episodio">
-				</div>
-				<div class="form-group">
-					<label for="configuracion">Configuración</label>
-					<textarea id="configuracion_update" name="configuracion" class="form-control"></textarea>
-				</div>	
-				<div class="form-group">
-					<label for="exampleInputEmail1">Seleccionar Sala</label>
-					<select class="form-control" id="sala_update" name="sala">
-						<option value="">Seleccionar</option>
-						@foreach($salas as $sala)
-							<option value="{{ $sala->id }}"> {{ $sala->sala }} </option>
-						@endforeach
-					</select>
-				</div>		
-				<div class="form-group">
-					<label for="exampleInputEmail1">Número de Episodio</label>
-					<input type="text" class="form-control" id="num_episodio_update" name="num_episodio" placeholder="Número de episodio">
-				</div>
-				@if( $proyecto->m_and_e == true )
-				<div class="form-group">
-					<label for="exampleInputEmail1">Fecha de entrega M&E</label>
-					<input type="text" class="form-control" id="entrega_me_update" name="entrega_me" readonly="true" placeholder="Fecha de entrega M&E">
-				</div>
-				@endif
-				<div class="form-group">
-					<label for="entrega_episodio">Fecha de entrega del Episodio</label>
-					<input type="text" class="form-control" id="entrega_episodio_update" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
+					<label>Fecha de entrega del Episodio</label>
+					<input type="text" class="form-control" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 				</div>
 						
 			  </div>
@@ -497,50 +494,21 @@
 			<div class="modal-content">
 			  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title " id="myModalLabel">Consulta Episodio</h4>
+				<h4 class="modal-title ">Consulta Episodio</h4>
 			  </div>
 			  <div class="modal-body">
-			  	@if(\Request::session()->has('show_fecha_entrega'))
-			  		<div id="alerta_fecha"> </div>
-			  	@endif
-			  	<div class="row">
-			  		<div class="col-md-6">
-			  			<table class="table">
-					  		<tr>
-					  			<th><h4>Responsable:</h4> <span id="responsable_show"></span></th>
-					  		</tr>
-					  		<tr>
-					  			<th><h4>Productor:</h4> <span id="productor_show"></span></th>
-					  		</tr>
-					  		<tr>
-					  			<th><h4>Título Original del episodio: </h4><span id="titulo_original_show"></span></th> 
-					  		</tr>
-					  		<tr>
-					  			@if(\Request::session()->has('show_fecha_entrega'))
-					  				<th><h4>Fecha de entrega episodio</h4> <span id="fecha_entrega_show"></span></th>
-					  			@endif
-					  		</tr>
-					  	</table>
-			  		</div>
-			  		<div class="col-md-6">
-			  			<table class="table">			  				
-					  		<tr>
-					  			<th><h4>Número de Episodio:</h4> <span id="num_episodio_show"></span></th>
-					  		</tr>
-					  		<tr>
-					  			<th><h4>Sala:</h4> <span id="sala_show"></span></th>
-					  		</tr>	
-					  		@if( $proyecto->m_and_e == true )	
-						  		<tr>					  			
-						  			<th><h4>Fecha de entrega M&E</h4> <span id="date_m_and_e_show"></span></th>
-						  		</tr>
-						  	@endif
-					  		<tr>
-					  			<th><h4>Configuración</h4><span id="configuracion_show"></span></th>
-					  		</tr>
-					  	</table>
-			  		</div>
-			  	</div>
+		  		<table class="table table-striped">
+		  			<tr><td><h5>Responsable:</h5></td><td id="responsable"></td></tr>
+		  			<tr><td><h5>Productor:</h5></td><td id="productor"></td></tr>
+		  			<tr><td><h5>Título Original del episodio:</h5></td><td id="titulo_original"></td></tr>
+		  			@if(\Request::session()->has('show_fecha_entrega'))
+		  				<tr><td><h5>Fecha de entrega episodio</h5></td> <td id="fecha_entrega"></td></tr>
+		  			@endif
+		  			<tr><td><h5>Número de Episodio:</h5></td><td id="num_episodio"></td></tr>
+		  		</table>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 			  </div>
 			</div>
 		  </div>
@@ -689,28 +657,27 @@
 	        		},
 		        }
 			});
-			
-			$('.update_id').on('click', function(){
-				 id = $( this ).data('id');				
+
+			/*
+			* Modal para actualizar episodios
+			*/
+			$('#modal_update_episodio').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+
 				$.ajax({
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
-					success: function( data ){
-						$('#id_episodio_update').val(data.id);
-						$('#titulo_original_episodio_update').val(data.titulo_original);
-						$('#duracion_update').val(data.duracion);
-						$('#folio_update').val(data.folio);
-						$('#num_episodio_update').val(data.num_episodio);
-						$('#configuracion_update').val(data.configuracion);
-						$('#observaciones_update').val(data.observaciones);
-						$('#entrega_episodio_update').val(data.date_entrega);
-						$("#responsable_update option[value="+ data.responsable +"]").attr("selected",true);
-						$("#productor_update option[value="+ data.productor +"]").attr("selected",true);
-						$('#entrega_me_update').val(data.date_m_and_e);
-						$('#entrega_episodio_update').val(data.date_entrega);
-						$("#sala_update option[value="+ data.salaId +"]").attr("selected",true);
-						
-						
+					success: function(data){
+						$('input[name=id]').val(data.id);
+						$('input[name=proyectoId]').val(data.proyectoId);
+						$('select[name=productor]').val(data.productor);
+						$('select[name=responsable]').val(data.responsable);
+						$('input[name=titulo_original_episodio]').val(data.titulo_original);
+						$('textarea[name=configuracion]').val(data.configuracion);
+						$('input[name=num_episodio]').val(data.num_episodio);
+						$('input[name=entrega_me]').val(data.date_m_and_e);
+						$('input[name=entrega_episodio').val(data.date_entrega);
+						$('.selectpicker').selectpicker('refresh');						
 					},
 					error: function(error){
 						var err = "";
@@ -720,17 +687,41 @@
 						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
 					}
 				});
-			 });
-			
-			$('.delete_id').on('click', function(){
-				 id = $( this ).data('id');
-				  $('#form_delete_episodio').attr('action', '{{ url("mgepisodios/delete") }}/' + id + '/' + {{$proyecto->id}} );
-			 });
 
-			$('.coordinador').on('click', function(){
+				$('#form_update_episodio').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgepisodios/update') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
+						}
+					});
+				});
+			});
+
+			/*
+			* Modal para eliminar episodios
+			*/
+			$('#modal_delete_episodio').on('shown.bs.modal', function(e){
+				id = $(e.relatedTarget).data().id;
+				  $('#form_delete_episodio').attr('action', '{{ url("mgepisodios/delete") }}/' + id + '/' + {{$proyecto->id}} );
+			});
+
+			/*$('.coordinador').on('click', function(){
 				 id = $( this ).data('id');
 				 $('#episodioId').val(id);
-			 });
+			 });*/
 			
 			$('#form_create_episodio').on('submit', function(event){
 				event.preventDefault();
@@ -773,81 +764,6 @@
 					}
 				});
 			});
-			
-			$('#form_update_episodio').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgepisodios/update') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
-			});
-
-			/*$('.edit_configuracion').on('click', function(){
-				id = $( this ).data('id');
-				$.ajax({
-					url: "{{-- url('mgepisodios/edit') --}}" + "/" + id,
-					type: "GET",
-					success: function( data ){
-						$('#id_update').val(data.id);
-						
-						if(data.bw == true){
-							$('#bw_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
-						} else {
-							$('#bw_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'bw');
-						}
-						if(data.lockcut == true){
-							$('#lockcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('lockcut');
-						} else {
-						if(data.netcut == true){
-							$('#netcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
-						}							$('#bw_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'netcut');
-						if(data.final == true){
-							$('#final_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('final');
-						}						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
-			 });*/
-
-			/*$('#form_update_configuracion').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{-- url('mgepisodios/update-configuracion') --}}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
-			});*/
 
 			/*
 			* Modal para actualizar la configuración 
@@ -921,11 +837,33 @@
 				});
 			});
 
+			$('#modal_ver_episodio').on('shown.bs.modal', function(e){
+				id = $(e.relatedTarget).data().id;
+
+				$.ajax({
+					url: "{{ url('mgepisodios/show_episodio	') }}" + "/" + id,
+					type: "GET",
+					success: function(data){
+						console.log(data);
+
+						if(data.msg = 'success'){
+							$('td#responsable').html(data.episodios[0].responsable+' '+data.episodios[0].responsable_ap_paterno+' '+data.episodios[0].responsable_ap_materno);
+							$('td#productor').html(data.episodios[0].productor+' '+data.episodios[0].productor_ap_paterno+' '+data.episodios[0].productor_ap_materno);
+							$('td#titulo_original').html(data.episodios[0].titulo_original);
+							$('td#fecha_entrega').html('<span class="label label-'+data.status_entrega+'">'+data.episodios[0].date_entrega+'<span>');
+							$('td#num_episodio').html(data.episodios[0].num_episodio);
+						}
+					},
+					error: function(error){
+
+					}
+				});
+			});
 			
-			$('.show_id').on('click', function(){
+			/*$('.show_id').on('click', function(){
 				 id = $( this ).data('id');				
 				$.ajax({
-					url: "{{ url('mgepisodios/show_episodio') }}" + "/" + id,
+					url: "{{-- url('mgepisodios/show_episodio') --}}" + "/" + id,
 					type: "GET",
 					success: function( data ){
 						$('#titulo_original_show').html(data.msg[0].titulo_original);
@@ -944,7 +882,7 @@
 						
 					}
 				});
-			 });
+			 });*/
 
 			//Ventana modal par asignar Productor
 			$('#modal_create_productor').on('show.bs.modal', function(e){

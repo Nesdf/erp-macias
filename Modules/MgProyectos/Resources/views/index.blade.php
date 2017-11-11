@@ -318,9 +318,8 @@
 					{{ csrf_field() }}
 					<input type="hidden" id="id_update" name="id">
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona un Cliente</label>
-						<select class="form-control" id="cliente_update" name="cliente" >
-							<option select value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
+						<label>Selecciona un Cliente</label>
+						<select class="form-control selectpicker" id="cliente_update" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							@foreach($clientes as $cliente)
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>
 							@endforeach
@@ -336,7 +335,7 @@
 					<!-- -->
 					</div>	
 					<div class="form-group">
-						<label for="titulo_original_update">{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
+						<label>{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
 						<input type="text" class="form-control" id="titulo_original_update" name="titulo_serie" placeholder="Título Original de la Serie">
 					</div>	
 					<div class="form-group">
@@ -344,8 +343,7 @@
 						<input type="text" class="form-control" id="titulo_aprobado_update" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
 					</div>					
 					<div class="form-group">
-						<label for="via">Seleccionar Vía</label>
-						<select class="form-control" id="via_update" name="via">
+						<select class="form-control selectpicker" id="via_update" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							<option select value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
 							@foreach($vias as $via)
 								<option value="{{ $via->id }}"> {{ $via->via }} </option>
@@ -521,9 +519,10 @@
 						$('#titulo_original_update').val(data.titulo_original);
 						$('#titulo_aprobado_update').val(data.titulo_aprobado);
 						$('#temporada_update').val(data.temporada);
-						$("#cliente_update option[value="+ data.clienteId +"]").attr("selected",true);
+						$('select[name=cliente]').val(data.clienteId);						
 						$("#idioma_update option[value="+ data.idiomaId +"]").attr("selected",true);
-						$("#via_update option[value="+ data.viaId +"]").attr("selected",true);
+						$('select[name=via]').val(data.viaId);
+						$('.selectpicker').selectpicker('refresh');
 
 						//titulo en otros idiomas
 						$('#input_titulo_espanol_update').val(data.titulo_espanol);

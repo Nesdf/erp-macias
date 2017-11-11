@@ -108,22 +108,26 @@ class MgEpisodiosController extends Controller
      */
     public function show($id)
     {
-        $episodio =  \Modules\MgEpisodios\Entities\Episodios::findEpisodio($id);
+        try{
 
-        $hoy = Carbon::today('America/Mexico_City');
-        $fechaentrega = Carbon::parse($episodio[0]->date_entrega, 'America/Mexico_City');
-        $diferencia_dias = $fechaentrega->diffInDays($hoy, false);
-        $status_entrega ="";
-        if($diferencia_dias < -2){
-            $status_entrega = "success";
+            $episodio =  \Modules\MgEpisodios\Entities\Episodios::findEpisodio($id);
+            $hoy = Carbon::today('America/Mexico_City');
+            $fechaentrega = Carbon::parse($episodio[0]->date_entrega, 'America/Mexico_City');
+            $diferencia_dias = $fechaentrega->diffInDays($hoy, false);
+            $status_entrega ="";
+            if($diferencia_dias < -2){
+                $status_entrega = "success";
+            }
+            if($diferencia_dias >= -2 && $diferencia_dias <= -1){
+                $status_entrega = "warning";
+            }
+            if($diferencia_dias >= 0){
+                $status_entrega = "danger";
+            }
+             return Response(['msg' =>'success', 'episodios' => $episodio, 'status_entrega' => $status_entrega], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+            return Response(['error' => $e.getMessage()], 400)->header('Content-Type', 'application/json');
         }
-        if($diferencia_dias >= -2 && $diferencia_dias <= -1){
-            $status_entrega = "warning";
-        }
-        if($diferencia_dias >= 0){
-            $status_entrega = "danger";
-        }
-         return Response(['msg' => $episodio, 'status_entrega' => $status_entrega], 200)->header('Content-Type', 'application/json');
         
     }
 
@@ -143,7 +147,7 @@ class MgEpisodiosController extends Controller
      */
     public function update(Request $request)
     {
-        if( $request->method('post') && $request->ajax() ){
+        if( $request->isMethod('post') && $request->ajax() ){
 
             $rules = [
                 'proyectoId' => 'required',

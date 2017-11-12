@@ -150,13 +150,25 @@
 				 					@if($num > 1)
 					 					<tr style="background: rgba(255, 117, 020, 0.4); ">
 							 				<td>{{$timecode->fecha}}</td>
-							 				<td>{{$timecode->timecode}}</td>
+							 				<td>
+							 					@if($timecode->timecode_final)
+													{{$timecode->timecode}} - {{$timecode->timecode_final}}
+							 					@else
+													{{$timecode->timecode}}
+							 					@endif							 					 
+							 				</td>
 							 				<td>{{$timecode->observaciones}}</td>
 							 			</tr>
 							 		@else
 							 			<tr>
 							 				<td>{{$timecode->fecha}}</td>
-							 				<td>{{$timecode->timecode}}</td>
+							 				<td>
+							 					@if($timecode->timecode_final)
+													{{$timecode->timecode}} - {{$timecode->timecode_final}}
+							 					@else
+													{{$timecode->timecode}}
+							 					@endif							 					 
+							 				</td>
 							 				<td>{{$timecode->observaciones}}</td>
 							 			</tr>
 							 		@endif
@@ -195,13 +207,18 @@
 			  		<form role="form" action="{{url('mgepisodios/save-timecode')}}" method="POST">
 					    <div class="modal-body">
 							{{ csrf_field() }}	
+							<label>
+								<input type="checkbox" name="music" id="music" > Music
+							</label>
 							<div class="form-group">
 								<input type="hidden" name="id_cm" value="{{$allProyect[0]->id}}">
 								<input type="hidden" name="id_episodio" value="{{$id_episodio}}">
 								<input type="hidden" name="id_proyecto" value="{{$id_proyecto}}">
-								<label>Time Code</label>
-								<input type="text" id="timecode" name="timecode" class="form-control" required="true" placeholder="00:00:00:00">
+								<label>TimeCode</label>
+								<input type="text" id="timecode" name="timecode" class="form-control" required="true" placeholder="00:00:00:00"> 
+								<div id="show_music"></div>
 							</div>
+
 							<div class="form-group">
 								<label>Observaciones</label>
 								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
@@ -253,8 +270,7 @@
 							</div>
 							<div class="form-group">
 								<label>Mezcla</label>
-								<select name="mezcla" class="form-control">
-									<option>Seleccionar ...</option>
+								<select name="mezcla" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 									<option value="Mono" @if('Mono' == $allProyect[0]->mezcla) selected @endif>Mono</option>
 									<option value="Stereo" @if('Stereo' == $allProyect[0]->mezcla) selected @endif>Stereo</option>
 									<option value="5.1" @if('5.1' == $allProyect[0]->mezcla) selected @endif>5.1</option>
@@ -263,8 +279,7 @@
 							</div>
 							<div class="form-group">
 								<label>TCR</label>
-								<select name="tcr" class="form-control">
-								<option>Seleccionar ...</option>
+								<select name="tcr" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 								@foreach($tcrs as $tcr)
 									<option  value="{{$tcr->id}}" @if($tcr->id == $allProyect[0]->tcr) selected @endif>{{$tcr->tcr}}</option>
 								@endforeach
@@ -311,9 +326,23 @@
 	        		}
 	        	}
 	        });
+
+	        $('#modal_timecode').on('shown.bs.modal', function(e){
+
+	        	$('#music').on('click', function(){
+	        		if($('#music').is(':checked', true)){
+	        			$('#show_music').html('<label> TimeCode Final<br></label>\
+								<input type="timecode_final" id="timecode_final" name="timecode_final" class="form-control"  placeholder="00:00:00:00"> \
+								');
+	        		} else {
+	        			$('#show_music').html('');
+	        		}
+	        	});
+	        	$('#timecode_final').mask('00:00:00:00');
+	        });
 	        
 	        
- 			$('#modal_update_calificacion').on('shown.bs.modal', function () {
+ 			$('#modal_update_calificacion').on('shown.bs.modal', function(e) {
  				
  				var data = '{{$allProyect[0]->tipo_reporte}}';
 		        var valArr = data.split(",");

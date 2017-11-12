@@ -17,7 +17,8 @@ class CreateTimecodeTable extends Migration
         Schema::create('timecode', function(Blueprint $table){
             $table->increments('id');
             $table->date('fecha');
-            $table->string('timecode');
+            $table->string('timecode', 11);
+            $table->string('timecode_final', 11);
             $table->text('observaciones');
             $table->integer('id_calificar_material');
             $table->timestamps();

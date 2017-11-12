@@ -34,7 +34,7 @@ class MgCalificarMaterialController extends Controller
      */
     public function store(Request $request)
     {
-        if( $request->method('post') && $request->ajax() ){
+        if( $request->isMethod('post') && $request->ajax() ){
 
             try{
 
@@ -160,41 +160,45 @@ class MgCalificarMaterialController extends Controller
 
     public function saveTimecode(Request $request)
     {
+        try{
+            //dd($request->all());
+            if( $request->isMethod('post') ){
 
-        if( $request->method('post') ){
+                $rules = [
+                    'timecode' => 'required'
+                ];
+                
+                $messages = [
+                    'timecode.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.timecode')])
+                ]; 
 
-            $rules = [
-                'timecode' => 'required'
-            ];
-            
-            $messages = [
-                'timecode.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.duracion')])
-            ]; 
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return  $validator->errors()->all();
+                } else {
+                    $id_proyecto = $request->input('id_proyecto');
+                    $id_episodio = $request->input('id_episodio');
+                    \Modules\MgEpisodios\Entities\TimeCodes::create([ 
+                            'timecode' => $request->input('timecode'),
+                            'fecha' => \Carbon\carbon::now(),
+                            'timecode_final' => ($request->input('music') == 'on') ?  $request->input('timecode_final') : null ,
+                            'id_calificar_material' => $request->input('id_cm'),
+                            'observaciones' => $request->input('observaciones')
+                        ]);
 
-            $validator = \Validator::make($request->all(), $rules, $messages);          
-            
-            if ( $validator->fails() ) {
-                return  "Error";
-            } else {
-                $id_proyecto = $request->input('id_proyecto');
-                $id_episodio = $request->input('id_episodio');
-                \Modules\MgEpisodios\Entities\TimeCodes::create([ 
-                        'timecode' => $request->input('timecode'),
-                        'fecha' => \Carbon\carbon::now(),
-                        'id_calificar_material' => $request->input('id_cm'),
-                        'observaciones' => $request->input('observaciones')
-                    ]);
+                    //return redirect('/mgepisodios/material-calificado/'.$request->input('id_episodio').'/'.$request->input('id_proyecto'));
+                    $observaciones = \Modules\MgEpisodios\Entities\Timecode::get();
+                    $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
+                    $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
+                    $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
 
-                //return redirect('/mgepisodios/material-calificado/'.$request->input('id_episodio').'/'.$request->input('id_proyecto'));
-                $observaciones = \Modules\MgEpisodios\Entities\Timecode::get();
-                $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
-                $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
-                $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
-
-                return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'observaciones'));
+                    return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'observaciones'));
+                }
             }
-        }
-        
+        } catch(\Exception $e){
+            return $e->getMessage();
+        }      
     }
 
     public function pdf($id_episodio, $id_proyecto)

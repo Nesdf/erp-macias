@@ -37,54 +37,56 @@ class MgProyectosController extends Controller
      */
     public function store(Request $request)
     {
-		if( $request->method('post') && $request->ajax() ){
-			#dd($request->all());
-			$rules = [
-				'cliente' => 'required',
-				#'titulo_proyecto' => 'required'
+		try{
+			if( $request->method('post') && $request->ajax() ){
+				//dd($request->all());
+				$rules = [
+					'cliente' => 'required'				
+				];
 				
-			];
-			
-			$messages = [
-				'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')])
-			]; 
-			
-			$validator = \Validator::make($request->all(), $rules, $messages);			
-			
-			if ( $validator->fails() ) {
-				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-			} else {
+				$messages = [
+					'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')])
+				]; 
 				
-				\Modules\MgProyectos\Entities\Proyectos::create([					
-					'clienteId' => $request->input('cliente'),
-					'titulo_original' => ucwords( $request->input('titulo_serie') ),
-					'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
-					'statusId' => true,
-					'm_and_e' => true,
-					'titulo_espanol' => ( $request->input('titulo_espanol') ) ? ucwords( $request->input('titulo_espanol') ) : null,
-					'titulo_ingles' => ($request->input('titulo_ingles')) ? ucwords( $request->input('titulo_ingles') ) : null,
-					'titulo_portugues' => ($request->input('titulo_portugues')) ? ucwords( $request->input('titulo_portugues') ) : null,
-					'viaId' => $request->input('via') ,
-					'temporada' => $request->input('temporada'),
-					'adr_ingles' => ( $request->input('adr_ingles') ) ? true : false,
-					'adr_portugues' => ( $request->input('adr_portugues') ) ? true : false,
-					'adr_espanol' => ( $request->input('adr_espanol') ) ? true : false,
-					'mix20' => ( $request->input('mix20') ) ? true : false,
-					'mix51' => ( $request->input('mix51') ) ? true : false,
-					'mix71' => ( $request->input('mix71') ) ? true : false,
-					'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
-					'm_e_20' => ( $request->input('m_e_20') ) ? true : false,
-					'm_e_51' => ( $request->input('m_e_51') ) ? true : false,
-					'm_e_71' => ( $request->input('m_e_71') ) ? true : false,
-					'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
-					'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
-					'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
-				]);
+				$validator = \Validator::make($request->all(), $rules, $messages);			
 				
-				
-				$request->session()->flash('message', trans('mgproyectos::ui.flash.flash_create_cliente'));
-				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+				if ( $validator->fails() ) {
+					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+				} else {
+					
+					\Modules\MgProyectos\Entities\Proyectos::create([					
+						'clienteId' => $request->input('cliente'),
+						'titulo_original' => ucwords( strtolower($request->input('titulo_serie')) ),
+						'titulo_aprobado' => ucwords( strtolower($request->input('titulo_proyecto')) ),
+						'statusId' => true,
+						'm_and_e' => true,
+						'titulo_espanol' => ($request->has('titulo_espanol')) ? ucwords( strtolower($request->input('titulo_espanol')) ) : null,
+						'titulo_ingles' => ($request->has('titulo_ingles')) ? ucwords( strtolower($request->input('titulo_ingles')) ) : null,
+						'titulo_portugues' => ($request->has('titulo_portugues')) ? ucwords( strtolower($request->input('titulo_portugues')) ) : null,
+						'viaId' => $request->input('via') ,
+						'temporada' => $request->input('temporada'),
+						'adr_ingles' => ( $request->input('adr_ingles') == 'on' ) ? true : false,
+						'adr_portugues' => ( $request->input('adr_portugues') == 'on') ? true : false,
+						'adr_espanol' => ( $request->input('adr_espanol') == 'on' ) ? true : false,
+						'mix20' => ( $request->input('mix20') == 'on' ) ? true : false,
+						'mix51' => ( $request->input('mix51') == 'on' ) ? true : false,
+						'mix71' => ( $request->input('mix71') == 'on' ) ? true : false,
+						'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
+						'm_e_20' => ( $request->input('m_e_20') == 'on' ) ? true : false,
+						'm_e_51' => ( $request->input('m_e_51') == 'on' ) ? true : false,
+						'm_e_71' => ( $request->input('m_e_71') == 'on' ) ? true : false,
+						'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
+						'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
+						'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
+					]);
+					
+					
+					$request->session()->flash('message', trans('mgproyectos::ui.flash.flash_create_cliente'));
+					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+				}
 			}
+		} catch(\Exception $e){
+			return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
 		}
     }
 
@@ -113,52 +115,55 @@ class MgProyectosController extends Controller
      */
     public function update(Request $request)
     {
-		if( $request->method('post') && $request->ajax() ){
+		if( $request->isMethod('post') && $request->ajax() ){
 			
-			$rules = [
-				'cliente' => 'required'
+			try{
+				$rules = [
+					'cliente' => 'required'
+				];
 				
-			];
-			
-			$messages = [
-				'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')])
-			]; 
-			
-			$validator = \Validator::make($request->all(), $rules, $messages);			
-			
-			if ( $validator->fails() ) {
-				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-			} else {
-				\Modules\MgProyectos\Entities\Proyectos::where('id', $request->input('id'))
-					->update([					
-						'clienteId' => $request->input('cliente'),
-						'titulo_original' => ucwords( $request->input('titulo_serie') ),
-						'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
-						'statusId' => true,
-						'm_and_e' => true,
-						'titulo_espanol' => ( $request->input('titulo_espanol') ) ? ucwords( $request->input('titulo_espanol') ) : null,
-						'titulo_ingles' => ($request->input('titulo_ingles')) ? ucwords( $request->input('titulo_ingles') ) : null,
-						'titulo_portugues' => ($request->input('titulo_portugues')) ? ucwords( $request->input('titulo_portugues') ) : null,
-						'viaId' => $request->input('via') ,
-						'temporada' => $request->input('temporada'),
-						'temporada' => $request->input('temporada'),
-						'adr_ingles' => ( $request->input('adr_ingles') ) ? true : false,
-						'adr_portugues' => ( $request->input('adr_portugues') ) ? true : false,
-						'adr_espanol' => ( $request->input('adr_espanol') ) ? true : false,
-						'mix20' => ( $request->input('mix20') ) ? true : false,
-						'mix51' => ( $request->input('mix51') ) ? true : false,
-						'mix71' => ( $request->input('mix71') ) ? true : false,
-						'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
-						'm_e_20' => ( $request->input('m_e_20') ) ? true : false,
-						'm_e_51' => ( $request->input('m_e_51') ) ? true : false,
-						'm_e_71' => ( $request->input('m_e_71') ) ? true : false,
-						'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
-						'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
-						'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
-					]);
+				$messages = [
+					'cliente.required' => trans('mgproyectos::ui.display.error_required', ['attribute' => trans('mgproyectos::ui.attribute.cliente')])
+				]; 
 				
-				$request->session()->flash('message', trans('mgproyectos::ui.flash.flash_create_cliente'));
-				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+				$validator = \Validator::make($request->all(), $rules, $messages);			
+				
+				if ( $validator->fails() ) {
+					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+				} else {
+					\Modules\MgProyectos\Entities\Proyectos::where('id', $request->input('id'))
+						->update([					
+							'clienteId' => $request->input('cliente'),
+							'titulo_original' => ucwords( $request->input('titulo_serie') ),
+							'titulo_aprobado' => ucwords( $request->input('titulo_proyecto') ),
+							'statusId' => true,
+							'm_and_e' => true,
+							'titulo_espanol' => ( $request->has('titulo_espanol') ) ? ucwords( $request->input('titulo_espanol') ) : null,
+							'titulo_ingles' => ($request->has('titulo_ingles')) ? ucwords( $request->input('titulo_ingles') ) : null,
+							'titulo_portugues' => ($request->has('titulo_portugues')) ? ucwords( $request->input('titulo_portugues') ) : null,
+							'viaId' => $request->input('via') ,
+							'temporada' => $request->input('temporada'),
+							'temporada' => $request->input('temporada'),
+							'adr_ingles' => ( $request->input('adr_ingles') ) ? true : false,
+							'adr_portugues' => ( $request->input('adr_portugues') ) ? true : false,
+							'adr_espanol' => ( $request->input('adr_espanol') ) ? true : false,
+							'mix20' => ( $request->input('mix20') ) ? true : false,
+							'mix51' => ( $request->input('mix51') ) ? true : false,
+							'mix71' => ( $request->input('mix71') ) ? true : false,
+							'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
+							'm_e_20' => ( $request->input('m_e_20') ) ? true : false,
+							'm_e_51' => ( $request->input('m_e_51') ) ? true : false,
+							'm_e_71' => ( $request->input('m_e_71') ) ? true : false,
+							'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
+							'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
+							'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
+						]);
+					
+					$request->session()->flash('message', trans('mgproyectos::ui.flash.flash_create_cliente'));
+					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+				}
+			} catch(\Exception $e) {
+				return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
 			}
 		}
     }

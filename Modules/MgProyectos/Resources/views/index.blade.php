@@ -72,17 +72,17 @@
 										</td>
 										<td>
 											@if(\Request::session()->has('edit_proyecto'))
-												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_show_proyecto" class="btn btn-xs btn-warning show_id" title="Consultar">
+												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_show_proyecto" class="btn btn-xs btn-warning" title="Consultar">
 													<i class="ace-icon fa fa-book  bigger-120"></i>
 												</a>
 											@endif
 											@if(\Request::session()->has('edit_proyecto'))
-												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_update_proyecto" class="btn btn-xs btn-info update_id" title="Editar">
+												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_update_proyecto" class="btn btn-xs btn-info" title="Editar">
 													<i class="ace-icon fa fa-pencil bigger-120"></i>
 												</a>
 											@endif		
 											@if(\Request::session()->has('delete_proyecto'))
-												<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $proyecto->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+												<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $proyecto->id }}" class="btn btn-xs btn-danger" title="Eliminar">
 													<i class="ace-icon fa fa-trash-o bigger-120"></i>
 												</a>
 											@endif
@@ -115,8 +115,8 @@
 			  <div class="modal-body">
 					{{ csrf_field() }}
 					<div class="form-group">
-						<label for="exampleInputEmail1">Cliente</label>
-						<select class="form-control selectpicker" id="cliente" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+						<label >Cliente</label>
+						<select class="form-control selectpicker" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 							@foreach($clientes as $cliente)
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>
 							@endforeach
@@ -127,22 +127,22 @@
 					<div id="input_titulo_portugues" class="form-group"></div>
 					<div class="form-group">
 						<label for="temporada">Temporada</label>
-						<input type="text" class="form-control" id="temporada" name="temporada" placeholder="Temporada">
+						<input type="text" class="form-control" name="temporada" placeholder="Temporada">
 					</div>
 					<div id="input_titulo_espanol" class="form-group"></div>
 					<div id="input_titulo_ingles" class="form-group"></div>
 					<div id="input_titulo_portugues" class="form-group"></div>
 					<div class="form-group">
 						<label for="titulo_serie">{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
-						<input type="text" class="form-control" id="titulo_serie" name="titulo_serie" placeholder="Título Original de la Serie">
+						<input type="text" class="form-control" name="titulo_serie" placeholder="Título Original de la Serie">
 					</div>	
 					<div class="form-group">
-						<label for="titulo_proyecto">{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
-						<input type="text" class="form-control" id="titulo_proyecto" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
+						<label>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
+						<input type="text" class="form-control" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
 					</div>	
 					<div class="form-group">
-					<label for="exampleInputEmail1">Vía</label>
-					<select class="form-control selectpicker" id="via" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+					<label>Vía</label>
+					<select class="form-control selectpicker" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 						@foreach($vias as $via)
 							<option value="{{ $via->id }}"> {{ $via->via }} </option>
 						@endforeach
@@ -159,23 +159,19 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="adr_ingles" name="adr_ingles">
-								<label for="adr_ingles">{{trans('mgproyectos::ui.label.ingles')}}</label>
-							</div>
+							<label>			
+								<input type="checkbox" id="adr_ingles" name="adr_ingles"> {{trans('mgproyectos::ui.label.ingles')}}
+							</label>
 						</td>
 						<td>
-							<div class="form-group">
-								<input type="checkbox" id="adr_portugues" name="adr_portugues">
-									<label for="adr_portugues">{{trans('mgproyectos::ui.label.portugues')}}</label>
-								</div>
-							</div>
+							<label>
+								<input type="checkbox" id="adr_portugues"  name="adr_portugues"> {{trans('mgproyectos::ui.label.portugues')}}
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="adr_espanol" name="adr_espanol">
-								<label for="adr_espanol">{{trans('mgproyectos::ui.label.espanol')}}</label>
-							</div>
+							<label>				
+								<input type="checkbox" id="adr_espanol" name="adr_espanol"> {{trans('mgproyectos::ui.label.espanol')}}
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -183,23 +179,19 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="mix20" name="mix20">
-								<label for="mix20">2.0</label>
-							</div>
+							<label>				
+								<input type="checkbox" id="mix20" name="mix20"> 2.0
+							</label>
 						</td>
 						<td>
-							<div class="form-group">
-								<input type="checkbox" id="mix51" name="mix51">
-									<label for="mix51">5.1</label>
-								</div>
-							</div>
+							<label>
+								<input type="checkbox" id="mix51" name="mix51"> 5.1
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="mix71" name="mix71">
-								<label for="mix71">7.1</label>
-							</div>
+							<label>				
+								<input type="checkbox" id="mix71" name="mix71"> 7.1
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -207,28 +199,24 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="relleno_mande" name="relleno_mande">
-								<label for="relleno_mande">{{trans('mgproyectos::ui.label.relleno')}}</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="relleno_mande"> {{trans('mgproyectos::ui.label.relleno')}}
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="m_e_20" name="m_e_20">
-								<label for="m_e_20">2.0</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="m_e_20"> 2.0
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="m_e_51" name="m_e_51">
-								<label for="m_e_51">5.1</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="m_e_51"> 5.1
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="m_e_71" name="m_e_71">
-								<label for="m_e_71">7.1</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="m_e_71"> 7.1
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -236,22 +224,19 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_espanol" name="subtitulaje_espanol">
-								<label for="subtitulaje_espanol">{{trans('mgproyectos::ui.label.espanol')}}</label>
-							</div>
+							<label>				
+								<input type="checkbox" id="subtitulaje_espanol" name="subtitulaje_espanol"> {{trans('mgproyectos::ui.label.espanol')}}
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_ingles" name="subtitulaje_ingles">
-								<label for="subtitulaje_ingles">{{trans('mgproyectos::ui.label.ingles')}}</label>
-							</div>
+							<label>			
+								<input type="checkbox" name="subtitulaje_ingles"> {{trans('mgproyectos::ui.label.ingles')}}
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="sutitulaje_portugues" name="sutitulaje_portugues">
-								<label for="sutitulaje_portugues">{{trans('mgproyectos::ui.label.portugues')}}</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="subtitulaje_portugues"> {{trans('mgproyectos::ui.label.portugues')}}
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -316,34 +301,32 @@
 			  <form role="form" id="form_update_proyecto">
 			  <div class="modal-body">
 					{{ csrf_field() }}
-					<input type="hidden" id="id_update" name="id">
+					<input type="hidden" name="id">
 					<div class="form-group">
 						<label>Selecciona un Cliente</label>
-						<select class="form-control selectpicker" id="cliente_update" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+						<select class="form-control selectpicker" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 							@foreach($clientes as $cliente)
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>
 							@endforeach
 						</select>
 					</div>	
-					<div id="input_titulo_espanol_update" class="form-group"></div>
-					<div id="input_titulo_ingles_update" class="form-group"></div>
-					<div id="input_titulo_portugues_update" class="form-group"></div>
+					<div id="input_titulo_espanol_update"></div>
+					<div id="input_titulo_ingles_update"></div>
+					<div id="input_titulo_portugues_update"></div>
 					<div class="form-group">
 						<label for="temporada">Temporada</label>
-						<input type="text" class="form-control" id="temporada_update" name="temporada" placeholder="Temporada">
-
-					<!-- -->
+						<input type="text" class="form-control" name="temporada" placeholder="Temporada">
 					</div>	
 					<div class="form-group">
 						<label>{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
-						<input type="text" class="form-control" id="titulo_original_update" name="titulo_serie" placeholder="Título Original de la Serie">
+						<input type="text" class="form-control" name="titulo_serie" placeholder="Título Original de la Serie">
 					</div>	
 					<div class="form-group">
-						<label for="titulo_aprobado_update">{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
-						<input type="text" class="form-control" id="titulo_aprobado_update" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
+						<label>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
+						<input type="text" class="form-control" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
 					</div>					
 					<div class="form-group">
-						<select class="form-control selectpicker" id="via_update" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+						<select class="form-control selectpicker" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 							<option select value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
 							@foreach($vias as $via)
 								<option value="{{ $via->id }}"> {{ $via->via }} </option>
@@ -354,23 +337,20 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="adr_ingles_update" name="adr_ingles">
-								<label for="adr_ingles">{{trans('mgproyectos::ui.label.ingles')}}</label>
+							<label>				
+								<input type="checkbox" name="adr_ingles" id="adr_ingles_update"> {{trans('mgproyectos::ui.label.ingles')}}
+							</label>
+						</td>
+						<td>
+							<label>
+								<input type="checkbox" name="adr_portugues" id="adr_portugues_update"> {{trans('mgproyectos::ui.label.portugues')}}
+							</label>
 							</div>
 						</td>
 						<td>
-							<div class="form-group">
-								<input type="checkbox" id="adr_portugues_update" name="adr_portugues">
-									<label for="adr_portugues">{{trans('mgproyectos::ui.label.portugues')}}</label>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="adr_espanol_update" name="adr_espanol">
-								<label for="adr_espanol">{{trans('mgproyectos::ui.label.espanol')}}</label>
-							</div>
+							<label>				
+								<input type="checkbox"  name="adr_espanol" id="adr_espanol_update"> {{trans('mgproyectos::ui.label.espanol')}}
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -378,23 +358,19 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="mix20_update" name="mix20">
-								<label for="mix20">2.0</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="mix20"> 2.0
+							</label>
 						</td>
 						<td>
-							<div class="form-group">
-								<input type="checkbox" id="mix51_update" name="mix51">
-									<label for="mix51">5.1</label>
-								</div>
-							</div>
+							<label>
+								<input type="checkbox" name="mix51"> 5.1
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="mix71_update" name="mix71">
-								<label for="mix71">7.1</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="mix71"> 7.1
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -402,28 +378,24 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="relleno_mande_update" name="relleno_mande">
-								<label for="relleno_mande_update">{{trans('mgproyectos::ui.label.relleno')}}</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="relleno_mande"> {{trans('mgproyectos::ui.label.relleno')}}
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="m_e_20_update" name="m_e_20">
-								<label for="m_e_20_update">2.0</label>
-							</div>
+							<label>			
+								<input type="checkbox" name="m_e_20"> 2.0
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="m_e_51_update" name="m_e_51">
-								<label for="m_e_51_update">5.1</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="m_e_51"> 5.1
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="m_e_71_update" name="m_e_71">
-								<label for="m_e_71_update">7.1</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="m_e_71"> 7.1
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -432,22 +404,19 @@
 				<table class="table">
 					<tr>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_espanol_update" name="subtitulaje_espanol">
-								<label for="subtitulaje_espanol">Español</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="subtitulaje_espanol"> Español
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_ingles_update" name="subtitulaje_ingles">
-								<label for="subtitulaje_ingles">Inglés</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="subtitulaje_ingles"> Inglés
+							</label>
 						</td>
 						<td>
-							<div class="form-group">				
-								<input type="checkbox" id="subtitulaje_portugues_update" name="subtitulaje_portugues">
-								<label for="sutitulaje_portugues">Portugues</label>
-							</div>
+							<label>				
+								<input type="checkbox" name="subtitulaje_portugues"> Portugués
+							</label>
 						</td>
 					</tr>
 				</table>
@@ -507,86 +476,254 @@
 	        		},
 		        }
 			});
-			
-			$('.update_id').on('click', function(){
-				 id = $( this ).data('id');				
+
+			/*
+			* Modal para crear proyectos
+			*/
+			$('#modal_proyecto').on('shown.bs.modal', function(){
+
+				//Limpiar inputs
+				$("input[type=text], textarea, select").val("");
+				$("input[type=checkbox], textarea").prop("checked", false);
+				$('#input_titulo_espanol').html('');
+				$('#input_titulo_ingles').html('');
+				$('#input_titulo_portugues').html('');
+				$('.selectpicker').selectpicker('refresh');	
+				//Sección de inputs para crear
+				$('input[name=adr_espanol]').on('click', function(){
+					if($(this).is(':checked')){
+						$('#input_titulo_espanol').html('<label>Título en Español</label> <input type="text" class="form-control" name="titulo_espanol" placeholder="Título en Español">');
+					} else{
+						$('#input_titulo_espanol').html('');
+					}
+				});
+
+				$('input[name=adr_ingles]').on('click', function(){
+					if($(this).is(':checked')){
+						$('#input_titulo_ingles').html('<label>Título en Inglés</label> <input type="text" class="form-control" name="titulo_ingles" placeholder="Título en Inglés">');
+					} else{
+						$('#input_titulo_ingles').html('');
+					}
+				});
+
+				$('#adr_portugues').on('click', function(){
+					if($(this).is(':checked')){
+						$('#input_titulo_portugues').html('<label>Título en Portugués</label> <input type="text" class="form-control" name="titulo_portugues" placeholder="Título en Portugués">');
+					} else{
+						$('#input_titulo_portugues').html('');
+					}
+				});
+
+
+				$('#form_create_proyecto').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgproyectos/save_proyecto') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							if(error.responseJSON.msg.length > 0){
+								var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_proyecto').html('<div class="alert alert-danger">' + err + '</div>');
+							}
+						}
+					});
+				});
+			});
+
+			/*
+			* Modal para modificar proyectos
+			*/
+			$('#modal_update_proyecto').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+
 				$.ajax({
 					url: "{{ url('mgproyectos/edit_proyecto') }}" + "/" + id,
 					type: "GET",
-					success: function( data ){
+					success: function(data){
 						console.log(data);
-						$('#id_update').val(data.id);
-						$('#titulo_original_update').val(data.titulo_original);
-						$('#titulo_aprobado_update').val(data.titulo_aprobado);
-						$('#temporada_update').val(data.temporada);
-						$('select[name=cliente]').val(data.clienteId);						
-						$("#idioma_update option[value="+ data.idiomaId +"]").attr("selected",true);
+						$('input[name=id]').val(data.id);
+						$('input[name=titulo_serie]').val(data.titulo_original);
+						$('input[name=titulo_proyecto]').val(data.titulo_aprobado);
+						$('input[name=temporada]').val(data.temporada);
+						$('select[name=cliente]').val(data.clienteId);	
 						$('select[name=via]').val(data.viaId);
+						$('#input_titulo_espanol_update').html('');
+						$('#input_titulo_ingles_update').html('');
+						$('#input_titulo_portugues_update').html('');
+
+						//Checkbox ADR
+						if(data.adr_espanol == true){
+							$('#adr_espanol_update').prop("checked", true);
+							$('#input_titulo_espanol_update').html('\
+								<label>Título en Español</label>\
+								<input type="text" class="form-control" name="titulo_espanol" value="'+(data.titulo_espanol == null ? '' : data.titulo_espanol)+'" placeholder="Título en Español" required> \
+								');
+						} else{
+							$('#adr_espanol_update').prop("checked", false);
+							$('#input_titulo_espanol').html('');
+						}
+
+						if(data.adr_ingles == true){
+							$('#adr_ingles_update').prop("checked", true);
+							$('#input_titulo_ingles_update').append('\
+								<label>Título en Inglés</label>\
+								<input type="text" class="form-control" name="titulo_ingles" value="'+(data.titulo_ingles == null ? '' : data.titulo_ingles)+'" laceholder="Título en Inglés" required> \
+								');
+						} else{
+							$('#adr_ingles_update').prop("checked", false);
+						}
+
+						if(data.adr_portugues == true){
+							$('#adr_portugues_update').prop("checked", true);
+							$('#input_titulo_portugues_update').append('\
+								<label>Título en Portugés</label>\
+								<input type="text" class="form-control" name="titulo_portugues" value="'+(data.titulo_portugues == null ? '' : data.titulo_portugues)+'" placeholder="Título en Portugués" required> \
+								');
+						} else{
+							$('#adr_portugues_update').prop("checked", false);
+						}
+
+						//Desaparecer inputs
+						$('#adr_espanol_update').on('click', function(){
+							if($(this).is(':checked')){
+								$('#input_titulo_espanol_update').html('\
+									<label>Título en Español</label> \
+									<input type="text" class="form-control" name="titulo_espanol" value="'+(data.titulo_espanol == null ? '' : data.titulo_espanol) +'" placeholder="Título en Español" required>\
+									');
+							} else{
+								$('#input_titulo_espanol_update').html('');
+							}
+						});
+
+						$('#adr_ingles_update').on('click', function(){
+							if($(this).is(':checked')){
+								$('#input_titulo_ingles_update').html('\
+									<label>Título en Inglés</label> \
+									<input type="text" class="form-control" name="titulo_ingles" value="'+(data.titulo_ingles == null ? '' : data.titulo_ingles)+'" placeholder="Título en Inglés" required>\
+									');
+							} else{
+								$('#input_titulo_ingles_update').html('');
+							}
+						});
+
+						$('#adr_portugues_update').on('click', function(){
+							if($(this).is(':checked')){
+								$('#input_titulo_portugues_update').html('\
+									<label>Título en Portugés</label> \
+									<input type="text" class="form-control" name="titulo_portugues" value="'+(data.titulo_portugues == null ? '' : data.titulo_portugues)+'" placeholder="Título en Portugués" required>\
+									');
+							} else{
+								$('#input_titulo_portugues_update').html('');
+							}
+						});
+
+						//Checkbox MIX
+						if(data.mix20 == true){
+							$('input[name=mix20]').prop("checked", true);
+						} else{
+							$('input[name=mix20]').prop("checked", false);
+						}
+
+						if(data.mix51 == true){
+							$('input[name=mix51]').prop("checked", true);
+						} else{
+							$('input[name=mix51]').prop("checked", false);
+						}
+
+						if(data.mix71 == true){
+							$('input[name=mix71]').prop("checked", true);
+						} else{
+							$('input[name=mix71]').prop("checked", false);
+						}
+
+						//Relleno M&E
+						if(data.relleno_mande == true){
+							$("input[name=relleno_mande]").prop( "checked", true );
+						} else{
+							$('input[name=relleno_mande]').prop("checked", false);
+						}
+
+						if(data.m_e_20 == true){
+							$('input[name=m_e_20').prop( "checked", true );
+						} else{
+							$('input[name=m_e_20]').prop("checked", false);
+						}
+
+						if(data.m_e_51 == true){
+							$('input[name=m_e_51]').prop( "checked", true );
+						} else{
+							$('input[name=m_e_51]').prop("checked", false);
+						}
+
+						if(data.m_e_71 == true){
+							$('input[name=m_e_71]').prop( "checked", true );
+						} else{
+							$('input[name=m_e_71]').prop("checked", false);
+						}
+
+						//Checkbox Subtitulos 
+						if(data.subt_espanol == true){
+							$('input[name=subtitulaje_espanol]').prop( "checked", true );
+						} else{
+							$('input[name=subtitulaje_espanol]').prop("checked", false);
+						}
+
+						if(data.subt_ingles == true){
+							$('input[name=subtitulaje_ingles]').prop( "checked", true );
+						} else{
+							$('input[name=subtitulaje_ingles]').prop("checked", false);
+						}
+
+						if(data.subt_portugues == true){
+							$('input[name=subtitulaje_portugues]').prop( "checked", true );
+						} else{
+							$('input[name=subtitulaje_portugues]').prop("checked", false);
+						}
+
 						$('.selectpicker').selectpicker('refresh');
 
-						//titulo en otros idiomas
-						$('#input_titulo_espanol_update').val(data.titulo_espanol);
-						$('#input_titulo_ingles_update').val(data.titulo_ingles);
-						$('#input_titulo_portugues_update').val(data.titulo_portugues);
-						if(data.titulo_espanol === null ){
-							$('#titulo_espanol_update').html("");
-						}
-						if( data.titulo_ingles === null ){
-							$('#titulo_ingles_update').html("");
-						}
-						if( data.titulo_portugues === null ){
-							$('#titulo_portugues_update').html("");
-						}		
-						//Checkbox ADR
-						if(data.adr_espanol == 1){
-							$( "#adr_espanol_update" ).prop( "checked", true );
-						}
-						if(data.adr_ingles == 1){
-							$( "#adr_ingles_update" ).prop( "checked", true );
-						}
-						if(data.adr_portugues == 1){
-							$( "#adr_portugues_update" ).prop( "checked", true );
-						}
-						//Checkbox MIX
-						if(data.mix20 == 1){
-							$( "#mix20_update" ).prop( "checked", true );
-						}
-						if(data.mix51 == 1){
-							$( "#mix51_update" ).prop( "checked", true );
-						}
-						if(data.mix71 == 1){
-							$( "#mix71_update" ).prop( "checked", true );
-						}
-						//Relleno M&E
-						if(data.relleno_mande == 1){
-							$( "#relleno_mande_update" ).prop( "checked", true );
-						}
-						if(data.m_e_20 == 1){
-							$( "#m_e_20_update" ).prop( "checked", true );
-						}
-						if(data.m_e_51 == 1){
-							$( "#m_e_51_update" ).prop( "checked", true );
-						}
-						if(data.m_e_71 == 1){
-							$( "#m_e_71_update" ).prop( "checked", true );
-						}
-						//Checkbox Subtitulos 
-						if(data.subt_espanol == 1){
-							$( "#subtitulaje_espanol_update" ).prop( "checked", true );
-						}
-						if(data.subt_ingles == 1){
-							$( "#subtitulaje_ingles_update" ).prop( "checked", true );
-						}
-						if(data.subt_portugues == 1){
-							$( "#subtitulaje_portugues_update" ).prop( "checked", true );
-						}				
+						$('#form_update_proyecto').on('submit', function(event){
+							event.preventDefault();
+							$.ajax({
+								url: "{{ url('mgproyectos/update_proyecto') }}",
+								type: "POST",
+								data: $( this ).serialize(),
+								success: function( data ){
+									if(data.msg == 'success'){
+										window.location.reload(true);
+									}
+								},
+								error: function(error){
+									var err = "";
+									for(var i in error.responseJSON.msg){
+										err += error.responseJSON.msg[i] + "<br>";														
+									}
+									$('#error_update_proyecto').html('<div class="alert alert-danger">' + err + '</div>');
+								}
+							});
+						});	
 						
 					}
 				});
-			 });
 
-			 $('.show_id').on('click', function(){
-				 id = $( this ).data('id');				
+			});
+
+			/*
+			* Modal para mostrar proyectos
+			*/
+			$('#modal_show_proyecto').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+				event.preventDefault();
+
 				$.ajax({
 					url: "{{ url('mgproyectos/show_proyecto') }}" + "/" + id,
 					type: "GET",
@@ -662,109 +799,18 @@
 						}
 					}
 				});
-			 });
-			
-			$('.delete_id').on('click', function(){
-				 id = $( this ).data('id');
-				  $('#form_delete_proyecto').attr('action', '{{ url("mgproyectos/form_delete") }}/' + id);
-			 });
-			
-			$('#modal_proyecto').on('shown.bs.modal', function () {
-			  //$('#myInput').focus()
+
+			});
+
+			/*
+			* Modal para eliminar proyectos
+			*/
+			$('#modal_delete_proyecto').on('shown.bs.modal', function(e) {
+			  	var id = $(e.relatedTarget).data().id;
+				$('#form_delete_proyecto').attr('action', '{{ url("mgproyectos/form_delete") }}/' + id);
 			})	
-			
-			$('#form_create_proyecto').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgproyectos/save_proyecto') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_create_proyecto').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
-			});
-			
-			$('#form_update_proyecto').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgproyectos/update_proyecto') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_proyecto').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
-			});
-
-			 //Sección de inputs para crear
-			 $('#adr_espanol').on('click', function(){
-						if($('#adr_espanol').is(':checked')){
-								$('#input_titulo_espanol').html('<label for="titulo_espanol">Título en Español</label> <input type="text" class="form-control" id="titulo_espanol" name="titulo_espanol" placeholder="Título en Español">');
-						} else{
-							$('#input_titulo_espanol').html('');
-						}
-					});
-
-					$('#adr_ingles').on('click', function(){
-						if($('#adr_ingles').is(':checked')){
-								$('#input_titulo_ingles').html('<label for="titulo_ingles">Título en Inglés</label> <input type="text" class="form-control" id="titulo_ingles" name="titulo_ingles" placeholder="Título en Inglés">');
-						} else{
-							$('#input_titulo_ingles').html('');
-						}
-					});
-
-					$('#adr_portugues').on('click', function(){
-						if($('#adr_portugues').is(':checked')){
-								$('#input_titulo_portugues').html('<label for="titulo_portugues">Título en Portugués</label> <input type="text" class="form-control" id="titulo_portugues" name="titulo_ portugues" placeholder="Título en Portugués">');
-						} else{
-							$('#input_titulo_portugues').html('');
-						}
-					});
-
-					//Sección para update
-					$('#adr_espanol_update').on('click', function(){
-						if($('#adr_espanol_update').is(':checked')){
-								$('#input_titulo_espanol_update').html('<label for="titulo_espanol">Título en Español</label> <input type="text" class="form-control" id="titulo_espanol" name="titulo_espanol" placeholder="Título en Español" required>');
-						} else{
-							$('#input_titulo_espanol_update').html('');
-						}
-					});
-
-					$('#adr_ingles_update').on('click', function(){
-						if($('#adr_ingles_update').is(':checked')){
-								$('#input_titulo_ingles_update').html('<label for="titulo_espanol">Título en Inglés</label> <input type="text" class="form-control"  name="titulo_ingles" placeholder="Título en Inglés" required>');
-						} else{
-							$('#input_titulo_ingles_update').html('');
-						}
-					});
-
-					$('#adr_portugues_update').on('click', function(){
-							if($('#adr_portugues_update').is(':checked')){
-									$('#input_titulo_portugues_update').html('<label for="titulo_portugues">Título del Episodio en Portugués</label> <input type="text" class="form-control"  name="titulo_portugues" placeholder="Título en Portugués" required>');
-							} else{
-								$('#input_titulo_portugues_update').html('');
-							}
-						});
-				});
+					
+	});
 	
 	</script>
 @stop

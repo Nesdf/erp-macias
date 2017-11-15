@@ -25,9 +25,11 @@
 					</div>
 					<div class="table-header">
 						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_tcr" class="btn btn-success">
-							TCR Nuevo
-						</a>
+						@if(\Request::session()->has('add_tcr'))
+							<a data-toggle="modal" data-target="#modal_tcr" class="btn btn-success">
+								TCR Nuevo
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -53,13 +55,16 @@
 											{{ $tcr->tcr }}
 										</td>
 										<td>
-											<a data-id="{{ $tcr->id }}" data-toggle="modal" data-target="#modal_update_tcr" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $tcr->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
+											@if(\Request::session()->has('edit_tcr'))
+												<a data-id="{{ $tcr->id }}" data-toggle="modal" data-target="#modal_update_tcr" class="btn btn-xs btn-info" title="Editar">
+													<i class="ace-icon fa fa-pencil bigger-120"></i>
+												</a>		
+											@endif
+											@if(\Request::session()->has('delete_tcr'))
+												<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $tcr->id }}" class="btn btn-xs btn-danger" title="Eliminar">
+													<i class="ace-icon fa fa-trash-o bigger-120"></i>
+												</a>
+											@endif
 										</td>
 									</tr>
 								@endforeach
@@ -177,64 +182,68 @@
 		        }
 			});
 			
-			$('.update_id').on('click', function(){
-				 id = $( this ).data('id');				
+			
+
+			$('#modal_delete_proyecto').on('shown.bs.modal', function(e){
+
+				var id = $(e.relatedTarget).data().id;
+				$('#form_delete_tcr').attr('action', '{{ url("mgtcr/delete") }}/' + id);
+			});
+			
+			$('#modal_tcr').on('shown.bs.modal', function(){
+
+				$('#form_create_tcr').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgtcr/create') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_tcr').html('<div class="alert alert-danger">' + err + '</div>');
+						}
+					});
+				});
+			});
+
+			$('#modal_update_tcr').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
 				$.ajax({
 					url: "{{ url('mgtcr/edit') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
-						console.log(data);
 						$('#id_update').val(data.id);
-						$('#tcr_update').val(data.tcr);
+						$('input[name=tcr]').val(data.tcr);
 					}
 				});
-			 });
-			
-			$('.delete_id').on('click', function(){
-				event.preventDefault();
-				 id = $( this ).data('id');
-				  $('#form_delete_tcr').attr('action', '{{ url("mgtcr/delete") }}/' + id);
-			 });
-			
-			$('#form_create_tcr').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgtcr/create') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
+
+				$('#form_update_tcr').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgtcr/update') }}",
+						type: "PUT",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_update_tcr').html('<div class="alert alert-danger">' + err + '</div>');
 						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_create_tcr').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
-			});
-			
-			$('#form_update_tcr').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgtcr/update') }}",
-					type: "PUT",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_tcr').html('<div class="alert alert-danger">' + err + '</div>');
-					}
+					});
 				});
 			});
 		});

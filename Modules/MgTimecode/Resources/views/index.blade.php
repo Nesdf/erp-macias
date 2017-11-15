@@ -25,9 +25,11 @@
 					</div>
 					<div class="table-header">
 						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_timecode" class="btn btn-success">
-							Timecode Nuevo
-						</a>
+						@if(\Request::session()->has('add_tc'))
+							<a data-toggle="modal" data-target="#modal_timecode" class="btn btn-success">
+								Timecode Nuevo
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -53,13 +55,16 @@
 											{{ $timecode->timecode }}
 										</td>
 										<td>
-											<a data-id="{{ $timecode->id }}" data-toggle="modal" data-target="#modal_update_timecode" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_timecode" data-id="{{ $timecode->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
+											@if(\Request::session()->has('edit_tc'))
+												<a data-id="{{ $timecode->id }}" data-toggle="modal" data-target="#modal_update_timecode" class="btn btn-xs btn-info update_id" title="Editar">
+													<i class="ace-icon fa fa-pencil bigger-120"></i>
+												</a>		
+											@endif
+											@if(\Request::session()->has('delete_tc'))
+												<a data-toggle="modal" data-target="#modal_delete_timecode" data-id="{{ $timecode->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+													<i class="ace-icon fa fa-trash-o bigger-120"></i>
+												</a>
+											@endif
 										</td>
 									</tr>
 								@endforeach

@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgepisodios', 'namespace' => 'Modules\MgEpisodios\Http\Controllers'], function()
+Route::group(['middleware' => ['web', 'auth','verify_routes'], 'prefix' => 'mgepisodios', 'namespace' => 'Modules\MgEpisodios\Http\Controllers'], function()
 {
     Route::get('/{id}', 'MgEpisodiosController@index')->name('mgepisodios');//Cargar el listado
 	Route::post('/save', 'MgEpisodiosController@store')->name('add_episodio');//Crear 

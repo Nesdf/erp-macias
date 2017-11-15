@@ -25,9 +25,11 @@
 					</div>
 					<div class="table-header">
 						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_sala" class="btn btn-success">
-							Sala Nueva
-						</a>
+						@if(\Request::session()->has('add_sala'))
+							<a data-toggle="modal" data-target="#modal_sala" class="btn btn-success">
+								Sala Nueva
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -39,7 +41,9 @@
 								<tr>
 									<th>ID</th>
 									<th>Salas</th>
-									<th></th>
+									@if(\Request::session()->has('update_sala') && \Request::session()->has('edit_sala') || \Request::session()->has('delete_sala'))
+										<th></th>
+									@endif
 								</tr>
 							</thead>
 
@@ -55,12 +59,12 @@
 											@if(\Request::session()->has('update_sala') && \Request::session()->has('edit_sala') || \Request::session()->has('delete_sala'))
 												<td>
 													@if(\Request::session()->has('update_sala') && \Request::session()->has('edit_sala'))
-														<a data-id="{{ $sala->id }}" data-toggle="modal" data-target="#modal_update_sala" class="btn btn-xs btn-info update_id" title="Editar">
+														<a data-id="{{ $sala->id }}" data-toggle="modal" data-target="#modal_update_sala" class="btn btn-xs btn-info" title="Editar">
 															<i class="ace-icon fa fa-pencil bigger-120"></i>
 														</a>		
 													@endif
 													@if(\Request::session()->has('delete_sala'))
-														<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $sala->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+														<a data-toggle="modal" data-target="#modal_delete_sala" data-id="{{ $sala->id }}" class="btn btn-xs btn-danger" title="Eliminar">
 															<i class="ace-icon fa fa-trash-o bigger-120"></i>
 														</a>
 													@endif
@@ -139,7 +143,7 @@
 	
 	<!-- Modal Delete-->
 	<div class="col-md-12">
-		<div class="modal fade" id="modal_delete_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal fade" id="modal_delete_sala" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">
@@ -181,70 +185,71 @@
 	        		},
 		        }
 			});
-			
-			$('.update_id').on('click', function(){
-				 id = $( this ).data('id');				
+
+			$('#modal_sala').on('shown.bs.modal', function (e) {
+			  
+			  	$('#form_create_sala').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('/mgsalas/create_sala') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_sala').html('<div class="alert alert-danger">' + err + '</div>');
+						}
+					});
+				});
+			});
+
+			$('#modal_update_sala').on('shown.bs.modal', function (e) {
+
+				var id = $(e.relatedTarget).data().id;
 				$.ajax({
-					url: "{{ url('mgsalas/edit_sala') }}" + "/" + id,
+					url: "{{ url('/mgsalas/edit_sala') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
-						console.log(data);
 						$('#id_update').val(data.id);
 						$('#sala_update').val(data.sala);
-					}
-				});
-			 });
-			
-			$('.delete_id').on('click', function(){
-				 id = $( this ).data('id');
-				  $('#form_delete_sala').attr('action', '{{ url("mgsalas/form_delete") }}/' + id);
-			 });
-			
-			$('#modal_sala').on('shown.bs.modal', function () {
-			  //$('#myInput').focus()
-			})	
-			
-			$('#form_create_sala').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgsalas/create_sala') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_create_sala').html('<div class="alert alert-danger">' + err + '</div>');
+
+						$('#form_update_sala').on('submit', function(event){
+							event.preventDefault();
+							$.ajax({
+								url: "{{ url('/mgsalas/update_sala') }}",
+								type: "POST",
+								data: $( this ).serialize(),
+								success: function( data ){
+									if(data.msg == 'success'){
+										window.location.reload(true);
+									}
+								},
+								error: function(error){
+									var err = "";
+									for(var i in error.responseJSON.msg){
+										err += error.responseJSON.msg[i] + "<br>";														
+									}
+									$('#error_update_sala').html('<div class="alert alert-danger">' + err + '</div>');
+								}
+							});
+						});
 					}
 				});
 			});
+
+			$('#modal_delete_sala').on('shown.bs.modal', function (e) {
+
+				var id = $(e.relatedTarget).data().id;
+				$('#form_delete_sala').attr('action', '{{ url("mgsalas/form_delete") }}/' + id);
+			});			
 			
-			$('#form_update_sala').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgsalas/update_sala') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_sala').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
-			});
 		});
 	</script>
 @stop

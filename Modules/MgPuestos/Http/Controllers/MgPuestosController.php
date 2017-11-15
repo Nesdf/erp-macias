@@ -14,8 +14,13 @@ class MgPuestosController extends Controller
      */
     public function index()
     {
-		$puestos = \Modules\MgPersonal\Entities\Jobs::get();
-        return view('mgpuestos::index', compact('puestos'));
+		try{
+
+            $puestos = \Modules\MgPersonal\Entities\Jobs::get();
+            return view('mgpuestos::index', compact('puestos'));
+        } catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -34,30 +39,35 @@ class MgPuestosController extends Controller
      */
     public function store(Request $request)
     {
-		if( $request->method('post') && $request->ajax() ){
-			
-			$rules = [
-				'job' => 'required|min:2|max:50'				
-			];
-			
-			$messages = [
-				'job.required' => trans('mgpuestos::ui.display.error_required', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
-				'job.min' => trans('mgpuestos::ui.display.error_min2', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
-				'job.max' => trans('mgpuestos::ui.display.error_max50', ['attribute' => trans('mgpuestos::ui.attribute.job')])
-			]; 
-			
-			$validator = \Validator::make($request->all(), $rules, $messages);			
-			
-			if ( $validator->fails() ) {
-				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-			} else {
-				\Modules\MgClientes\Entities\Puestos::create([	
-					'job' => $request->input('job')
-				]);
-				$request->session()->flash('message', trans('mgpuestos::ui.flash.flash_create_cliente'));
-				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-			}
-		}
+		try {
+
+            if( $request->isMethod('post') && $request->ajax() ){
+            
+                $rules = [
+                    'job' => 'required|min:2|max:50'                
+                ];
+                
+                $messages = [
+                    'job.required' => trans('mgpuestos::ui.display.error_required', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
+                    'job.min' => trans('mgpuestos::ui.display.error_min2', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
+                    'job.max' => trans('mgpuestos::ui.display.error_max50', ['attribute' => trans('mgpuestos::ui.attribute.job')])
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['validation' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else {
+                    \Modules\MgClientes\Entities\Puestos::create([  
+                        'job' => $request->input('job')
+                    ]);
+                    $request->session()->flash('message', trans('mgpuestos::ui.flash.flash_create_cliente'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
+            }
+        } catch(\Exception $e) {
+            return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+        }
     }
 
     /**
@@ -75,7 +85,12 @@ class MgPuestosController extends Controller
      */
     public function edit($id)
     {
-        return \Modules\MgClientes\Entities\Puestos::find($id); 
+        try{
+
+            return \Modules\MgClientes\Entities\Puestos::find($id);
+        } catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -85,31 +100,36 @@ class MgPuestosController extends Controller
      */
     public function update(Request $request)
     {
-		if( $request->method('post') && $request->ajax() ){
-			
-			$rules = [
-				'job' => 'required|min:2|max:50'				
-			];
-			
-			$messages = [
-				'job.required' => trans('mgpuestos::ui.display.error_required', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
-				'job.min' => trans('mgpuestos::ui.display.error_min2', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
-				'job.max' => trans('mgpuestos::ui.display.error_max50', ['attribute' => trans('mgpuestos::ui.attribute.job')])
-			]; 
-			
-			$validator = \Validator::make($request->all(), $rules, $messages);			
-			
-			if ( $validator->fails() ) {
-				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-			} else {
-				\Modules\MgClientes\Entities\Puestos::where('id', $request->input('id'))
-				->update([					
-					'job' => $request->input('job')
-				]);
-				$request->session()->flash('message', trans('mgclientes::ui.flash.flash_create_puesto'));
-				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-			}
-		}
+		try {
+
+            if( $request->isMethod('post') && $request->ajax() ){
+            
+                $rules = [
+                    'job' => 'required|min:2|max:50'                
+                ];
+                
+                $messages = [
+                    'job.required' => trans('mgpuestos::ui.display.error_required', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
+                    'job.min' => trans('mgpuestos::ui.display.error_min2', ['attribute' => trans('mgpuestos::ui.attribute.job')]),
+                    'job.max' => trans('mgpuestos::ui.display.error_max50', ['attribute' => trans('mgpuestos::ui.attribute.job')])
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['validation' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else {
+                    \Modules\MgClientes\Entities\Puestos::where('id', $request->input('id'))
+                    ->update([                  
+                        'job' => $request->input('job')
+                    ]);
+                    $request->session()->flash('message', trans('mgclientes::ui.flash.flash_create_puesto'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
+            }
+        } catch(\Exception $e){
+            return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+        }
     }
 
     /**
@@ -118,8 +138,13 @@ class MgPuestosController extends Controller
      */
     public function destroy($id)
     {
-		\Modules\MgClientes\Entities\Puestos::destroy($id);
-		\Request::session()->flash('message', trans('mgpuestos::ui.flash.flash_delete_puesto'));
-		return redirect('mgpuestos');
+		try{
+
+            \Modules\MgClientes\Entities\Puestos::destroy($id);
+            \Request::session()->flash('message', trans('mgpuestos::ui.flash.flash_delete_puesto'));
+            return redirect('mgpuestos');
+        } catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'mgtiporeporte', 'namespace' => 'Modules\MgTipoReporte\Http\Controllers'], function()
+Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgtiporeporte', 'namespace' => 'Modules\MgTipoReporte\Http\Controllers'], function()
 {
     Route::get('/', 'MgTipoReporteController@index')->name('mgtiporeporte');
     Route::post('/create_reporte', 'MgTipoReporteController@store')->name('add_reporte');

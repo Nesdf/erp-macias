@@ -41,8 +41,8 @@
 					<!-- div.table-responsive -->
 
 					<!-- div.dataTables_borderWrap -->
-					<div>
-						<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+					<div><br><br>
+						<table id="table_personal" class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>ID</th>
@@ -82,12 +82,12 @@
 													</a>
 												@endif
 												@if(\Request::session()->has('edit_personal') && \Request::session()->has('update_personal'))
-													<a data-id="{{ $persona->id }}" data-toggle="modal" data-target="#modal_update_personal" class="btn btn-xs btn-info update_id" title="Editar">
+													<a data-id="{{ $persona->id }}" data-toggle="modal" data-target="#modal_update_personal" class="btn btn-xs btn-info" title="Editar">
 														<i class="ace-icon fa fa-pencil bigger-120"></i>
 													</a>
 												@endif		
 												@if(\Request::session()->has('delete_personal'))
-													<a data-toggle="modal" data-target="#modal_delete_personal" data-id="{{ $persona->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+													<a data-toggle="modal" data-target="#modal_delete_personal" data-id="{{ $persona->id }}" class="btn btn-xs btn-danger" title="Eliminar">
 														<i class="ace-icon fa fa-trash-o bigger-120"></i>
 													</a>
 												@endif
@@ -241,17 +241,59 @@
 @section('script')
 	<script>
 		$(document).on('ready', function(){
-			$('#modal_delete_personal').on('shown.bs.modal', function () {
-			  //$('#myInput').focus()
-			  //$( this ).data( 'id' );
+
+
+			$('#table_personal').DataTable({
+				language: {
+					search:   "Buscar: ",
+		            lengthMenu: "Mostrar _MENU_ registros por página",
+		            zeroRecords: "No se encontraron registros",
+		            info: "Página _PAGE_ de _PAGES_",
+		            infoEmpty: "Se buscó en",
+		            infoFiltered: "(_MAX_ registros)",
+		            paginate: {
+		                first:      "Primero",
+		                previous:   "Previo",
+		                next:       "Siguiente",
+		                last:       "Anterior"
+	        		},
+		        }
+			});
+
+
+
+
+
+			$('#modal_save_personal').on('shown.bs.modal', function (e) {
 			  
-			  console.log( $( this ) );
-			 
+			 	$('#form_create_usuario').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgpersonal/save-persona') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_personal').html('<div class="alert alert-danger">' + err + '</div>');
+							//$('#error_create_personal').html('<div class="alert alert-danger">'+error.responseJSON.msg.nombre+'</div>');
+						}
+					});
+				});
 			})	
-			
-			$('.update_id').on('click', function(){
-				 id = $( this ).data('id');				
-				$.ajax({
+
+
+			$('#modal_update_personal').on('shown.bs.modal', function (e) {
+			  	
+			  	var id = $(e.relatedTarget).data().id;
+			 	$.ajax({
 					url: "{{ url('mgpersonal/edit_personal') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
@@ -263,67 +305,40 @@
 						$('#correo_update').val(data.email);
 						$('#nombre_update').val(data.name);
 						$("#puesto_update option[value="+ data.job +"]").attr("selected",true);		
+
+
+						$('#form_update_usuario').on('submit', function(event){
+							event.preventDefault();
+							$.ajax({
+								url: "{{ url('mgpersonal/update_persona') }}",
+								type: "POST",
+								data: $( this ).serialize(),
+								success: function( data ){
+									if(data.msg == 'success'){
+										window.location.reload(true);
+									}
+								},
+								error: function(error){
+									var err = "";
+									for(var i in error.responseJSON.msg){
+										err += error.responseJSON.msg[i] + "<br>";														
+									}
+									$('#error_update_personal').html('<div class="alert alert-danger">' + err + '</div>');
+									//$('#error_create_personal').html('<div class="alert alert-danger">'+error.responseJSON.msg.nombre+'</div>');
+								}
+							});
+						});
 						
 					}
 				});
-				
-				  //$('#modal_delete_personal').child
-				 // $('#form_delete_usuario ').attr('action', '{{ url("mgpersonal/form_update") }}/' + id);
-			 });
-			
-			$('.delete_id').on('click', function(){
-				 id = $( this ).data('id');
-				  //$('#modal_delete_personal').child
-				  $('#form_delete_usuario ').attr('action', '{{ url("mgpersonal/form_delete") }}/' + id);
-			 });
-			
-			$('#modal_personal').on('shown.bs.modal', function () {
-			  //$('#myInput').focus()
 			})	
-			
-			$('#form_create_usuario').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgpersonal/save-persona') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_create_personal').html('<div class="alert alert-danger">' + err + '</div>');
-						//$('#error_create_personal').html('<div class="alert alert-danger">'+error.responseJSON.msg.nombre+'</div>');
-					}
-				});
-			});
-			
-			$('#form_update_usuario').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgpersonal/update_persona') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_personal').html('<div class="alert alert-danger">' + err + '</div>');
-						//$('#error_create_personal').html('<div class="alert alert-danger">'+error.responseJSON.msg.nombre+'</div>');
-					}
-				});
-			});
+
+
+			$('#modal_delete_personal').on('shown.bs.modal', function (e) {
+			  
+			  	var id = $(e.relatedTarget).data().id;
+			 	$('#form_delete_usuario ').attr('action', '{{ url("mgpersonal/form_delete") }}/' + id);
+			});	
 		});
 	</script>
 @stop

@@ -52,8 +52,10 @@
 							<div class="col-md-12">
 								<div id="create-pdf" style="display: none;">
 									<br><br>
-									<a data-toggle="modal" data-target="#modal_headers" class="btn btn-danger" id="btn-pdf">Generar Reporte PDF
-									</a>
+									@if(\Request::session()->has('pdf_llamado'))
+										<a data-toggle="modal" data-target="#modal_headers" class="btn btn-danger" id="btn-pdf">Generar Reporte PDF
+										</a>
+									@endif
 								</div>
 							</div>
 						</form>

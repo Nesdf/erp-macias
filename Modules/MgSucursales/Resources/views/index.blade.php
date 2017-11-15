@@ -25,9 +25,11 @@
 					</div>
 					<div class="table-header">
 						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_add_pais" class="btn btn-success">
-							País Nuevo
-						</a>
+						@if( \Request::session()->has('add_sucursal'))
+							<a data-toggle="modal" data-target="#modal_add_pais" class="btn btn-success">
+								País Nuevo
+							</a>
+						@endif
 					</div>
 					<br><br><br>
 					<!-- div.table-responsive -->
@@ -35,9 +37,11 @@
 						@foreach($paises as $pais)
 							<li>
 								<span style="font-size: 22px;">{{$pais->pais}}
-									<a href="#" data-id="{{$pais->id}}" data-pais="{{$pais->pais}}"  style="font-size: 10px;" data-toggle="modal" data-target="#modal_add_estado" >
-										Estado Nuevo
-									</a>
+									@if( \Request::session()->has('add_sucursal'))
+										<a href="#" data-id="{{$pais->id}}" data-pais="{{$pais->pais}}"  style="font-size: 10px;" data-toggle="modal" data-target="#modal_add_estado" >
+											Estado Nuevo
+										</a>
+									@endif
 								</span>
 								<ul>
 									@php
@@ -45,9 +49,11 @@
 									@endphp
 									@foreach($sucursales as $sucursal)
 										<li><span style="font-size: 16px;">{{$sucursal->estado}}</span> &nbsp;&nbsp;&nbsp;&nbsp;
-											<a data-id="{{ $sucursal->id }}" href="{{url('/mgsucursales/delete_ciudad'. '/'.$sucursal->id)}}" class="btn btn-xs btn-danger" title="Eliminar">
-												<i class="ace-icon fa fa-trash bigger-120"></i>
-											</a>	
+											@if( \Request::session()->has('delete_ciudad'))
+												<a data-id="{{ $sucursal->id }}" href="{{url('/mgsucursales/delete_ciudad'. '/'.$sucursal->id)}}" class="btn btn-xs btn-danger" title="Eliminar">
+													<i class="ace-icon fa fa-trash bigger-120"></i>
+												</a>	
+											@endif
 										</li>
 									@endforeach
 									@if(count($sucursales) == 0)

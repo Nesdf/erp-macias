@@ -148,7 +148,7 @@
 
 				<ul class="nav nav-list">
 					<li class="">
-						@if( \Request::session()->has('mgpuestos') || \Request::session()->has('mgsalas') || Request::session()->has('mgvias') )
+						@if( \Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') | \Request::session()->has('mgtiporeporte'))
 							<a href="#" class="dropdown-toggle">
 								<i class="menu-icon fa fa-list"></i>
 								<span class="menu-text"> Elementos </span>
@@ -205,20 +205,22 @@
 									@endif
 								</li>
 								<li class="">
+									@if(\Request::session()->has('mgtimecode'))
 										<a href="{{ url('mgtimecode') }}">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Timecode
+										</a>
+										<b class="arrow"></b>
+									@endif
+								</li>
+								<li class="">
+									@if(\Request::session()->has('mgtiporeporte'))
+										<a href="{{ url('mgtiporeporte') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
 											Descripción de Timecode
 										</a>
 										<b class="arrow"></b>
-								</li>
-								<li class="">
-									
-										<a href="{{ url('mgtiporeporte') }}">
-											<i class="menu-icon fa fa-caret-right"></i>
-											Tipo de Reporte
-										</a>
-										<b class="arrow"></b>
-									
+									@endif
 								</li>
 							</ul>
 						@endif
@@ -251,38 +253,42 @@
 						@endif
 					</li>
 					<li>
-						<a href="#" class="dropdown-toggle">
-								<i class="menu-icon fa fa-list"></i>
-								<span class="menu-text"> Llamados </span>
+						@if(\Request::session()->has('mgactores') || \Request::session()->has('mgcalendar') || \Request::session()->has('list_llamado'))
+							<a href="#" class="dropdown-toggle">
+									<i class="menu-icon fa fa-list"></i>
+									<span class="menu-text"> Llamados </span>
 
-								<b class="arrow fa fa-angle-down"></b>
-							</a>
+									<b class="arrow fa fa-angle-down"></b>
+								</a>
 
-							<b class="arrow"></b>
-
-							<ul class="submenu">
-								<li>
-									<a href="{{ url('mgactores') }}">
-										<i class="menu-icon fa fa-caret-right"></i>
-										Actores
-									</a>
-										<b class="arrow"></b>
-								</li>
-								<li>
-									<a href="{{ url('mgcalendar') }}">
-										<i class="menu-icon fa fa-caret-right"></i>
-										Calendario
-									</a>
-									<b class="arrow"></b>
-								</li>
-								<li>
-									<a href="{{ url('mgcalendar/list-llamados') }}">
-										<i class="menu-icon fa fa-caret-right"></i>
-										Lista de llamados
-									</a>
-									<b class="arrow"></b>
-								</li>
-							</ul>
+								<b class="arrow"></b>
+								<ul class="submenu">
+									<li>
+										@if(\Request::session()->has('mgactores'))
+											<a href="{{ url('mgactores') }}">
+												<i class="menu-icon fa fa-caret-right"></i> Actores
+											</a>
+											<b class="arrow"></b>
+										@endif
+									</li>
+									<li>
+										@if(\Request::session()->has('mgcalendar'))
+											<a href="{{ url('mgcalendar') }}">
+												<i class="menu-icon fa fa-caret-right"></i> Calendario
+											</a>
+											<b class="arrow"></b>
+										@endif
+									</li>
+									<li>
+										@if(\Request::session()->has('list_llamado'))
+											<a href="{{ url('mgcalendar/list-llamados') }}">
+												<i class="menu-icon fa fa-caret-right"></i> Lista de llamados
+											</a>
+											<b class="arrow"></b>
+										@endif
+									</li>
+								</ul>
+							@endif
 					</li>
 				</ul><!-- /.nav-list -->
 

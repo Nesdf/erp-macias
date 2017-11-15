@@ -36,6 +36,7 @@
                 <!-- PAGE CONTENT BEGINS -->
                 <div class="row">
                   <div class="col-sm-12">
+                     <div id="reload" class="center" ></div>
                     <div class="space"></div>
 
                     <div id="show-calendar">
@@ -100,6 +101,8 @@
                             url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                             type: "GET",
                             success: function( data ){
+                              
+                              $('div#reload').html('');
                                $('#name_sala').html('<h3 style="text-align: center;" ><strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
 
                                $('#external-events div.external-event').each(function() {
@@ -408,7 +411,6 @@
                                         );
                                       },
                                       error: function(error){
-                                        console.log(error.responseJSON.msg );
                                           modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">Este horario ya se encuentra ocupado.</div>');
 
                                           modal.on('click', function(){
@@ -565,7 +567,11 @@
                                 
                               });
                             },
+                            beforeSend: function(){
+                               $('div#reload').html('<img src="{{ asset('assets/mg/img/cargando.gif') }}">');
+                            },
                             error: function(error){
+                              $('div#reload').html('');
                             }
                           });
                       });

@@ -37,14 +37,10 @@
 								<tr>
 									<th>ID</th>
 									<th>{{trans('mgproyectos::ui.attribute.titulo_serie')}}</th>
-									<th class="hidden-480">{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</th>
+									<th>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</th>
 									<th>Cliente</th>
-									@if(\Request::session()->has('mgepisodios'))
-										<th>Episosdios</th>
-									@endif
-									@if(\Request::session()->has('edit_proyecto') || \Request::session()->has('delete_proyecto'))
-										<th></th>
-									@endif
+									<th>Episosdios</th>
+									<th></th>
 								</tr>
 							</thead>
 
@@ -64,18 +60,14 @@
 											{{ $proyecto->cliente }}
 										</td>
 										<td>
-											@if(\Request::session()->has('mgepisodios'))
-												<a href=" {{ url('mgepisodios/' . $proyecto->id ) }} " title="Generar Episodio">
-													<span class="label label-success arrowed-in arrowed-in-right"> Lista de Episodios </span>
-												</a>
-											@endif
+											<a href=" {{ url('mgepisodios/' . $proyecto->id ) }} " title="Generar Episodio">
+												<span class="label label-success arrowed-in arrowed-in-right"> Lista de Episodios </span>
+											</a>
 										</td>
 										<td>
-											@if(\Request::session()->has('edit_proyecto'))
-												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_show_proyecto" class="btn btn-xs btn-warning" title="Consultar">
+											<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_show_proyecto" class="btn btn-xs btn-warning" title="Consultar">
 													<i class="ace-icon fa fa-book  bigger-120"></i>
-												</a>
-											@endif
+											</a>
 											@if(\Request::session()->has('edit_proyecto'))
 												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_update_proyecto" class="btn btn-xs btn-info" title="Editar">
 													<i class="ace-icon fa fa-pencil bigger-120"></i>
@@ -518,7 +510,7 @@
 				$('#form_create_proyecto').on('submit', function(event){
 					event.preventDefault();
 					$.ajax({
-						url: "{{ url('mgproyectos/save_proyecto') }}",
+						url: "{{ url('mgproyectos/add_proyecto') }}",
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function( data ){

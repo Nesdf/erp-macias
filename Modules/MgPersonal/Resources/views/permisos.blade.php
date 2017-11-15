@@ -75,10 +75,10 @@
 								<input type="checkbox" name="mgsucursales"  @if( isset($urlArray['mgsucursales']) ) checked @endif >&nbsp;
 								<label>Dashboard Paises y Ciudades</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="add_sucursales"  @if( isset($urlArray['add_sucursales']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="add_sucursal-add_ciudad "  @if( isset($urlArray['add_sucursal']) ) checked @endif >&nbsp;
 								<label>Agregar Ciudad</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="delete_sucursal"  @if( isset($urlArray['delete_sucursal']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="delete_ciudad"  @if( isset($urlArray['delete_ciudad']) ) checked @endif >&nbsp;
 								<label>Eliminar Ciudad</label>
 							</p>
 						</div>
@@ -90,7 +90,7 @@
 								<input type="checkbox" name="mgpuestos"  @if( isset($urlArray['mgpuestos']) ) checked @endif >&nbsp;
 								<label>Dashboard Puesto de Trabajo</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="add_puesto-"  @if( isset($urlArray['add_puesto']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="add_puesto"  @if( isset($urlArray['add_puesto']) ) checked @endif >&nbsp;
 								<label>Agregar Puesto de Trabajo</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="edit_puesto-update_puesto"  @if( isset($urlArray['edit_puesto']) ) checked @endif >&nbsp;
@@ -171,11 +171,8 @@
 								<input type="checkbox" name="delete_personal"  @if( isset($urlArray['delete_personal']) ) checked @endif >&nbsp;
 								<label>Eliminar Personal</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="permisos_acceso"  @if( isset($urlArray['permisos_acceso']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="permisos_acceso-add_permisos"  @if( isset($urlArray['permisos_acceso']) ) checked @endif >&nbsp;
 								<label>Permisos de acceso</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="add_permisos-permisos_acceso"  @if( isset($urlArray['add_permisos']) ) checked @endif >&nbsp;
-								<label>Agregar Permisos</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							</p>
 						</div>
@@ -201,7 +198,7 @@
 						<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
 							<h4><strong>Administrar Proyectos</h4>
 							<p>
-								<input type="checkbox" name="mgproyectos"   @if( isset($urlArray['mgproyectos']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="mgproyectos-show_proyecto"   @if( isset($urlArray['mgproyectos']) ) checked @endif >&nbsp;
 								<label>Dashboard Proyectos</label></label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="add_proyecto"   @if( isset($urlArray['add_proyecto']) ) checked @endif >&nbsp;
@@ -218,12 +215,12 @@
 						<hr>
 						<!-- -->
 						<h4><strong>Administrar Episodios</strong></h4>
+						<div class="alert alert-info" role="alert">
+							<i class="glyphicon glyphicon-info-sign"></i> Para que el Productor y traductor puedan modificar sus actividades se debe activar todas las opciones de este módulo.
+						</div>
 						<p >
-							<input type="checkbox" name="mgepisodios"   @if( isset($urlArray['mgepisodios']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="mgepisodios-show_episodio"   @if( isset($urlArray['mgepisodios']) ) checked @endif >&nbsp;
 							<label>Dashboard Episodios</label></label>
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="show_episodio"   @if( isset($urlArray['show_episodio']) ) checked @endif >&nbsp;
-							<label>Detalle del Episodio</label></label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<input type="checkbox" name="add_episodio"   @if( isset($urlArray['add_episodio']) ) checked @endif >&nbsp;
 							<label>Agregar Episodio</label>
@@ -245,11 +242,8 @@
 						<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
 							<h4><strong>Administrar Calificación del Material </strong></h4>
 							<p >
-								<input type="checkbox" name="add_calificar_material" @if( isset($urlArray['add_calificar_material']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="add_calificar_material-show_calificar_material" @if( isset($urlArray['add_calificar_material']) ) checked @endif >&nbsp;
 								<label>Calificar Material</label>
-								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="show_calificar_material" @if( isset($urlArray['show_calificar_material']) ) checked @endif >&nbsp;
-								<label>Consultar Calificación de Material</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="edit_calificar_material-update_calificar_material" @if( isset($urlArray['edit_calificar_material']) ) checked @endif >&nbsp;
 								<label>Editar Calificación de Material</label>
@@ -258,35 +252,67 @@
 						</div>
 						<hr>
 						<!-- -->
-						<h4><strong>Administrar Time Code </strong></h4>
+						<h4><strong>Administrar Timecode </strong></h4>
 						<p >
-							<input type="checkbox" name="add_timecode" @if( isset($urlArray['add_timecode']) ) checked @endif >&nbsp;
+							<input type="checkbox" name="mgtimecode" @if( isset($urlArray['mgtimecode']) ) checked @endif >&nbsp;
+							<label>Dashboard Timecode</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="checkbox" name="add_tc" @if( isset($urlArray['add_tc']) ) checked @endif >&nbsp;
 							<label>Agregar Timecode</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="checkbox" name="edit_tc-update_tc" @if( isset($urlArray['edit_tc']) ) checked @endif >&nbsp;
+							<label>Editar Timecode</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="checkbox" name="delete_tc" @if( isset($urlArray['delete_tc']) ) checked @endif >&nbsp;
+							<label>Eliminar Timecode</label>
 							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<input type="checkbox" name="create_timecode_pdf" @if( isset($urlArray['create_timecode_pdf']) ) checked @endif >&nbsp;
 							<label>PDF Time Code</label>
 						</p>
 					<hr>
-					<!-- -->
+					<!-- Calendario -->
 					<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
-						<h4><strong>Coordinación</strong></h4>
+						<h4><strong>Productor</strong></h4>
 						<p >
-							<input type="checkbox" name="add_asignar_traductor" @if( isset($urlArray['add_asignar_traductor']) ) checked @endif >&nbsp;
-							<label>Asignar Traductor</label>
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_asignar_traductor" @if( isset($urlArray['edit_asignar_traductor']) ) checked @endif >&nbsp;
-							<label>Editar Asignación de Traductor</label>
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							<input type="checkbox" name="add_productor"  @if( isset($urlArray['mgcalendar']) ) checked @endif >&nbsp;
+							<label>Lista de Episodios asignados</label>
+							&nbsp; 							
 						</p>
 					</div>
 					<hr>
+					<!--  Descripción de Timecode -->
+					<h4><strong>Descripción de Timecode</strong></h4>
+					<p>
+						<input type="checkbox" name="mgtiporeporte"  @if( isset($urlArray['mgtiporeporte']) ) checked @endif >&nbsp;
+						<label>Dashboard Descripción de Timecode</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="add_reporte"  @if( isset($urlArray['add_reporte']) ) checked @endif >&nbsp;
+						<label>Agregar Descripción de Timecode</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="edit_reporte-update_reporte"  @if( isset($urlArray['edit_reporte']) ) checked @endif >&nbsp;
+						<label>Editar Descripción de Timecode</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="delete_reporte"  @if( isset($urlArray['delete_reporte']) ) checked @endif >&nbsp;
+						<label>Eliminar Descripción de Timecode</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					</p>
+					<hr>
+					<!-- Calendario -->
+					<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
+						<h4><strong>Calendario de llamado</strong></h4>
+						<p >
+							<input type="checkbox" name="mgcalendar-llamados_salas-llamado_episodios-llamado_salas-llamado-credenciales_actores-delete_llamado"  @if( isset($urlArray['mgcalendar']) ) checked @endif >&nbsp;
+							<label>Generar Llamados</label>
+							&nbsp; 							
+						</p>
+					</div>
 					<!-- -->
 					<h4><strong>Administrar Actores</strong></h4>
 					<p>
 						<input type="checkbox" name="mgactores"  @if( isset($urlArray['mgactores']) ) checked @endif >&nbsp;
 						<label>Dashboard Actores</label>
 						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-						<input type="checkbox" name="add_actor"  @if( isset($urlArray['add_actor']) ) checked @endif >&nbsp;
+						<input type="checkbox" name="add_actor-delete_folio_actor"  @if( isset($urlArray['add_actor']) ) checked @endif >&nbsp;
 						<label>Agregar Actor</label>
 						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 						<input type="checkbox" name="edit_actor-update_actor"  @if( isset($urlArray['edit_actor']) ) checked @endif >&nbsp;
@@ -295,22 +321,22 @@
 						<input type="checkbox" name="delete_actor"  @if( isset($urlArray['delete_actor']) ) checked @endif >&nbsp;
 						<label>Eliminar Actor</label>
 						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="list_llamado-search_llamado-credenciales_actores-edit_llamado-delete_llamado"  @if( isset($urlArray['list_llamado']) ) checked @endif >&nbsp;
+							<label>Consultar llamado</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						<input type="checkbox" name="pdf_llamado"  @if( isset($urlArray['pdf_llamado']) ) checked @endif >&nbsp;
+							<label>Generar PDF de Llamado</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 					</p>
 					<hr>
 					<!-- -->
-					<div style="background-color: rgba(150, 150, 150, 0.1); padding: 2%;">
-						<h4><strong>Llamados</strong></h4>
-						<p >
-							<input type="checkbox" name="mgactores"  @if( isset($urlArray['mgactores']) ) checked @endif >&nbsp;
-							<label>Generar llamado</label>
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="add_actor"  @if( isset($urlArray['add_actor']) ) checked @endif >&nbsp;
-							<label>Agregar llamado</label>
-							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-							<input type="checkbox" name="edit_actor-update_actor"  @if( isset($urlArray['edit_actor']) ) checked @endif >&nbsp;
-							
-						</p>
-					</div
+					<h4><strong>Traductor</strong></h4>
+					<p>
+						<input type="checkbox" name="add_traductor"  @if( isset($urlArray['mgactores']) ) checked @endif >&nbsp;
+						<label>Lista de Episodios asignados</label>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					</p>
+					<hr>
 				</div>
 			</div>		
 

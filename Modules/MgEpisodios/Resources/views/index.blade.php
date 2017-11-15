@@ -50,9 +50,7 @@
 									@if(\Request::session()->has('add_calificar_material'))
 										<th>Calificar Episodio</th>
 									@endif
-									@if(\Request::session()->has('show_episodio') || \Request::session()->has('edit_episodio') || \Request::session()->has('delete_episodio'))
-										<th></th>
-									@endif
+									<th></th>
 								</tr>
 							</thead>
 
@@ -129,40 +127,43 @@
 														<span class="label label-danger arrowed-in arrowed-in-right"> Sin Calificar </span>
 													</a>
 												@else
-													@if(\Request::session()->has('show_calificar_material'))
-															<a href=" {{ url('mgepisodios/material-calificado/') . '/'. $episodio->id .'/'. $proyecto->id}} " title="Calificar Episodio">
-															<span class="label label-success arrowed-in arrowed-in-right"> Calificado </span>
-														</a>
-													@endif
+													<a href=" {{ url('mgepisodios/material-calificado/') . '/'. $episodio->id .'/'. $proyecto->id}} " title="Calificar Episodio">
+													<span class="label label-success arrowed-in arrowed-in-right"> Calificado </span>
+													</a>
 												@endif
 											
 											</td>
 										@endif
 										<td>
-											@if(is_null($episodio->quien_modifico_productor))
-												<a data-toggle="modal" data-target="#modal_create_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Agregar Productor">
-														<i class="glyphicon glyphicon-film "></i>
-												</a>
-											@else
-												<a data-toggle="modal" data-target="#modal_update_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-success" title="Modificar Productor">
-														<i class="glyphicon glyphicon-film "></i>
-												</a>
+											@if(\Request::session()->has('add_productor'))
+												@if(is_null($episodio->quien_modifico_productor))
+													<a data-toggle="modal" data-target="#modal_create_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Agregar Productor">
+															<i class="glyphicon glyphicon-film "></i>
+													</a>
+												@else
+													<a data-toggle="modal" data-target="#modal_update_productor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-success" title="Modificar Productor">
+															<i class="glyphicon glyphicon-film "></i>
+													</a>
+												@endif
 											@endif
 
-											@if(is_null($episodio->quien_modifico_traductor))
-												<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Agregar Traductor">
-														<i class="glyphicon glyphicon-indent-right"></i>
-												</a>
-											@else 
-												<a data-toggle="modal" data-target="#modal_update_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-success" title="Modificar Traductor">
-														<i class="glyphicon glyphicon-indent-right"></i>
-												</a>
+											@if(\Request::session()->has('add_traductor'))
+												@if(is_null($episodio->quien_modifico_traductor))
+													<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Agregar Traductor">
+															<i class="glyphicon glyphicon-indent-right"></i>
+													</a>
+												@else 
+													<a data-toggle="modal" data-target="#modal_update_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-success" title="Modificar Traductor">
+															<i class="glyphicon glyphicon-indent-right"></i>
+													</a>
+												@endif
 											@endif
 											
-											
-											<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning " title="Configuracion">
-														<i class="ace-icon fa fa-tv bigger-120"></i>
-											</a>
+											@if(\Request::session()->has('edit_episodio'))
+												<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning " title="Configuracion">
+															<i class="ace-icon fa fa-tv bigger-120"></i>
+												</a>
+											@endif
 											@if(\Request::session()->has('show_episodio'))
 												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_ver_episodio" class="btn btn-xs btn-warning show_id" title="Consultar">
 													<i class="ace-icon fa fa-book bigger-120"></i>
@@ -447,8 +448,8 @@
 			  </div>
 			  <form role="form" id="form_update_configuracion">
 			  <div class="modal-body">
-					<div class="modal-body">
-					{{ csrf_field() }}
+				<div class="modal-body">
+				{{ csrf_field() }}
 				<input type="hidden" name="id" id="id_update">		
 				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 				<table class="table table-striped ">
@@ -1243,7 +1244,7 @@
 			});
 			
 			//Calendarios
-				$('#entrega_episodio, #entrega_episodio_update, #entrega_me, #fecha_entrega_traductor, #fecha_entrega_traductor').datepicker({
+				$('input[name=entrega_episodio], input[name=entrega_me], #fecha_entrega_traductor, #fecha_entrega_traductor').datepicker({
 					dateFormat: "yy-mm-dd",
 					minDate: 0,
 					closeText: 'Cerrar',

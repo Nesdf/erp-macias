@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'mgpuestos', 'namespace' => 'Modules\MgPuestos\Http\Controllers'], function()
+Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgpuestos', 'namespace' => 'Modules\MgPuestos\Http\Controllers'], function()
 {
     Route::get('/', 'MgPuestosController@index')->name('mgpuestos');//Cargar el listado
 	Route::post('/create_puesto', 'MgPuestosController@store')->name('add_puesto');//Crear 

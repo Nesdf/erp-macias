@@ -263,8 +263,10 @@
 							</div>
 							<div class="form-group">
 								<label for="tipo_reporte">Tipo de reporte</label><br>
-								<select id="tipo_reporte" name="tipo_reporte" multiple="multiple" >
-									
+								<select  name="tipo_reporte" multiple="multiple" > 
+									@foreach($reportes as $reporte)
+										<option value="{{$reporte->tipo}}">{{$reporte->tipo}}</option>
+									@endforeach
 								</select>
 								<input type="hidden" name="reporte" id="reporte" value="">
 							</div>
@@ -332,7 +334,7 @@
 	        	$('#music').on('click', function(){
 	        		if($('#music').is(':checked', true)){
 	        			$('#show_music').html('<label> TimeCode Final<br></label>\
-								<input type="timecode_final" id="timecode_final" name="timecode_final" class="form-control"  placeholder="00:00:00:00"> \
+								<input type="timecode_final" id="timecode_final" name="timecode_final" class="form-control"  placeholder="00:00:00:00" required> \
 								');
 	        		} else {
 	        			$('#show_music').html('');
@@ -350,16 +352,27 @@
 		        	valArr[i] = valArr[i].replace('&amp;', '&')
 		        }
 
-				$('#tipo_reporte').multiselect('select', valArr);
-				$('#tipo_reporte').multiselect('refresh');
+				$('select[name=tipo_reporte]').multiselect('select', valArr);
+				$('select[name=tipo_reporte]').multiselect('refresh');
 				//$('#tipo_reporte').multiselect('select', valArr);
-			});
-            $('#tipo_reporte').on('change', function(){
+
+				$('select[name=tipo_reporte]').on('change', function(){
             	
-            	var tipo_reporte = $(this).val();
-            	reporte= tipo_reporte.join(",");
-            	$('#reporte').val(reporte);
-            });
+	            	var tipo_reporte = $(this).val();
+	            	reporte= tipo_reporte.join(",");
+	            	$('#reporte').val(reporte);
+	            });
+
+
+				$('#form_create_calificar_material').on('submit', function(){
+
+					var tipo_reporte = $('select[name=tipo_reporte]').val();
+	            	reporte= tipo_reporte.join(",");
+	            	$('#reporte').val(reporte);
+				});
+			});
+
+            
 		});
 	</script>
 @stop

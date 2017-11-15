@@ -25,9 +25,11 @@
 					</div>
 					<div class="table-header">
 						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_via" class="btn btn-success">
-							Vía Nueva
-						</a>
+						@if(\Request::session()->has('add_via'))
+							<a data-toggle="modal" data-target="#modal_via" class="btn btn-success">
+								Vía Nueva
+							</a>
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -53,13 +55,16 @@
 											{{ $via->via }}
 										</td>
 										<td>
-											<a data-id="{{ $via->id }}" data-toggle="modal" data-target="#modal_update_via" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>		
-											
-											<a data-toggle="modal" data-target="#modal_delete_via" data-id="{{ $via->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
+											@if(\Request::session()->has('update_via'))
+												<a data-id="{{ $via->id }}" data-toggle="modal" data-target="#modal_update_via" class="btn btn-xs btn-info update_id" title="Editar">
+													<i class="ace-icon fa fa-pencil bigger-120"></i>
+												</a>		
+											@endif
+											@if(\Request::session()->has('delete_via'))
+												<a data-toggle="modal" data-target="#modal_delete_via" data-id="{{ $via->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+													<i class="ace-icon fa fa-trash-o bigger-120"></i>
+												</a>
+											@endif
 										</td>
 									</tr>
 								@endforeach
@@ -176,9 +181,33 @@
 	        		},
 		        }
 			});
-			
-			$('.update_id').on('click', function(){
-				 id = $( this ).data('id');				
+
+			$('#modal_via').on('shown.bs.modal', function(e){
+
+				$('#form_create_via').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgvias/create_via') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_via').html('<div class="alert alert-danger">' + err + '</div>');
+						}
+					});
+				});
+			});
+
+			$('#modal_update_via').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
 				$.ajax({
 					url: "{{ url('mgvias/edit_via') }}" + "/" + id,
 					type: "GET",
@@ -186,59 +215,38 @@
 						console.log(data);
 						$('#id_update').val(data.id);
 						$('#via_update').val(data.via);
-					}
-				});
-			 });
-			
-			$('.delete_id').on('click', function(){
-				 id = $( this ).data('id');
-				  $('#form_delete_via').attr('action', '{{ url("mgvias/form_delete") }}/' + id);
-			 });
-			
-			$('#modal_via').on('shown.bs.modal', function () {
-			  //$('#myInput').focus()
-			})	
-			
-			$('#form_create_via').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgvias/create_via') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
+
+						$('#form_update_via').on('submit', function(event){
+							event.preventDefault();
+							$.ajax({
+								url: "{{ url('mgvias/update_via') }}",
+								type: "POST",
+								data: $( this ).serialize(),
+								success: function( data ){
+									if(data.msg == 'success'){
+										window.location.reload(true);
+									}
+								},
+								error: function(error){
+									var err = "";
+									for(var i in error.responseJSON.msg){
+										err += error.responseJSON.msg[i] + "<br>";														
+									}
+									$('#error_update_via').html('<div class="alert alert-danger">' + err + '</div>');
+								}
+							});
+						});
+						
+					}, 
 					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_create_via').html('<div class="alert alert-danger">' + err + '</div>');
+
 					}
 				});
 			});
-			
-			$('#form_update_via').on('submit', function(event){
-				event.preventDefault();
-				$.ajax({
-					url: "{{ url('mgvias/update_via') }}",
-					type: "POST",
-					data: $( this ).serialize(),
-					success: function( data ){
-						if(data.msg == 'success'){
-							window.location.reload(true);
-						}
-					},
-					error: function(error){
-						var err = "";
-						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
-						}
-						$('#error_update_via').html('<div class="alert alert-danger">' + err + '</div>');
-					}
-				});
+
+			$('#modal_delete_via').on('shown.bs.modal', function(e){
+				var id = $(e.relatedTarget).data().id;
+				$('#form_delete_via').attr('action', '{{ url("mgvias/form_delete") }}/' + id);
 			});
 		});
 	</script>

@@ -21,9 +21,11 @@
 					</div>
 					<div class="table-header">
 						<!--Results for "Latest Registered Domains"-->
-						<a data-toggle="modal" data-target="#modal_save_artista" class="btn btn-success">
-							Actor Nuevo
-						</a>
+						@if(\Request::session()->has('add_actor'))
+							<a data-toggle="modal" data-target="#modal_save_artista" class="btn btn-success">
+								Actor Nuevo
+							</a>
+						@endif	
 					</div>
 
 					<!-- div.table-responsive -->
@@ -47,14 +49,16 @@
 										<td>{{$actor->nombre_completo}}</td>
 										<td>{{$actor->nombre_artistico}}</td>
 										<td>
-											<a data-id="{{ $actor->id }}" data-toggle="modal" data-target="#modal_update_actor" class="btn btn-xs btn-info" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>	
-
-											<a data-toggle="modal" data-target="#modal_delete_actor" data-id="{{ $actor->id }}" class="btn btn-xs btn-danger" title="Eliminar">
-												<i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
-												
+											@if(\Request::session()->has('edit_actor') && \Request::session()->has('update_actor') && \Request::session()->has('delete_folio_actor'))
+												<a data-id="{{ $actor->id }}" data-toggle="modal" data-target="#modal_update_actor" class="btn btn-xs btn-info" title="Editar">
+													<i class="ace-icon fa fa-pencil bigger-120"></i>
+												</a>
+											@endif
+											@if(\Request::session()->has('delete_actor'))
+												<a data-toggle="modal" data-target="#modal_delete_actor" data-id="{{ $actor->id }}" class="btn btn-xs btn-danger" title="Eliminar">
+													<i class="ace-icon fa fa-trash-o bigger-120"></i>
+												</a>		
+											@endif										
 										</td>
 									</tr>
 								@endforeach

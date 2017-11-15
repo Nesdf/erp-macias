@@ -107,8 +107,8 @@ class MgCalificarMaterialController extends Controller
     public function update(Request $request)
     {
 
-        if( $request->method('post') ){
-
+        if( $request->isMethod('post') ){
+            
             $rules = [
                 'duracion' => 'required|min:2|max:50',
                 'tcr' => 'required'
@@ -203,9 +203,10 @@ class MgCalificarMaterialController extends Controller
 
     public function pdf($id_episodio, $id_proyecto)
     {
+
         $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
         $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
-
+        
         $pdf = \PDF::loadView('mgepisodios::calificar-material-pdf', compact('allProyect', 'id_episodio', 'id_proyecto', 'timecodes'));
         return $pdf->stream();
     }

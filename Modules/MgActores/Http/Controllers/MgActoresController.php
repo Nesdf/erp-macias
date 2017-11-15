@@ -258,7 +258,10 @@ class MgActoresController extends Controller
      */
     public function destroy($id)
     {
-        \Modules\MgActores\Entities\Actores::destroy($id);
+        if( \Modules\MgActores\Entities\Actores::destroy($id) ){
+            \Modules\MgActores\Entities\FolioActores::destroyFolios($id);
+        }
+
         \Request::session()->flash('message', trans('mgactores::ui.flash.flash_delete_actor'));
         return redirect('mgactores');
     }

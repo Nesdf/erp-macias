@@ -100,9 +100,9 @@ class MgCalendarController extends Controller
     public function citaLlamado(Request $request)
     {
         try{
-            if($request->method('post') && $request->ajax()){
+            if($request->isMethod('post') && $request->ajax()){
 
-                
+                //dd($request->all());
                 $meses = ['Ene'=>'01', 'Feb'=>'02', 'Mar'=>'03','Abr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'8','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dic'=>'12'];
                 $date = explode(' ', $request->input('dia'));
                 $hora_entrada = explode(':', $request->input('entrada'));
@@ -113,7 +113,7 @@ class MgCalendarController extends Controller
                 $cita_salida = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($hora_salida[0])->minute($hora_salida[1])->second(00)->toDateTimeString(); 
                 //Validar fecha y hora disponible
                 
-                $searchFecha = \Modules\MgCalendar\Entities\Llamados::EntreFechas($cita_entrada, $cita_salida);
+                $searchFecha = \Modules\MgCalendar\Entities\Llamados::EntreFechas($cita_entrada, $cita_salida, $request->input('sala'));
 
                 if($request->input('estatus_grupo') != 'on'){
                     if( count($searchFecha) > 0){

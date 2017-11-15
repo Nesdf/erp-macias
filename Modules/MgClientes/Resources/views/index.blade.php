@@ -230,6 +230,15 @@
 	        		},
 		        }
 			});
+
+
+			$('#modal_delete_cliente').on('shown.bs.modal', function(e){
+
+				var id = $(e.relatedTarget).data().id;
+				$('#form_delete_cliente').attr('action', '{{ url("mgclientes/form_delete") }}/' + id);
+			});
+
+
 			
 			$('.update_id').on('click', function(){
 				 id = $( this ).data('id');				
@@ -247,14 +256,7 @@
 				});
 			 });
 			
-			$('.delete_id').on('click', function(){
-				 id = $( this ).data('id');
-				  $('#form_delete_cliente').attr('action', '{{ url("mgclientes/form_delete") }}/' + id);
-			 });
 			
-			$('#modal_clientes').on('shown.bs.modal', function () {
-			  //$('#myInput').focus()
-			})	
 			
 			$('#form_create_cliente').on('submit', function(event){
 				event.preventDefault();

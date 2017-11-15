@@ -31,7 +31,7 @@
 						@endif
 					</div>
 					<div class="table-header">
-						@if(\Request::session()->has('add_personal'))
+						@if(\Request::session()->has('add_reporte'))
 							<!--Results for "Latest Registered Domains"-->						
 							<a data-toggle="modal" data-target="#modal_save_reporte" class="btn btn-success">
 								Tipo de Reporte Nuevo
@@ -42,26 +42,34 @@
 
 					<!-- div.dataTables_borderWrap -->
 					<div><br><br>
-						<table id="table_reportes" class="table table-striped table-bordered table-hover">
+						<table id="table_reportes" class="table table-striped ">
 							<thead>
 								<tr>
 									<th>ID</th>
 									<th>Tipo de Reporte</th>
-									<th>Acciones</th>
+									@if(\Request::session()->has('edit_reporte') || \Request::session()->has('update_reporte') || \Request::session()->has('delete_reporte'))
+										<th>Acciones</th>
+									@endif
 								</tr>
 							</thead>
 								@foreach($reportes as $reporte)
 									<tr>
 										<td>{{ $reporte->id }}</td>
 										<td>{{ $reporte->tipo }}</td>
-										<td>
-											<a data-id="{{ $reporte->id }}" data-toggle="modal" data-target="#modal_update_reporte" class="btn btn-xs btn-info update_id" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>
-											<a data-toggle="modal" data-target="#modal_delete_reporte" data-id="{{ $reporte->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
-											 <i class="ace-icon fa fa-trash-o bigger-120"></i>
-											</a>
-										</td>
+										@if(\Request::session()->has('edit_reporte') || \Request::session()->has('update_reporte') || \Request::session()->has('delete_reporte'))
+											<td>
+												@if(\Request::session()->has('edit_reporte') && \Request::session()->has('update_reporte'))
+													<a data-id="{{ $reporte->id }}" data-toggle="modal" data-target="#modal_update_reporte" class="btn btn-xs btn-info update_id" title="Editar">
+														<i class="ace-icon fa fa-pencil bigger-120"></i>
+													</a>
+												@endif
+												@if(\Request::session()->has('delete_reporte'))
+													<a data-toggle="modal" data-target="#modal_delete_reporte" data-id="{{ $reporte->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
+													 <i class="ace-icon fa fa-trash-o bigger-120"></i>
+													</a>
+												@endif
+											</td>
+										@endif
 									</tr>
 								@endforeach
 							<tbody>								

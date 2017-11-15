@@ -104,7 +104,7 @@ class MgPersonalController extends Controller
      */
     public function update(Request $request)
     {
-		if( $request->method('post') && $request->ajax() ){
+		if( $request->isMethod('post') && $request->ajax() ){
 
 			$rules = [
 				'nombre' => 'required|min:2|max:50',
@@ -159,7 +159,7 @@ class MgPersonalController extends Controller
     public function destroy($id)
     {
 		\Modules\MgPersonal\Entities\User::destroy($id);
-		\Request::session()->flash('message', trans('mgpersonal::ui.flash.flash_delete_peronal'));
+		\Request::session()->flash('message', trans('mgpersonal::ui.flash.flash_delete_personal'));
 		return redirect('mgpersonal');
     }
 
@@ -176,28 +176,33 @@ class MgPersonalController extends Controller
 
     public function savePermisos(Request $request)
     {
-    	if($request->method('post') || $request->ajax()){
-    		$moreNames = explode("-", $request->input('name'));
+    	try{
 
-    		foreach ($moreNames as $key => $value) {
-    			# code...
-    			#$route = $request->input('name');
-	    		#$user_id = $request->input('id');
-    			$route = $value;
-    			$user_id = $request->input('id');
-    			$existe = \Modules\MgPersonal\Entities\RoutesAccess::where(['alias_name' =>  $route, 'user_id' => $user_id])->get();
+    		if($request->isMethod('post') || $request->ajax()){
 
-	    		if(count($existe) > 0){
-	    			\Modules\MgPersonal\Entities\RoutesAccess::destroy($existe[0]->id);
-	    		} else{
-	    			\Modules\MgPersonal\Entities\RoutesAccess::create([
-		    			"alias_name" => $route,
-		    			"user_id" => $request->input('id')
-		    		]);
+	    		$moreNames = explode("-", $request->input('name'));
+
+	    		foreach ($moreNames as $key => $value) {
+	    			# code...
+	    			$route = $value;
+		    		$user_id = $request->input('id');
+	    			$existe = \Modules\MgPersonal\Entities\RoutesAccess::where(['alias_name' =>  $route, 'user_id' => $user_id])->get();
+
+		    		if(count($existe) > 0){
+		    			\Modules\MgPersonal\Entities\RoutesAccess::destroy($existe[0]->id);
+		    		} else{
+		    			echo $value." - ".$user_id.": ";
+		    			\Modules\MgPersonal\Entities\RoutesAccess::create([
+			    			"alias_name" => $route,
+			    			"user_id" => $request->input('id')
+			    		]);
+		    		}
 	    		}
-    		}
-    		
-    		return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+	    		
+	    		return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+	    	}
+    	} catch(\Exception $e){
+    		return Response(['msg' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
     	}
     }
 }

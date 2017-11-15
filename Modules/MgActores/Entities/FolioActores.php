@@ -16,4 +16,9 @@ class FolioActores extends Model
     		->where('actor_id', '=', $id)
     		->get();
     }
+
+    public static function destroyFolios($id)
+    {
+    	return \DB::select( \DB::raw('DELETE FROM folio_actores WHERE actor_id =' . $id) );
+    }
 }

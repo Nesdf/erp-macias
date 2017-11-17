@@ -356,10 +356,10 @@
                                     var entrada = $(this).val();
                                     var newEntrada = toDate(entrada,"h:m");
                                     var newHoraActual = toDate(tiempo[h]+':'+tiempo[m],"h:m");
-                                    if(newEntrada < newHoraActual && hoy[2] == d.getDate()){
+                                    /*if(newEntrada < newHoraActual && hoy[2] == d.getDate()){
                                       alert('Horario no disponible');
                                       $(this).val(tiempo[h]+':'+tiempo[m]);
-                                    }
+                                    }*/
 
                                     $('#salida').val(tiempo[h]+':'+tiempo[m]);
                                   });
@@ -370,10 +370,10 @@
 
                                     var entrada = $('#entrada').val();
                                     var newEntrada = toDate(entrada,"h:m");
-                                    if(newSalida < newEntrada){
+                                    /*if(newSalida < newEntrada){
                                       alert('Horario no disponible');
                                       $(this).val($('#entrada').val());
-                                    }
+                                    }*/
                                   });
 
                                   function toDate(dStr,format) {

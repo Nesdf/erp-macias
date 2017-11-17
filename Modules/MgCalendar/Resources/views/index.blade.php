@@ -81,7 +81,7 @@
                         <option value="">Seleccionar...</option>\
                       </select>');
                     for(var i=0;  i < data.msg.length; i++ ){
-                      $("#data_episodios").append('<option value="'+ data.msg[i].salaId + '" data-id="'+data.msg[i].id+'">' + data.msg[i].titulo_original +'</option>');
+                      $("#data_episodios").append('<option value="'+ data.msg[i].salaId + '" data-id="'+data.msg[i].id+'">' + data.msg[i].titulo_original+ ' - ' + data.msg[i].num_episodio + '</option>');
                     } 
 
                     // Sala
@@ -272,7 +272,7 @@
                                           <input type="number" min="1" name="loops" class="form-control" required>\
                                           <hr>\
                                           Hora de Entrada:\
-                                          <input type="text" name="entrada" id="entrada" data-entrada="" class="entrada form-control" required>\
+                                          <input type="time" name="entrada" id="entrada" data-entrada="" class="entrada form-control" required>\
                                           Hora de Salida:\
                                           <input type="time" name="salida" id="salida" data-salida=""  class="salida form-control" required>\
                                           <br><br><label>\

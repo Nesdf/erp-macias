@@ -182,6 +182,8 @@ class MgPersonalController extends Controller
 
 	    		$moreNames = explode("-", $request->input('name'));
 
+	    		//dd($moreNames);
+
 	    		foreach ($moreNames as $key => $value) {
 	    			# code...
 	    			$route = $value;
@@ -191,18 +193,22 @@ class MgPersonalController extends Controller
 		    		if(count($existe) > 0){
 		    			\Modules\MgPersonal\Entities\RoutesAccess::destroy($existe[0]->id);
 		    		} else{
-		    			echo $value." - ".$user_id.": ";
-		    			\Modules\MgPersonal\Entities\RoutesAccess::create([
+		    			$save = \Modules\MgPersonal\Entities\RoutesAccess::create([
 			    			"alias_name" => $route,
 			    			"user_id" => $request->input('id')
 			    		]);
+
+			    		if($save){
+			    			return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+			    		}
+
 		    		}
 	    		}
 	    		
-	    		return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+	    		//return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 	    	}
     	} catch(\Exception $e){
-    		return Response(['msg' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+    		return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
     	}
     }
 }

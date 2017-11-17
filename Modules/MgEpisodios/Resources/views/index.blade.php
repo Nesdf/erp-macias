@@ -1244,7 +1244,7 @@
 			});
 			
 			//Calendarios
-				$('input[name=entrega_episodio], input[name=entrega_me], #fecha_entrega_traductor, #fecha_entrega_traductor').datepicker({
+				$('input[name=entrega_episodio], input[name=entrega_me], #fecha_entrega_traductor, #fecha_entrega_traductor, input[name=fecha_doblaje]').datepicker({
 					dateFormat: "yy-mm-dd",
 					minDate: 0,
 					closeText: 'Cerrar',

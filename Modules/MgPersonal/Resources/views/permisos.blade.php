@@ -366,11 +366,15 @@
 					type: "POST",
 					data: {'id':id, '_token':_token, 'name': name, 'status': status},
 					success: function( data ){
+						console.log(data);
 						if(data.msg == 'success'){
 							$('#resp_message').html('<div class="alert alert-success" style="text-align: center;">Exito. Permiso modificado.</div>');
 							//$('#resp_message').html().delay(100);
 						}
 					},
+					error: function(error){
+						console.log(error);
+					}
 				});
 			});
 		});

@@ -262,6 +262,7 @@
                                           <option value="">Selecccionar</option>\
                                           </select>\
                                           <label> Director: &nbsp;</label>\
+                                          <inpu type="text" name="director" value="'+data.director+'" readonly>\
                                           <select class="form-control" name="director" required>\
                                           <option value="">Selecccionar</option>\
                                           @foreach($directores as $director)\

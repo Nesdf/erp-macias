@@ -178,34 +178,29 @@ class MgPersonalController extends Controller
     {
     	try{
 
-    		if($request->isMethod('post') || $request->ajax()){
+    		if($request->isMethod('post') || $request->ajax()){	
 
 	    		$moreNames = explode("-", $request->input('name'));
+	    		$status = $request->input('status');
+	    		$user_id = $request->input('id');
 
-	    		//dd($moreNames);
+	    		if( $status == 'off' ){
 
-	    		foreach ($moreNames as $key => $value) {
-	    			# code...
-	    			$route = $value;
-		    		$user_id = $request->input('id');
-	    			$existe = \Modules\MgPersonal\Entities\RoutesAccess::where(['alias_name' =>  $route, 'user_id' => $user_id])->get();
+	    			foreach($moreNames as $value){
 
-		    		if(count($existe) > 0){
-		    			\Modules\MgPersonal\Entities\RoutesAccess::destroy($existe[0]->id);
-		    		} else{
-		    			$save = \Modules\MgPersonal\Entities\RoutesAccess::create([
-			    			"alias_name" => $route,
+	    				\Modules\MgPersonal\Entities\RoutesAccess::DeletePermiso($user_id, $value);
+	    			}
+	    		} elseif( $status == 'on' ){
+
+	    			foreach ($moreNames as $value) {
+
+	    				\Modules\MgPersonal\Entities\RoutesAccess::create([
+			    			"alias_name" => $value,
 			    			"user_id" => $request->input('id')
 			    		]);
-
-			    		if($save){
-			    			return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-			    		}
-
-		    		}
+	    			}
 	    		}
-	    		
-	    		//return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+	    		return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 	    	}
     	} catch(\Exception $e){
     		return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');

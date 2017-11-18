@@ -93,7 +93,6 @@ class MgEpisodiosController extends Controller
                         'productor' => $request->input('productor'),
                         'folio' => $folio,
                         'responsable' => $request->input('responsable'),
-                        'salaId' => $request->input('sala'),
                         'material_calificado' => false,
                         'material_entregado' => false
                     ]);
@@ -177,8 +176,7 @@ class MgEpisodiosController extends Controller
                             'num_episodio' => $request->input('num_episodio'),
                             'date_m_and_e' => $request->input('entrega_me'),
                             'productor' => $request->input('productor'),
-                            'responsable' => $request->input('responsable'),
-                            'salaId' => $request->input('sala')
+                            'responsable' => $request->input('responsable')
                         ]);
                         $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
                         return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

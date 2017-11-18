@@ -19,8 +19,7 @@ class MgCalendarController extends Controller
         $proyectos = \Modules\MgCalendar\Entities\Proyectos::get();
         $estudios = \Modules\MgCalendar\Entities\Estudios::get();
         $actores = \Modules\MgCalendar\Entities\Actores::get();
-        $directores = \Modules\MgCalendar\Entities\Actores::Directores();
-        return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores', 'directores'));
+        return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores'));
     }
 
     /**
@@ -81,7 +80,16 @@ class MgCalendarController extends Controller
         $salas = \Modules\MgCalendar\Entities\Salas::listSalas($id);
         $llamados = \Modules\MgCalendar\Entities\Llamados::listaLlamados($salas[0]->sala);
         $folio = \Modules\MgCalendar\Entities\Episodios::find($id_episodio);
-        return Response(['msg' => $salas, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio], 200)->header('Content-Type', 'application/json');
+
+        if($folio->directorId == null){
+            $director = "No se ha seleccionador director";
+        } else{
+
+            $dir = \Modules\MgCalendar\Entities\User::find($folio->directorId);
+            $director = $dir->name.' '.$dir->ap_paterno.' '.$dir->ap_materno;
+        }
+
+        return Response(['msg' => $salas, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
     }
 
 

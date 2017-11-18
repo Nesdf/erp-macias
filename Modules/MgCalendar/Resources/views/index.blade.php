@@ -233,6 +233,7 @@
                                   var proyecto = $('#proyecto_id option:selected').text();
                                   var episodio = $('#data_episodios option:selected').text();
                                   var sala = $('#data_sala').text();
+                                  console.log(data);
                                   var modal = 
                                   '<div class="modal fade">\
                                     <div class="modal-dialog">\
@@ -262,13 +263,7 @@
                                           <option value="">Selecccionar</option>\
                                           </select>\
                                           <label> Director: &nbsp;</label>\
-                                          <inpu type="text" name="director" value="'+data.director+'" readonly>\
-                                          <select class="form-control" name="director" required>\
-                                          <option value="">Selecccionar</option>\
-                                          @foreach($directores as $director)\
-                                           <option value="{{$director->name}} {{$director->ap_paterno}} @if($director->ap_materno) {{$director->ap_materno}}  @endif">{{$director->name}} {{$director->ap_paterno}} @if($director->ap_materno) {{$director->ap_materno}}  @endif</option>\
-                                          @endforeach\
-                                          </select>\
+                                          <input type="text" name="director" value="'+data.director+'" class="form-control" readonly>\
                                           <label>Loops</label>\
                                           <input type="number" min="1" name="loops" class="form-control" required>\
                                           <hr>\

@@ -122,10 +122,11 @@ class MgCalendarController extends Controller
                 //Validar fecha y hora disponible
                 
                 $searchFecha = \Modules\MgCalendar\Entities\Llamados::EntreFechas($cita_entrada, $cita_salida, $request->input('sala'));
-
+                
                 if($request->input('estatus_grupo') != 'on'){
                     if( count($searchFecha) > 0){
-                        return Response(['msg' => 'error'], 404)->header('Content-Type', 'application/json');
+                       
+                        return Response(['error' => 'Ya existe un registro en este horario'], 404)->header('Content-Type', 'application/json');
                     } 
                 }
                 //Termina validación de fecha disponible
@@ -173,11 +174,12 @@ class MgCalendarController extends Controller
                     $allFolios[] = $value->folio;
                 }
                 $proyectos = \Modules\MgCalendar\Entities\Proyectos::allProyects($allFolios);
-                return Response(['llamados' => $llamados, 'proyectos' => $proyectos], 200)->header('Content-Type', 'application/json');
+
+                return Response(['msg' => 'success', 'llamados' => $llamados, 'proyectos' => $proyectos], 200)->header('Content-Type', 'application/json');
             }
 
         } catch(\Exception $e){
-            return Response(['msg' => $e->getMessage()], 402)->header('Content-Type', 'application/json');
+            return Response(['error' => $e->getMessage()], 402)->header('Content-Type', 'application/json');
         }
     }
 

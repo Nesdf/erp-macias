@@ -274,7 +274,7 @@
                                           <br><br><label>\
                                           <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario\
                                           </label>\
-                                          <br><label>Personaje</label>\
+                                          <br><label>Personaje: </label>\
                                           <textarea name="descripcion" class="form-control"></textarea>\
                                           <div class="msj-error" ></div>\
                                           <br><br><button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Guardar</button>\
@@ -352,10 +352,11 @@
                                     var entrada = $(this).val();
                                     var newEntrada = toDate(entrada,"h:m");
                                     var newHoraActual = toDate(tiempo[h]+':'+tiempo[m],"h:m");
-                                    /*if(newEntrada < newHoraActual && hoy[2] == d.getDate()){
+                                    //$('#salida').val('03:20');
+                                    if(newEntrada < newHoraActual && hoy[2] == d.getDate()){
                                       alert('Horario no disponible');
                                       $(this).val(tiempo[h]+':'+tiempo[m]);
-                                    }*/
+                                    }
 
                                     $('#salida').val(tiempo[h]+':'+tiempo[m]);
                                   });
@@ -366,10 +367,10 @@
 
                                     var entrada = $('#entrada').val();
                                     var newEntrada = toDate(entrada,"h:m");
-                                    /*if(newSalida < newEntrada){
+                                    if(newSalida < newEntrada == d.getDate()){
                                       alert('Horario no disponible');
                                       $(this).val($('#entrada').val());
-                                    }*/
+                                    }
                                   });
 
                                   function toDate(dStr,format) {
@@ -407,6 +408,7 @@
                                         );
                                       },
                                       error: function(error){
+                                        console.log(error);
                                           modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">Este horario ya se encuentra ocupado.</div>');
 
                                           modal.on('click', function(){

@@ -249,6 +249,20 @@
 			if(data.llamados.length <= 0){
 				return "";
 			}
+
+			var nuevoArray = new Array();
+			for(var i=0; i<data.llamados.length; i++){
+
+				
+
+				if(nuevoArray.IndexOf(data.llamados[i].actor)){
+
+				} else {
+					nuevoArray.push(data.llamados[i]);
+				}
+			}
+			console.log(nuevoArray);
+
       		var list_llamados = new Array();
       		for(var i=0; i<data.llamados.length; i++){
       			list_llamados += "<tr>";
@@ -291,7 +305,7 @@
       			list_proyectos += "<td>"+data.proyectos[i].capitulo+"</td>";
       			list_proyectos += "</tr>";
       		}
-      			console.log(list_proyectos);
+
       			return list_proyectos;
       	}
 
@@ -303,12 +317,12 @@
       		for(var i=0; i<data.proyectos.length; i++){
       			list_encabezados += "<td id="+data.proyectos[i].capitulo+">"+data.proyectos[i].capitulo+"</td>";
       		}
-      			console.log(list_encabezados);
+
       			return list_encabezados;
       	}
 
       	function encabezadosSelect(data){
-      		console.log(data);
+
 			if(data.proyectos.length <= 0){
 				return "";
 			}

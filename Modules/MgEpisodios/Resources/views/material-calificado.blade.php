@@ -124,8 +124,28 @@
 										<td></td>
 									</tr>
 								</table>
+								<h4>Reporte de Canciones</h4>
+								<table class="table">
+									<thead>
+										<th>Inicial</th>
+										<th>Final</th>
+										<th>Diferencia</th>
+									</thead>
+									<tbody>
+										@foreach($timecodes as $timecode)
+											<tr>
+												@if($timecode->timecode_final)
+													<td>{{$timecode->timecode}}</td>
+													<td>{{$timecode->timecode_final}}</td>
+													<td>{{$timecode->timecode-$timecode->timecode_fina}}</td>
+				 								@endif
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
 							</div>
 						</div>
+						<br><br>
 						 <table id="table-cm" class="cell-border" 	>
 						 	<thead>
 					 			<tr>
@@ -334,8 +354,23 @@
 	        	$('#music').on('click', function(){
 	        		if($('#music').is(':checked', true)){
 	        			$('#show_music').html('<label> TimeCode Final<br></label>\
-								<input type="timecode_final" id="timecode_final" name="timecode_final" class="form-control"  placeholder="00:00:00:00" required> \
+								<input type="timecode_final" id="timecode_final" name="timecode_final" class="form-control"  placeholder="00:00:00:00" readonly required> \
 								');
+	        			$('input[name=timecode]').on('change', function(){
+	        				$('input[name=timecode_final]').val($(this).val());
+	        				$('input[name=timecode_final]').removeAttr('readonly')
+	        			});
+
+	        			$('input[name=timecode_final]').on('change', function(){
+	        				var t2 = $(this).val().split(":");
+	        				var t1 = $('input[name=timecode]').val().split(":");
+	        				if(t2[0] < t1[0] ){
+	        					alert('El tiemcode no puede ser menor.');
+	        					$(this).val($('input[name=timecode]').val());
+	        					console.log($('input[name=timecode]').val());
+	        				}
+	        			});
+
 	        		} else {
 	        			$('#show_music').html('');
 	        		}

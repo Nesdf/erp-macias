@@ -245,8 +245,10 @@
 								<input type="checkbox" name="add_calificar_material-show_calificar_material" @if( isset($urlArray['add_calificar_material']) ) checked @endif >&nbsp;
 								<label>Calificar Material</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_calificar_material-update_calificar_material" @if( isset($urlArray['edit_calificar_material']) ) checked @endif >&nbsp;
-								<label>Editar Calificación de Material</label>
+								<label>
+									<input type="checkbox" name="edit_calificar_material-update_calificar_material-add_timecode" @if( isset($urlArray['edit_calificar_material']) ) checked @endif >&nbsp;
+									Editar Calificación de Material
+								</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							</p>
 						</div>

@@ -300,6 +300,16 @@
 				<input type="" name="fecha_doblaje" id="fecha_doblaje" class="form-control" required>
 				<br>
 				<div class="add_date_script"></div>
+				<label>
+				<input type="checkbox" name="chk_qc" id="chk_qc" > Control de calidad (QC)
+				</label><br>
+				<label>
+				<input type="checkbox" name="chk_reprobacion" id="chk_reprobacion" > Reprobación
+				</label><br>
+				<label>
+				<input type="checkbox" name="chk_edicion" id="chk_edicion" > Edición
+				</label><br>
+				<div class="dateEdicion"></div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -338,7 +348,17 @@
 				<label>Fecha Doblaje</label>
 				<input type="" name="fecha_doblaje" id="fecha_doblaje_update" class="form-control" required>
 				<br>
-				<div id="add_date_script"></div>
+				<div id="add_date_script"></div>				
+				<label>
+				<input type="checkbox" name="chk_qc" id="chk_qc" > Control de calidad (QC)
+				</label><br>
+				<label>
+				<input type="checkbox" name="chk_reprobacion" id="chk_reprobacion" > Reprobación
+				</label><br>
+				<label>
+				<input type="checkbox" name="chk_edicion" id="chk_edicion" > Edición
+				</label><br>
+				<div class="dateEdicion"></div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -380,6 +400,15 @@
 					</label><br>
 					<label>
 					<input type="checkbox" name="rayado" id="rayado" > Rayado
+					</label><br>
+					<label>
+					<input type="checkbox" name="chk_canciones" id="chk_canciones" > Canciones
+					</label><br>
+					<label>
+					<input type="checkbox" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
+					</label><br>
+					<label>
+					<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 					</label><br>
 					<div id="input_rayado"></div>
 				  </div>
@@ -424,6 +453,15 @@
 						</label><br>
 						<label>
 						<input type="checkbox" name="rayado" id="rayado" > Rayado
+						</label><br>
+						<label>
+						<input type="checkbox" name="chk_canciones" id="chk_canciones" > Canciones
+						</label><br>
+						<label>
+						<input type="checkbox" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
+						</label><br>
+						<label>
+						<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 						</label><br>
 						<div id="input_rayado2"></div>
 					  </div>
@@ -964,8 +1002,39 @@
 			* Ventana modal para asignar Productor
 			*/
 			$('#modal_create_productor').on('show.bs.modal', function(e){
+
 				var id = $(e.relatedTarget).data().id;
 				$('#id').val(id);
+				if($('input[name=chk_edicion]').is(':checked')){
+					$('div.dateEdicion').html('<label>Fecha Edición</label>\
+						<input type="text" name="fecha_edicion" class="form-control" required>');
+				} else{
+					$('div.dateEdicion').html('');
+				}
+
+				$('input[name=chk_edicion]').on('click', function(){
+					if($(this).is(':checked')){
+						$('div.dateEdicion').html('<label>Fecha Edición</label>\
+							<input type="text" name="fecha_edicion" class="form-control" required>');
+					} else{
+						$('div.dateEdicion').html('');
+					}
+
+					$('input[name=fecha_edicion]').datepicker({
+						dateFormat: "yy-mm-dd",
+						minDate: 0,
+						closeText: 'Cerrar',
+					    prevText: '<Ant',
+					    nextText: 'Sig>',
+					    currentText: 'Hoy',
+					    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+					    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+					    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+					    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+					    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+					});
+				});
+
 				$.ajax({
 					url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
 					type: 'GET',
@@ -1019,7 +1088,7 @@
 
 			});
 
-			/*
+				/*
 				* Ventana modal para modificar al Productor
 				*/
 				$('#modal_update_productor').on('shown.bs.modal', function(e){
@@ -1029,10 +1098,16 @@
 						url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
 						type: 'GET',
 						success: function(data){
-							console.log(data);
 							$('input[name=id]').val(data.id);
 							$('select[name=sala]').val(data.salaId);
 							$('select[name=director]').val(data.directorId);
+							if(data.chk_qc == true){
+								$('input[name=chk_qc]').prop('checked', true)
+							}
+							if(data.chk_reprobacion == true){
+								$('input[name=chk_reprobacion]').prop('checked', true)
+							}
+
 							if(data.sin_script == false){
 								$('#add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script2" name="fecha_script" class="form-control" value="'+data.fecha_script+'" required></input>');
 
@@ -1050,6 +1125,52 @@
 								    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 								});
 							}
+
+							if($('input[name=chk_edicion]').val(data.chk_edicion) == true){
+
+								$('div.dateEdicion').html('<label>Fecha Edición</label>\
+										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>');
+							} else{
+								$('input[name=chk_edicion]').attr('checked', false)
+								$('div.dateEdicion').html('');								
+							}							
+
+							if(data.chk_edicion == true){
+								$('input[name=chk_edicion]').prop('checked', true);	
+								$('div.dateEdicion').html('<label>Fecha Edición</label>\
+										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>');							
+							} else{
+								$('input[name=chk_edicion]').prop('checked', false);	
+							}
+
+							$('input[name=chk_edicion]').on('click', function(){
+								if($(this).is(':checked')){
+									if(data.fecha_edicion){
+										$('div.dateEdicion').html('<label>Fecha Edición</label>\
+										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>');
+									} else{
+										$('div.dateEdicion').html('<label>Fecha Edición</label>\
+										<input type="text" name="fecha_edicion" class="form-control" required>');
+									}
+									
+								} else{
+									$('div.dateEdicion').html('');
+								}
+							});
+
+							$('input[name=fecha_edicion]').datepicker({
+								dateFormat: "yy-mm-dd",
+								minDate: 0,
+								closeText: 'Cerrar',
+							    prevText: '<Ant',
+							    nextText: 'Sig>',
+							    currentText: 'Hoy',
+							    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+							    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+							    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+							    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+							});
 
 							$('input[name=fecha_doblaje]').val(data.fecha_doblaje);
 							$('.selectpicker').selectpicker('refresh');	
@@ -1174,6 +1295,15 @@
 							console.log(data);
 							$('select[name=traductor]').val(data.traductorId);
 							$('input[name=fecha_entrega_traductor]').val(data.fecha_entrega_traductor);
+							if(data.chk_canciones == true){
+								$('input[name=chk_canciones]').prop('checked', true)
+							}
+							if(data.chk_subtitulos == true){
+								$('input[name=chk_subtitulos]').prop('checked', true)
+							}
+							if(data.chk_lenguaje_diferente_original == true){
+								$('input[name=chk_lenguaje_diferente_original]').prop('checked', true)
+							}
 							if(data.aprobacion_cliente == true){
 								$('input[name=aprobacion_cliente]').prop('checked',true);
 							}

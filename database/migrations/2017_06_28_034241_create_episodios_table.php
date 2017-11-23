@@ -49,6 +49,14 @@ class CreateEpisodiosTable extends Migration
             $table->date('date_final')->nullable();
             $table->text('configuracion')->nullable();
             $table->string('folio');
+            //Se agregan en productor y traductor
+            $table->boolean('chk_canciones')->nullable();
+            $table->boolean('chk_subtitulos')->nullable();
+            $table->boolean('chk_lenguaje_diferente_original')->nullable();
+            $table->boolean('chk_qc')->nullable();
+            $table->boolean('chk_reprobacion')->nullable();
+            $table->boolean('chk_edicion')->nullable();
+            $table->date('fecha_edicion')->nullable();
 			$table->timestamps();         
 			
         });

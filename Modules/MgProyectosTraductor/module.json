@@ -1,0 +1,16 @@
+{
+    "name": "MgProyectosTraductor",
+    "alias": "mgproyectostraductor",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgProyectosTraductor\\Providers\\MgProyectosTraductorServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

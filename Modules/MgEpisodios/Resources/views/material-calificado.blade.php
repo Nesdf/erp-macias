@@ -132,12 +132,24 @@
 										<th>Diferencia</th>
 									</thead>
 									<tbody>
-										@foreach($timecodes as $timecode)
+										@foreach($timecodes as $tc)
 											<tr>
-												@if($timecode->timecode_final)
-													<td>{{$timecode->timecode}}</td>
-													<td>{{$timecode->timecode_final}}</td>
-													<td>{{$timecode->timecode-$timecode->timecode_fina}}</td>
+												@if($tc->timecode_final)
+													<td>{{$tc->timecode}}</td>
+													<td>{{$tc->timecode_final}}</td>
+													@php
+														$tinicial = explode(':', $tc->timecode);
+														$tfinal = explode(':', $tc->timecode_final);
+
+														$ct3 = abs($tfinal[3] - $tinicial[3]);
+														$ct2 = abs($tfinal[2] - $tinicial[2]);
+														$ct1 = abs($tfinal[1] - $tinicial[1]);
+														$ct0 = abs($tfinal[0] - $tinicial[0]);
+
+
+														echo "<td>".$ct0.":".$ct1.":".$ct2.":".$ct3."</td>";	
+													@endphp
+													
 				 								@endif
 											</tr>
 										@endforeach

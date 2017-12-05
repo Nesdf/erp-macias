@@ -71,7 +71,8 @@ class MgPersonalController extends Controller
 					'password' => Hash::make( $request->input('password') ),
 					'email' => strtolower( $request->input('correo') ),
 					'name' => ucwords( strtolower($request->input('nombre')) ),
-					'job' => $request->input('puesto')
+					'job' => $request->input('puesto'),
+					'tipo_empleado' => $request->input('tipo_empleado') == 'on' ? true : false 
 				]);
 				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_personal'));
 				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
@@ -137,7 +138,8 @@ class MgPersonalController extends Controller
 					'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
 					'email' => strtolower( $request->input('correo') ),
 					'name' => ucwords( strtolower($request->input('nombre')) ),
-					'job' => $request->input('puesto')
+					'job' => $request->input('puesto'),
+					'tipo_empleado' => $request->input('tipo_empleado') == 'on' ? true : false 
 				);
 
 				if( $request->input('password') ){

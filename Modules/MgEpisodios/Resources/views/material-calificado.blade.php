@@ -124,37 +124,6 @@
 										<td></td>
 									</tr>
 								</table>
-								<h4>Reporte de Canciones</h4>
-								<table class="table">
-									<thead>
-										<th>Inicial</th>
-										<th>Final</th>
-										<th>Diferencia</th>
-									</thead>
-									<tbody>
-										@foreach($timecodes as $tc)
-											<tr>
-												@if($tc->timecode_final)
-													<td>{{$tc->timecode}}</td>
-													<td>{{$tc->timecode_final}}</td>
-													@php
-														$tinicial = explode(':', $tc->timecode);
-														$tfinal = explode(':', $tc->timecode_final);
-
-														$ct3 = abs($tfinal[3] - $tinicial[3]);
-														$ct2 = abs($tfinal[2] - $tinicial[2]);
-														$ct1 = abs($tfinal[1] - $tinicial[1]);
-														$ct0 = abs($tfinal[0] - $tinicial[0]);
-
-
-														echo "<td>".$ct0.":".$ct1.":".$ct2.":".$ct3."</td>";	
-													@endphp
-													
-				 								@endif
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
 							</div>
 						</div>
 						<br><br>
@@ -183,11 +152,25 @@
 					 					<tr style="background: rgba(255, 117, 020, 0.4); ">
 							 				<td>{{$timecode->fecha}}</td>
 							 				<td>
-							 					@if($timecode->timecode_final)
-													{{$timecode->timecode}} - {{$timecode->timecode_final}}
-							 					@else
-													{{$timecode->timecode}}
-							 					@endif							 					 
+							 					@php
+								 					if($timecode->timecode_final){
+														echo $timecode->timecode ." &nbsp;-&nbsp; ". $timecode->timecode_final;
+														
+															$tinicial = explode(':', $timecode->timecode);
+															$tfinal = explode(':', $timecode->timecode_final);
+
+															$ct3 = abs($tfinal[3]. " &nbsp;-&nbsp; ". $tinicial[3]);
+															$ct2 = abs($tfinal[2]. " &nbsp;-&nbsp; ". $tinicial[2]);
+															$ct1 = abs($tfinal[1]. " &nbsp;-&nbsp; ". $tinicial[1]);
+															$ct0 = abs($tfinal[0]. " &nbsp;-&nbsp; ". $tinicial[0]);
+
+
+															echo " &nbsp; &nbsp; &nbsp; &nbsp;".$ct0.":".$ct1.":".$ct2.":".$ct3;	
+														
+									 				} else {
+														echo $timecode->timecode;
+													}
+							 					@endphp						 					 
 							 				</td>
 							 				<td>{{$timecode->observaciones}}</td>
 							 			</tr>

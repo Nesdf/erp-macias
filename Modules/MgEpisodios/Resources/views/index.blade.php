@@ -283,6 +283,8 @@
 			  <form role="form" id="form_agregar_productor">
 			  <div class="modal-body">
 					{{ csrf_field() }}
+				
+				<br>
 				<input type="hidden" name="id" id="id">		
 				<label>Sala</label>
 				<select name="sala" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
@@ -296,20 +298,29 @@
 						<option value="{{ $director->id }}">{{ $director->name }} {{ $director->ap_paterno }} {{ $director->ap_materno }}</option>
 					@endforeach
 				</select>
-				<label>Fecha Doblaje</label>
-				<input type="" name="fecha_doblaje" id="fecha_doblaje" class="form-control" required>
-				<br>
 				<div class="add_date_script"></div>
-				<label>
-				<input type="checkbox" name="chk_qc" id="chk_qc" > Control de calidad (QC)
-				</label><br>
-				<label>
-				<input type="checkbox" name="chk_reprobacion" id="chk_reprobacion" > Reprobación
-				</label><br>
+				<label> Operador </label>
+				<select name="operador" class="form-control">
+					<option value="">Seleccionar ...</option>
+					@foreach($tecnicos as $tecnico)
+						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
+					@endforeach
+				</select>
+				<br>
+				<div class="alert alert-primary date-type-rayado"></div>
+
 				<label>
 				<input type="checkbox" name="chk_edicion" id="chk_edicion" > Edición
-				</label><br>
+				</label>
 				<div class="dateEdicion"></div>
+				<label>
+				<input type="checkbox" name="chk_reprobacion" id="chk_reprobacion" > Regrabador
+				</label><br>
+				<div class="dateRegrabacion"></div>
+				<label>
+				<input type="checkbox" name="chk_qc" id="chk_qc" > Control de calidad (QC)
+				</label>
+				<div class="dateQC"></div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -332,6 +343,7 @@
 			  <form role="form" id="form_update_productor">
 			  <div class="modal-body">
 					{{ csrf_field() }}
+				
 				<input type="hidden" name="id" id="id">		
 				<label>Sala</label>
 				<select name="sala" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
@@ -345,20 +357,28 @@
 						<option value="{{ $director->id }}">{{ $director->name }} {{ $director->ap_paterno }} {{ $director->ap_materno }}</option>
 					@endforeach
 				</select>
-				<label>Fecha Doblaje</label>
-				<input type="" name="fecha_doblaje" id="fecha_doblaje_update" class="form-control" required>
-				<br>
-				<div id="add_date_script"></div>				
+				<div id="add_date_script"></div>
+				<label> Operador </label>
+				<select name="operador" class="form-control">
+					<option value="">Seleccionar ...</option>					
+					@foreach($tecnicos as $tecnico)
+						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
+					@endforeach
+				</select>
+				
+				<div class="alert alert-primary date-type-rayado"></div>
+				<input type="checkbox" name="chk_edicion" id="chk_edicion" > Edición
+				</label><br>
+				<div class="dateEdicion"></div>	
+				<label>
+				<input type="checkbox" name="chk_reprobacion" id="chk_reprobacion" > Regrabador
+				</label>
+				<div class="dateRegrabacion"></div>
 				<label>
 				<input type="checkbox" name="chk_qc" id="chk_qc" > Control de calidad (QC)
 				</label><br>
 				<label>
-				<input type="checkbox" name="chk_reprobacion" id="chk_reprobacion" > Reprobación
-				</label><br>
-				<label>
-				<input type="checkbox" name="chk_edicion" id="chk_edicion" > Edición
-				</label><br>
-				<div class="dateEdicion"></div>
+				<div class="dateQC"></div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -1004,6 +1024,13 @@
 			$('#modal_create_productor').on('show.bs.modal', function(e){
 
 				var id = $(e.relatedTarget).data().id;
+				$('input[name=chk_edicion]').attr('checked', false);
+				$('div.dateEdicion').html('');
+				$('input[name=chk_reprobacion]').attr('checked', false);
+				$('div.dateRegrabacion').html('');
+				$('input[name=chk_qc]').attr('checked', false);
+				$('div.dateQC').html('');
+
 				$('#id').val(id);
 				if($('input[name=chk_edicion]').is(':checked')){
 					$('div.dateEdicion').html('<label>Fecha Edición</label>\
@@ -1015,7 +1042,16 @@
 				$('input[name=chk_edicion]').on('click', function(){
 					if($(this).is(':checked')){
 						$('div.dateEdicion').html('<label>Fecha Edición</label>\
-							<input type="text" name="fecha_edicion" class="form-control" required>');
+							<input type="text" name="fecha_edicion" class="form-control" required>\
+							<br>\
+							<label>Editor</label>\
+							<select name="nombre_editor"  class="form-control" required>\
+							<option value="">Seleccionar</option>\
+							@foreach($tecnicos as $tecnico)\
+							<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+							@endforeach\
+							</select>\
+							');
 					} else{
 						$('div.dateEdicion').html('');
 					}
@@ -1035,12 +1071,85 @@
 					});
 				});
 
+				$('input[name=chk_reprobacion]').on('click', function(){
+					if($(this).is(':checked')){
+						$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
+							<input type="text" name="fecha_regrabacion" class="form-control" required>\
+							<br>\
+							<label>Regrabador</label>\
+							<select name="nombre_regrabador"  class="form-control" required>\
+							<option value="">Seleccionar</option>\
+							@foreach($tecnicos as $tecnico)\
+							<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+							@endforeach\
+							</select>\
+							');
+					} else{
+						$('div.dateRegrabacion').html('');
+					}
+
+					$('input[name=fecha_regrabacion]').datepicker({
+						dateFormat: "yy-mm-dd",
+						minDate: 0,
+						closeText: 'Cerrar',
+					    prevText: '<Ant',
+					    nextText: 'Sig>',
+					    currentText: 'Hoy',
+					    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+					    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+					    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+					    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+					    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+					});
+				});
+
+				$('input[name=chk_qc]').on('click', function(){
+					if($(this).is(':checked')){
+						$('div.dateQC').html('<label>Fecha QC</label>\
+							<input type="text" name="fecha_qc" class="form-control" required>\
+							<br>\
+							<label>QC</label>\
+							<select name="nombre_qc"  class="form-control" required>\
+							<option value="">Seleccionar</option>\
+							@foreach($tecnicos as $tecnico)\
+							<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+							@endforeach\
+							</select>\
+							');
+					} else{
+						$('div.dateQC').html('');
+					}
+
+					$('input[name=fecha_qc]').datepicker({
+						dateFormat: "yy-mm-dd",
+						minDate: 0,
+						closeText: 'Cerrar',
+					    prevText: '<Ant',
+					    nextText: 'Sig>',
+					    currentText: 'Hoy',
+					    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+					    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+					    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+					    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+					    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+					});
+				});
+
 				$.ajax({
 					url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
 					type: 'GET',
 					success: function(data){
+
+						$('.date-type-rayado').html('');
+						if(data.fecha_rayado){
+							$('.date-type-rayado').html('Fecha rayado: ' + data.fecha_rayado);
+						} else {
+							$('.date-type-rayado').html('Sin fechade rayado asignada');
+						}
+
 						if(data.sin_script == false){
-							$('.add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script" name="fecha_script" class="form-control" required></input>');
+							//$('.add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script" name="fecha_script" class="form-control" required></input>');
+
 
 							$('#fecha_script').datepicker({
 								dateFormat: "yy-mm-dd",
@@ -1098,6 +1207,13 @@
 						url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
 						type: 'GET',
 						success: function(data){
+
+							$('.date-type-rayado').html('');
+							if(data.fecha_rayado){
+								$('.date-type-rayado').html('Fecha rayado: ' + data.fecha_rayado);
+							} else {
+								$('.date-type-rayado').html('Sin fecha asignada');
+							}
 							$('input[name=id]').val(data.id);
 							$('select[name=sala]').val(data.salaId);
 							$('select[name=director]').val(data.directorId);
@@ -1126,19 +1242,48 @@
 								});
 							}
 
-							if($('input[name=chk_edicion]').val(data.chk_edicion) == true){
+							if($('input[name=chk_reprobacion]').val(data.chk_reprobacion) == true){
 
-								$('div.dateEdicion').html('<label>Fecha Edición</label>\
-										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>');
+								$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_regrabacion+'" required>\
+										<label>Editor</label>\
+										<select name="nombre_regrabador"  class="form-control" required>\
+										<option value="">Seleccionar</option>\
+										@foreach($tecnicos as $tecnico)\
+										<option value="{{ $tecnico->id }}" '+(data.nombre_regrabador == {{ $tecnico->id }}) ? selected : ""+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										@endforeach\
+										</select>');
 							} else{
-								$('input[name=chk_edicion]').attr('checked', false)
-								$('div.dateEdicion').html('');								
+								$('input[name=chk_reprobacion]').attr('checked', false)
+								$('div.dateRegrabacion').html('');								
 							}							
 
 							if(data.chk_edicion == true){
 								$('input[name=chk_edicion]').prop('checked', true);	
 								$('div.dateEdicion').html('<label>Fecha Edición</label>\
-										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>');							
+										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>\
+										<label>Editor</label>\
+										<select name="nombre_editor"  class="form-control" required>\
+										<option value="">Seleccionar</option>\
+										@foreach($tecnicos as $tecnico)\
+										<option value="{{ $tecnico->id }}" '+(data.nombre_editor == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										@endforeach\
+										</select>');							
+							} else{
+								$('input[name=chk_edicion]').prop('checked', false);	
+							}
+
+							if(data.chk_reprobacion== true){
+								$('input[name=chk_reprobacion]').prop('checked', true);	
+								$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_edicion+'" required>\
+										<label>Regrabador</label>\
+										<select name="nombre_regrabador"  class="form-control" required>\
+										<option value="">Seleccionar</option>\
+										@foreach($tecnicos as $tecnico)\
+										<option value="{{ $tecnico->id }}" '+(data.nombre_regrabador == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										@endforeach\
+										</select>');							
 							} else{
 								$('input[name=chk_edicion]').prop('checked', false);	
 							}
@@ -1147,7 +1292,14 @@
 								if($(this).is(':checked')){
 									if(data.fecha_edicion){
 										$('div.dateEdicion').html('<label>Fecha Edición</label>\
-										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>');
+										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>\
+										<label>Editor</label>\
+										<select name="nombre_editor"  class="form-control" required>\
+										<option value="">Seleccionar</option>\
+										@foreach($tecnicos as $tecnico)\
+										<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										@endforeach\
+										</select>');
 									} else{
 										$('div.dateEdicion').html('<label>Fecha Edición</label>\
 										<input type="text" name="fecha_edicion" class="form-control" required>');
@@ -1158,7 +1310,66 @@
 								}
 							});
 
-							$('input[name=fecha_edicion]').datepicker({
+							$('input[name=chk_reprobacion]').on('click', function(){
+								if($(this).is(':checked')){
+									if(data.fecha_edicion){
+										$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_regrabacion+'" required>\
+										<label>Regrabador</label>\
+										<select name="nombre_regrabador"  class="form-control" required>\
+										<option value="">Seleccionar</option>\
+										@foreach($tecnicos as $tecnico)\
+										<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										@endforeach\
+										</select>');
+									} else{
+										$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
+										<input type="text" name="fecha_regrabacion" class="form-control" required>');
+									}
+									
+								} else{
+									$('div.dateEdicion').html('');
+								}
+							});
+
+							$('input[name=chk_qc]').on('click', function(){
+								if($(this).is(':checked')){
+									if(data.fecha_edicion){
+										$('div.dateQC').html('<label>Fecha QC</label>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_qc+'" required>\
+										<label>QC</label>\
+										<select name="nombre_qc"  class="form-control" required>\
+										<option value="">Seleccionar</option>\
+										@foreach($tecnicos as $tecnico)\
+										<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										@endforeach\
+										</select>');
+									} else{
+										$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
+										<input type="text" name="fecha_regrabacion" class="form-control" required>');
+									}
+									
+								} else{
+									$('div.dateQC').html('');
+								}
+							});
+
+							if(data.chk_qc== true){
+								$('input[name=chk_qc]').prop('checked', true);	
+								$('div.dateQC').html('<label>Fecha QC</label>\
+									<input type="text" name="fecha_qc" class="form-control" value="'+data.fecha_edicion+'" required>\
+									<label>QC</label>\
+									<select name="nombre_qc"  class="form-control" required>\
+									<option value="">Seleccionar</option>\
+									@foreach($tecnicos as $tecnico)\
+									<option value="{{ $tecnico->id }}" '+(data.nombre_qc == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+									@endforeach\
+									</select>');							
+							} else{
+								$('input[name=chk_edicion]').prop('checked', false);	
+							}
+
+							$('input[name=fecha_edicion], input[name=fecha_regrabacion], input[name=fecha_qc]').datepicker({
 								dateFormat: "yy-mm-dd",
 								minDate: 0,
 								closeText: 'Cerrar',

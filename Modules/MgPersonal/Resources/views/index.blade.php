@@ -148,7 +148,10 @@
 								<option value="{{ $puesto->id }}"> {{ $puesto->job }} </option>
 							@endforeach
 						</select>
-					</div>				
+					</div>
+					<label>
+						<input type="checkbox" name="tipo_empleado"> &nbsp; Seleccionar si el empleado es del área técnica
+					</label>	
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -202,7 +205,10 @@
 								<option value="{{ $puesto->id }}"> {{ $puesto->job }} </option>
 							@endforeach
 						</select>
-					</div>				
+					</div>	
+					<label>
+						<input type="checkbox" name="tipo_empleado"> &nbsp; Seleccionar si el empleado es del área técnica
+					</label>			
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -260,10 +266,6 @@
 		        }
 			});
 
-
-
-
-
 			$('#modal_save_personal').on('shown.bs.modal', function (e) {
 			  
 			 	$('#form_create_usuario').on('submit', function(event){
@@ -304,7 +306,8 @@
 						$('#ap_materno_update').val(data.ap_materno);
 						$('#correo_update').val(data.email);
 						$('#nombre_update').val(data.name);
-						$("#puesto_update option[value="+ data.job +"]").attr("selected",true);		
+						$("#puesto_update option[value="+ data.job +"]").attr("selected",true);	
+						(data.tipo_empleado == true) ? $('input[name=tipo_empleado]').prop("checked", true) : $('input[name=tipo_empleado]').prop("checked", false);
 
 
 						$('#form_update_usuario').on('submit', function(event){

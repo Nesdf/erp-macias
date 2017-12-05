@@ -29,10 +29,12 @@ class MgEpisodiosController extends Controller
             $directores = \Modules\MgEpisodios\Entities\Users::Directores();
             $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
             $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
-            return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores'));
+            $tecnicos = \Modules\MgEpisodios\Entities\Users::Tecnicos();
+            return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos'));
 
         } catch(\Exception $e){
-            return $request->session()->flash('message', trans('Error ala carfar los datos, favor de revisar con el administrador'));
+            return $e->getMessage();
+           // return $request->session()->flash('message', trans('Error al cargar los datos, favor de revisar con el administrador'));
         }
         
     }
@@ -330,7 +332,7 @@ class MgEpisodiosController extends Controller
                         'quien_modifico_traductor' => $arrayData[0]->quien_modifico_traductor.','. \Auth::user()->name.' '.\Auth::user()->ap_paterno.' '.\Auth::user()->name,
                         'chk_canciones' => ($request->input('chk_canciones') ? true : false),
                         'chk_subtitulos' => ($request->input('chk_subtitulos') ? true : false),
-                        'chk_lenguaje_diferente_original' => ($request->input('chk_lenguaje_diferente_original') ? true : false),
+                        'chk_lenguaje_diferente_original' => ($request->input('chk_lenguaje_diferente_original') ? true : false)
 
                     ]);
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
@@ -351,12 +353,12 @@ class MgEpisodiosController extends Controller
                 $rules = [
                     'sala' => 'required',
                     'director' => 'required',
-                    'fecha_doblaje' => 'required',
+                   // 'fecha_doblaje' => 'required',
                 ];
                 
                 $messages = [
                     'sala.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.sala')]),
-                    'fecha_doblaje.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_doblaje')]),
+                    //'fecha_doblaje.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_doblaje')]),
                     'director.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.director')]),
                 ]; 
 
@@ -385,6 +387,11 @@ class MgEpisodiosController extends Controller
                         'chk_reprobacion' => ($request->input('chk_reprobacion') ? true : false),
                         'chk_edicion' => ($request->input('chk_edicion') ? true : false),
                         'fecha_edicion' => $request->input('fecha_edicion'),
+                        'fecha_regrabacion' => ($request->input('fecha_regrabacion') ? $request->input('fecha_regrabacion') : NULL),
+                        'nombre_regrabador' => ($request->input('nombre_regrabador') ? $request->input('nombre_regrabador') : NULL),
+                        'nombre_editor' => ($request->input('nombre_editor') ? $request->input('nombre_editor') : NULL),
+                        'fecha_qc' => ($request->input('fecha_qc') ? $request->input('fecha_qc') : NULL),
+                        'nombre_qc' => ($request->input('nombre_qc') ? $request->input('nombre_qc') : NULL),
 
                     ]);
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));

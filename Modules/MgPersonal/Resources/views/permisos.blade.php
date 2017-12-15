@@ -147,7 +147,7 @@
 								<input type="checkbox" name="add_sala"  @if( isset($urlArray['add_sala']) ) checked @endif >&nbsp;
 								<label>Agregar Sala</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="edit_sala-update_sala"  @if( isset($urlArray['edit_sala']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="edit_sala-update_sala-edit_estudio-add_estudio"  @if( isset($urlArray['edit_sala']) ) checked @endif >&nbsp;
 								<label>Editar Sala</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 								<input type="checkbox" name="delete_sala"  @if( isset($urlArray['delete_sala']) ) checked @endif >&nbsp;

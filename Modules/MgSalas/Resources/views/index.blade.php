@@ -40,6 +40,14 @@
 							</a>
 						@endif
 					</div>
+					<div id="estudio">
+						<br>
+						<div class="alert alert-warning">Lista de estudios</div>
+						@foreach($estudios as $estudio)
+							<span>{{ $estudio->estudio }} <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_editar_estudio" data-id="{{ $estudio->id }}" data-estudio="{{ $estudio->estudio }}" class="fa fa-pencil" style="color:blue;" title="Modificar estudio"></a> 
+								<!--<a href="javascrip:void(0)" data-toggle="modal" data-target="#modal_delete_estudio" data-id="" class="fa fa-trash-o" style="color:red;" ></a>--> </span> &nbsp; &nbsp; &nbsp; &nbsp; | &nbsp; &nbsp; &nbsp; &nbsp;
+						@endforeach
+					</div>
 
 					<!-- div.table-responsive -->
 
@@ -97,7 +105,7 @@
 @stop
 
 @section('modales')
-	<!-- Modal Crear-->
+	<!-- Modal Crear Sala-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_sala" data-name="modal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -122,6 +130,63 @@
 							<option value="{{ $estudio->id }}">{{ $estudio->estudio }}</option>
 						@endforeach
 					</select>
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+				<button type="submit" class="submit btn btn-primary">Guardar</button>
+			  </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
+
+	<!-- Modal Crear Estudo-->
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_estudio" data-name="modal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+				<h4 class="modal-title" id="t_header">Estudio nuevo</h4>
+				<div id="error_create_estudio"></div>
+			  </div>
+			  <form role="form" id="form_create_estudio">
+			  <div class="modal-body">
+					{{ csrf_field() }}
+				<div class="form-group">
+					<label for="sala">Nombre del estudio</label>
+					<input type="text" class="form-control" id="estudio" name="estudio" placeholder="Nombre del estudio">
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+				<button type="submit" class="submit btn btn-primary">Guardar</button>
+			  </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
+
+	<!-- Modal Editar Estudio-->
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_editar_estudio" data-name="modal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+				<h4 class="modal-title" id="t_header">Editar Estudio</h4>
+				<div id="error_edit_estudio"></div>
+			  </div>
+			  <form role="form" id="form_edit_estudio">
+			  <div class="modal-body">
+					{{ csrf_field() }}
+					<input type="hidden" name="id">
+				<div class="form-group">
+					<label for="sala">Nombre del estudio</label>
+					<input type="text" class="form-control" id="estudio" name="estudio" placeholder="Nombre del estudio">
 				</div>
 			  </div>
 			  <div class="modal-footer">
@@ -172,7 +237,7 @@
 		</div>
 	</div>
 	
-	<!-- Modal Delete-->
+	<!-- Modal Delete Sala-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_delete_sala" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -184,6 +249,28 @@
 			  <form id="form_delete_sala" method="GET" action="{{ url('mgsalas/form_delete') }}">
 				  <img src="{{ asset('assets/dashboard/images/error/peligro.png') }}">
 				  {{ csrf_field() }}
+				  <div id="inputs"></div>
+				  <label>¿Realmente deseas eliminarla?</label>
+				  <div class="modal-footer">
+					<button type="submit" class="btn btn-danger">Eliminar</button>
+				  </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	</div>
+
+	<!-- Modal Delete Estudio-->
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_delete_estudio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title " id="myModalLabel">Eliminar Estudio</h4>
+			  </div>
+			  <form id="form_delete_estudio">
+				  <img src="{{ asset('assets/dashboard/images/error/peligro.png') }}">
 				  <div id="inputs"></div>
 				  <label>¿Realmente deseas eliminarla?</label>
 				  <div class="modal-footer">
@@ -245,6 +332,68 @@
 				});
 			});
 
+			$('#modal_estudio').on('shown.bs.modal', function (e) {
+			  
+			  	$('#form_create_estudio').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('/mgsalas/create_estudio') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						beforeSend: function(){
+							$('.submit').attr('disabled', 'disabled');
+						},
+						error: function(error){
+							console.log(error);
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_create_estudio').html('<div class="alert alert-danger">' + err + '</div>');
+							$('.submit').removeAttr('disabled');
+						}
+					});
+				});
+			});
+
+			$('#modal_editar_estudio').on('shown.bs.modal', function (e) {
+			  	var id = $(e.relatedTarget).data().id;
+			  	var estudio = $(e.relatedTarget).data().estudio;
+			  	$('input[name=estudio]').val(estudio);
+			  	$('input[name=id]').val(id);
+
+			  	$('#form_edit_estudio').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('/mgsalas/edit_estudio') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						beforeSend: function(){
+							$('.submit').attr('disabled', 'disabled');
+						},
+						error: function(error){
+							console.log(error);
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";														
+							}
+							$('#error_edit_estudio').html('<div class="alert alert-danger">' + err + '</div>');
+							$('.submit').removeAttr('disabled');
+						}
+					});
+				});
+			});
+
 			$('#modal_update_sala').on('shown.bs.modal', function (e) {
 
 				var id = $(e.relatedTarget).data().id;
@@ -288,6 +437,12 @@
 
 				var id = $(e.relatedTarget).data().id;
 				$('#form_delete_sala').attr('action', '{{ url("mgsalas/form_delete") }}/' + id);
+			});	
+
+			$('#modal_delete_estudio').on('shown.bs.modal', function (e) {
+
+				var id = $(e.relatedTarget).data().id;
+				$('#form_delete_estudio').attr('action', '{{ url("mgsalas/form_delete") }}/' + id);
 			});			
 			
 		});

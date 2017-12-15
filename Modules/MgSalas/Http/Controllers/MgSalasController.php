@@ -126,4 +126,66 @@ class MgSalasController extends Controller
         \Request::session()->flash('message', 'Se eliminó correctamente.');
         return redirect('mgsalas');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     * @return Response
+     */
+    public function storeEstudio(Request $request)
+    {
+        if( $request->method('post') && $request->ajax() ){
+            
+            $rules = [
+                'estudio' => 'required|min:2|max:50'                
+            ];
+            
+            $messages = [
+                'estudio.required' => 'Estudio es requerido.'
+            ]; 
+            
+            $validator = \Validator::make($request->all(), $rules, $messages);          
+            
+            if ( $validator->fails() ) {
+                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+            }
+
+            \Modules\MgSalas\Entities\Estudios::create([
+                'estudio' => $request->input('estudio')
+                ]);
+            $request->session()->flash('message', 'El estudio fue creado satisfactoriamente.');
+            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @return Response
+     */
+    public function editEstudio(Request $request)
+    {
+
+        if( $request->method('post') && $request->ajax() ){
+            
+            $rules = [
+                'estudio' => 'required|min:2|max:50'                
+            ];
+            
+            $messages = [
+                'estudio.required' => 'Estudio es requerido.'
+            ]; 
+            
+            $validator = \Validator::make($request->all(), $rules, $messages);          
+            
+            if ( $validator->fails() ) {
+                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+            }
+
+            \Modules\MgSalas\Entities\Estudios::where('id', $request->input('id'))
+            ->update([
+                'estudio' => $request->input('estudio')
+                ]);
+            $request->session()->flash('message', 'El estudio fue modificado satisfactoriamente.');
+            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+        }
+    }
 }

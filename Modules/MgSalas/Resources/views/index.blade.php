@@ -19,6 +19,12 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Salas de Macias Group</h3>
+					@if(Session::has('message'))
+						<p class="alert alert-success">{{ Session::get('message') }}</p>
+					@endif
+					@if(Session::has('error'))
+						<p class="alert alert-danger">{{ Session::get('error') }}</p>
+					@endif
 
 					<div class="clearfix">
 						<div class="pull-right tableTools-container"></div>
@@ -28,6 +34,9 @@
 						@if(\Request::session()->has('add_sala'))
 							<a data-toggle="modal" data-target="#modal_sala" class="btn btn-success">
 								Sala Nueva
+							</a>
+							<a data-toggle="modal" data-target="#modal_estudio" class="btn btn-success">
+								Estudio Nuevo
 							</a>
 						@endif
 					</div>
@@ -41,6 +50,7 @@
 								<tr>
 									<th>ID</th>
 									<th>Salas</th>
+									<th>Estudio</th>
 									@if(\Request::session()->has('update_sala') && \Request::session()->has('edit_sala') || \Request::session()->has('delete_sala'))
 										<th></th>
 									@endif
@@ -55,6 +65,9 @@
 										</td>
 										<td>
 											{{ $sala->sala }}
+										</td>
+										<td>
+											{{ $sala->estudio_id }}
 										</td>
 											@if(\Request::session()->has('update_sala') && \Request::session()->has('edit_sala') || \Request::session()->has('delete_sala'))
 												<td>
@@ -101,10 +114,19 @@
 					<label for="sala">Nombre de la sala</label>
 					<input type="text" class="form-control" id="sala" name="sala" placeholder="Nombre de la sala">
 				</div>
+				<div class="form-group">
+					<label>Estudio</label>
+					<select name="estudio" class="form-control" required>
+						<option>Selecccionar</option>
+						@foreach($estudios as $estudio)
+							<option value="{{ $estudio->id }}">{{ $estudio->estudio }}</option>
+						@endforeach
+					</select>
+				</div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
-				<button type="submit" class="btn btn-primary">Guardar</button>
+				<button type="submit" class="submit btn btn-primary">Guardar</button>
 			  </div>
 			  </form>
 			</div>
@@ -129,6 +151,15 @@
 					<div class="form-group">
 						<label for="sala">Sala</label>
 						<input type="text" class="form-control" id="sala_update" name="sala" placeholder="Nombre de la sala">
+					</div>
+					<div class="form-group">
+						<label>Estudio</label>
+						<select name="estudio" class="form-control" required>
+							<option>Selecccionar</option>
+							@foreach($estudios as $estudio)
+								<option value="{{ $estudio->id }}">{{ $estudio->estudio }}</option>
+							@endforeach
+						</select>
 					</div>
 			  </div>
 			  <div class="modal-footer">
@@ -199,12 +230,16 @@
 								window.location.reload(true);
 							}
 						},
+						beforeSend: function(){
+							$('.submit').attr('disabled', 'disabled');
+						},
 						error: function(error){
 							var err = "";
 							for(var i in error.responseJSON.msg){
 								err += error.responseJSON.msg[i] + "<br>";														
 							}
 							$('#error_create_sala').html('<div class="alert alert-danger">' + err + '</div>');
+							$('.submit').removeAttr('disabled');
 						}
 					});
 				});
@@ -218,7 +253,8 @@
 					type: "GET",
 					success: function( data ){
 						$('#id_update').val(data.id);
-						$('#sala_update').val(data.sala);
+						$('input[name=sala]').val(data.sala);
+						$('select[name=estudio]').val(data.estudio_id);
 
 						$('#form_update_sala').on('submit', function(event){
 							event.preventDefault();
@@ -231,12 +267,16 @@
 										window.location.reload(true);
 									}
 								},
+								beforeSend: function(){
+									$('.submit').attr('disabled', 'disabled');
+								},
 								error: function(error){
 									var err = "";
 									for(var i in error.responseJSON.msg){
 										err += error.responseJSON.msg[i] + "<br>";														
 									}
 									$('#error_update_sala').html('<div class="alert alert-danger">' + err + '</div>');
+									$('.submit').removeAttr('disabled');
 								}
 							});
 						});

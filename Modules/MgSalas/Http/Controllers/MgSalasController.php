@@ -15,8 +15,9 @@ class MgSalasController extends Controller
     public function index()
     {
 
-        $salas = \Modules\MgSalas\Entities\Salas::get();
-        return view('mgsalas::index', compact('salas'));
+        $salas = \Modules\MgSalas\Entities\Salas::salasAll();
+        $estudios = \Modules\MgSalas\Entities\Estudios::get();
+        return view('mgsalas::index', compact('salas', 'estudios'));
     }
 
     /**
@@ -36,7 +37,7 @@ class MgSalasController extends Controller
     public function store(Request $request)
     {
         if( $request->method('post') && $request->ajax() ){
-            
+
             $rules = [
                 'sala' => 'required|min:2|max:50'                
             ];
@@ -53,7 +54,8 @@ class MgSalasController extends Controller
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
                 \Modules\MgSalas\Entities\Salas::create([  
-                    'sala' => ucwords( $request->input('sala') )
+                    'sala' => ucwords( $request->input('sala') ),
+                    'estudio_id' => $request->input('estudio')
                 ]);
                 $request->session()->flash('message', trans('mgsalas::ui.flash.flash_create_sala'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
@@ -105,7 +107,8 @@ class MgSalasController extends Controller
             } else {
                 \Modules\MgSalas\Entities\Salas::where('id', $request->input('id'))
                 ->update([                  
-                    'sala' => ucwords( $request->input('sala') )
+                    'sala' => ucwords( $request->input('sala') ),
+                    'estudio_id' => $request->input('estudio')
                 ]);
                 $request->session()->flash('message', trans('mgsalas::ui.flash.flash_create_sala'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
@@ -120,7 +123,7 @@ class MgSalasController extends Controller
     public function destroy($id)
     {
         \Modules\MgSalas\Entities\Salas::destroy($id);
-        \Request::session()->flash('message', trans('mgpuestos::ui.flash.flash_delete_sala'));
+        \Request::session()->flash('message', 'Se eliminó correctamente.');
         return redirect('mgsalas');
     }
 }

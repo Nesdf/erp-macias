@@ -75,10 +75,10 @@
 								<input type="checkbox" name="mgsucursales"  @if( isset($urlArray['mgsucursales']) ) checked @endif >&nbsp;
 								<label>Dashboard Paises y Ciudades</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="add_sucursal-add_ciudad "  @if( isset($urlArray['add_sucursal']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="add_sucursal-add_ciudad-edit_sucursal-edit_ciudad"  @if( isset($urlArray['add_sucursal']) ) checked @endif >&nbsp;
 								<label>Agregar Ciudad</label>
 								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-								<input type="checkbox" name="delete_ciudad"  @if( isset($urlArray['delete_ciudad']) ) checked @endif >&nbsp;
+								<input type="checkbox" name="delete_ciudad-delete_pais"  @if( isset($urlArray['delete_ciudad']) ) checked @endif >&nbsp;
 								<label>Eliminar Ciudad</label>
 							</p>
 						</div>

@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgsucursales', 'namespace' => 'Modules\MgSucursales\Http\Controllers'], function()
+Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgsucursales', 'namespace' => 'Modules\MgSucursales\Http\Controllers'], function()
 {
     Route::get('/', 'MgSucursalesController@index')->name('mgsucursales');
     Route::post('/save_sucursal', 'MgSucursalesController@store')->name('add_sucursal');//Crear  Pais

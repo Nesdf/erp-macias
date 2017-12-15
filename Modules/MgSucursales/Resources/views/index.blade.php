@@ -363,6 +363,7 @@
 							err += error.responseJSON.msg[i] + "<br>";														
 						}
 						$('#error_edit_estado').html('<div class="alert alert-danger">' + err + '</div>');
+						$('.submit').removeAttr('disabled');
 		    		}
 		    	});
 		    });

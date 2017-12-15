@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Paises extends Model
 {
 	protected $table = "paises";
-    protected $fillable = ['pais'];
+    protected $fillable = ['pais', 'surname'];
 
     public static function Sucursales()
     {

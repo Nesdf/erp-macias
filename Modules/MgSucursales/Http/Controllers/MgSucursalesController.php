@@ -42,15 +42,18 @@ class MgSucursalesController extends Controller
 
         if($request->method('post')){
 
-            \Validator::make($request->all(), [
+            $validador = \Validator::make($request->all(), [
                 'pais' => 'required|unique:paises',
             ])->validate();
 
+            $surname = str_replace(' ', '_', strtolower($request->input('pais')));
+
             \Modules\MgSucursales\Entities\Paises::create([
-                'pais' => $request->input('pais')
+                'pais' => ucfirst(strtolower($request->input('pais'))),
+                'surname' => $surname
             ]);
             $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
-            return $this->index();
+            return Redirect()->route('mgsucursales');
         }
     }
 
@@ -61,18 +64,32 @@ class MgSucursalesController extends Controller
      */
     public function storeCiudad(Request $request)
     {
-        if($request->method('post')){
+        try{
 
-            \Validator::make($request->all(), [
-                'estado' => 'required|unique:estados',
-            ])->validate();
+            if($request->method('post') && $request->ajax()){
 
-            \Modules\MgSucursales\Entities\Estados::create([
-                'paisesId' => $request->input('paisId'),
-                'estado' => $request->input('estado')
-            ]);
-            $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
-            return $this->index();
+                $rules = [
+                    'estado' => 'required|unique:estados',              
+                ];
+                
+                $messages = [
+                    'estado.unique' => 'Estado ya existe'
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages); 
+
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                }
+
+                \Modules\MgSucursales\Entities\Estados::create([
+                    'paisesId' => $request->input('paisId'),
+                    'estado' => $request->input('estado')
+                ]);
+                return Redirect()->route('mgsucursales');
+            }
+        } catch(\Exception $e){
+            return $e->getMessage();
         }
     }
 
@@ -89,9 +106,31 @@ class MgSucursalesController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
+    public function edit(Request $request)
     {
-        return view('mgsucursales::edit');
+        if($request->isMethod("POST") && $request->ajax()){
+            
+            try{
+
+                \Validator::make($request->all(), [
+                    'pais' => 'required|unique:paises',
+                ])->validate();
+
+                $surname = str_replace(' ', '_', strtolower($request->input('pais')));
+
+                \Modules\MgSucursales\Entities\Paises::where('id', $request->input('id'))
+                ->update([
+                    'pais' => ucfirst(strtolower($request->input('pais'))),
+                    'surname' => $surname
+                ]);
+                $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
+                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+
+            } catch(\Exception $e){
+                return $e->getMessage();
+            }
+            
+        }
     }
 
     /**
@@ -107,9 +146,20 @@ class MgSucursalesController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function destroy($id)
     {
-        
+        try{
+
+            if(\Modules\MgSucursales\Entities\Paises::destroy($id)){
+                \Modules\MgSucursales\Entities\Estados::destroyAll($id);
+            }
+            \Request::session()->flash('message', trans('Se eliminó satisfactoriamente.'));
+            return redirect('mgsucursales');
+        } catch(\Exception $e){
+            \Request::session()->flash('error', trans('Intentarlo más tarde.'));
+            // $e->getMessage();
+            return redirect('mgsucursales');
+        }
     }
 
     /**
@@ -119,6 +169,38 @@ class MgSucursalesController extends Controller
     public function destroyCiudad($id)
     {
         \Modules\MgSucursales\Entities\Estados::destroy($id);
+        \Request::session()->flash('message', trans('Se eliminó satisfactoriamente.'));
         return redirect('mgsucursales');
+    }
+
+    public function editEstado(Request $request)
+    {
+        try{
+            if($request->isMethod('post') && $request->ajax()){
+                 $rules = [
+                    'estado' => 'required|unique:estados'            
+                ];
+                
+                $messages = [
+                    'estado.unique' => 'Estado ya existe',
+                    'estado.required' => 'Se requiere el Estado'
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages); 
+
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                }
+
+                \Modules\MgSucursales\Entities\Estados::where('id', $request->input('id'))
+                ->update([
+                    'estado' => $request->input('estado')
+                ]);
+                \Request::session()->flash('message', trans('Se modificó con éxito.'));
+                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+            }
+        } catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 }

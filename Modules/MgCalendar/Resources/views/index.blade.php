@@ -1,10 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+
 <style type="text/css">
 /*No permite cambiar la hora arrastrando el*/
   .fc-resizer.fc-end-resizer {
     display: none;
+}
+input.tipo_numero{
+  width: 42px;
+  border: 1px solid white;
+  outline: none;
 }
 </style>
     <div class="page-header">
@@ -233,7 +239,6 @@
                                   var proyecto = $('#proyecto_id option:selected').text();
                                   var episodio = $('#data_episodios option:selected').text();
                                   var sala = $('#data_sala').text();
-                                  console.log(data);
                                   var modal = 
                                   '<div class="modal fade">\
                                     <div class="modal-dialog">\
@@ -252,7 +257,7 @@
                                           <input type="hidden" name="capitulo" id="capitulo" value="'+data.capitulo+'"/>\
                                           <input type="hidden" name="fecha" id="fecha" />\
                                           <label> Actor: &nbsp;</label>\
-                                          <select class="form-control actor" name="actor" id="actor" required>\
+                                          <select class="form-control actor" name="actor" id="actor" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>\
                                           <option value="">Selecccionar</option>\
                                           @foreach($actores as $actor)\
                                            <option value="{{$actor->nombre_artistico}}" data-id="{{$actor->id}}">{{$actor->nombre_artistico}}</option>\
@@ -267,10 +272,12 @@
                                           <label>Loops</label>\
                                           <input type="number" min="1" name="loops" class="form-control" required>\
                                           <hr>\
+                                          <div class="form-group">\
                                           Hora de Entrada:\
-                                          <input type="time" name="entrada" id="entrada" data-entrada="" class="entrada form-control" required>\
+                                          <input type="number" name="hora_entrada" id="hora_entrada" class="tipo_numero" min="00" max="23"  required> : <input type="number" name="min_entrada" class="tipo_numero" min="00" max="59" required>\
+                                          </div>\
                                           Hora de Salida:\
-                                          <input type="time" name="salida" id="salida" data-salida=""  class="salida form-control" required>\
+                                          <input type="number" name="hora_salida" class="tipo_numero" min="00" max="23" required> : <input type="number" name="min_salida" class="tipo_numero" min="00" max="59" required>\
                                           <br><br><label>\
                                           <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario\
                                           </label>\
@@ -289,6 +296,54 @@
 
                                   var modal = $(modal).appendTo('body');
                                   modal.find(function(){
+
+                                    var d = new Date();
+                                    var h = d.getHours();
+                                    var m = d.getMinutes();
+                                    var h_entrada = $('input[name=hora_entrada]').val(h);
+                                    var h_salida = $('input[name=hora_salida]').val(h);
+                                    var m_entrada = $('input[name=min_entrada]').val(m);
+                                    var m_entrada = $('input[name=min_salida]').val(m);
+
+                                    //Si se modifica la hora de entrada, se modifica también la hora de salida
+                                      $('input[name=hora_entrada]').on('change', function(){
+                                       
+                                        $('input[name=hora_salida]').val($(this).val());
+
+                                        var dia = end._d;
+                                        dia = String(dia).split(" ");
+
+                                        if($(this).val() < h && dia[2] == d.getDate()){
+                                          $(this).val(h);
+                                          $($('input[name=hora_salida]')).val(h);
+                                          alert('Hora fuera de horario.');
+                                        }                                    
+                                      });
+                                    //Si se modifica los minustos de entrada, se modifica también los minutos de salida
+                                    $('input[name=min_entrada]').on('change', function(){
+                                      $('input[name=min_salida]').val($(this).val());
+                                    });
+                                     //Si se modifica la hora de salida y es menor a la de entrada, éste no se podrá modificar
+                                    $('input[name=hora_salida]').on('change', function(){
+                                      if($(this).val() <= $('input[name=hora_entrada]').val()){
+                                        $(this).val($('input[name=hora_entrada]').val());
+                                        alert('El tiempo debe ser mayor a la de entrada');
+                                      }
+                                    });
+
+                                    $('input[name=min_salida]').on('change', function(){
+
+                                      if($('input[name=hora_salida]').val() == $('input[name=hora_entrada]').val()){
+
+                                        if($(this).val() <= $('input[name=min_entrada]').val()){
+                                          $('input[name=min_salida]').val($('input[name=min_entrada]').val());
+                                          alert('El tiempo salida debe ser mayor a la de entrada');
+                                        }
+                                      }
+                                    });
+
+
+
                                     var dia_ingles = end._d;
                                     dia_ingles = dia_ingles.toString();
                                     var dia_semana = dia_ingles.split(" ");
@@ -324,7 +379,7 @@
                                     var m = d.getMinutes();
                                     var tiempo = {'1':'01', '2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08', '9':'09' , '10':'10', '11':'11', '12':'12', '13':'13', '14':'14', '15':'15', '16':'16', '17':'17', '18':'18', '19':'19', '20':'20', '21':'21', '22':'22', '23':'23', '24':'24', '25':'25', '26':'26', '27':'27', '28':'28', '29':'29' , '30':'30', '31':'31', '32':'32', '33':'33', '34':'34', '35':'35', '36':'36', '37':'37', '38':'38', '39':'39' , '40':'40', '41':'41', '42':'42', '43':'43', '44':'44', '45':'45', '46':'46', '47':'47', '48':'48', '49':'49', '50':'50', '51':'51', '52':'52', '53':'53', '54':'54', '55':'55', '56':'56', '57':'57', '58':'58', '59':'59' , '0':'00', '00':'00'};
                                                                        
-                                    $('.entrada').timepicker({
+                                    /*$('.entrada').timepicker({
                                       timeOnlyTitle: 'Hora de Entrada',
                                       showSecond: false,
                                       showMillisec: false,
@@ -337,7 +392,8 @@
                                       showMillisec: false,
                                       showMicrosec: false,
                                       showTimezone: false
-                                    });
+                                    });*/
+                                    $('.entrada, .salida').mask('00:00');
                                     $('#entrada, #salida').val(tiempo[h]+':'+tiempo[m]);
                                     var dia = end._d;
                                     dia = dia.toString();

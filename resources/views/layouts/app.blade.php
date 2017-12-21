@@ -290,20 +290,24 @@
 								</ul>
 							@endif
 					</li>
-					<li class="">
-						<a href="{{ url('mgproyectostraductor') }}">
-							<i class="menu-icon fa fa-tasks"></i>
-							<span class="menu-text"> Proyectos Traductor </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="{{ url('mgproyectosproductor') }}">
-							<i class="menu-icon fa fa-tasks"></i>
-							<span class="menu-text"> Proyectos Productor </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
+					@if(\Session::get('admin_puesto') == "Traductor")
+						<li class="">
+							<a href="{{ url('mgproyectostraductor') }}">
+								<i class="menu-icon fa fa-tasks"></i>
+								<span class="menu-text"> Proyectos Traductor </span>
+							</a>
+							<b class="arrow"></b>
+						</li>
+					@endif
+					@if(\Session::get('admin_puesto') == "Productor")
+						<li class="">
+							<a href="{{ url('mgproyectosproductor') }}">
+								<i class="menu-icon fa fa-tasks"></i>
+								<span class="menu-text"> Proyectos Productor </span>
+							</a>
+							<b class="arrow"></b>
+						</li>
+					@endif
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

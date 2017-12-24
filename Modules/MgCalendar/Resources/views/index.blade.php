@@ -109,7 +109,7 @@ input.tipo_numero{
                             success: function( data ){
                               
                               $('div#reload').html('');
-                               $('#name_sala').html('<h3 style="text-align: center;" ><strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
+                               $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong>  <strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
 
                                $('#external-events div.external-event').each(function() {
 
@@ -325,7 +325,7 @@ input.tipo_numero{
                                     });
                                      //Si se modifica la hora de salida y es menor a la de entrada, éste no se podrá modificar
                                     $('input[name=hora_salida]').on('change', function(){
-                                      if($(this).val() <= $('input[name=hora_entrada]').val()){
+                                      if($(this).val() < $('input[name=hora_entrada]').val()){
                                         $(this).val($('input[name=hora_entrada]').val());
                                         alert('El tiempo debe ser mayor a la de entrada');
                                       }
@@ -334,8 +334,7 @@ input.tipo_numero{
                                     $('input[name=min_salida]').on('change', function(){
 
                                       if($('input[name=hora_salida]').val() == $('input[name=hora_entrada]').val()){
-
-                                        if($(this).val() <= $('input[name=min_entrada]').val()){
+                                        if($(this).val() < $('input[name=min_entrada]').val()){
                                           $('input[name=min_salida]').val($('input[name=min_entrada]').val());
                                           alert('El tiempo salida debe ser mayor a la de entrada');
                                         }
@@ -446,8 +445,10 @@ input.tipo_numero{
                                       type: 'POST',
                                       data: $( this ).serialize(),
                                       success: function(data){
-                                        var inicio = data.start;
-                                        var fin = data.end
+                                        console.log('success');
+                                        console.log(data);
+                                        var inicio = String(data.start);
+                                        var fin = String(data.end);
                                         var start = inicio.split(" ");
                                         var end = fin.split(" ");
 
@@ -465,7 +466,13 @@ input.tipo_numero{
                                       },
                                       error: function(error){
                                         console.log(error);
+                                        if(error.status == 400){
+                                          modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">'+error.responseJSON.error+'</div>');
+                                        }
+                                        
+                                        if(error.status == 404){
                                           modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">Este horario ya se encuentra ocupado.</div>');
+                                        }
 
                                           modal.on('click', function(){
                                             modal.find('.msj-error').html('');

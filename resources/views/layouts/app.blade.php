@@ -147,7 +147,7 @@
 				</div><!-- /.sidebar-shortcuts -->			
 
 				<ul class="nav nav-list">
-					<li class="">
+					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte')) class="open" @endif>
 						@if( \Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') | \Request::session()->has('mgtiporeporte'))
 							<a href="#" class="dropdown-toggle">
 								<i class="menu-icon fa fa-list"></i>
@@ -158,9 +158,9 @@
 
 							<b class="arrow"></b>
 
-							<ul class="submenu">
+							<ul class="submenu " >
 								@if(\Request::session()->has('mgpuestos'))
-									<li class="">
+									<li @if(\Request::is('mgpuestos')) class="active" @endif>
 										<a href="{{ url('mgpuestos') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
 											Puestos de trabajo
@@ -168,7 +168,7 @@
 										<b class="arrow"></b>
 									</li>
 								@endif
-								<li class="">
+								<li @if(\Request::is('mgsucursales')) class="active" @endif>
 									@if(\Request::session()->has('mgsucursales'))
 										<a href="{{ url('mgsucursales') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
@@ -177,7 +177,7 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li class="">
+								<li @if(\Request::is('mgsalas')) class="active" @endif>
 									@if(\Request::session()->has('mgsalas'))
 										<a href="{{ url('mgsalas') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
@@ -186,7 +186,7 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li class="">
+								<li @if(\Request::is('mgvias')) class="active" @endif>
 									@if(\Request::session()->has('mgvias'))
 										<a href="{{ url('mgvias') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
@@ -195,7 +195,7 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li class="">
+								<li @if(\Request::is('mgtcr')) class="active" @endif>
 									@if(\Request::session()->has('mgtcr'))
 										<a href="{{ url('mgtcr') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
@@ -204,7 +204,7 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li class="">
+								<li @if(\Request::is('mgtimecode')) class="active" @endif>
 									@if(\Request::session()->has('mgtimecode'))
 										<a href="{{ url('mgtimecode') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
@@ -213,7 +213,7 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li class="">
+								<li @if(\Request::is('mgtiporeporte')) class="active" @endif>
 									@if(\Request::session()->has('mgtiporeporte'))
 										<a href="{{ url('mgtiporeporte') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
@@ -225,7 +225,7 @@
 							</ul>
 						@endif
 					</li>
-					<li class="">
+					<li @if(\Request::is('mgpersonal')) class="active" @endif>
 						@if(\Request::session()->has('mgpersonal'))
 							<a href="{{ url('mgpersonal') }}">
 								<i class="menu-icon fa fa-child"></i>
@@ -234,7 +234,7 @@
 							<b class="arrow"></b>
 						@endif
 					</li>
-					<li class="">
+					<li @if(\Request::is('mgclientes')) class="active" @endif>
 						@if(\Request::session()->has('mgclientes'))
 							<a href="{{ url('mgclientes') }}">
 								<i class="menu-icon fa fa-users"></i>
@@ -243,7 +243,7 @@
 							<b class="arrow"></b>
 						@endif
 					</li>
-					<li class="">
+					<li @if(\Request::is('mgproyectos') || \Request::is('mgepisodios/*')) class="active" @endif>
 						@if(\Request::session()->has('mgproyectos'))
 							<a href="{{ url('mgproyectos') }}">
 								<i class="menu-icon fa fa-tasks"></i>
@@ -252,7 +252,7 @@
 							<b class="arrow"></b>
 						@endif
 					</li>
-					<li>
+					<li @if(\Request::is('mgactores') || \Request::is('mgcalendar') || \Request::is('mgcalendar/*') ) class="open" @endif>
 						@if(\Request::session()->has('mgactores') || \Request::session()->has('mgcalendar') || \Request::session()->has('list_llamado'))
 							<a href="#" class="dropdown-toggle">
 									<i class="menu-icon fa fa-list"></i>
@@ -263,7 +263,7 @@
 
 								<b class="arrow"></b>
 								<ul class="submenu">
-									<li>
+									<li @if(\Request::is('mgactores')) class="active" @endif>
 										@if(\Request::session()->has('mgactores'))
 											<a href="{{ url('mgactores') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Actores
@@ -271,7 +271,7 @@
 											<b class="arrow"></b>
 										@endif
 									</li>
-									<li>
+									<li @if(\Request::is('mgcalendar')) class="active" @endif>
 										@if(\Request::session()->has('mgcalendar'))
 											<a href="{{ url('mgcalendar') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Calendario
@@ -279,7 +279,7 @@
 											<b class="arrow"></b>
 										@endif
 									</li>
-									<li>
+									<li @if(\Request::is('mgcalendar/*')) class="active" @endif>
 										@if(\Request::session()->has('list_llamado'))
 											<a href="{{ url('mgcalendar/list-llamados') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Lista de llamados

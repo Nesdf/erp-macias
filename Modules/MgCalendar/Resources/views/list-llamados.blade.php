@@ -88,7 +88,7 @@
 			  <div class="modal-body">
 			  	<div id="alerta_fecha"> </div>
 			  	<div class="row">
-		  			<form method="post" action="{{ url('/mgcalendar/pdf-llamados') }}" >
+		  			<form role="form" method="post" action="{{ url('/mgcalendar/pdf-llamados') }}" >
 					    <div class="modal-body">
 					    	{{ csrf_field() }}
 					    	<input type="hidden" name="sala" id="sala">
@@ -253,9 +253,7 @@
 			var nuevoArray = new Array();
 			for(var i=0; i<data.llamados.length; i++){
 
-				
-
-				if(nuevoArray.IndexOf(data.llamados[i].actor)){
+				if(nuevoArray.indexOf(data.llamados[i].actor)){
 
 				} else {
 					nuevoArray.push(data.llamados[i]);

@@ -16,3 +16,9 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgc
     Route::get('/edit-llamado/{id}', 'MgCalendarController@editllamado')->name('edit_llamado');
     Route::get('/delete_llamado/{id}', 'MgCalendarController@deleteLlamado')->name('delete_llamado');
 });
+
+
+Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcalendar', 'namespace' => 'Modules\MgCalendar\Http\Controllers'], function()
+{
+    Route::post('llamado-actor', 'MgCalendarController@LlamadoActor')->name('llamado_actor');
+});

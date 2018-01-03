@@ -81,9 +81,10 @@ input.tipo_numero{
             $.ajax({
               url: "{{ url('mgcalendar/list_episodios') }}" + '/' +id,
               type: "GET",
+              //Start Succes list_episodios
               success: function( data ){
-                 if(data.msg.length > 0){
-                    $('#list_episodios').html('<label>Episodio</label><br><select id="data_episodios" class="form-control">\
+                if(data.msg.length > 0){
+                    $('#list_episodios').html('<label>Episodio: </label><br><select id="data_episodios" class="form-control">\
                         <option value="">Seleccionar...</option>\
                       </select>');
                     for(var i=0;  i < data.msg.length; i++ ){
@@ -646,6 +647,7 @@ input.tipo_numero{
                  }
               },
               error: function(error){
+                console.log('error');
               }
             });
           } else {

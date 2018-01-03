@@ -152,7 +152,6 @@
                   		class="table table-striped table-bordered table-hover">\
 			              <thead>\
 			                <tr>\
-			                  <th>ID</th>\
 			                  <th>Actor</th>\
 			                  <th>Credencial</th>\
 			                  <th>Personaje</th>\
@@ -208,10 +207,6 @@
 
 					});
 
-					//console.log(midata.row());
-					//console.log(midata.data());
-
-
 					$('#create-pdf').css({display: 'block'});
                   	if( $('#create-pdf').is(":visible") ){
                   		$('#sala').val($('#search_sala').val());
@@ -246,8 +241,15 @@
 
 
 		function contenido(data){
+			console.log(data);
 			if(data.llamados.length <= 0){
 				return "";
+			}
+
+			var formArray = new Array();
+			for(var i=0; i<data.llamados.length; i++){
+				//JSON.stringify : Convierte valor a notacion json
+				formArray[i] = JSON.stringify({actor: data.llamados[i].actor});
 			}
 
 			var nuevoArray = new Array();
@@ -259,12 +261,89 @@
 					nuevoArray.push(data.llamados[i]);
 				}
 			}
-			console.log(nuevoArray);
 
-      		var list_llamados = new Array();
+			// Genera el nuevo arreglo
+			var list_new_llamados = new Array();
+      		for(var i=0; i<data.llamados.length; i++){
+
+      			if(list_new_llamados[data.llamados[i].credencial]){
+
+      				//Suma los loops por proyectos
+      				for(var j=0; j<data.proyectos.length; j++){
+      					if( data.proyectos[j].folios == data.llamados[i].folio ) {
+      						list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] +=  parseInt(data.llamados[i].loops);
+      					}      					
+	      			}
+	      			// suma el total de loops 
+	      			list_new_llamados[data.llamados[i].credencial].total = 0;
+	      			for(var j=0; j<data.proyectos.length; j++){
+      					
+      					list_new_llamados[data.llamados[i].credencial].total += parseInt( list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] );
+      					      					
+	      			}
+
+      			} else{
+      				list_new_llamados[data.llamados[i].credencial] = new Array();
+      				list_new_llamados[data.llamados[i].credencial].actor =  data.llamados[i].actor;
+      				list_new_llamados[data.llamados[i].credencial].credencial = data.llamados[i].credencial;
+      				list_new_llamados[data.llamados[i].credencial].descripcion = data.llamados[i].descr;
+      				list_new_llamados[data.llamados[i].credencial].director = data.llamados[i].director;
+      				list_new_llamados[data.llamados[i].credencial].sala = data.llamados[i].sala;
+      				list_new_llamados[data.llamados[i].credencial].estudio = data.llamados[i].estudio;
+
+      				
+      				for(var j=0; j<data.proyectos.length; j++){
+      					
+      					if(data.proyectos[j].folios == data.llamados[i].folio){
+      						// Permite asignar el total de loops
+	      					list_new_llamados[data.llamados[i].credencial].total = list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] = parseInt(data.llamados[i].loops);
+	      				} else {
+	      					list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] = parseInt(0);
+	      				}
+	      			}     			
+
+
+      				list_new_llamados[data.llamados[i].credencial].fecha = data.llamados[i].fecha;
+      				list_new_llamados[data.llamados[i].credencial].entrada = data.llamados[i].entrada;
+      				list_new_llamados[data.llamados[i].credencial].salida = data.llamados[i].salida;
+
+      			}
+      		}
+
+      		//console.log(list_new_llamados);
+      		//Permite mostrar las llaves del arreglo
+      		for( property in list_new_llamados ){
+			  
+			  var list_llamados;
+
+      			list_llamados += "<tr>";
+      			list_llamados += "<td>"+list_new_llamados[property].actor+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].credencial+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].descripcion+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].director+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].sala+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].estudio+"</td>";
+      			for(var j=0; j<data.proyectos.length; j++){
+      				list_llamados += "<td>"+list_new_llamados[property][data.proyectos[j].folios]+"</td>";	
+      			}
+
+      			list_llamados += "<td>"+list_new_llamados[property].total+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].fecha+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].entrada+"</td>";
+      			list_llamados += "<td>"+list_new_llamados[property].salida+"</td>";
+      			list_llamados += "</tr>";
+
+			}
+      		
+
+      		
+
+      		
+
+
+      		/*var list_llamados;
       		for(var i=0; i<data.llamados.length; i++){
       			list_llamados += "<tr>";
-      			list_llamados += "<td>"+data.llamados[i].id+"</td>";
       			list_llamados += "<td>"+data.llamados[i].actor+"</td>";
       			list_llamados += "<td>"+data.llamados[i].credencial+"</td>";
       			list_llamados += "<td>"+data.llamados[i].descr+"</td>";
@@ -287,7 +366,7 @@
       			list_llamados += "<td>"+data.llamados[i].entrada+"</td>";
       			list_llamados += "<td>"+data.llamados[i].salida+"</td>";
       			list_llamados += "</tr>";
-      		}
+      		}*/
       		
       			return list_llamados;
       	}

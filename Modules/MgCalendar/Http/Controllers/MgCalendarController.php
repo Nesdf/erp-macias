@@ -101,8 +101,16 @@ class MgCalendarController extends Controller
 
     public function listEpisodios($id)
     {
-        $episodios = \Modules\MgCalendar\Entities\Episodios::listEpisodios($id);
-        return Response(['msg' => $episodios], 200)->header('Content-Type', 'application/json');
+        try{
+
+            $episodios = \Modules\MgCalendar\Entities\Episodios::listEpisodios($id);
+            return Response(['msg' => $episodios], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+            return Response(['error' => $episodios], 400)->header('Content-Type', 'application/json');
+        }
+        
     }
 
     public function citaLlamado(Request $request)
@@ -169,7 +177,7 @@ class MgCalendarController extends Controller
                 $llamados = \Modules\MgCalendar\Entities\Llamados::allLlamados($request->input('search_sala'), $request->input('search_fecha'));
                 $allFolios = [];
                 foreach ($llamados as $key => $value) {
-                    # code...
+                    
                     $allFolios[] = $value->folio;
                 }
                 $proyectos = \Modules\MgCalendar\Entities\Proyectos::allProyects($allFolios);
@@ -209,11 +217,10 @@ class MgCalendarController extends Controller
             if( $request->isMethod('post') ){
                 
                 $array_multiselect = explode(',', $request->input('headers'));
-                $explode_data = $request->input('data');
+                $explode_data = substr($request->input('data'), 3);
                 $llamados = \Modules\MgCalendar\Entities\Llamados::allLlamados($request->input('sala'), $request->input('fecha'));
                 $allFolios = [];
                 foreach ($llamados as $key => $value) {
-                    # code...
                     $allFolios[] = $value->folio;
                 }
                 $listFecha = explode('-', $request->input('fecha'));
@@ -229,5 +236,20 @@ class MgCalendarController extends Controller
             return $e->getMessage()." fallo";
         }        
         //return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+    }
+
+    public function LlamadoActor(Request $request)
+    {
+        try{
+            dd($request->all());
+            if($request->isMethod('post') && $request->ajax()){
+
+                \Modules\MgCalendar\Entities\Llamados::allLlamados($request->input());
+            }
+
+        } catch(\Exception $e){
+
+            return Response(['error' => 'Verificar con el administrador']);
+        }
     }
 }

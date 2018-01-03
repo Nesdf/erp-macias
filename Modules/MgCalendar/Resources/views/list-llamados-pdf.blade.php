@@ -53,7 +53,6 @@
 	<h3>Lista de Llamados</h3>
 	<table class="table">
 		@php
-			
 			$array_data = explode(';', $explode_data);
 			$d_array = explode(',', $array_data[0]);
 			$newArray = [];
@@ -67,6 +66,7 @@
 
             for($i=0; $i<count($array_data); $i++){
                 $header = explode(',', $array_data[$i]);
+                
                 echo "<tr>";
                 for($j=1; $j<count($header); $j++){
                 	
@@ -79,10 +79,14 @@
                 	}
                 } 
                 echo "</tr>";
+
             }
 		@endphp
 
 	</table>
+	<div style="padding: -49px; padding-left: 1px; padding-right: 1px;">
+		<hr>
+	</div>
 </p>
 </body>
 </html>

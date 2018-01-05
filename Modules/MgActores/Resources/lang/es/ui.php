@@ -8,8 +8,9 @@ return [
 		'error_email' => 'El campo :attribute no es un formato correcto'
 	],
 	'flash' => [
-		'flash_create_personal' => 'Se agregó exitosamente',
-		'flash_delete_personal' => 'Se eliminó exitosamente'
+		'flash_update_actor' => 'Se agregó exitosamente',
+		'flash_create_actor' => 'Se agregó exitosamente',
+		'flash_delete_actor' => 'Se eliminó exitosamente'
 	],
 	'attribute' => [
 		'nombre_completo' => 'Nombre Completo',

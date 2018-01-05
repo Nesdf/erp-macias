@@ -16,6 +16,9 @@
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Proyectos de Macias Group</h3>
 
+					@if(Session::has('success'))
+						<p class="alert alert-success">{{ Session::get('success') }}</p>
+					@endif
 					<div class="clearfix">
 						<div class="pull-right tableTools-container"></div>
 					</div>

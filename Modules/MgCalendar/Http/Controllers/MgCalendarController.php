@@ -16,10 +16,16 @@ class MgCalendarController extends Controller
      */
     public function index()
     {
-        $proyectos = \Modules\MgCalendar\Entities\Proyectos::get();
-        $estudios = \Modules\MgCalendar\Entities\Estudios::get();
-        $actores = \Modules\MgCalendar\Entities\Actores::get();
-        return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores'));
+        try{
+
+            $proyectos = \Modules\MgCalendar\Entities\Proyectos::get();
+            $estudios = \Modules\MgCalendar\Entities\Estudios::get();
+            $actores = \Modules\MgCalendar\Entities\Actores::get();
+            return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores'));
+        } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
     }
 
     /**
@@ -77,26 +83,38 @@ class MgCalendarController extends Controller
 
     public function listSalas($id, $id_episodio)
     {
-        $salas = \Modules\MgCalendar\Entities\Salas::listSalas($id);
-        $llamados = \Modules\MgCalendar\Entities\Llamados::listaLlamados($salas[0]->sala);
-        $folio = \Modules\MgCalendar\Entities\Episodios::find($id_episodio);
+        try{
 
-        if($folio->directorId == null){
-            $director = "No se ha seleccionador director";
-        } else{
+            $salas = \Modules\MgCalendar\Entities\Salas::listSalas($id);
+            $llamados = \Modules\MgCalendar\Entities\Llamados::listaLlamados($salas[0]->sala);
+            $folio = \Modules\MgCalendar\Entities\Episodios::find($id_episodio);
 
-            $dir = \Modules\MgCalendar\Entities\User::find($folio->directorId);
-            $director = $dir->name.' '.$dir->ap_paterno.' '.$dir->ap_materno;
+            if($folio->directorId == null){
+                $director = "No se ha seleccionador director";
+            } else{
+
+                $dir = \Modules\MgCalendar\Entities\User::find($folio->directorId);
+                $director = $dir->name.' '.$dir->ap_paterno.' '.$dir->ap_materno;
+            }
+
+            return Response(['msg' => $salas, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
-
-        return Response(['msg' => $salas, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
     }
 
 
     public function calendarSalas()
     {
-        $actores = \Modules\MgCalendar\Entities\Actores::get();
-        return Response(['msg' => 'menasje', 'actores' => $actores], 200)->header('Content-Type', 'application/json');
+        try{
+
+            $actores = \Modules\MgCalendar\Entities\Actores::get();
+            return Response(['msg' => 'menasje', 'actores' => $actores], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
     }
 
     public function listEpisodios($id)
@@ -118,7 +136,7 @@ class MgCalendarController extends Controller
         try{
             if($request->isMethod('post') && $request->ajax()){
                 
-                $meses = ['Ene'=>'01', 'Feb'=>'02', 'Mar'=>'03','Abr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'8','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dec'=>'12'];
+                $meses = ['Jan'=>'01', 'Feb'=>'02', 'Mar'=>'03','Apr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'8','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dec'=>'12'];
                 $date = explode(' ', $request->input('dia'));
                 $dt = Carbon::now();
                 $cita_entrada = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_entrada'))->minute($request->input('min_entrada'))->second(00)->toDateTimeString();
@@ -192,22 +210,40 @@ class MgCalendarController extends Controller
 
     public function credencialesActores($id)
     {
-        $credenciales = \Modules\MgCalendar\Entities\Actores::credencialesActores($id);
-        return Response(['credenciales' => $credenciales], 200)->header('Content-Type', 'application/json');
+        try{
+
+            $credenciales = \Modules\MgCalendar\Entities\Actores::credencialesActores($id);
+            return Response(['credenciales' => $credenciales], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        } 
     }
 
     public function editLlamado($id)
     {
-        $llamado = \Modules\MgCalendar\Entities\Actores::find($id);
-        return Response(['llamado' => $llamado], 200)->header('Content-Type', 'application/json');
+        try{
+
+            $llamado = \Modules\MgCalendar\Entities\Actores::find($id);
+            return Response(['llamado' => $llamado], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
     }
 
     public function deleteLlamado($id)
     {
-        if(\Modules\MgCalendar\Entities\Llamados::destroy($id)){
-            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-        }
-        
+        try{
+
+            if(\Modules\MgCalendar\Entities\Llamados::destroy($id)){
+                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+            }
+        } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+            return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+        }        
     }
 
     public function pdfLlamados(Request $request)
@@ -233,7 +269,8 @@ class MgCalendarController extends Controller
             }
 
         } catch(\Exception $e){
-            return $e->getMessage()." fallo";
+            r\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }        
         //return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
     }
@@ -248,7 +285,8 @@ class MgCalendarController extends Controller
             }
 
         } catch(\Exception $e){
-
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => 'Verificar con el administrador']);
         }
     }

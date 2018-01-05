@@ -14,10 +14,16 @@ class MgSalasController extends Controller
      */
     public function index()
     {
+        try{
 
-        $salas = \Modules\MgSalas\Entities\Salas::salasAll();
-        $estudios = \Modules\MgSalas\Entities\Estudios::get();
-        return view('mgsalas::index', compact('salas', 'estudios'));
+            $salas = \Modules\MgSalas\Entities\Salas::salasAll();
+            $estudios = \Modules\MgSalas\Entities\Estudios::get();
+            return view('mgsalas::index', compact('salas', 'estudios'));
+        } catch(\Exception $e){
+
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
     }
 
     /**
@@ -36,30 +42,39 @@ class MgSalasController extends Controller
      */
     public function store(Request $request)
     {
-        if( $request->method('post') && $request->ajax() ){
+        try{
 
-            $rules = [
-                'sala' => 'required|min:2|max:50'                
-            ];
-            
-            $messages = [
-                'sala.required' => trans('mgsalas::ui.display.error_required', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
-                'sala.min' => trans('mgsalas::ui.display.error_min2', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
-                'sala.max' => trans('mgsalas::ui.display.error_max50', ['attribute' => trans('mgsalas::ui.attribute.sala')])
-            ]; 
-            
-            $validator = \Validator::make($request->all(), $rules, $messages);          
-            
-            if ( $validator->fails() ) {
-                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-            } else {
-                \Modules\MgSalas\Entities\Salas::create([  
-                    'sala' => ucwords( $request->input('sala') ),
-                    'estudio_id' => $request->input('estudio')
-                ]);
-                $request->session()->flash('message', trans('mgsalas::ui.flash.flash_create_sala'));
-                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+            if( $request->method('post') && $request->ajax() ){
+
+                $rules = [
+                    'sala' => 'required|min:2|max:50',   
+                    'estudio' => 'required'
+                ];
+                
+                $messages = [
+                    'sala.required' => trans('mgsalas::ui.display.error_required', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
+                    'sala.min' => trans('mgsalas::ui.display.error_min2', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
+                    'sala.max' => trans('mgsalas::ui.display.error_max50', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
+                    'estudio.required' => "El campo estudio es requerido"
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else {
+                    \Modules\MgSalas\Entities\Salas::create([  
+                        'sala' => ucwords( $request->input('sala') ),
+                        'estudio_id' => strtoupper($request->input('estudio'))
+                    ]);
+                    $request->session()->flash('success', trans('mgsalas::ui.flash.flash_create_sala'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
             }
+        } catch(\Exception $e){
+
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
     }
 
@@ -88,31 +103,38 @@ class MgSalasController extends Controller
      */
     public function update(Request $request)
     {
-        if( $request->method('post') && $request->ajax() ){
-            
-            $rules = [
-                'sala' => 'required|min:2|max:50'                
-            ];
-            
-            $messages = [
-                'sala.required' => trans('mgsalas::ui.display.error_required', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
-                'sala.min' => trans('mgsalas::ui.display.error_min2', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
-                'sala.max' => trans('mgsalas::ui.display.error_max50', ['attribute' => trans('mgsalas::ui.attribute.sala')])
-            ]; 
-            
-            $validator = \Validator::make($request->all(), $rules, $messages);          
-            
-            if ( $validator->fails() ) {
-                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-            } else {
-                \Modules\MgSalas\Entities\Salas::where('id', $request->input('id'))
-                ->update([                  
-                    'sala' => ucwords( $request->input('sala') ),
-                    'estudio_id' => $request->input('estudio')
-                ]);
-                $request->session()->flash('message', trans('mgsalas::ui.flash.flash_create_sala'));
-                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+        try{
+
+            if( $request->method('post') && $request->ajax() ){
+                
+                $rules = [
+                    'sala' => 'required|min:2|max:50'                
+                ];
+                
+                $messages = [
+                    'sala.required' => trans('mgsalas::ui.display.error_required', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
+                    'sala.min' => trans('mgsalas::ui.display.error_min2', ['attribute' => trans('mgsalas::ui.attribute.sala')]),
+                    'sala.max' => trans('mgsalas::ui.display.error_max50', ['attribute' => trans('mgsalas::ui.attribute.sala')])
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                } else {
+                    \Modules\MgSalas\Entities\Salas::where('id', $request->input('id'))
+                    ->update([                  
+                        'sala' => strtoupper( $request->input('sala') ),
+                        'estudio_id' => $request->input('estudio')
+                    ]);
+                    $request->session()->flash('success', trans('mgsalas::ui.flash.flash_create_sala'));
+                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                }
             }
+        } catch(\Exception $e){
+
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
     }
 
@@ -123,7 +145,7 @@ class MgSalasController extends Controller
     public function destroy($id)
     {
         \Modules\MgSalas\Entities\Salas::destroy($id);
-        \Request::session()->flash('message', 'Se eliminó correctamente.');
+        \Request::session()->flash('success', 'Se eliminó correctamente.');
         return redirect('mgsalas');
     }
 
@@ -133,27 +155,34 @@ class MgSalasController extends Controller
      */
     public function storeEstudio(Request $request)
     {
-        if( $request->method('post') && $request->ajax() ){
-            
-            $rules = [
-                'estudio' => 'required|min:2|max:50'                
-            ];
-            
-            $messages = [
-                'estudio.required' => 'Estudio es requerido.'
-            ]; 
-            
-            $validator = \Validator::make($request->all(), $rules, $messages);          
-            
-            if ( $validator->fails() ) {
-                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-            }
+        try{
 
-            \Modules\MgSalas\Entities\Estudios::create([
-                'estudio' => $request->input('estudio')
-                ]);
-            $request->session()->flash('message', 'El estudio fue creado satisfactoriamente.');
-            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+            if( $request->method('post') && $request->ajax() ){
+            
+                $rules = [
+                    'estudio' => 'required|min:2|max:50'                
+                ];
+                
+                $messages = [
+                    'estudio.required' => 'Estudio es requerido.'
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                }
+
+                \Modules\MgSalas\Entities\Estudios::create([
+                    'estudio' => strtoupper($request->input('estudio'))
+                    ]);
+                $request->session()->flash('success', 'El estudio fue creado satisfactoriamente.');
+                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+            }
+        } catch(\Exception $e){
+
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
     }
 
@@ -163,29 +192,35 @@ class MgSalasController extends Controller
      */
     public function editEstudio(Request $request)
     {
+        try{
 
-        if( $request->method('post') && $request->ajax() ){
+            if( $request->method('post') && $request->ajax() ){
             
-            $rules = [
-                'estudio' => 'required|min:2|max:50'                
-            ];
-            
-            $messages = [
-                'estudio.required' => 'Estudio es requerido.'
-            ]; 
-            
-            $validator = \Validator::make($request->all(), $rules, $messages);          
-            
-            if ( $validator->fails() ) {
-                return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                $rules = [
+                    'estudio' => 'required|min:2|max:50'                
+                ];
+                
+                $messages = [
+                    'estudio.required' => 'Estudio es requerido.'
+                ]; 
+                
+                $validator = \Validator::make($request->all(), $rules, $messages);          
+                
+                if ( $validator->fails() ) {
+                    return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+                }
+
+                \Modules\MgSalas\Entities\Estudios::where('id', $request->input('id'))
+                ->update([
+                    'estudio' => strtoupper($request->input('estudio'))
+                    ]);
+                $request->session()->flash('success', 'El estudio fue modificado satisfactoriamente.');
+                return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
             }
+        } catch(\Exception $e){
 
-            \Modules\MgSalas\Entities\Estudios::where('id', $request->input('id'))
-            ->update([
-                'estudio' => $request->input('estudio')
-                ]);
-            $request->session()->flash('message', 'El estudio fue modificado satisfactoriamente.');
-            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
     }
 }

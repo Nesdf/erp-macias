@@ -59,13 +59,15 @@ class MgPuestosController extends Controller
                     return Response(['validation' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else {
                     \Modules\MgClientes\Entities\Puestos::create([  
-                        'job' => $request->input('job')
+                        'job' => ucwords(strtolower($request->input('job')))
                     ]);
-                    $request->session()->flash('message', trans('mgpuestos::ui.flash.flash_create_cliente'));
+                    $request->session()->flash('success', trans('mgpuestos::ui.flash.flash_create_puesto'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }
             }
         } catch(\Exception $e) {
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
         }
     }
@@ -121,13 +123,15 @@ class MgPuestosController extends Controller
                 } else {
                     \Modules\MgClientes\Entities\Puestos::where('id', $request->input('id'))
                     ->update([                  
-                        'job' => $request->input('job')
+                        'job' => ucwords(strtolower($request->input('job')))
                     ]);
-                    $request->session()->flash('message', trans('mgclientes::ui.flash.flash_create_puesto'));
+                    $request->session()->flash('success', trans('mgpuestos::ui.flash.flash_create_puesto'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }
             }
         } catch(\Exception $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
         }
     }
@@ -141,7 +145,7 @@ class MgPuestosController extends Controller
 		try{
 
             \Modules\MgClientes\Entities\Puestos::destroy($id);
-            \Request::session()->flash('message', trans('mgpuestos::ui.flash.flash_delete_puesto'));
+            \Request::session()->flash('success', trans('mgpuestos::ui.flash.flash_delete_puesto'));
             return redirect('mgpuestos');
         } catch(\Exception $e){
             return $e->getMessage();

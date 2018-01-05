@@ -38,22 +38,26 @@ class MgSucursalesController extends Controller
      */
     public function store(Request $request)
     {
+        try{
 
+            if( $request->method('post') ){
 
-        if($request->method('post')){
+                $validador = \Validator::make($request->all(), [
+                    'pais' => 'required|unique:paises',
+                ])->validate();
 
-            $validador = \Validator::make($request->all(), [
-                'pais' => 'required|unique:paises',
-            ])->validate();
+                $surname = str_replace(' ', '_', strtolower($request->input('pais')));
 
-            $surname = str_replace(' ', '_', strtolower($request->input('pais')));
-
-            \Modules\MgSucursales\Entities\Paises::create([
-                'pais' => ucfirst(strtolower($request->input('pais'))),
-                'surname' => $surname
-            ]);
-            $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
-            return Redirect()->route('mgsucursales');
+                \Modules\MgSucursales\Entities\Paises::create([
+                    'pais' => ucfirst(strtolower($request->input('pais'))),
+                    'surname' => $surname
+                ]);
+                \Request::session()->flash('success', 'Se agregó exitosamente.');
+                $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
+                return Redirect()->route('mgsucursales');
+            }
+        } catch(\Exception $e){
+            return $e->getMessage();
         }
     }
 
@@ -66,7 +70,7 @@ class MgSucursalesController extends Controller
     {
         try{
 
-            if($request->method('post') && $request->ajax()){
+            if( $request->method('post') && $request->ajax() ){
 
                 $rules = [
                     'estado' => 'required|unique:estados',              
@@ -86,7 +90,10 @@ class MgSucursalesController extends Controller
                     'paisesId' => $request->input('paisId'),
                     'estado' => $request->input('estado')
                 ]);
-                return Redirect()->route('mgsucursales');
+
+                \Request::session()->flash('success', 'Se agregó exitosamente.');
+                return Response(['msg' => 'success', 200])->header('Content-Type', 'application/json');
+                //return Redirect()->route('mgsucursales');
             }
         } catch(\Exception $e){
             return $e->getMessage();
@@ -123,6 +130,7 @@ class MgSucursalesController extends Controller
                     'pais' => ucfirst(strtolower($request->input('pais'))),
                     'surname' => $surname
                 ]);
+                \Request::session()->flash('success', 'Se agregó exitosamente.');
                 $sucursales = \Modules\MgSucursales\Entities\Paises::Sucursales();
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 
@@ -153,7 +161,7 @@ class MgSucursalesController extends Controller
             if(\Modules\MgSucursales\Entities\Paises::destroy($id)){
                 \Modules\MgSucursales\Entities\Estados::destroyAll($id);
             }
-            \Request::session()->flash('message', trans('Se eliminó satisfactoriamente.'));
+            \Request::session()->flash('success', trans('Se eliminó satisfactoriamente.'));
             return redirect('mgsucursales');
         } catch(\Exception $e){
             \Request::session()->flash('error', trans('Intentarlo más tarde.'));
@@ -169,7 +177,7 @@ class MgSucursalesController extends Controller
     public function destroyCiudad($id)
     {
         \Modules\MgSucursales\Entities\Estados::destroy($id);
-        \Request::session()->flash('message', trans('Se eliminó satisfactoriamente.'));
+        \Request::session()->flash('success', trans('Se eliminó satisfactoriamente.'));
         return redirect('mgsucursales');
     }
 
@@ -196,7 +204,7 @@ class MgSucursalesController extends Controller
                 ->update([
                     'estado' => $request->input('estado')
                 ]);
-                \Request::session()->flash('message', trans('Se modificó con éxito.'));
+                \Request::session()->flash('success', trans('Se agregó con éxito.'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
             }
         } catch(\Exception $e){

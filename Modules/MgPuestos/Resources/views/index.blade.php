@@ -20,10 +20,14 @@
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Puestos de Macias Group</h3>
 
+					@if(\Request::session()->has('success'))
+							<div class="alert alert-success">{{ \Session::get('success') }}</div>
+					@endif
 					<div class="clearfix">
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
+						
 						@if(\Request::session()->has('add_puesto'))
 							<!--Results for "Latest Registered Domains"-->
 							<a data-toggle="modal" data-target="#modal_create_puesto" class="btn btn-success">

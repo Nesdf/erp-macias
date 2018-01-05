@@ -19,8 +19,8 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Salas de Macias Group</h3>
-					@if(Session::has('message'))
-						<p class="alert alert-success">{{ Session::get('message') }}</p>
+					@if(Session::has('success'))
+						<p class="alert alert-success">{{ Session::get('success') }}</p>
 					@endif
 					@if(Session::has('error'))
 						<p class="alert alert-danger">{{ Session::get('error') }}</p>
@@ -125,7 +125,7 @@
 				<div class="form-group">
 					<label>Estudio</label>
 					<select name="estudio" class="form-control" required>
-						<option>Selecccionar</option>
+						<option value="">Selecccionar</option>
 						@foreach($estudios as $estudio)
 							<option value="{{ $estudio->id }}">{{ $estudio->estudio }}</option>
 						@endforeach

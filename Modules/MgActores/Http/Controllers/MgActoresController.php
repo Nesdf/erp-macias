@@ -121,11 +121,12 @@ class MgActoresController extends Controller
                     }
                     
                 }
-                $request->session()->flash('message', trans('mgactores::ui.flash.flash_create_actor'));
+                $request->session()->flash('success', trans('mgactores::ui.flash.flash_create_actor'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
             }
         } catch(\Exeption $e){
-            report($e);
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
     }
 
@@ -144,9 +145,15 @@ class MgActoresController extends Controller
      */
     public function edit($id)
     {
-        $actor =  \Modules\MgActores\Entities\Actores::find($id); 
-        $credenciales =  \Modules\MgActores\Entities\FolioActores::Folios($id);
-        return Response(['msg' => 'success', 'actor' => $actor, 'credenciales' => $credenciales], 200)->header('Content-Type', 'application/json');
+        try{
+
+            $actor =  \Modules\MgActores\Entities\Actores::find($id); 
+            $credenciales =  \Modules\MgActores\Entities\FolioActores::Folios($id);
+            return Response(['msg' => 'success', 'actor' => $actor, 'credenciales' => $credenciales], 200)->header('Content-Type', 'application/json');
+        } catch(\Exeption $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
     }
 
     /**
@@ -244,11 +251,12 @@ class MgActoresController extends Controller
                     
                 }
 
-                $request->session()->flash('message', trans('mgactores::ui.flash.flash_update_actor'));
+                $request->session()->flash('success', trans('mgactores::ui.flash.flash_update_actor'));
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
             }
         } catch(\Exeption $e){
-            report($e);
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
     }
 
@@ -258,21 +266,33 @@ class MgActoresController extends Controller
      */
     public function destroy($id)
     {
-        if( \Modules\MgActores\Entities\Actores::destroy($id) ){
-            \Modules\MgActores\Entities\FolioActores::destroyFolios($id);
-        }
+        try{
 
-        \Request::session()->flash('message', trans('mgactores::ui.flash.flash_delete_actor'));
-        return redirect('mgactores');
+            if( \Modules\MgActores\Entities\Actores::destroy($id) ){
+                \Modules\MgActores\Entities\FolioActores::destroyFolios($id);
+            }
+
+            \Request::session()->flash('success', trans('mgactores::ui.flash.flash_delete_actor'));
+            return redirect('mgactores');
+        } catch(\Exeption $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
     }
 
     public function destroyFolio($id)
     {
-        $folio = \Modules\MgActores\Entities\FolioActores::find($id);
-        if(count($folio) > 0){
-            \Modules\MgActores\Entities\FolioActores::destroy($id);
+        try{
+
+            $folio = \Modules\MgActores\Entities\FolioActores::find($id);
+            if(count($folio) > 0){
+                \Modules\MgActores\Entities\FolioActores::destroy($id);
+            }
+            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+        } catch(\Exeption $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
-        return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
         
     }
 }

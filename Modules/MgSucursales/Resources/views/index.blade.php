@@ -19,8 +19,8 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Sucursales de Macias Group</h3>
-					@if(Session::has('message'))
-						<p class="alert alert-success">{{ Session::get('message') }}</p>
+					@if(Session::has('success'))
+						<p class="alert alert-success">{{ Session::get('success') }}</p>
 					@endif
 					@if(Session::has('error'))
 						<p class="alert alert-danger">{{ Session::get('error') }}</p>
@@ -310,8 +310,6 @@
 		     var pais = $(e.relatedTarget).data().pais;
 		      $(e.currentTarget).find('#id').val(id);
 		      $(e.currentTarget).find('#pais').html('<h2>'+pais+'</h2>');
-
-
 
 		      $('#form_add_estado').on('submit', function(event){
 				event.preventDefault();

@@ -14,11 +14,18 @@ class MgProyectosController extends Controller
      */
     public function index()
     {
-		$proyectos = \Modules\MgProyectos\Entities\Proyectos::fullProyects();
-        $clientes = \Modules\MgProyectos\Entities\Clientes::get();
-        $idiomas = \Modules\MgProyectos\Entities\Idiomas::get();
-        $vias = \Modules\MgEpisodios\Entities\Vias::get();
-        return view('mgproyectos::index', compact('idiomas', 'clientes', 'proyectos', 'vias'));
+		try{
+
+			$proyectos = \Modules\MgProyectos\Entities\Proyectos::fullProyects();
+	        $clientes = \Modules\MgProyectos\Entities\Clientes::get();
+	        $idiomas = \Modules\MgProyectos\Entities\Idiomas::get();
+	        $vias = \Modules\MgEpisodios\Entities\Vias::get();
+	        return view('mgproyectos::index', compact('idiomas', 'clientes', 'proyectos', 'vias'));
+		} catch(\Exception $e){
+
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
     }
 
     /**
@@ -81,11 +88,13 @@ class MgProyectosController extends Controller
 					]);
 					
 					
-					$request->session()->flash('message', trans('mgproyectos::ui.flash.flash_create_cliente'));
+					$request->session()->flash('success', trans('mgproyectos::ui.flash.flash_create_cliente'));
 					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 				}
 			}
 		} catch(\Exception $e){
+			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
 			return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
 		}
     }
@@ -105,7 +114,12 @@ class MgProyectosController extends Controller
      */
     public function edit($id)
     {
-        return \Modules\MgProyectos\Entities\Proyectos::find($id); 
+        try{
+        	return \Modules\MgProyectos\Entities\Proyectos::find($id); 
+        } catch(\Exception $e){
+			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+		}
     }
 
     /**
@@ -115,9 +129,10 @@ class MgProyectosController extends Controller
      */
     public function update(Request $request)
     {
-		if( $request->isMethod('post') && $request->ajax() ){
-			
-			try{
+		try{
+
+			if( $request->isMethod('post') && $request->ajax() ){
+		
 				$rules = [
 					'cliente' => 'required'
 				];
@@ -159,14 +174,18 @@ class MgProyectosController extends Controller
 							'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
 						]);
 					
-					$request->session()->flash('message', trans('mgproyectos::ui.flash.flash_create_cliente'));
+					$request->session()->flash('success', trans('mgproyectos::ui.flash.flash_create_cliente'));
 					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 				}
-			} catch(\Exception $e) {
-				return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
-			}
+			} 
+		} catch(\Exception $e) {
+			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+			return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
 		}
+		
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -174,15 +193,26 @@ class MgProyectosController extends Controller
      */
     public function destroy($id)
     {
-		\Modules\MgProyectos\Entities\Proyectos::destroy($id);
-		\Request::session()->flash('message', trans('mgproyectos::ui.flash.flash_delete_proyecto'));
-		return redirect('mgproyectos');
+		try{
+
+			\Modules\MgProyectos\Entities\Proyectos::destroy($id);
+			\Request::session()->flash('success', trans('mgproyectos::ui.flash.flash_delete_proyecto'));
+			return redirect('mgproyectos');
+		} catch(\Exception $e) {
+			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+		}
 	}
 	
 	public function proyecto($id)
 	{
+		try{
 
-		$proyecto = \Modules\MgProyectos\Entities\Proyectos::proyecto($id);
-		return Response(['msg' => 'success', 'proyecto' => $proyecto], 200)->header('Content-Type', 'application/json');
+			$proyecto = \Modules\MgProyectos\Entities\Proyectos::proyecto($id);
+			return Response(['msg' => 'success', 'proyecto' => $proyecto], 200)->header('Content-Type', 'application/json');
+		} catch(\Exception $e) {
+			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+		}
 	}
 }

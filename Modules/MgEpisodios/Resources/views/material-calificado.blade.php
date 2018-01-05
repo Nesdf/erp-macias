@@ -57,6 +57,9 @@
 					@endif
 					<h3 class="header smaller lighter blue"><b>Proyecto: <ins>{{$allProyect[0]->titulo_proyecto}}</ins></b></h3>
 					<h3 class="header smaller lighter blue"><b>Episodio: <ins>{{$allProyect[0]->titulo_episodio}}</ins></b></h3>
+					@if(Session::has('success'))
+						<div class="alert alert-success">{{ Session::get('success') }}</div>
+					@endif
 					<div class="clearfix">
 						<div class="pull-right tableTools-container"></div>
 					</div>

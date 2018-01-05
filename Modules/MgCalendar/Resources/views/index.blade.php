@@ -320,15 +320,19 @@ input.tipo_numero{
                                           alert('Hora fuera de horario.');
                                         }                                    
                                       });
-                                    //Si se modifica los minustos de entrada, se modifica también los minutos de salida
+                                    //Si se modifica los minutos de entrada, se modifica también los minutos de salida
                                     $('input[name=min_entrada]').on('change', function(){
                                       $('input[name=min_salida]').val($(this).val());
                                     });
                                      //Si se modifica la hora de salida y es menor a la de entrada, éste no se podrá modificar
                                     $('input[name=hora_salida]').on('change', function(){
-                                      if($(this).val() < $('input[name=hora_entrada]').val()){
+                                      var salida = 0;
+                                      var entrada = 0;
+                                      salida = $(this).val();
+                                      entrada = $('input[name=hora_entrada]').val();
+                                      if( (entrada  - salida) > 0  ){
                                         $(this).val($('input[name=hora_entrada]').val());
-                                        alert('El tiempo debe ser mayor a la de entrada');
+                                        alert('El tiempo debe ser mayor a la de entrada.');
                                       }
                                     });
 
@@ -337,7 +341,7 @@ input.tipo_numero{
                                       if($('input[name=hora_salida]').val() == $('input[name=hora_entrada]').val()){
                                         if($(this).val() < $('input[name=min_entrada]').val()){
                                           $('input[name=min_salida]').val($('input[name=min_entrada]').val());
-                                          alert('El tiempo salida debe ser mayor a la de entrada');
+                                          alert('El tiempo salida debe ser mayor a la de entrada.');
                                         }
                                       }
                                     });

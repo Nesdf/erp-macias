@@ -377,7 +377,6 @@
 				<label>
 				<input type="checkbox" name="chk_qc" id="chk_qc" > Control de calidad (QC)
 				</label><br>
-				<label>
 				<div class="dateQC"></div>
 			  </div>
 			  <div class="modal-footer">
@@ -1357,7 +1356,7 @@
 							if(data.chk_qc== true){
 								$('input[name=chk_qc]').prop('checked', true);	
 								$('div.dateQC').html('<label>Fecha QC</label>\
-									<input type="text" name="fecha_qc" class="form-control" value="'+data.fecha_edicion+'" required>\
+									<input type="text" name="fecha_qc" class="form-control"  value="'+data.fecha_edicion+'" required>\
 									<label>QC</label>\
 									<select name="nombre_qc"  class="form-control" required>\
 									<option value="">Seleccionar</option>\

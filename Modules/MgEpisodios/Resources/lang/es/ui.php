@@ -12,8 +12,8 @@ return [
 		'error_email' => 'El campo :attribute no es un formato correcto'
 	],
 	'flash' => [
-		'flash_create_cliente' => 'Se agregó exitosamente',
-		'flash_delete_cliente' => 'Se eliminó exitosamente'
+		'flash_create_timecode' => 'Se agregó exitosamente',
+		'flash_delete_timecode' => 'Se eliminó exitosamente'
 	],
 	'attribute' => [
 		'titulo_original_episodio' => 'Titulo original del episodio',

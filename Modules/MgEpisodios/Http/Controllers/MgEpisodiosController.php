@@ -370,7 +370,7 @@ class MgEpisodiosController extends Controller
                         'chk_lenguaje_diferente_original' => ($request->input('chk_lenguaje_diferente_original') ? true : false)
 
                     ]);
-                    $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+                    $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }            
             }
@@ -426,7 +426,7 @@ class MgEpisodiosController extends Controller
                         'nombre_qc' => ($request->input('nombre_qc') ? $request->input('nombre_qc') : NULL),
 
                     ]);
-                    $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
+                    $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }            
             }

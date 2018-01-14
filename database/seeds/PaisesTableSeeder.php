@@ -15,21 +15,21 @@ class PaisesTableSeeder extends Seeder
 		$carbon = new \Carbon\Carbon();
 		\DB::table('paises')->insert([
 			'pais' => 'México',
-            'surnmae' => 'mexico',
+            'surname' => 'mexico',
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
 
         \DB::table('paises')->insert([
             'pais' => 'Brasil',
-            'surnmae' => 'basil',
+            'surname' => 'basil',
             'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
             'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
         ]);
 
         \DB::table('paises')->insert([
             'pais' => 'Estadis Unidos',
-            'surnmae' => 'estados_unidos',
+            'surname' => 'estados_unidos',
             'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
             'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
         ]);

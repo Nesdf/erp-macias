@@ -42,7 +42,6 @@ class CreateProyectosTable extends Migration
             $table->boolean('subt_ingles')->nullable();
             $table->boolean('subt_portugues')->nullable();
             $table->boolean('material_entregado')->nullable();
-            $table->string('temporada', 120)->nullable();
 			$table->date('fecha_llegada')->nullable();
 			 
 			$table->timestamps();

@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'nes64df@gmail.com',
 			'job' => 3,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'jesus@macias-group.com',
 			'job' => 2,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'lorenamejia@macias-group.com',
 			'job' => 5,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'hectorsolis@macias-group.com',
 			'job' => 5,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -64,7 +64,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'alejandroaragon@macias-group.com',
 			'job' => 2,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -75,7 +75,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'almacabrera@macias-group.com',
 			'job' => 2,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -86,7 +86,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'stephanyjimenez@macias-group.com',
 			'job' => 2,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -97,7 +97,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'santoniocolin@macias-group.com',
 			'job' => 2,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -108,7 +108,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'itzeltorres@macias-group.com',
 			'job' => 12,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -119,7 +119,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'recepcionidf@macias-group.com',
 			'job' => 12,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -130,7 +130,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'humbertopineda@macias-group.com',
 			'job' => 12,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -141,7 +141,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'yessicajimenez@macias-group.com',
 			'job' => 12,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);
@@ -152,7 +152,7 @@ class UsersTableSeeder extends Seeder
 			'password' => \Hash::make( '123456' ),
 			'email' => 'rociosamano@macias-group.com',
 			'job' => 11,
-			'tipo_empleado' => true
+			'tipo_empleado' => true,
 			'created_at' => $carbon->now()->format('Y-m-d H:i:s'),
 			'updated_at' => $carbon->now()->format('Y-m-d H:i:s')
 		]);

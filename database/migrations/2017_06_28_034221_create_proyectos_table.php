@@ -24,6 +24,7 @@ class CreateProyectosTable extends Migration
 			$table->string('titulo_espanol', 200)->nullable();
 			$table->string('titulo_ingles', 200)->nullable();
             $table->string('titulo_portugues', 200)->nullable();
+            $table->string('temporada', 200)->nullable();
             $table->integer('viaId')->nullable();
             $table->string('otro_formato')->nullable();
             $table->text('observaciones')->nullable();

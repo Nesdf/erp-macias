@@ -68,7 +68,7 @@
                 $header = explode(',', $array_data[$i]);
                 
                 echo "<tr>";
-                for($j=1; $j<count($header); $j++){
+                for($j=0; $j<count($header); $j++){
                 	
                 	if( array_key_exists($j, $newArray) ){
                 		if($i == 0){

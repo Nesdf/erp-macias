@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('ap_paterno', 50);
 			$table->string('ap_materno', 50)->unsigned();
             $table->string('email')->unique();
-            $table->string('password', 70);
+            $table->string('password', 60);
             $table->boolean('tipo_empleado');// 1 = Técnico; 0 = Administrativo
 			$table->integer('job');
             $table->rememberToken();

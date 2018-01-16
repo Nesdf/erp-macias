@@ -274,16 +274,28 @@ input.tipo_numero{
                                           <input type="number" min="1" name="loops" class="form-control" required>\
                                           <hr>\
                                           <div class="form-group">\
+                                          <input type="hidden" name="episodio_folio" value="'+data.folio+'">\
                                           Hora de Entrada:\
                                           <input type="number" name="hora_entrada" id="hora_entrada" class="tipo_numero" min="00" max="23"  required> : <input type="number" name="min_entrada" class="tipo_numero" min="00" max="59" required>\
                                           </div>\
                                           Hora de Salida:\
                                           <input type="number" name="hora_salida" class="tipo_numero" min="00" max="23" required> : <input type="number" name="min_salida" class="tipo_numero" min="00" max="59" required>\
-                                          <br><br><label>\
+                                          <br><br>\
+                                          <div class="alert alert-warning">\
+                                          <label>\
                                           <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario\
                                           </label>\
+                                          </div>\
                                           <br><label>Personaje: </label>\
-                                          <textarea name="descripcion" class="form-control"></textarea>\
+                                          <select name="personaje" class="form-control" required>\
+                                          <option value="">Seleccionar...</option>\
+                                          @foreach($actores_personajes as $item)\
+                                          <option value="{{ $item->personaje }}">{{ $item->personaje }}</option>\
+                                          @endforeach\
+                                          <option value="otro">Otro</option>\
+                                          </select>\
+                                          <div class="personaje">\
+                                          </div>\
                                           <div class="msj-error" ></div>\
                                           <br><br><button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Guardar</button>\
                                        </form>\
@@ -297,6 +309,36 @@ input.tipo_numero{
 
                                   var modal = $(modal).appendTo('body');
                                   modal.find(function(){
+
+                                  
+                                    $('select[name=personaje]').on('change', function(){
+                                      
+                                      if($('select[name=personaje]').val() == 'otro'){
+
+                                        $(this).removeAttr('required');
+                                        $(this).attr('disabled', true);
+                                        $('.personaje').html('\
+                                          <label>Agregar nuevo personaje</label>\
+                                          <input name="nuevo_personaje" class="form-control" required>\
+                                          <label> Fijo\
+                                          <input type="checkbox" name="fijo" >\
+                                          </label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
+                                          <label> Cine\
+                                          <input type="checkbox" name="proyecto" >\
+                                          </label><br>\
+                                          <a href="javascript:void(0)" class="cancelar btn bt-info">Cancelar</a>\
+                                        ');
+                                      } else {
+                                        $('.personaje').html('');
+                                      }
+
+                                      $('.cancelar').on('click', function(){
+                                        $('.personaje').html('');
+                                        $('select[name=personaje]').attr('required', true);
+                                        $('select[name=personaje]').removeAttr('disabled');
+                                      });
+
+                                    });
 
                                     var d = new Date();
                                     var h = d.getHours();

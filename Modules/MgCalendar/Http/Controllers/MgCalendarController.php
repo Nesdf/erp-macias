@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
+use \Modules\MgCalendar\Entities\Proyectos as Proyectos;
+use \Modules\MgCalendar\Entities\Estudios as Estudios;
+use \Modules\MgCalendar\Entities\Actores as Actores;
+use \Modules\MgCalendar\Entities\ActorPersonaje as ActorPersonaje;
+use \Modules\MgCalendar\Entities\Llamados as Llamados;
+use \Modules\MgCalendar\Entities\Episodios as Episodios;
+use \Modules\MgCalendar\Entities\Salas as Salas;
 
 class MgCalendarController extends Controller
 {
@@ -18,10 +25,11 @@ class MgCalendarController extends Controller
     {
         try{
 
-            $proyectos = \Modules\MgCalendar\Entities\Proyectos::get();
-            $estudios = \Modules\MgCalendar\Entities\Estudios::get();
-            $actores = \Modules\MgCalendar\Entities\Actores::get();
-            return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores'));
+            $proyectos = Proyectos::get();
+            $estudios = Estudios::get();
+            $actores = Actores::get();
+            $actores_personajes = ActorPersonaje::get();
+            return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores', 'actores_personajes'));
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -85,9 +93,9 @@ class MgCalendarController extends Controller
     {
         try{
 
-            $salas = \Modules\MgCalendar\Entities\Salas::listSalas($id);
-            $llamados = \Modules\MgCalendar\Entities\Llamados::listaLlamados($salas[0]->sala);
-            $folio = \Modules\MgCalendar\Entities\Episodios::find($id_episodio);
+            $salas = Salas::listSalas($id);
+            $llamados = Llamados::listaLlamados($salas[0]->sala);
+            $folio = Episodios::find($id_episodio);
 
             if($folio->directorId == null){
                 $director = "No se ha seleccionador director";
@@ -154,8 +162,24 @@ class MgCalendarController extends Controller
                 }
                 //Termina validación de fecha disponible
 
+                $existe = ActorPersonaje::getExiste(ucwords( strtolower( $request->input('nuevo_personaje') ) ), $request->input('episodio_folio'));
+
+                if(!$existe){
+
+                    if($request->input('nuevo_personaje')){
+
+                        ActorPersonaje::create([      
+                            'personaje' => ucwords( strtolower( $request->input('nuevo_personaje') ) ),
+                            'episodio_folio' => $request->input('episodio_folio'),
+                            'fijo' => ($request->input('fijo') == 'on') ? true : false,
+                            'proyecto' => ($request->input('proyecto') == 'on') ? true : false
+                        ]);
+                    }
+
+                }
+
                 
-                \Modules\MgCalendar\Entities\Llamados::create([      
+                Llamados::create([      
                     'actor' => $request->input('actor'),
                     'director' => $request->input('director'),
                     'cita_start' => $cita_entrada,
@@ -165,7 +189,8 @@ class MgCalendarController extends Controller
                     'credencial' => $request->input('credencial'),
                     'loops' => $request->input('loops'),
                     'sala' => $request->input('sala'),
-                    'descripcion' => $request->input('descripcion') ,
+                    //'descripcion' => $request->input('personaje'),
+                    'descripcion' => ($request->input('nuevo_personaje')) ? ucwords( strtolower( $request->input('nuevo_personaje') ) ) : ucwords( strtolower( $request->input('personaje') ) ),
                     'estatus_grupo' => ($request->input('estatus_grupo') == 'on') ? true : false,
                     'estatus' => true
                 ]);
@@ -192,13 +217,13 @@ class MgCalendarController extends Controller
 
         try{
             if( $request->method('post') && $request->ajax() ){
-                $llamados = \Modules\MgCalendar\Entities\Llamados::allLlamados($request->input('search_sala'), $request->input('search_fecha'));
+                $llamados = Llamados::allLlamados($request->input('search_sala'), $request->input('search_fecha'));
                 $allFolios = [];
                 foreach ($llamados as $key => $value) {
                     
                     $allFolios[] = $value->folio;
                 }
-                $proyectos = \Modules\MgCalendar\Entities\Proyectos::allProyects($allFolios);
+                $proyectos = Proyectos::allProyects($allFolios);
 
                 return Response(['msg' => 'success', 'llamados' => $llamados, 'proyectos' => $proyectos], 200)->header('Content-Type', 'application/json');
             }
@@ -254,14 +279,14 @@ class MgCalendarController extends Controller
                 
                 $array_multiselect = explode(',', $request->input('headers'));
                 $explode_data = substr($request->input('data'), 3);
-                $llamados = \Modules\MgCalendar\Entities\Llamados::allLlamados($request->input('sala'), $request->input('fecha'));
+                $llamados = Llamados::allLlamados($request->input('sala'), $request->input('fecha'));
                 $allFolios = [];
                 foreach ($llamados as $key => $value) {
                     $allFolios[] = $value->folio;
                 }
                 $listFecha = explode('-', $request->input('fecha'));
                 $fecha = $listFecha[2].'-'.$listFecha[1].'-'.$listFecha[0]; 
-                $proyectos = \Modules\MgCalendar\Entities\Proyectos::allProyects($allFolios);
+                $proyectos = Proyectos::allProyects($allFolios);
 
                 
                 $pdf = \PDF::loadView('mgcalendar::list-llamados-pdf', compact('explode_data', 'array_multiselect', 'proyectos', 'fecha'))->setPaper('a4', 'landscape');

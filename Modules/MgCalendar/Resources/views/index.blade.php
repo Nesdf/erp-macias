@@ -24,7 +24,7 @@ input.tipo_numero{
               <form>
                 <div class="col-md-4">
                   <label>Proyectos:</label>
-                  <select class="form-control" id="proyecto_id">
+                  <select class="form-control" id="proyecto_id" selectpicker" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
                     <option value="">Seleccionar</option>
                     @foreach($proyectos as $proyecto)
                         <option value="{{$proyecto->id}}">{{$proyecto->titulo_original}}</option>
@@ -84,12 +84,13 @@ input.tipo_numero{
               //Start Succes list_episodios
               success: function( data ){
                 if(data.msg.length > 0){
-                    $('#list_episodios').html('<label>Episodio: </label><br><select id="data_episodios" class="form-control">\
+                    $('#list_episodios').html('<br><label>Episodio: </label><br><select id="data_episodios" class="form-control" data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar..." >\
                         <option value="">Seleccionar...</option>\
                       </select>');
                     for(var i=0;  i < data.msg.length; i++ ){
                       $("#data_episodios").append('<option value="'+ data.msg[i].salaId + '" data-id="'+data.msg[i].id+'">' + data.msg[i].titulo_original+ ' - ' + data.msg[i].num_episodio + '</option>');
                     } 
+                    $('select[name=ajaxEpisodio]').selectpicker();
 
                     // Sala
                     $( '#data_episodios' ).on('change', function(){
@@ -287,7 +288,7 @@ input.tipo_numero{
                                           </label>\
                                           </div>\
                                           <br><label>Personaje: </label>\
-                                          <select name="personaje" class="form-control" required>\
+                                          <select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>\
                                           <option value="">Seleccionar...</option>\
                                           @foreach($actores_personajes as $item)\
                                           <option value="{{ $item->personaje }}">{{ $item->personaje }}</option>\
@@ -310,6 +311,7 @@ input.tipo_numero{
                                   var modal = $(modal).appendTo('body');
                                   modal.find(function(){
 
+                                    $('select[name=actor], select[name=personaje]').selectpicker();
                                   
                                     $('select[name=personaje]').on('change', function(){
                                       
@@ -685,7 +687,7 @@ input.tipo_numero{
                       });
 
                  } else {
-                   $('#list_episodios').html('<label>Episodio</label><br><select class="form-control" disabled>\
+                   $('#list_episodios').html('<br><label>Episodio</label><br><select class="form-control" disabled>\
                         <option value="">No hay episodios</option>\
                       </select>');
                    $('#show-calendar').html('');
@@ -723,6 +725,6 @@ input.tipo_numero{
       });
       
   });
-
+    $('select[name=cliente]').selectpicker();
     </script>
 @stop

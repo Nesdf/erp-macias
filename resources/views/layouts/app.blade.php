@@ -9,8 +9,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome √ -->
-		<link rel="stylesheet" @if(getenv('APP_ENV') == 'Development') href="{{ asset('assets/dashboard/css/bootstrap.min.css') }}"  @endif/>
-		<link rel="stylesheet" @if(getenv('APP_ENV') == 'Production') href="{{ secure_asset('assets/dashboard/css/bootstrap.min.css') }}" @endif />
+		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/bootstrap.min.css') }}"/>
+		<link rel="stylesheet" href="{{ secure_asset('assets/dashboard/css/bootstrap.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/font-awesome/4.5.0/css/font-awesome.min.css') }}" />
 
 		<!-- page specific plugin styles -->

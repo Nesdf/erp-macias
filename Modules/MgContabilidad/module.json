@@ -1,0 +1,16 @@
+{
+    "name": "MgContabilidad",
+    "alias": "mgcontabilidad",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgContabilidad\\Providers\\MgContabilidadServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

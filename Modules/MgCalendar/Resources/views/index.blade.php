@@ -372,9 +372,9 @@ input.tipo_numero{
                                     $('input[name=hora_salida]').on('change', function(){
                                       var salida = 0;
                                       var entrada = 0;
-                                      salida = $(this).val();
-                                      entrada = $('input[name=hora_entrada]').val();
-                                      if( (entrada  - salida) > 0  ){
+                                      salida = parseInt($(this).val());
+                                      entrada = parseInt($('input[name=hora_entrada]').val());
+                                      if( ( entrada - salida)  > 0  ){
                                         $(this).val($('input[name=hora_entrada]').val());
                                         alert('El tiempo debe ser mayor a la de entrada.');
                                       }
@@ -382,10 +382,10 @@ input.tipo_numero{
 
                                     $('input[name=min_salida]').on('change', function(){
 
-                                      if($('input[name=hora_salida]').val() == $('input[name=hora_entrada]').val()){
-                                        if($(this).val() < $('input[name=min_entrada]').val()){
+                                      if( parseInt( $('input[name=hora_salida]').val() ) == parseInt( $('input[name=hora_entrada]').val() )){
+                                        if( parseInt( $(this).val() ) < parseInt( $('input[name=min_entrada]').val() ) ) {
                                           $('input[name=min_salida]').val($('input[name=min_entrada]').val());
-                                          alert('El tiempo salida debe ser mayor a la de entrada.');
+                                          alert('El tiempo de salida debe ser mayor a la de entrada.');
                                         }
                                       }
                                     });

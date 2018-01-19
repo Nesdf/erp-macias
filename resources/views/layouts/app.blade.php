@@ -93,19 +93,6 @@
 							</a>
 
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<!--<li>
-									<a href="#">
-										<i class="ace-icon fa fa-cog"></i>
-										Settings
-									</a>
-								</li>
-
-								<li>
-									<a href="profile.html">
-										<i class="ace-icon fa fa-user"></i>
-										Profile
-									</a>
-								</li> -->
 								<li>
 									<a href="#">
 										<i class="ace-icon fa fa-user"></i>
@@ -247,7 +234,7 @@
 					<li @if(\Request::is('mgproyectos') || \Request::is('mgepisodios/*')) class="active" @endif>
 						@if(\Request::session()->has('mgproyectos'))
 							<a href="{{ url('mgproyectos') }}">
-								<i class="menu-icon fa fa-tasks"></i>
+								<i class="menu-icon fa fa-cubes"></i>
 								<span class="menu-text"> Proyectos </span>
 							</a>
 							<b class="arrow"></b>
@@ -256,7 +243,7 @@
 					<li @if(\Request::is('mgactores') || \Request::is('mgcalendar') || \Request::is('mgcalendar/*') ) class="open" @endif>
 						@if(\Request::session()->has('mgactores') || \Request::session()->has('mgcalendar') || \Request::session()->has('list_llamado'))
 							<a href="#" class="dropdown-toggle">
-									<i class="menu-icon fa fa-list"></i>
+									<i class="menu-icon fa fa-calendar"></i>
 									<span class="menu-text"> Llamados </span>
 
 									<b class="arrow fa fa-angle-down"></b>
@@ -309,6 +296,48 @@
 							<b class="arrow"></b>
 						</li>
 					@endif
+					<li @if(\Request::is('mgcontabilidad/*') ) class="open" @endif>
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-bank"></i>
+							<span class="menu-text"> Contabilidad </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li @if(\Request::is('mgcontabilidad/reporte-general')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/reporte-general') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Reporte general
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li @if(\Request::is('mgcontabilidad/reporte-llamado-actores')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/reporte-llamado-actores') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Reporte de llamado por actores
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li @if(\Request::is('mgcontabilidad/reporte-actores-sala')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/reporte-actores-sala') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Reporte de actores por sala
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li @if(\Request::is('mgcontabilidad/reporte-proyceto')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/reporte-proyecto') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Reporte por proyecto
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li @if(\Request::is('mgcontabilidad/reporte-episodio')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/reporte-episodio') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Reporte por episodio
+								</a>
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

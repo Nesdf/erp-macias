@@ -155,9 +155,7 @@
 			                  <th>Actor</th>\
 			                  <th>Credencial</th>\
 			                  <th>Personaje</th>\
-			                  <th>Director</th>\
-			                  <th>Sala</th>\
-			                  <th>Estudio</th>'+encabezados(data)+'\
+			                  <th>Director</th>'+encabezados(data)+'\
 			                  <th>Total Loops</th>\
 			                  <th>Fecha</th>\
 			                  <th>Entrada</th>\
@@ -171,9 +169,7 @@
                   		<option value="Actor">Actor</option>\
                   		<option value="Credencial">Credencial</option>\
                   		<option value="Personaje">Personaje</option>\
-                  		<option value="Director">Director</option>\
-                  		<option value="Sala">Sala</option>\
-						<option value="Estudio">Estudio</option>'+encabezadosSelect(data)+'\
+                  		<option value="Director">Director</option>'+encabezadosSelect(data)+'\
 						<option value="Total Loops">Total Loops</option>\
 						<option value="Entrada">Entrada</option>\
 						<option value="Salida">Salida</option>\
@@ -216,7 +212,7 @@
 	              	midata.on('search.dt', function() {
 					    var num = midata.rows( { filter : 'applied'} ).data();
 					    $('#data').val(num);  
-					    var n = 'ID,Actor,Credencial,Personaje,Director,Sala,Estudio,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
+					    var n = 'ID,Actor,Credencial,Personaje,Director,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
 					    for(var i=0; i<num.length; i++){
 					    	n +=  num[i]+';';
 					    } 
@@ -224,7 +220,7 @@
 					});
 					var num2 = midata.rows( { filter : 'applied'} ).data();
 					    $('#data').val(num2);  
-					    var n2 = 'ID,Actor,Credencial,Personaje,Director,Sala,Estudio,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
+					    var n2 = 'ID,Actor,Credencial,Personaje,Director,S'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
 					    for(var i=0; i<num2.length; i++){
 					    	n2 +=  num2[i]+';';
 					    } 
@@ -288,8 +284,6 @@
       				list_new_llamados[data.llamados[i].credencial].credencial = data.llamados[i].credencial;
       				list_new_llamados[data.llamados[i].credencial].descripcion = data.llamados[i].descr;
       				list_new_llamados[data.llamados[i].credencial].director = data.llamados[i].director;
-      				list_new_llamados[data.llamados[i].credencial].sala = data.llamados[i].sala;
-      				list_new_llamados[data.llamados[i].credencial].estudio = data.llamados[i].estudio;
 
       				
       				for(var j=0; j<data.proyectos.length; j++){
@@ -321,8 +315,6 @@
       			list_llamados += "<td>"+list_new_llamados[property].credencial+"</td>";
       			list_llamados += "<td>"+list_new_llamados[property].descripcion+"</td>";
       			list_llamados += "<td>"+list_new_llamados[property].director+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].sala+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].estudio+"</td>";
       			for(var j=0; j<data.proyectos.length; j++){
       				list_llamados += "<td>"+list_new_llamados[property][data.proyectos[j].folios]+"</td>";	
       			}

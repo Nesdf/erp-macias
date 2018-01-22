@@ -192,15 +192,15 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li @if(\Request::is('mgtimecode')) class="active" @endif>
-									@if(\Request::session()->has('mgtimecode'))
-										<a href="{{ url('mgtimecode') }}">
+								<!--<li if(\Request::is('mgtimecode')) class="active" endif>
+									if(\Request::session()->has('mgtimecode'))
+										<a href="{{-- url('mgtimecode') --}}">
 											<i class="menu-icon fa fa-caret-right"></i>
 											Timecode
 										</a>
 										<b class="arrow"></b>
-									@endif
-								</li>
+									endif
+								</li>-->
 								<li @if(\Request::is('mgtiporeporte')) class="active" @endif>
 									@if(\Request::session()->has('mgtiporeporte'))
 										<a href="{{ url('mgtiporeporte') }}">

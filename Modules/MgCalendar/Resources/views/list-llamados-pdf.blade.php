@@ -24,6 +24,13 @@
 			width: 150px;
 			padding-bottom: 20px;
 		}
+		.listaTable tr td{
+			border:1px solid #FFF;
+  			border-collapse:collapse;
+		}
+		li {
+			list-style: none;
+		}
 
 	</style>
 </head>
@@ -32,8 +39,26 @@
 <p>
 	<h3 >Macias Group</h3>
 	<div class="logo"></div>
-	<img src="http://vignette2.wikia.nocookie.net/doblaje/images/5/57/Macias_group_logo.jpg/revision/latest?cb=20121231084422&path-prefix=es" sty>
-		<h2 class="centrado">Fecha: {{ $fecha }}</h2>
+	<table class="listaTable">
+		<tr>
+			<td>
+				<img src="http://vignette2.wikia.nocookie.net/doblaje/images/5/57/Macias_group_logo.jpg/revision/latest?cb=20121231084422&path-prefix=es" />
+			</td>
+			<td width="350px;">
+				<ul>
+					<li> <h3>Fecha:<br> {{ $fecha }}</h3> </li>
+					<li> <h3>Director: <br>{{ $director }} </h3></li>
+				</ul>
+			</td>
+			<td width="350px;">
+				<ul>
+					<li> <h3>Estudio:<br> {{ $estudio }} </h3></li>					
+					<li> <h3>Sala:<br> {{ $sala }}</h3> </li>
+				</ul>
+			</td>
+		</tr>	
+	</table>
+		<!--<h2 class="centrado">Fecha: {{-- $fecha --}}</h2>-->
 	<table class="table">
 		<tr>
 			<th>PROYECTO</th>

@@ -287,14 +287,16 @@ class MgCalendarController extends Controller
                 $listFecha = explode('-', $request->input('fecha'));
                 $fecha = $listFecha[2].'-'.$listFecha[1].'-'.$listFecha[0]; 
                 $proyectos = Proyectos::allProyects($allFolios);
-
+                $sala = $request->input('sala');
+                $estudio = $llamados[0]->estudio;
+                $director = $llamados[0]->director;
                 
-                $pdf = \PDF::loadView('mgcalendar::list-llamados-pdf', compact('explode_data', 'array_multiselect', 'proyectos', 'fecha'))->setPaper('a4', 'landscape');
+                $pdf = \PDF::loadView('mgcalendar::list-llamados-pdf', compact('explode_data', 'array_multiselect', 'director', 'estudio', 'proyectos', 'sala', 'fecha'))->setPaper('a4', 'landscape');
                 return $pdf->stream('exito');
             }
 
         } catch(\Exception $e){
-            r\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
         }        
         //return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

@@ -56,7 +56,7 @@
 						</div>
 					@endif
 					<h3 class="header smaller lighter blue"><b>Proyecto: <ins>{{$allProyect[0]->titulo_proyecto}}</ins></b></h3>
-					<h3 class="header smaller lighter blue"><b>Episodio: <ins>{{$allProyect[0]->titulo_episodio}}</ins></b></h3>
+					<h3 class="header smaller lighter blue"><b>Episodio: <ins>{{$allProyect[0]->titulo_episodio}} - {{$allProyect[0]->num_episodio}}</ins></b></h3>
 					@if(Session::has('success'))
 						<div class="alert alert-success">{{ Session::get('success') }}</div>
 					@endif
@@ -226,6 +226,10 @@
 					    <div class="modal-body">
 							{{ csrf_field() }}	
 							<label>
+								<input type="checkbox" name="ambiente" id="ambiente" > Ambiente
+							</label>
+							&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+							<label>
 								<input type="checkbox" name="music" id="music" > Music
 							</label>
 							<div class="form-group">
@@ -236,15 +240,19 @@
 								<input type="text" id="timecode" name="timecode" class="form-control" required="true" placeholder="00:00:00:00"> 
 								<div id="show_music"></div>
 							</div>
-
-							<div class="form-group">
+							<div>
+								<label>Observaciones</label>
+								<textarea class="form-control" name="observaciones"></textarea>
+							</div>
+							<br><br>
+							<!--<div class="form-group">
 								<label>Observaciones</label>
 								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
-									@foreach($observaciones as $observacion)
-										<option value="{{ $observacion->timecode }}">{{ $observacion->timecode }}</option>
-									@endforeach
+									foreach($observaciones as $observacion)
+										<option value="{{-- $observacion->timecode --}}">{{-- $observacion->timecode --}}</option>
+									endforeach
 								</select>
-							</div>
+							</div>-->
 						
 						 <div class="modal-footer">
 						   <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -349,8 +357,9 @@
 
 	        $('#modal_timecode').on('shown.bs.modal', function(e){
 
-	        	$('#music').on('click', function(){
-	        		if($('#music').is(':checked', true)){
+	        	$('#music, #ambiente').on('click', function(){
+
+	        		if($(this).is(':checked', true)){
 	        			$('#show_music').html('<label> TimeCode Final<br></label>\
 								<input type="timecode_final" id="timecode_final" name="timecode_final" class="form-control"  placeholder="00:00:00:00" readonly required> \
 								');

@@ -159,12 +159,12 @@ class MgCalificarMaterialController extends Controller
 
     public function materialCalificado($id_episodio, $id_proyecto)
     {
-
         try{
 
             $observaciones = \Modules\MgEpisodios\Entities\Timecode::get();
             $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
             $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
+           
             $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
             $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'desc')->get();
             return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones'));

@@ -5,6 +5,9 @@ namespace Modules\MgContabilidad\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\MgContabilidad\Entities\Salas as Salas;
+use Modules\MgContabilidad\Entities\Episodios as Episodios; 
+use Modules\MgContabilidad\Entities\Proyectos as Proyectos; 
 
 class MgContabilidadController extends Controller
 {
@@ -77,7 +80,8 @@ class MgContabilidadController extends Controller
     public function reporteGeneral() {
 
         try{
-            return view('mgcontabilidad::reporte-general'); 
+            $episodios = Episodios::All();
+            return view('mgcontabilidad::reporte-general', compact('episodios')); 
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -91,7 +95,8 @@ class MgContabilidadController extends Controller
     public function reporteLlamadoActores() {
 
         try{
-            return view('mgcontabilidad::reporte-llamado-actores'); 
+            $salas = Salas::salasAll();
+            return view('mgcontabilidad::reporte-llamado-actores', compact('salas')); 
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -105,7 +110,8 @@ class MgContabilidadController extends Controller
     public function reporteActoresSala() {
 
         try{
-            return view('mgcontabilidad::reporte-actores-sala'); 
+            $salas = Salas::all();
+            return view('mgcontabilidad::reporte-actores-sala', compact('salas')); 
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -119,7 +125,8 @@ class MgContabilidadController extends Controller
     public function reporteProyecto() {
 
         try{
-            return view('mgcontabilidad::reporte-proyecto'); 
+            $proyectos = Proyectos::all();
+            return view('mgcontabilidad::reporte-proyecto', compact('proyectos')); 
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -133,9 +140,44 @@ class MgContabilidadController extends Controller
     public function reporteEpisodio() {
 
         try{
-            return view('mgcontabilidad::reporte-episodio'); 
+            $episodios = Episodios::all();
+            return view('mgcontabilidad::reporte-episodio', compact('episodios')); 
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+    }
+
+    public function ajaxReporteGeneral() {
+        try{
+
+            return Response(['success' => $data], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+    }
+
+    public function ajaxReporteEpisodios() {
+        try{
+
+            $data = Episodios::all();
+
+            return Response(['msg'=>'success', 'episodios' => $data], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+    }
+
+    public function ajaxReporteProyectos() {
+        try{
+
+            $data = Proyectos::all();
+
+            return Response(['msg'=>'success', 'episodios' => $data], 200)->header('Content-Type', 'application/json');
+        } catch(\Exception $e){
+             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
     }

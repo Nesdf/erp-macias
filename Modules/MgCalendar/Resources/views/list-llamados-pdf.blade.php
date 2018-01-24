@@ -17,8 +17,8 @@
 		th {
 			background: #CCC;
 		}
-		h3, .centrado {
-			text-align: center;
+		h3{
+			margin: 1px;
 		}
 		img{
 			width: 150px;
@@ -35,26 +35,19 @@
 	</style>
 </head>
 <body>
-<h2>Reporte de Llamados</h2>
 <p>
-	<h3 >Macias Group</h3>
+	<h2 style="text-align: center">Reporte de Llamados</h2>
 	<div class="logo"></div>
 	<table class="listaTable">
 		<tr>
 			<td>
 				<img src="http://vignette2.wikia.nocookie.net/doblaje/images/5/57/Macias_group_logo.jpg/revision/latest?cb=20121231084422&path-prefix=es" />
 			</td>
-			<td width="350px;">
-				<ul>
-					<li> <h3>Fecha:<br> {{ $fecha }}</h3> </li>
-					<li> <h3>Director: <br>{{ $director }} </h3></li>
-				</ul>
-			</td>
-			<td width="350px;">
-				<ul>
-					<li> <h3>Estudio:<br> {{ $estudio }} </h3></li>					
-					<li> <h3>Sala:<br> {{ $sala }}</h3> </li>
-				</ul>
+			<td style="text-align: left">
+				<h3>Fecha:{{ $fecha }}</h3>
+				<h3>Director: {{ $director }} </h3>
+				<h3>Estudio:{{ $estudio }} </h3>					
+				<h3>Sala:{{ $sala }}</h3> 
 			</td>
 		</tr>	
 	</table>

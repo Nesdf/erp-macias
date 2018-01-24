@@ -122,7 +122,7 @@ class MgContabilidadController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function reporteProyecto() {
+    public function reporteProyectos() {
 
         try{
             $proyectos = Proyectos::all();
@@ -175,7 +175,7 @@ class MgContabilidadController extends Controller
 
             $data = Proyectos::all();
 
-            return Response(['msg'=>'success', 'episodios' => $data], 200)->header('Content-Type', 'application/json');
+            return Response(['msg'=>'success', 'proyectos' => $data], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

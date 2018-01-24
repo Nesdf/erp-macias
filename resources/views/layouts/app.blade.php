@@ -325,7 +325,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li @if(\Request::is('mgcontabilidad/reporte-proyceto')) class="active" @endif>
-								<a href="{{ url('mgcontabilidad/reporte-proyecto') }}">
+								<a href="{{ url('mgcontabilidad/reporte-proyectos') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Reporte por proyecto
 								</a>
 								<b class="arrow"></b>

@@ -40,6 +40,6 @@ class Llamados extends Model
 
 		public static function getLlamados($actor, $fecha)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario where cita_start::text LIKE '%".$fecha."%'  AND actor = '".$actor."' AND estatus_llamado = '".Config::RTK."'"));
+			return \DB::select(\DB::raw("SELECT * FROM calendario where cita_end::text LIKE '%".$fecha."%'  AND actor = '".$actor."' AND estatus_llamado = '".Config::RTK."'"));
 		}
 }

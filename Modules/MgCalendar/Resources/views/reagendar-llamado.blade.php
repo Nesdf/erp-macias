@@ -37,8 +37,7 @@
           <div class="col-md-4">
             {{ csrf_field() }}
             <label>Actor</label>
-            <select name="search_actor" id="search_actor" class="form-control" required>
-              <option value="">Seleccionar...</option>
+            <select name="search_actor" id="search_actor" selectpicker data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." class="form-control" required>
               @foreach($actores as $item)
                 <option {{$item->nombre_artistico}}>{{$item->nombre_artistico}}</option>
               @endforeach
@@ -257,6 +256,8 @@
           $('input[name=id]').val(id);
 
         });
+
+				$('select[name=search_actor]').selectpicker();
 
     });
 

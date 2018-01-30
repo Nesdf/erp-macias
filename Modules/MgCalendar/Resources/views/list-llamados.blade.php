@@ -11,7 +11,7 @@
     <div class="row">
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
-			
+
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Lista de llamados - Macias Group</h3>
@@ -19,7 +19,7 @@
 					<div class="clearfix">
 						<div class="pull-right tableTools-container"></div>
 						@if (Session::has('message'))
-							
+
 							<div class="alert alert-success">
 								<button type="button" class="close" data-dismiss="alert">
 									<i class="ace-icon fa fa-times"></i>
@@ -27,27 +27,27 @@
 								{{  Session::get('message') }}
 								<br />
 							</div>
-							
+
 						@endif
-					</div>	
+					</div>
 					<div>
 						<form id="form_search">
-							<div class="col-md-4">		
-								{{ csrf_field() }}						
+							<div class="col-md-4">
+								{{ csrf_field() }}
 								<label>Sala</label>
 								<select name="search_sala" id="search_sala" class="form-control" required>
 									<option value="">Seleccionar...</option>
 									@foreach($salas as $sala)
 										<option {{$sala->sala}}>{{$sala->sala}}</option>
 									@endforeach
-								</select>								
+								</select>
 							</div>
 							<div class="col-md-4">
 								<label>Fecha</label>
-								<input type="text" name="search_fecha" id="search_fecha" class="form-control" required>								
+								<input type="text" name="search_fecha" id="search_fecha" class="form-control" required>
 							</div>
 							<div class="col-md-2"><br>
-								<button class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>								
+								<button class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
 							</div>
 							<div class="col-md-12">
 								<div id="create-pdf" style="display: none;">
@@ -68,7 +68,7 @@
 						<div id="list-table"></div>
 					</div>
 				</div>
-			</div>		
+			</div>
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
@@ -131,7 +131,7 @@
 				    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
 				    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
 				    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-				});      
+				});
 
 			$('#form_search').on('submit', function(event){
 				event.preventDefault();
@@ -173,18 +173,18 @@
 						<option value="Total Loops">Total Loops</option>\
 						<option value="Entrada">Entrada</option>\
 						<option value="Salida">Salida</option>\
-                  		'); 
+                  		');
 					$('#select_headers').multiselect();
 					$('#select_headers').multiselect('refresh');
 					$('#select_headers').on('change', function(){
-            	
+
 		            	var select_headers = $(this).val();
 		            	var headers= select_headers.join(",");
 		            	$('#headers').val(headers);
 		            });
 
-                  	
-                  	var midata = $('#table_actores').DataTable({
+
+          var midata = $('#table_actores').DataTable({
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",
@@ -208,26 +208,26 @@
                   		$('#sala').val($('#search_sala').val());
                   		$('#fecha').val($('#search_fecha').val());
 	              	}
-	              	
+
 	              	midata.on('search.dt', function() {
 					    var num = midata.rows( { filter : 'applied'} ).data();
-					    $('#data').val(num);  
+					    $('#data').val(num);
 					    var n = 'ID,Actor,Credencial,Personaje,Director,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
 					    for(var i=0; i<num.length; i++){
 					    	n +=  num[i]+';';
-					    } 
-					    $('#data').val(n);                
+					    }
+					    $('#data').val(n);
 					});
 					var num2 = midata.rows( { filter : 'applied'} ).data();
-					    $('#data').val(num2);  
+					    $('#data').val(num2);
 					    var n2 = 'ID,Actor,Credencial,Personaje,Director,S'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
 					    for(var i=0; i<num2.length; i++){
 					    	n2 +=  num2[i]+';';
-					    } 
-					    $('#data').val(n2); 
-	              	
+					    }
+					    $('#data').val(n2);
+
 					/*$('input[type="search"]').keyup(function(event) {
-						$('#search').val($(this).val());						
+						$('#search').val($(this).val());
 					});*/
                   }
                 });
@@ -268,14 +268,14 @@
       				for(var j=0; j<data.proyectos.length; j++){
       					if( data.proyectos[j].folios == data.llamados[i].folio ) {
       						list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] +=  parseInt(data.llamados[i].loops);
-      					}      					
+      					}
 	      			}
-	      			// suma el total de loops 
+	      			// suma el total de loops
 	      			list_new_llamados[data.llamados[i].credencial].total = 0;
 	      			for(var j=0; j<data.proyectos.length; j++){
-      					
+
       					list_new_llamados[data.llamados[i].credencial].total += parseInt( list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] );
-      					      					
+
 	      			}
 
       			} else{
@@ -285,16 +285,16 @@
       				list_new_llamados[data.llamados[i].credencial].descripcion = data.llamados[i].descr;
       				list_new_llamados[data.llamados[i].credencial].director = data.llamados[i].director;
 
-      				
+
       				for(var j=0; j<data.proyectos.length; j++){
-      					
+
       					if(data.proyectos[j].folios == data.llamados[i].folio){
       						// Permite asignar el total de loops
 	      					list_new_llamados[data.llamados[i].credencial].total = list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] = parseInt(data.llamados[i].loops);
 	      				} else {
 	      					list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] = parseInt(0);
 	      				}
-	      			}     			
+	      			}
 
 
       				list_new_llamados[data.llamados[i].credencial].fecha = data.llamados[i].fecha;
@@ -307,7 +307,7 @@
       		//console.log(list_new_llamados);
       		//Permite mostrar las llaves del arreglo
       		for( property in list_new_llamados ){
-			  
+
 			  var list_llamados;
 
       			list_llamados += "<tr>";
@@ -316,7 +316,7 @@
       			list_llamados += "<td>"+list_new_llamados[property].descripcion+"</td>";
       			list_llamados += "<td>"+list_new_llamados[property].director+"</td>";
       			for(var j=0; j<data.proyectos.length; j++){
-      				list_llamados += "<td>"+list_new_llamados[property][data.proyectos[j].folios]+"</td>";	
+      				list_llamados += "<td>"+list_new_llamados[property][data.proyectos[j].folios]+"</td>";
       			}
 
       			list_llamados += "<td>"+list_new_llamados[property].total+"</td>";
@@ -326,11 +326,11 @@
       			list_llamados += "</tr>";
 
 			}
-      		
 
-      		
 
-      		
+
+
+
 
 
       		/*var list_llamados;
@@ -347,19 +347,19 @@
       					list_llamados += "<td>"+data.llamados[i].loops+"</td>";
       				} else{
       					list_llamados += "<td>0</td>";
-      				}      				
+      				}
       			}
       			for(var j=0; j<data.proyectos.length; j++){
       				if(data.proyectos[j].folios == data.llamados[i].folio){
       					list_llamados += "<td>"+data.llamados[i].loops+"</td>";
-      				}     				
+      				}
       			}
       			list_llamados += "<td>"+data.llamados[i].fecha+"</td>";
       			list_llamados += "<td>"+data.llamados[i].entrada+"</td>";
       			list_llamados += "<td>"+data.llamados[i].salida+"</td>";
       			list_llamados += "</tr>";
       		}*/
-      		
+
       			return list_llamados;
       	}
 
@@ -399,7 +399,7 @@
       		for(var i=0; i<data.proyectos.length; i++){
       			list_encabezados += "<option value="+data.proyectos[i].capitulo+">"+data.proyectos[i].capitulo+"</option>";
       		}
-      		
+
       			return list_encabezados;
       	}
 
@@ -413,7 +413,7 @@
       		for(var i=0; i<data.proyectos.length; i++){
       			list_encabezados += data.proyectos[i].capitulo+",";
       		}
-      			
+
       			return list_encabezados;
       	}
 

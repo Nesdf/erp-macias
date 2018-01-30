@@ -13,6 +13,8 @@ use \Modules\MgCalendar\Entities\ActorPersonaje as ActorPersonaje;
 use \Modules\MgCalendar\Entities\Llamados as Llamados;
 use \Modules\MgCalendar\Entities\Episodios as Episodios;
 use \Modules\MgCalendar\Entities\Salas as Salas;
+use \Modules\MgCalendar\Entities\Tabulador as Tabulador;
+use App\Globals\Config;
 
 class MgCalendarController extends Controller
 {
@@ -136,29 +138,29 @@ class MgCalendarController extends Controller
             \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => $episodios], 400)->header('Content-Type', 'application/json');
         }
-        
+
     }
 
     public function citaLlamado(Request $request)
     {
         try{
             if($request->isMethod('post') && $request->ajax()){
-                
+
                 $meses = ['Jan'=>'01', 'Feb'=>'02', 'Mar'=>'03','Apr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'8','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dec'=>'12'];
                 $date = explode(' ', $request->input('dia'));
                 $dt = Carbon::now();
                 $cita_entrada = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_entrada'))->minute($request->input('min_entrada'))->second(00)->toDateTimeString();
 
-                $cita_salida = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_salida'))->minute($request->input('min_salida'))->second(00)->toDateTimeString(); 
+                $cita_salida = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_salida'))->minute($request->input('min_salida'))->second(00)->toDateTimeString();
                 //Validar fecha y hora disponible
-                
+
                 $searchFecha = \Modules\MgCalendar\Entities\Llamados::EntreFechas($cita_entrada, $cita_salida, $request->input('sala'));
-                
+
                 if($request->input('estatus_grupo') != 'on'){
                     if( count($searchFecha) > 0){
-                       
+
                         return Response(['error' => 'Ya existe un registro en este horario'], 404)->header('Content-Type', 'application/json');
-                    } 
+                    }
                 }
                 //Termina validación de fecha disponible
 
@@ -168,7 +170,7 @@ class MgCalendarController extends Controller
 
                     if($request->input('nuevo_personaje')){
 
-                        ActorPersonaje::create([      
+                        ActorPersonaje::create([
                             'personaje' => ucwords( strtolower( $request->input('nuevo_personaje') ) ),
                             'episodio_folio' => $request->input('episodio_folio'),
                             'fijo' => ($request->input('fijo') == 'on') ? true : false,
@@ -177,9 +179,12 @@ class MgCalendarController extends Controller
                     }
 
                 }
+                // verifica en el tabulador el pago por loops
+                $pago_total_loops = Tabulador::getTabulador((int)$request->input('loops'));
 
-                
-                Llamados::create([      
+                setlocale(LC_MONETARY, 'en_US.UTF-8');
+
+                Llamados::create([
                     'actor' => $request->input('actor'),
                     'director' => $request->input('director'),
                     'cita_start' => $cita_entrada,
@@ -188,6 +193,8 @@ class MgCalendarController extends Controller
                     'capitulo' => $request->input('capitulo'),
                     'credencial' => $request->input('credencial'),
                     'loops' => $request->input('loops'),
+                    'pago_total_loops' => money_format('%.2n', round($pago_total_loops[0]->tabulador,2) ),
+                    'estatus_llamado' => Config::RTK,
                     'sala' => $request->input('sala'),
                     //'descripcion' => $request->input('personaje'),
                     'descripcion' => ($request->input('nuevo_personaje')) ? ucwords( strtolower( $request->input('nuevo_personaje') ) ) : ucwords( strtolower( $request->input('personaje') ) ),
@@ -216,11 +223,11 @@ class MgCalendarController extends Controller
     public function searchLlamados(Request $request){
 
         try{
-            if( $request->method('post') && $request->ajax() ){
+            if( $request->isMethod('post') && $request->ajax() ){
                 $llamados = Llamados::allLlamados($request->input('search_sala'), $request->input('search_fecha'));
                 $allFolios = [];
                 foreach ($llamados as $key => $value) {
-                    
+
                     $allFolios[] = $value->folio;
                 }
                 $proyectos = Proyectos::allProyects($allFolios);
@@ -242,7 +249,7 @@ class MgCalendarController extends Controller
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
-        } 
+        }
     }
 
     public function editLlamado($id)
@@ -268,7 +275,7 @@ class MgCalendarController extends Controller
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
-        }        
+        }
     }
 
     public function pdfLlamados(Request $request)
@@ -276,7 +283,7 @@ class MgCalendarController extends Controller
 
         try{
             if( $request->isMethod('post') ){
-                
+
                 $array_multiselect = explode(',', $request->input('headers'));
                 $explode_data = substr($request->input('data'), 3);
                 $llamados = Llamados::allLlamados($request->input('sala'), $request->input('fecha'));
@@ -285,12 +292,12 @@ class MgCalendarController extends Controller
                     $allFolios[] = $value->folio;
                 }
                 $listFecha = explode('-', $request->input('fecha'));
-                $fecha = $listFecha[2].'-'.$listFecha[1].'-'.$listFecha[0]; 
+                $fecha = $listFecha[2].'-'.$listFecha[1].'-'.$listFecha[0];
                 $proyectos = Proyectos::allProyects($allFolios);
                 $sala = $request->input('sala');
                 $estudio = $llamados[0]->estudio;
                 $director = $llamados[0]->director;
-                
+
                 $pdf = \PDF::loadView('mgcalendar::list-llamados-pdf', compact('explode_data', 'array_multiselect', 'director', 'estudio', 'proyectos', 'sala', 'fecha'))->setPaper('a4', 'landscape');
                 return $pdf->stream('exito');
             }
@@ -298,7 +305,7 @@ class MgCalendarController extends Controller
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
-        }        
+        }
         //return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
     }
 
@@ -316,5 +323,79 @@ class MgCalendarController extends Controller
             \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => 'Verificar con el administrador']);
         }
+    }
+
+    public function reagendarLlamado()
+    {
+      try{
+        $actores = Actores::All();
+        return view('mgcalendar::reagendar-llamado', compact('actores'));
+
+      } catch(\Exception $e){
+          \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+          return Response(['error' => 'Verificar con el administrador']);
+      }
+    }
+
+    public function searchReagendarLlamado(Request $request)
+    {
+      try{
+        if( $request->isMethod('post') && $request->ajax() ){
+
+          $lista_llamados = Llamados::getLlamados($request->input('search_actor'), $request->input('search_fecha'));
+          return Response(['msg' => $lista_llamados,'status' => 'success' ], 200)->header('Content-Type', 'application/json');
+        }
+
+      } catch(\Exception $e){
+          \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+          return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+      }
+    }
+
+    public function saveReagendarLlamado(Request $request)
+    {
+      try{
+        if( $request->isMethod('post') ){
+
+          $llamado = Llamados::find($request->input('id'));
+
+          $data = Llamados::where('id', $request->input('id'))
+            ->update([
+              'estatus_llamado' => Config::REAGENDAR
+            ]);
+
+            if($data){
+              Llamados::create([
+                  'actor' => $llamado->actor,
+                  'cita_start' => $request->input('new_date').' '.$request->input('hora_entrada').':'.$request->input('min_entrada').':00',
+                  'folio' => $llamado->folio,
+                  'cita_end' => $request->input('new_date').' '.$request->input('hora_salida').':'.$request->input('min_salida').':00',
+                  'estatus_grupo' => $llamado->estatus_grupo,
+                  'estatus' => $llamado->estatus,
+                  'descripcion' => $llamado->descripcion,
+                  'director' => $llamado->director,
+                  'sala' => $llamado->sala,
+                  'credencial' => $llamado->credencial,
+                  'loops' => $llamado->loops,
+                  'capitulo' => $llamado->capitulo,
+                  'pago_total_loops' => $llamado->pago_total_loops,
+                  'estatus_llamado' => Config::RTK,
+                  'id_llamado_reagendado' => $request->input('id')
+                ]);
+            }
+
+
+          $request->session()->flash('success', 'Se Re-agendó con éxito.');
+          $actores = Actores::All();
+          return view('mgcalendar::reagendar-llamado', compact('actores'));
+        }
+
+      } catch(\Exception $e){
+          \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+          return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+      }
     }
 }

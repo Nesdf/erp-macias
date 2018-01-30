@@ -10,7 +10,6 @@
 
 		<!-- bootstrap & fontawesome √ -->
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/bootstrap.min.css') }}"/>
-		<link rel="stylesheet" href="{{ secure_asset('assets/dashboard/css/bootstrap.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/font-awesome/4.5.0/css/font-awesome.min.css') }}" />
 
 		<!-- page specific plugin styles -->
@@ -57,7 +56,7 @@
 	</head>
 
 	<body class="no-skin">
-		<div id="navbar" class="navbar navbar-default          ace-save-state">
+		<div id="navbar" class="navbar navbar-default ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span>
@@ -79,7 +78,7 @@
 
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-						
+
 						<li class="light-blue dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="{{ asset('assets/dashboard/images/avatars/user_1.png') }}" alt="Jason's Photo" />
@@ -96,7 +95,7 @@
 								<li>
 									<a href="#">
 										<i class="ace-icon fa fa-user"></i>
-										{{\Session::get('admin_puesto')}} 
+										{{\Session::get('admin_puesto')}}
 									</a>
 								</li>
 
@@ -132,7 +131,7 @@
 				</script>
 
 				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-				</div><!-- /.sidebar-shortcuts -->			
+				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
 					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte')) class="open" @endif>
@@ -267,6 +266,14 @@
 											<b class="arrow"></b>
 										@endif
 									</li>
+									<li >
+
+											<a href="{{ url('mgcalendar/reagendar-llamado') }}">
+												<i class="menu-icon fa fa-caret-right"></i> Re-Agendar Llamado
+											</a>
+											<b class="arrow"></b>
+
+									</li>
 									<li @if(\Request::is('mgcalendar/*')) class="active" @endif>
 										@if(\Request::session()->has('list_llamado'))
 											<a href="{{ url('mgcalendar/list-llamados') }}">
@@ -353,7 +360,7 @@
 								<i class="ace-icon fa fa-home home-icon"></i>
 								<a href="{{ url('home') }}">Home</a>
 							</li>
-							
+
 							@yield('guia')
 						</ul><!-- /.breadcrumb -->
 					</div>
@@ -443,9 +450,9 @@
 				</div>
 			</div>
 
-			
+
 		</div><!-- /.main-container -->
-		
+
 		@yield('modales')
 
 		<!-- basic scripts -->

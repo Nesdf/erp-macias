@@ -32,7 +32,7 @@ input.tipo_numero{
                   </select>
                   <div id="list_episodios"></div>
                   <div id="name_sala"></div>
-                  
+
                 </div>
               </form>
             </div><!-- /.page-header -->
@@ -89,7 +89,7 @@ input.tipo_numero{
                       </select>');
                     for(var i=0;  i < data.msg.length; i++ ){
                       $("#data_episodios").append('<option value="'+ data.msg[i].salaId + '" data-id="'+data.msg[i].id+'">' + data.msg[i].titulo_original+ ' - ' + data.msg[i].num_episodio + '</option>');
-                    } 
+                    }
                     $('select[name=ajaxEpisodio]').selectpicker();
 
                     // Sala
@@ -109,7 +109,7 @@ input.tipo_numero{
                             url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                             type: "GET",
                             success: function( data ){
-                              
+
                               $('div#reload').html('');
                                $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong>  <strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
 
@@ -130,7 +130,7 @@ input.tipo_numero{
                                   revert: true,      // will cause the event to go back to its
                                   revertDuration: 0  //  original position after the drag
                                 });
-                                
+
                               });
 
 
@@ -155,8 +155,8 @@ input.tipo_numero{
 
                               var calendar = $('#calendario').fullCalendar({
                                 //isRTL: true,
-                                //firstDay: 1,// >> change first day of week 
-                                
+                                //firstDay: 1,// >> change first day of week
+
                                 buttonHtml: {
                                   prev: '<i class="ace-icon fa fa-chevron-left"></i>',
                                   next: '<i class="ace-icon fa fa-chevron-right"></i>'
@@ -169,7 +169,7 @@ input.tipo_numero{
                                     month:    'Mes',
                                     week:     'Semana',
                                     day:      'Día'
-                                },                              
+                                },
                                 header: {
                                   left: 'prev,next today',
                                   center: 'title',
@@ -181,14 +181,14 @@ input.tipo_numero{
                                   $(".fc-sun").css("background-color", "#A9D0F5");
                                   $(".fc-mon").css("background-color", "#F781BE");
                                   $(".fc-tue").css("background-color", "#F6CECE");
-                                  $(".fc-wed").css("background-color", "#F5D0A9");                                  
+                                  $(".fc-wed").css("background-color", "#F5D0A9");
                                   $(".fc-thu").css("background-color", "#CEE3F6");
                                   $(".fc-fri").css("background-color", "#F5A9BC");
                                   $(".fc-sat").css("background-color", "#E0F8E6");
                                   $("table").css("border-collapse", "collapse");
                                   $("table, td, tr").css("border", "1px solid #555");
                                 },
-                                
+
                                 events: llamado(),
                                 eventAfterRender: function(event, element) {
                                   element.find('.fc-content').html(event.descripcion);
@@ -199,30 +199,30 @@ input.tipo_numero{
                                 editable: true,
                                 droppable: true, // this allows things to be dropped onto the calendar !!!
                                 drop: function(date) { // this function is called when something is dropped
-                                
+
                                   // retrieve the dropped element's stored Event Object
                                   var originalEventObject = $(this).data('eventObject');
                                   var $extraEventClass = $(this).attr('data-class');
-                                  
-                                  
+
+
                                   // we need to copy it, so that multiple events don't have a reference to the same object
                                   var copiedEventObject = $.extend({}, originalEventObject);
-                                  
+
                                   // assign it the date that was reported
                                   copiedEventObject.start = date;
                                   copiedEventObject.allDay = false;
                                   if($extraEventClass) copiedEventObject['className'] = [$extraEventClass];
-                                  
+
                                   // render the event on the calendar
                                   // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
                                   $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-                                  
+
                                   // is the "remove after drop" checkbox checked?
                                   if ($('#drop-remove').is(':checked')) {
                                     // if so, remove the element from the "Draggable Events" list
                                     $(this).remove();
                                   }
-                                  
+
                                 },
                                 selectable: true,
                                 monthNames: [ "Enero","Febrero","Marzo","Abril","Mayo","Junio", "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre" ],
@@ -232,7 +232,7 @@ input.tipo_numero{
                                 dayNamesMin: [ "Do","Lu","Ma","Mi","Ju","Vi","Sa" ],
                                 selectHelper: true,
                                 select: function(start, end, allDay) {
-                                  
+
                                   if(start.isBefore(moment())) {
                                     alert('No se puede agregar llamado en este día.');
                                       $('#calendar').fullCalendar('unselect');
@@ -241,7 +241,7 @@ input.tipo_numero{
                                   var proyecto = $('#proyecto_id option:selected').text();
                                   var episodio = $('#data_episodios option:selected').text();
                                   var sala = $('#data_sala').text();
-                                  var modal = 
+                                  var modal =
                                   '<div class="modal fade">\
                                     <div class="modal-dialog">\
                                      <div class="modal-content">\
@@ -312,9 +312,9 @@ input.tipo_numero{
                                   modal.find(function(){
 
                                     $('select[name=actor], select[name=personaje]').selectpicker();
-                                  
+
                                     $('select[name=personaje]').on('change', function(){
-                                      
+
                                       if($('select[name=personaje]').val() == 'otro'){
 
                                         $(this).removeAttr('required');
@@ -352,17 +352,17 @@ input.tipo_numero{
 
                                     //Si se modifica la hora de entrada, se modifica también la hora de salida
                                       $('input[name=hora_entrada]').on('change', function(){
-                                       
+
                                         $('input[name=hora_salida]').val($(this).val());
 
                                         var dia = end._d;
                                         dia = String(dia).split(" ");
 
-                                        if($(this).val() < h && dia[2] == d.getDate()){
+                                        if( parseInt( $(this).val() ) < parseInt( h ) && parseInt( dia[2] ) == parseInt( d.getDate() ) ){
                                           $(this).val(h);
                                           $($('input[name=hora_salida]')).val(h);
                                           alert('Hora fuera de horario.');
-                                        }                                    
+                                        }
                                       });
                                     //Si se modifica los minutos de entrada, se modifica también los minutos de salida
                                     $('input[name=min_entrada]').on('change', function(){
@@ -426,7 +426,7 @@ input.tipo_numero{
                                     var h = d.getHours();
                                     var m = d.getMinutes();
                                     var tiempo = {'1':'01', '2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08', '9':'09' , '10':'10', '11':'11', '12':'12', '13':'13', '14':'14', '15':'15', '16':'16', '17':'17', '18':'18', '19':'19', '20':'20', '21':'21', '22':'22', '23':'23', '24':'24', '25':'25', '26':'26', '27':'27', '28':'28', '29':'29' , '30':'30', '31':'31', '32':'32', '33':'33', '34':'34', '35':'35', '36':'36', '37':'37', '38':'38', '39':'39' , '40':'40', '41':'41', '42':'42', '43':'43', '44':'44', '45':'45', '46':'46', '47':'47', '48':'48', '49':'49', '50':'50', '51':'51', '52':'52', '53':'53', '54':'54', '55':'55', '56':'56', '57':'57', '58':'58', '59':'59' , '0':'00', '00':'00'};
-                                                                       
+
                                     /*$('.entrada').timepicker({
                                       timeOnlyTitle: 'Hora de Entrada',
                                       showSecond: false,
@@ -484,7 +484,7 @@ input.tipo_numero{
                                       now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
                                       now.setSeconds(0);
                                       return now;
-                                    }else 
+                                    }else
                                       return "Invalid Format";
                                   }
                                   modal.find('form').on('submit', function(ev){
@@ -518,7 +518,7 @@ input.tipo_numero{
                                         if(error.status == 400){
                                           modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">'+error.responseJSON.error+'</div>');
                                         }
-                                        
+
                                         if(error.status == 404){
                                           modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">Este horario ya se encuentra ocupado.</div>');
                                         }
@@ -539,7 +539,7 @@ input.tipo_numero{
                                     })
                                     modal.modal("hide");
                                   });
-                                  
+
                                   modal.modal('show').on('hidden', function(){
                                     modal.remove();
                                   });
@@ -556,11 +556,11 @@ input.tipo_numero{
                                         $(".credencial").html('<option value="">Seleccionar...</option>');
                                         for(var i=0;  i < data.credenciales.length; i++ ){
                                           $(".credencial").append('<option value='+ data.credenciales[i].folio + '>' + data.credenciales[i].folio +'</option>');
-                                        } 
+                                        }
                                       }
                                     });
                                   });
-                                  
+
                                 },
                                 eventClick: function(calEvent, jsEvent, view) {
                                   $.ajax({
@@ -571,12 +571,12 @@ input.tipo_numero{
                                       $(".credencial").html('<option value="">Seleccionar...</option>');
                                       /*for(var i=0;  i < data.credenciales.length; i++ ){
                                         $(".credencial").append('<option value='+ data.credenciales[i].folio + '>' + data.credenciales[i].folio +'</option>');
-                                      } */ 
+                                      } */
                                     }
                                   });
 
                                   //display a modal
-                                  var modal = 
+                                  var modal =
                                   '<div class="modal fade">\
                                     <div class="modal-dialog">\
                                      <div class="modal-content">\
@@ -602,7 +602,7 @@ input.tipo_numero{
                                   </div>';
 
                                   var tiempo = {'1':'01', '2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08', '9':'09', '01':'01', '02':'02', '03':'03', '04':'04', '05':'05', '06':'06', '07':'07', '08':'08', '09':'09', '10':'10', '11':'11', '12':'12', '13':'13', '14':'14', '15':'15', '16':'16', '17':'17', '18':'18', '19':'19', '20':'20', '21':'21', '22':'22', '23':'23', '24':'24', '25':'25', '26':'26', '27':'27', '28':'28', '29':'29' , '30':'30', '31':'31', '32':'32', '33':'33', '34':'34', '35':'35', '36':'36', '37':'37', '38':'38', '39':'39' , '40':'40', '41':'41', '42':'42', '43':'43', '44':'44', '45':'45', '46':'46', '47':'47', '48':'48', '49':'49', '50':'50', '51':'51', '52':'52', '53':'53', '54':'54', '55':'55', '56':'56', '57':'57', '58':'58', '59':'59' , '0':'00', '00':'00'};
-                                
+
                                   /*var mes = {"Ene":'01', "Feb":'02', "Mar":'03', "Abr":'04', "May":'05', "Jun":'06', "Jul":'07', "Ago":'08', "Sep":'09', "Oct":'10', "Nov":'11', "Dic":'12'};
                                   var d = new Date();
                                   var fechaHoy = d.getFullYear()+'-'+tiempo[d.getMonth()]+'-'+tiempo[d.getDay()]+' '+tiempo[d.getHours()]+':'+tiempo[d.getMinutes()]+':'+tiempo[d.getMinutes()];
@@ -624,7 +624,7 @@ input.tipo_numero{
                                   var d = new Date().toLocaleString('en-ES', { timeZone: 'America/Mexico_City' }).toString();
                                   dSplit = d.split(" ");
                                   var fecha0 = dSplit[0].split('/');
-                                  fecha0[2] = fecha0[2].substr(0,4); 
+                                  fecha0[2] = fecha0[2].substr(0,4);
                                   var fecha1 = dSplit[1].split(':');
                                   var diaActual = tiempo[fecha0[1]];
                                   var mesActual = tiempo[fecha0[0]];
@@ -634,14 +634,14 @@ input.tipo_numero{
                                   var segundosctual = tiempo[fecha1[2]];
                                   var fechaActual = new Date(anioActual, mesActual, diaActual);
                                   fechaActual.setHours(horaActual, minutosActual, segundosctual, 0);
-                                  
+
                                   var modal = $(modal).appendTo('body');
                                   if( fechaEvento.getTime() <= fechaActual.getTime() ){
                                     modal.find('.btn-eliminar').css({display:"none"});
                                   } else {
                                     modal.find('.btn-eliminar').css({display:"block"});
                                   }
-                                  
+
                                   modal.find('form').on('submit', function(ev){
                                     ev.preventDefault();
 
@@ -664,7 +664,7 @@ input.tipo_numero{
                                     })
                                     modal.modal("hide");
                                   });
-                                  
+
                                   modal.modal('show').on('hidden', function(){
                                     modal.remove();
                                   });
@@ -674,7 +674,7 @@ input.tipo_numero{
                                   //$(this).css('border-color', 'red');
 
                                 }
-                                
+
                               });
                             },
                             beforeSend: function(){
@@ -704,7 +704,7 @@ input.tipo_numero{
             $('#name_sala').html('');
           }
         });
-      
+
 
       $( '#estudio_id' ).on('change', function(){
         var id = $(this).val();
@@ -716,14 +716,14 @@ input.tipo_numero{
             $("#sala").append('<option> Seleccionar</option>');
             for(var i=0;  i < data.msg.length; i++ ){
               $("#sala").append('<option value='+ data.msg[i].id + '>' + data.msg[i].sala +'</option>');
-            } 
+            }
           },
           error: function(error){
 
           }
         });
       });
-      
+
   });
     $('select[name=cliente]').selectpicker();
     </script>

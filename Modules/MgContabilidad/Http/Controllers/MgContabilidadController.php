@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\MgContabilidad\Entities\Salas as Salas;
-use Modules\MgContabilidad\Entities\Episodios as Episodios; 
-use Modules\MgContabilidad\Entities\Proyectos as Proyectos; 
+use Modules\MgContabilidad\Entities\Episodios as Episodios;
+use Modules\MgContabilidad\Entities\Proyectos as Proyectos;
+use Modules\MgContabilidad\Entities\Llamados as Llamados;
 
 class MgContabilidadController extends Controller
 {
@@ -81,7 +82,7 @@ class MgContabilidadController extends Controller
 
         try{
             $episodios = Episodios::All();
-            return view('mgcontabilidad::reporte-general', compact('episodios')); 
+            return view('mgcontabilidad::reporte-general', compact('episodios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -96,10 +97,36 @@ class MgContabilidadController extends Controller
 
         try{
             $salas = Salas::salasAll();
-            return view('mgcontabilidad::reporte-llamado-actores', compact('salas')); 
+            return view('mgcontabilidad::reporte-llamado-actores', compact('salas'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function ajaxLlamadoActores(Request $request) {
+        try{
+          if( $request->isMethod('post') && $request->ajax() ){
+
+            $llamados = Llamados::allLlamados($request->input('sala'), $request->input('fecha_search'));
+            //return Response(['msg' => $llamados], 200)->header('Content-Type', 'application/json');
+            $allFolios = [];
+            foreach ($llamados as $key => $value) {
+
+                $allFolios[] = $value->folio;
+            }
+            $proyectos = Proyectos::allProyects($allFolios);
+
+            return Response(['msg' => 'success', 'llamados' => $llamados, 'proyectos' => $proyectos], 200)->header('Content-Type', 'application/json');
+          }
+        } catch(\Exception $e) {
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+            return Response(['error' => 'error'], 400)->header('Content-Type', 'application/json');
         }
     }
 
@@ -111,7 +138,7 @@ class MgContabilidadController extends Controller
 
         try{
             $salas = Salas::all();
-            return view('mgcontabilidad::reporte-actores-sala', compact('salas')); 
+            return view('mgcontabilidad::reporte-actores-sala', compact('salas'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -126,7 +153,7 @@ class MgContabilidadController extends Controller
 
         try{
             $proyectos = Proyectos::all();
-            return view('mgcontabilidad::reporte-proyecto', compact('proyectos')); 
+            return view('mgcontabilidad::reporte-proyecto', compact('proyectos'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -141,7 +168,7 @@ class MgContabilidadController extends Controller
 
         try{
             $episodios = Episodios::all();
-            return view('mgcontabilidad::reporte-episodio', compact('episodios')); 
+            return view('mgcontabilidad::reporte-episodio', compact('episodios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

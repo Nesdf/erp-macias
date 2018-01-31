@@ -345,10 +345,10 @@ input.tipo_numero{
                                     var d = new Date();
                                     var h = d.getHours();
                                     var m = d.getMinutes();
-                                    var h_entrada = $('input[name=hora_entrada]').val(h);
-                                    var h_salida = $('input[name=hora_salida]').val(h);
-                                    var m_entrada = $('input[name=min_entrada]').val(m);
-                                    var m_entrada = $('input[name=min_salida]').val(m);
+                                    var h_entrada = parseInt( $('input[name=hora_entrada]').val(h) );
+                                    var h_salida = parseInt( $('input[name=hora_salida]').val(h) );
+                                    var m_entrada = parseInt( $('input[name=min_entrada]').val(m) );
+                                    var m_entrada = parseInt( $('input[name=min_salida]').val(m) );
 
                                     //Si se modifica la hora de entrada, se modifica también la hora de salida
                                       $('input[name=hora_entrada]').on('change', function(){
@@ -374,7 +374,9 @@ input.tipo_numero{
                                       var entrada = 0;
                                       salida = parseInt($(this).val());
                                       entrada = parseInt($('input[name=hora_entrada]').val());
-                                      if( ( entrada - salida)  > 0  ){
+                                      console.log('entrada: ' +entrada);
+                                      console.log('salida: ' +salida);
+                                      if( parseInt(entrada) > parseInt(salida)  ){
                                         $(this).val($('input[name=hora_entrada]').val());
                                         alert('El tiempo debe ser mayor a la de entrada.');
                                       }

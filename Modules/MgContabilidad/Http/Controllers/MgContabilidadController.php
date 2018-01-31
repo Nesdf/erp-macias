@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\MgContabilidad\Entities\Salas as Salas;
+use Modules\MgContabilidad\Entities\Actores as Actores;
 use Modules\MgContabilidad\Entities\Episodios as Episodios;
 use Modules\MgContabilidad\Entities\Proyectos as Proyectos;
 use Modules\MgContabilidad\Entities\Llamados as Llamados;
@@ -134,11 +135,11 @@ class MgContabilidadController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function reporteActoresSala() {
+    public function reporteNominaActores() {
 
         try{
-            $salas = Salas::all();
-            return view('mgcontabilidad::reporte-actores-sala', compact('salas'));
+            $actores = Actores::all();
+            return view('mgcontabilidad::reporte-nomina-actores', compact('actores'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -197,15 +198,42 @@ class MgContabilidadController extends Controller
         }
     }
 
-    public function ajaxReporteProyectos() {
+    public function ajaxReporteProyectos(Request $request) {
         try{
 
-            $data = Proyectos::all();
+            $proyectos = Episodios::allEpisodios($request->input('fecha_inicial_search'), $request->input('fecha_final_search'));
 
-            return Response(['msg'=>'success', 'proyectos' => $data], 200)->header('Content-Type', 'application/json');
+            return Response(['msg'=>'success', 'proyectos' => $proyectos], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
+    }
+
+    public function ajaxNominaActores(Request $request)
+    {
+      try{
+          if( $request->isMethod('post') && $request->ajax() ) {
+            $data = Proyectos::all();
+
+            return Response(['msg'=>'success', 'proyectos' => $data], 200)->header('Content-Type', 'application/json');
+          }
+
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
+
+    public function detalleEpisodiosActores($folio, $fecha_inicio, $fecha_fin)
+    {
+      try{
+
+        $actores = Llamados::getAllActores($folio, $fecha_inicio, $fecha_fin);
+        return view('mgcontabilidad::detalle-episodios-actores', compact('actores'));
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
     }
 }

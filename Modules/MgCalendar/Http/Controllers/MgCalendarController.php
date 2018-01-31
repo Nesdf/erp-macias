@@ -193,7 +193,7 @@ class MgCalendarController extends Controller
                     'capitulo' => $request->input('capitulo'),
                     'credencial' => $request->input('credencial'),
                     'loops' => $request->input('loops'),
-                    'pago_total_loops' => money_format('%.2n', round($pago_total_loops[0]->tabulador,2) ),
+                    'pago_total_loops' => round($pago_total_loops[0]->tabulador,2),
                     'estatus_llamado' => Config::RTK,
                     'sala' => $request->input('sala'),
                     //'descripcion' => $request->input('personaje'),
@@ -369,7 +369,7 @@ class MgCalendarController extends Controller
             if($data){
               Llamados::create([
                   'actor' => $llamado->actor,
-                  'cita_start' => $request->input('new_date').' '.$request->input('hora_entrada').':'.$request->input('min_entrada').':00',
+                  'cita_start' => $request->input('new_date').', '.$request->input('hora_entrada').':'.$request->input('min_entrada').':00',
                   'folio' => $llamado->folio,
                   'cita_end' => $request->input('new_date').' '.$request->input('hora_salida').':'.$request->input('min_salida').':00',
                   'estatus_grupo' => $llamado->estatus_grupo,
@@ -382,6 +382,8 @@ class MgCalendarController extends Controller
                   'capitulo' => $llamado->capitulo,
                   'pago_total_loops' => $llamado->pago_total_loops,
                   'estatus_llamado' => Config::RTK,
+                  'descripcion_reagenda' => $request->input('descripcion_reagenda'),
+                  'estatus_reagenda' => true,
                   'id_llamado_reagendado' => $request->input('id')
                 ]);
             }

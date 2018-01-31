@@ -36,9 +36,9 @@
 					</form>
 
 				</div>
-				<div class="detalle" class="col-xs-12"> </div>
 			</div>
-
+			<br> <br> <br>
+			<div class="detalle" class="col-md-12"> </div>
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 	</div><!-- /.row -->
@@ -76,8 +76,9 @@
           	type: 'POST',
           	data: $( this ).serialize(),
           	success: function(data){
-          		$('.detalle').html('<br><br>\
-            		<div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
+          		$('.detalle').html('<div><a href="javascript:void(0)" class="btn btn-success">Excel</a></div><br><br>\
+            		<div class="col-sm-12 col-md-12 col-lg-12">\
+								<table style="width:100%" class=" table table-condensed ">\
             		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>NÚMERO DE EPISODIO</td></tr></tbody>\
             		<tbody>'+proyectos(data)+'</tbody>\
             		</table></div>\
@@ -86,11 +87,11 @@
               <thead>\
                 <tr>\
                   <th>Actor</th>\
-                  <th>Credencial</th>\
                   <th>Personaje</th>\
+									<th>Sala</th>\
                   <th>Director</th>'+encabezados(data)+'\
                   <th>Total Loops</th>\
-									th>Total</th>\
+									<th>Total</th>\
                   <th>Fecha</th>\
                   <th>Entrada</th>\
                   <th>Salida</th>\
@@ -119,23 +120,23 @@
           });
 
           var midata = $('#table_actores').DataTable({
-			language: {
-				search:   "Buscar: ",
-	            lengthMenu: "Mostrar _MENU_ registros por página",
-	            zeroRecords: "No se encontraron registros",
-	            info: "Página _PAGE_ de _PAGES_",
-	            infoEmpty: "Se buscó en",
-	            infoFiltered: "(_MAX_ registros)",
-	            responsive:     true,
-	            paginate: {
-	                first:      "Primero",
-	                previous:   "Previo",
-	                next:       "Siguiente",
-	                last:       "Anterior"
-        		},
-	        },
+						language: {
+							search:   "Buscar: ",
+				            lengthMenu: "Mostrar _MENU_ registros por página",
+				            zeroRecords: "No se encontraron registros",
+				            info: "Página _PAGE_ de _PAGES_",
+				            infoEmpty: "Se buscó en",
+				            infoFiltered: "(_MAX_ registros)",
+				            responsive:     true,
+				            paginate: {
+				                first:      "Primero",
+				                previous:   "Previo",
+				                next:       "Siguiente",
+				                last:       "Anterior"
+			        		},
+				        },
 
-		});
+					});
 
 		$('#create-pdf').css({display: 'block'});
             	if( $('#create-pdf').is(":visible") ){
@@ -189,8 +190,8 @@
       		for(var i=0; i<data.llamados.length; i++){
       			list_llamados += "<tr>";
       			list_llamados += "<td>"+data.llamados[i].actor+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].credencial+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].descr+"</td>";
+						list_llamados += "<td>"+data.llamados[i].descr+"</td>";
+      			list_llamados += "<td>"+data.llamados[i].sala+"</td>";
       			list_llamados += "<td>"+data.llamados[i].director+"</td>";
       			for(var j=0; j<data.proyectos.length; j++){
       				if(data.proyectos[j].folios == data.llamados[i].folio){
@@ -204,6 +205,7 @@
       					list_llamados += "<td>"+data.llamados[i].loops+"</td>";
       				}
       			}
+						list_llamados += "<td>$"+data.llamados[i].pago_total_loops+"</td>";
       			list_llamados += "<td>"+data.llamados[i].fecha+"</td>";
       			list_llamados += "<td>"+data.llamados[i].entrada+"</td>";
       			list_llamados += "<td>"+data.llamados[i].salida+"</td>";

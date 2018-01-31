@@ -313,21 +313,21 @@
 
 						<b class="arrow"></b>
 						<ul class="submenu">
-							<li @if(\Request::is('mgcontabilidad/reporte-general')) class="active" @endif>
+							<!--<li @if(\Request::is('mgcontabilidad/reporte-general')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/reporte-general') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Reporte general
 								</a>
 								<b class="arrow"></b>
-							</li>
+							</li>-->
 							<li @if(\Request::is('mgcontabilidad/reporte-llamado-actores')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/reporte-llamado-actores') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Reporte de llamado por actores
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<li @if(\Request::is('mgcontabilidad/reporte-actores-sala')) class="active" @endif>
-								<a href="{{ url('mgcontabilidad/reporte-actores-sala') }}">
-									<i class="menu-icon fa fa-caret-right"></i> Reporte de actores por sala
+							<li @if(\Request::is('mgcontabilidad/reporte-nomina-actores')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/reporte-nomina-actores') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Nómina Actores
 								</a>
 								<b class="arrow"></b>
 							</li>
@@ -337,12 +337,12 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<li @if(\Request::is('mgcontabilidad/reporte-episodio')) class="active" @endif>
+							<!--<li @if(\Request::is('mgcontabilidad/reporte-episodio')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/reporte-episodio') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Reporte por episodio
 								</a>
 								<b class="arrow"></b>
-							</li>
+							</li>-->
 						</ul>
 					</li>
 				</ul><!-- /.nav-list -->

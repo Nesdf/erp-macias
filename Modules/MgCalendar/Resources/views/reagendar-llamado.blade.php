@@ -102,6 +102,10 @@
             <label>Hora Salida</label><br>
             <input type="number" name="hora_salida" class="tipo_numero" min="00" max="23" required> :
             <input type="number" name="min_salida" class="tipo_numero" min="00" max="59" required>
+						<br><br>
+						<label>Descripción de Re-agendar</label><br>
+						<textarea name="descripcion_reagenda" class="form-control" required></textarea>
+
             </div>
            <div class="modal-footer">
              <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>

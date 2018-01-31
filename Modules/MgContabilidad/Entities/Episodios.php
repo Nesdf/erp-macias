@@ -16,7 +16,7 @@ class Episodios extends Model
         return \DB::select(\DB::raw('SELECT titulo_original, num_episodio, folio,
           (SELECT titulo_original FROM proyectos where id = episodios."proyectoId" ) AS titulo_proyecto,
           (SELECT sum(cast(pago_total_loops as float)) FROM calendario WHERE folio = episodios.folio
-          AND cita_end >= \''.$date_inicial.' 00:00:00\' AND cita_end <= \''.$date_final.' 23:59:00\' AND estatus_llamado = "'.Config::RTK.'") AS total
+          AND cita_end >= \''.$date_inicial.' 00:00:00\' AND cita_end <= \''.$date_final.' 23:59:00\' AND estatus_llamado = \''.Config::RTK.'\') AS total
           FROM episodios WHERE (SELECT sum(cast(pago_total_loops as float)) FROM calendario WHERE folio = episodios.folio
           AND cita_end >= \''.$date_inicial.' 00:00:00\' AND cita_end <= \''.$date_final.' 23:59:00\') IS NOT NULL '));
 

@@ -372,11 +372,9 @@ input.tipo_numero{
                                     $('input[name=hora_salida]').on('change', function(){
                                       var salida = 0;
                                       var entrada = 0;
-                                      salida = parseInt($(this).val());
-                                      entrada = parseInt($('input[name=hora_entrada]').val());
-                                      console.log('entrada: ' +entrada);
-                                      console.log('salida: ' +salida);
-                                      if( parseInt(entrada) > parseInt(salida)  ){
+                                      salida = parseInt( $(this).val() );
+                                      entrada = parseInt( $('input[name=hora_entrada]').val() );
+                                      if( parseInt( entrada ) > parseInt(  salida)  ){
                                         $(this).val($('input[name=hora_entrada]').val());
                                         alert('El tiempo debe ser mayor a la de entrada.');
                                       }

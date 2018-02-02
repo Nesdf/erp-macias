@@ -321,13 +321,13 @@
 							</li>-->
 							<li @if(\Request::is('mgcontabilidad/reporte-llamado-actores')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/reporte-llamado-actores') }}">
-									<i class="menu-icon fa fa-caret-right"></i> Reporte de llamado por actores
+									<i class="menu-icon fa fa-caret-right"></i> Reporte de llamado por sala
 								</a>
 								<b class="arrow"></b>
 							</li>
 							<li @if(\Request::is('mgcontabilidad/reporte-nomina-actores')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/reporte-nomina-actores') }}">
-									<i class="menu-icon fa fa-caret-right"></i> Nómina Actores
+									<i class="menu-icon fa fa-caret-right"></i> Nómina de Actores
 								</a>
 								<b class="arrow"></b>
 							</li>

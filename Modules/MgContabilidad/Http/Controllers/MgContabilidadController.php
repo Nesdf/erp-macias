@@ -221,13 +221,14 @@ class MgContabilidadController extends Controller
             $fechaArray = explode("-", $lunes);
             $date = Carbon::create($fechaArray[0], $fechaArray[1], $fechaArray[2])->toDateString();
             //Seleccionar fecha por día
-            \Carbon\Carbon::setTestNow($date);
+            Carbon::setTestNow($date);
             $lunes = new Carbon('this monday');
             $martes = new Carbon('this tuesday');
             $miercoles = new Carbon('this wednesday');
             $jueves = new Carbon('this thursday');
             $viernes = new Carbon('this friday');
             $sabado = new Carbon('this saturday');
+            Carbon::setTestNow();
 
             $allRegister = Llamados::allRegisters($lunes, $sabado->toDateString());
             $allIntRegister = Llamados::allIntRegisters($lunes, $sabado->toDateString());
@@ -295,7 +296,7 @@ class MgContabilidadController extends Controller
               $newRegisters[$i]['importe'] = money_format($newRegisters[$i]['importe'], 2);
             }
 
-            return Response(['msg'=>'success', 'datos'=>$newRegisters], 200)->header('Content-Type', 'application/json');
+            return Response(['msg'=>'success', 'sabado'=> $sabado, 'datos'=>$newRegisters], 200)->header('Content-Type', 'application/json');
           }
 
       } catch(\Exception $e){

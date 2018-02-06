@@ -67,7 +67,7 @@
 			    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 			});
 
-			$('#form_search').on('submit', function(){
+			$('#form_search').on('submit', function(event){
 				event.preventDefault();
 				$.ajax({
 					url: "{{ url('mgcontabilidad/ajax-reporte-proyectos') }}",

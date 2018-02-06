@@ -44,12 +44,12 @@
 				<img src="http://vignette2.wikia.nocookie.net/doblaje/images/5/57/Macias_group_logo.jpg/revision/latest?cb=20121231084422&path-prefix=es" />
 			</td>
 			<td style="text-align: left">
-				<h3>Fecha:{{ $fecha }}</h3>
+				<h3>Fecha: {{ $fecha }}</h3>
 				<h3>Director: {{ $director }} </h3>
-				<h3>Estudio:{{ $estudio }} </h3>					
-				<h3>Sala:{{ $sala }}</h3> 
+				<h3>Estudio: {{ $estudio }} </h3>
+				<h3>Sala: {{ $sala }}</h3>
 			</td>
-		</tr>	
+		</tr>
 	</table>
 		<!--<h2 class="centrado">Fecha: {{-- $fecha --}}</h2>-->
 	<table class="table">
@@ -68,7 +68,6 @@
 			</tr>
 		@endforeach
 	</table>
-	<h3>Lista de Llamados</h3>
 	<table class="table">
 		@php
 			$array_data = explode(';', $explode_data);
@@ -84,10 +83,10 @@
 
             for($i=0; $i<count($array_data); $i++){
                 $header = explode(',', $array_data[$i]);
-                
+
                 echo "<tr>";
                 for($j=0; $j<count($header); $j++){
-                	
+
                 	if( array_key_exists($j, $newArray) ){
                 		if($i == 0){
 	                        echo '<th>'.$header[$j].'</th>';
@@ -95,7 +94,7 @@
 	                        echo '<td>'.$header[$j].'</td>';
 	                    }
                 	}
-                } 
+                }
                 echo "</tr>";
 
             }

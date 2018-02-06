@@ -20,21 +20,8 @@
 					<form id="form_search">
 						{{ csrf_field() }}
 						<div class="col-md-3">
-							<label>Fecha Inicial</label>
-							<input type="text" name="fecha_inicial_search"  class="form-control" >
-						</div>
-						<div class="col-md-3">
-							<label>Fecha Final</label>
-							<input type="text" name="fecha_final_search" class="form-control" >
-						</div>
-						<div class="col-md-4">
-							<label>Actores</label>
-							<select name="actor" class="form-control" id="salas" data-style="btn-primary" data-show-subtext="true"  data-live-search="true" >
-								<option value="">Seleccionar...</option>
-								@foreach($actores as $item)
-									<option >{{ $item->nombre_artistico }}</option>
-								@endforeach()
-							</select>
+							<label>Fecha día lunes</label>
+							<input type="text" name="lunes_search"  class="form-control" required>
 						</div>
 						<div class="col-md-2"><br>
 							<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
@@ -58,9 +45,9 @@
 	<script type="text/javascript">
 		$(document).on('ready', function(){
 
-			$('#salas').selectpicker();
+
 			//Calendarios
-			$('input[name=fecha_inicial_search], input[name=fecha_final_search]').datepicker({
+			$('input[name=lunes_search]').datepicker({
 					dateFormat: "yy-mm-dd",
 					//minDate: 0,
 					closeText: 'Cerrar',
@@ -72,6 +59,9 @@
 				    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
 				    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
 				    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+						beforeShowDay: function(date){
+                 return [date.getDay() == 1,"","Solo los lunes"];
+           }
 				});
 
 
@@ -83,6 +73,7 @@
 		          	type: 'POST',
 		          	data: $( this ).serialize(),
 		          	success: function(data){
+									console.log(data);
 		          		$('.detalle').html('<div><a href="javascript:void(0)" class="btn btn-success">Excel</a></div><br><br>\
 		            		<div class="col-sm-12 col-md-12 col-lg-12">\
 		            		<table id="table_nomina" \
@@ -91,16 +82,19 @@
 		                <tr>\
 		                  <th>Nombre</th>\
 		                  <th>Clave</th>\
-											<th>R.F.C.</th>\
+											<th>Lunes</th>\
+											<th>Martes</th>\
+											<th>Miércoles</th>\
+											<th>Jueves</th>\
+											<th>Viernes</th>\
+											<th>Sábado</th>\
 											<th>Importe</th>\
 		                </tr>\
 		              </thead>\
-		              <tbody> <tr><td></td><td></td><td></td><td></td></tr>\
+		              <tbody>'+allData(data.datos)+'\
 		              </tbody>\
 		            </table>\
 								</div>');
-
-
 
 								$('#table_nomina').DataTable({
 								language: {
@@ -118,8 +112,8 @@
 														last:       "Anterior"
 											},
 										},
-
-								});							},
+								});
+							},
 							error: function(error){
 
 							}
@@ -128,5 +122,24 @@
 				});
 
 		});
+
+		function allData(data){
+			console.log(data.length)
+			var datos = '';
+			for(var i=0; i<data.length; i++){
+				datos += "<tr>";
+				datos += "<td>"+data[i].actor+"</td>";
+				datos += "<td>"+data[i].credencial+"</td>";
+				datos += "<td>$"+data[i].lunes+"</td>";
+				datos += "<td>$"+data[i].martes+"</td>";
+				datos += "<td>$"+data[i].miercoles+"</td>";
+				datos += "<td>$"+data[i].jueves+"</td>";
+				datos += "<td>$"+data[i].viernes+"</td>";
+				datos += "<td>$"+data[i].sabado+"</td>";
+				datos += "<td>$"+data[i].importe+"</td>";
+				datos += "</tr>";
+			}
+			return datos;
+		}
 	</script>
 @stop

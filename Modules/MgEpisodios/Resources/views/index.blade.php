@@ -15,7 +15,7 @@
     <div class="row">
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
-			
+
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue center">Episodios de Macias Group</h3>
@@ -86,7 +86,7 @@
 											    }else{
 											    	$max = "Sin configuración";
 												}
-												
+
 
 											@endphp
 											{{$max}}
@@ -116,7 +116,7 @@
 											        	$status_entrega = "danger";
 											        @endphp
 											    @endif
-												
+
 												<span class="label label-{{$status_entrega}}">{{ \Carbon\carbon::parse($episodio->date_entrega)->toFormattedDateString() }}</span>
 											</td>
 										@endif
@@ -131,7 +131,7 @@
 													<span class="label label-success arrowed-in arrowed-in-right"> Calificado </span>
 													</a>
 												@endif
-											
+
 											</td>
 										@endif
 										<td>
@@ -152,13 +152,13 @@
 													<a data-toggle="modal" data-target="#modal_create_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-primary" title="Agregar Traductor">
 															<i class="glyphicon glyphicon-indent-right"></i>
 													</a>
-												@else 
+												@else
 													<a data-toggle="modal" data-target="#modal_update_traductor" data-id="{{ $episodio->id }}" class="btn btn-xs btn-success" title="Modificar Traductor">
 															<i class="glyphicon glyphicon-indent-right"></i>
 													</a>
 												@endif
 											@endif
-											
+
 											@if(\Request::session()->has('edit_episodio'))
 												<a data-toggle="modal" data-target="#modal_update_configuracion" data-id="{{ $episodio->id }}" class="btn btn-xs btn-warning " title="Configuracion">
 															<i class="ace-icon fa fa-tv bigger-120"></i>
@@ -173,7 +173,7 @@
 												<a data-id="{{ $episodio->id }}" data-toggle="modal" data-target="#modal_update_episodio" class="btn btn-xs btn-info update_id" title="Editar">
 													<i class="ace-icon fa fa-pencil bigger-120"></i>
 												</a>
-											@endif		
+											@endif
 											@if(\Request::session()->has('delete_episodio'))
 												<a data-toggle="modal" data-target="#modal_delete_episodio" data-id="{{ $episodio->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
 													<i class="ace-icon fa fa-trash-o bigger-120"></i>
@@ -186,7 +186,7 @@
 						</table>
 					</div>
 				</div>
-			</div>		
+			</div>
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
@@ -206,7 +206,7 @@
 			  </div>
 			  <form role="form" id="form_create_episodio">
 			  <div class="modal-body">
-					{{ csrf_field() }}		
+					{{ csrf_field() }}
 				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 				<div class="form-group">
 					<label>Seleccionar Productor</label>
@@ -231,11 +231,11 @@
 				<div class="form-group">
 					<label for="exampleInputEmail1">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio" name="titulo_original_episodio" placeholder="Título Original del episodio">
-				</div>	
+				</div>
 				<div class="form-group">
 					<label for="configuracion">Configuración</label>
 					<textarea id="configuracion" name="configuracion" class="form-control"></textarea>
-				</div>	
+				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Número de Episodio</label>
 					<input type="text" class="form-control" id="num_episodio" name="num_episodio" placeholder="Número de episodio">
@@ -260,7 +260,7 @@
 					<label for="entrega_episodio">Fecha de entrega del Episodio</label>
 					<input type="text" class="form-control" id="entrega_episodio" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 				</div>
-				
+
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 				<button type="submit" class="btn btn-primary">Guardar</button>
@@ -283,9 +283,9 @@
 			  <form role="form" id="form_agregar_productor">
 			  <div class="modal-body">
 					{{ csrf_field() }}
-				
+
 				<br>
-				<input type="hidden" name="id" id="id">		
+				<input type="hidden" name="id" id="id">
 				<label>Sala</label>
 				<select name="sala" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 					@foreach($salas as $sala)
@@ -300,8 +300,7 @@
 				</select>
 				<div class="add_date_script"></div>
 				<label> Operador </label>
-				<select name="operador" class="form-control">
-					<option value="">Seleccionar ...</option>
+				<select name="operador" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 					@foreach($tecnicos as $tecnico)
 						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
 					@endforeach
@@ -343,8 +342,7 @@
 			  <form role="form" id="form_update_productor">
 			  <div class="modal-body">
 					{{ csrf_field() }}
-				
-				<input type="hidden" name="id" id="id">		
+				<input type="hidden" name="id" id="id">
 				<label>Sala</label>
 				<select name="sala" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 					@foreach($salas as $sala)
@@ -359,17 +357,16 @@
 				</select>
 				<div id="add_date_script"></div>
 				<label> Operador </label>
-				<select name="operador" class="form-control">
-					<option value="">Seleccionar ...</option>					
+				<select name="operador" class="form-control selectpicker"  data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 					@foreach($tecnicos as $tecnico)
 						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
 					@endforeach
 				</select>
-				
+
 				<div class="alert alert-primary date-type-rayado"></div>
 				<input type="checkbox" name="chk_edicion" id="chk_edicion" > Edición
 				</label><br>
-				<div class="dateEdicion"></div>	
+				<div class="dateEdicion"></div>
 				<label>
 				<input type="checkbox" name="chk_reprobacion" id="chk_reprobacion" > Regrabador
 				</label>
@@ -387,7 +384,7 @@
 			</div>
 		  </div>
 		</div>
-	
+
 		<!-- Agregar Traductor -->
 		<div class="modal fade" id="modal_create_traductor" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -400,7 +397,7 @@
 			  <form role="form" id="form_agregar_traductor">
 				  <div class="modal-body">
 						{{ csrf_field() }}
-					<input type="hidden" name="id" id="id_episodio">		
+					<input type="hidden" name="id" id="id_episodio">
 					<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 					<label>Traductor</label>
 					<select name="traductor" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
@@ -453,7 +450,7 @@
 				  <form role="form" id="form_actualizar_traductor">
 					  <div class="modal-body">
 							{{ csrf_field() }}
-						<input type="hidden" name="id" id="id_episodio">		
+						<input type="hidden" name="id" id="id_episodio">
 						<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 						<label>Traductor</label>
 						<select name="traductor" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
@@ -492,7 +489,7 @@
 				</div>
 			  </div>
 			</div>
-	
+
 	<!-- Modal Configuración Update Eliminar Modal-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_update_configuracion" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
@@ -507,7 +504,7 @@
 			  <div class="modal-body">
 				<div class="modal-body">
 				{{ csrf_field() }}
-				<input type="hidden" name="id" id="id_update">		
+				<input type="hidden" name="id" id="id_update">
 				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 				<table class="table table-striped ">
 					<tr>
@@ -535,7 +532,7 @@
 		  </div>
 		</div>
 	</div>
-	
+
 	<!-- Modal Update-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_update_episodio" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
@@ -549,7 +546,7 @@
 			  <form role="form" id="form_update_episodio">
 			  <div class="modal-body">
 						{{ csrf_field() }}
-						<input type="hidden" name="id" >		
+						<input type="hidden" name="id" >
 						<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 						<div class="form-group">
 							<label >Seleccionar Productor</label>
@@ -575,7 +572,7 @@
 						<div class="form-group">
 							<label>Configuración</label>
 							<textarea name="configuracion" class="form-control"></textarea>
-						</div>	
+						</div>
 						<div class="form-group">
 							<label>Número de Episodio</label>
 							<input type="text" class="form-control" name="num_episodio" placeholder="Número de episodio">
@@ -590,7 +587,7 @@
 					<label>Fecha de entrega del Episodio</label>
 					<input type="text" class="form-control" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 				</div>
-						
+
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -601,7 +598,7 @@
 		  </div>
 		</div>
 	</div>
-	
+
 	<!-- Modal Delete-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_delete_episodio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -670,7 +667,7 @@
 			  </div>
 			  <form role="form" id="form_create_calificar_material">
 				  <div class="modal-body">
-						{{ csrf_field() }}		
+						{{ csrf_field() }}
 
 					<div class="form-group">
 					@if( !empty($episodio->id) )
@@ -712,7 +709,7 @@
 						<label for="observaciones">Observaciones</label>
 						<textarea name="observaciones" id="observaciones" placeholder="Observaciones" class="form-control"></textarea>
 					</div>
-					
+
 					 <div class="modal-footer">
 					   <button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 					   <button type="submit" class="btn btn-primary">Guardar</button>
@@ -734,11 +731,11 @@
 			  </div>
 			  <form role="form" id="form_add_traductor" >
 				  <div class="modal-body">
-						{{ csrf_field() }}	
+						{{ csrf_field() }}
 					<div class="form-group">
 						<label for="duracion">Fecha Actual</label>
 						<input type="text" class="form-control" id="fecha_generada_traductor" name="fecha_generada_traductor" value="{{date('d-m-Y')}}" disabled="true">
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="fecha_entrega_traductor">Fecha de Entrega por el Traductor</label>
 						<input type="text" class="form-control" id="fecha_entrega_traductor" name="fecha_entrega_traductor" >
@@ -751,7 +748,7 @@
 								<option value="{{ $sala->id }}"> {{ $sala->sala }} </option>
 							@endforeach
 						</select>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="traductor">Asignar Traductor</label>
 						<select name="traductor" class="form-control">
@@ -760,7 +757,7 @@
 								<option value="{{$traductor->id}}">{{$traductor->name}} {{$traductor->ap_paterno}} {{$traductor->ap_materno}}</option>
 							@endforeach
 						</select>
-					</div>					
+					</div>
 					<input type="checkbox" id="script" name="script">
 					<label>Con Script</label> &nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="checkbox" id="rayado" name="rayado">
@@ -820,12 +817,12 @@
 						$('input[name=num_episodio]').val(data.num_episodio);
 						$('input[name=entrega_me]').val(data.date_m_and_e);
 						$('input[name=entrega_episodio').val(data.date_entrega);
-						$('.selectpicker').selectpicker('refresh');						
+						$('.selectpicker').selectpicker('refresh');
 					},
 					error: function(error){
 						var err = "";
 						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
+							err += error.responseJSON.msg[i] + "<br>";
 						}
 						$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
 					}
@@ -845,7 +842,7 @@
 						error: function(error){
 							var err = "";
 							for(var i in error.responseJSON.msg){
-								err += error.responseJSON.msg[i] + "<br>";														
+								err += error.responseJSON.msg[i] + "<br>";
 							}
 							$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
 						}
@@ -881,7 +878,7 @@
 						error: function(error){
 							var err = "";
 							for(var i in error.responseJSON.msg){
-								err += error.responseJSON.msg[i] + "<br>";														
+								err += error.responseJSON.msg[i] + "<br>";
 							}
 							$('#error_create_episodio').html('<div class="alert alert-danger">' + err + '</div>');
 						}
@@ -903,7 +900,7 @@
 					error: function(error){
 						var err = "";
 						for(var i in error.responseJSON.msg){
-							err += error.responseJSON.msg[i] + "<br>";														
+							err += error.responseJSON.msg[i] + "<br>";
 						}
 						$('#error_add_traductor').html('<div class="alert alert-danger">' + err + '</div>');
 					}
@@ -911,7 +908,7 @@
 			});
 
 			/*
-			* Modal para actualizar la configuración 
+			* Modal para actualizar la configuración
 			* BW, NetCut, LockCut y Final
 			*/
 			$('#modal_update_configuracion').on('shown.bs.modal', function(e){
@@ -921,7 +918,7 @@
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
-						
+
 						//BW
 						if(data.bw == true){
 							$('#bw_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
@@ -974,7 +971,7 @@
 						error: function(error){
 							var err = "";
 							for(var i in error.responseJSON.msg){
-								err += error.responseJSON.msg[i] + "<br>";														
+								err += error.responseJSON.msg[i] + "<br>";
 							}
 							$('#error_create_calificar_material').html('<div class="alert alert-danger">' + err + '</div>');
 						}
@@ -989,7 +986,7 @@
 					url: "{{ url('mgepisodios/show_episodio	') }}" + "/" + id,
 					type: "GET",
 					success: function(data){
-						
+
 						$('h2').html('Fecha de entrega: '+data.episodios[0].date_entrega).addClass('alert alert-'+data.status_entrega);
 
 						if(data.msg = 'success'){
@@ -1008,7 +1005,7 @@
 								$('td#configuracion').html('Sin Configuración');
 							} else {
 								$('td#configuracion').html(data.episodios[0].configuracion);
-							}							
+							}
 						}
 					},
 					error: function(error){
@@ -1179,14 +1176,14 @@
 						success: function(data){
 							if(data.msg = 'success'){
 								location.reload();
-							}							
+							}
 						},
 						error: function(error){
 							console.log(error)
 							if(error.responseJSON.validator.length > 0){
 								var err = "";
 								for(var i in error.responseJSON.validator){
-									err += error.responseJSON.validator[i] + "<br>";														
+									err += error.responseJSON.validator[i] + "<br>";
 								}
 								$('#error_agregar_productor').html('<div class="alert alert-danger">' + err + '</div>');
 							}
@@ -1254,11 +1251,11 @@
 										</select>');
 							} else{
 								$('input[name=chk_reprobacion]').attr('checked', false)
-								$('div.dateRegrabacion').html('');								
-							}							
+								$('div.dateRegrabacion').html('');
+							}
 
 							if(data.chk_edicion == true){
-								$('input[name=chk_edicion]').prop('checked', true);	
+								$('input[name=chk_edicion]').prop('checked', true);
 								$('div.dateEdicion').html('<label>Fecha Edición</label>\
 										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>\
 										<label>Editor</label>\
@@ -1267,13 +1264,13 @@
 										@foreach($tecnicos as $tecnico)\
 										<option value="{{ $tecnico->id }}" '+(data.nombre_editor == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 										@endforeach\
-										</select>');							
+										</select>');
 							} else{
-								$('input[name=chk_edicion]').prop('checked', false);	
+								$('input[name=chk_edicion]').prop('checked', false);
 							}
 
 							if(data.chk_reprobacion== true){
-								$('input[name=chk_reprobacion]').prop('checked', true);	
+								$('input[name=chk_reprobacion]').prop('checked', true);
 								$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
 										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_edicion+'" required>\
 										<label>Regrabador</label>\
@@ -1282,9 +1279,9 @@
 										@foreach($tecnicos as $tecnico)\
 										<option value="{{ $tecnico->id }}" '+(data.nombre_regrabador == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 										@endforeach\
-										</select>');							
+										</select>');
 							} else{
-								$('input[name=chk_edicion]').prop('checked', false);	
+								$('input[name=chk_edicion]').prop('checked', false);
 							}
 
 							$('input[name=chk_edicion]').on('click', function(){
@@ -1303,7 +1300,7 @@
 										$('div.dateEdicion').html('<label>Fecha Edición</label>\
 										<input type="text" name="fecha_edicion" class="form-control" required>');
 									}
-									
+
 								} else{
 									$('div.dateEdicion').html('');
 								}
@@ -1325,7 +1322,7 @@
 										$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
 										<input type="text" name="fecha_regrabacion" class="form-control" required>');
 									}
-									
+
 								} else{
 									$('div.dateEdicion').html('');
 								}
@@ -1347,14 +1344,14 @@
 										$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
 										<input type="text" name="fecha_regrabacion" class="form-control" required>');
 									}
-									
+
 								} else{
 									$('div.dateQC').html('');
 								}
 							});
 
 							if(data.chk_qc== true){
-								$('input[name=chk_qc]').prop('checked', true);	
+								$('input[name=chk_qc]').prop('checked', true);
 								$('div.dateQC').html('<label>Fecha QC</label>\
 									<input type="text" name="fecha_qc" class="form-control"  value="'+data.fecha_edicion+'" required>\
 									<label>QC</label>\
@@ -1363,9 +1360,9 @@
 									@foreach($tecnicos as $tecnico)\
 									<option value="{{ $tecnico->id }}" '+(data.nombre_qc == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 									@endforeach\
-									</select>');							
+									</select>');
 							} else{
-								$('input[name=chk_edicion]').prop('checked', false);	
+								$('input[name=chk_edicion]').prop('checked', false);
 							}
 
 							$('input[name=fecha_edicion], input[name=fecha_regrabacion], input[name=fecha_qc]').datepicker({
@@ -1383,7 +1380,7 @@
 							});
 
 							$('input[name=fecha_doblaje]').val(data.fecha_doblaje);
-							$('.selectpicker').selectpicker('refresh');	
+							$('.selectpicker').selectpicker('refresh');
 						},
 						error: function(error){
 
@@ -1399,14 +1396,14 @@
 						success: function(data){
 							if(data.msg = 'success'){
 								location.reload();
-							}							
+							}
 						},
 						error: function(error){
 							console.log(error)
 							if(error.responseJSON.validator.length > 0){
 								var err = "";
 								for(var i in error.responseJSON.validator){
-									err += error.responseJSON.validator[i] + "<br>";														
+									err += error.responseJSON.validator[i] + "<br>";
 								}
 								$('#error_agregar_productor').html('<div class="alert alert-danger">' + err + '</div>');
 							}
@@ -1418,12 +1415,12 @@
 			//Ventana modal para asignar traductor
 			$('#modal_create_traductor').on('shown.bs.modal', function (e) {
 				var id = $(e.relatedTarget).data().id;
-				$('select[name=traductor]').val('');	
-				$('input[name=fecha_entrega_traductor]').val('');	
-				$('input[name=aprobacion_cliente]').prop('checked', false);	
-				$('input[name=sin_script]').prop('checked', false);	
-				$('input[name=rayado]').prop('checked', false);	
-				$('.selectpicker').selectpicker('refresh');	
+				$('select[name=traductor]').val('');
+				$('input[name=fecha_entrega_traductor]').val('');
+				$('input[name=aprobacion_cliente]').prop('checked', false);
+				$('input[name=sin_script]').prop('checked', false);
+				$('input[name=rayado]').prop('checked', false);
+				$('.selectpicker').selectpicker('refresh');
 
 				$('input[name=id]').val(id);
 				$('#aprobacion_cliente').on('click',function(){
@@ -1481,7 +1478,7 @@
 							if(error.responseJSON.validator.length > 0){
 								var err = "";
 								for(var i in error.responseJSON.validator){
-									err += error.responseJSON.validator[i] + "<br>";														
+									err += error.responseJSON.validator[i] + "<br>";
 								}
 								$('#error_agregar_traductor').html('<div class="alert alert-danger">' + err + '</div>');
 							}
@@ -1490,7 +1487,7 @@
 				});
 
 			});
-			
+
 
 			/*
 			* Ventana modal para modificar traductor
@@ -1538,7 +1535,7 @@
 								    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 								});
 							}
-							$('.selectpicker').selectpicker('refresh');	
+							$('.selectpicker').selectpicker('refresh');
 
 							if(data.aprobacion_cliente == true){
 								$('#input_aprobacion2_cliente').html('<label for="titulo_espanol">Fecha aprobación del cliente</label> <input type="text" class="form-control"  name="fecha_aprobacion_cliente" id="fecha_aprobacion_cliente" value="'+data.fecha_aprobacion_cliente+'" required>');
@@ -1555,7 +1552,7 @@
 								    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
 								    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 								});
-							} 
+							}
 
 							$('#form_actualizar_traductor').on('submit', function(event){
 								event.preventDefault();
@@ -1571,7 +1568,7 @@
 										if(error.responseJSON.validator.length > 0){
 											var err = "";
 											for(var i in error.responseJSON.validator){
-												err += error.responseJSON.validator[i] + "<br>";														
+												err += error.responseJSON.validator[i] + "<br>";
 											}
 											$('#error_agregar_traductor').html('<div class="alert alert-danger">' + err + '</div>');
 										}
@@ -1582,7 +1579,7 @@
 				});
 
 			});
-			
+
 			//Calendarios
 				$('input[name=entrega_episodio], input[name=entrega_me], #fecha_entrega_traductor, #fecha_entrega_traductor, input[name=fecha_doblaje]').datepicker({
 					dateFormat: "yy-mm-dd",
@@ -1599,22 +1596,22 @@
 				});
 
 			//Permite mostrar input para insertar el idioma del episodio
-			
+
             /*if( $('#doblaje_espanol20').click(':checked') ){
-				
+
             };*/
 
             $('#duracion_material, #duracion, #duracion_update').mask('00:00:00:00');
             $('#tipo_reporte').multiselect();
             $('#tipo_reporte').on('change', function(){
-            	
+
             	var tipo_reporte = $(this).val();
             	reporte= tipo_reporte.join(",");
             	$('#reporte').val(reporte);
             });
 
          });
-           
+
 	</script>
-	
+
 @stop

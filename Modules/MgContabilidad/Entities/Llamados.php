@@ -24,7 +24,7 @@ class Llamados extends Model
         CASE WHEN actor IS NOT NULL THEN cita_end::time END AS salida,
         CASE WHEN actor IS NOT NULL THEN cita_end::date END AS fecha
         FROM calendario
-        WHERE  cita_start::text LIKE '%".$date."%' AND sala='".$sala."'"));
+        WHERE  cita_end::text LIKE '%".$date."%' AND sala='".$sala."'"));
 
     }
 
@@ -38,4 +38,14 @@ class Llamados extends Model
         return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio = '".$folio."'
  				AND cita_end >= '".$fecha_inicio." 00:00:00' AND cita_end <= '".$fecha_fin." 23:59:00' AND estatus_llamado = '".Config::RTK."' "));
     }
+
+		public static function allRegisters($lunes, $sabado)
+		{
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE cita_end BETWEEN '".$lunes."' AND '".$sabado."'"));
+		}
+
+		public static function allIntRegisters($lunes, $sabado)
+		{
+			return \DB::select(\DB::raw("SELECT actor FROM calendario WHERE cita_end BETWEEN '".$lunes."' AND '".$sabado."' GROUP BY actor"));
+		}
 }

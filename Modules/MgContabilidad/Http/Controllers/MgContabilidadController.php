@@ -10,6 +10,7 @@ use Modules\MgContabilidad\Entities\Actores as Actores;
 use Modules\MgContabilidad\Entities\Episodios as Episodios;
 use Modules\MgContabilidad\Entities\Proyectos as Proyectos;
 use Modules\MgContabilidad\Entities\Llamados as Llamados;
+use Carbon\Carbon as Carbon;
 
 class MgContabilidadController extends Controller
 {
@@ -214,9 +215,87 @@ class MgContabilidadController extends Controller
     {
       try{
           if( $request->isMethod('post') && $request->ajax() ) {
-            $data = Proyectos::all();
 
-            return Response(['msg'=>'success', 'proyectos' => $data], 200)->header('Content-Type', 'application/json');
+            $data = $request->all();
+            $lunes = $request->input('lunes_search');
+            $fechaArray = explode("-", $lunes);
+            $date = Carbon::create($fechaArray[0], $fechaArray[1], $fechaArray[2])->toDateString();
+            //Seleccionar fecha por día
+            \Carbon\Carbon::setTestNow($date);
+            $lunes = new Carbon('this monday');
+            $martes = new Carbon('this tuesday');
+            $miercoles = new Carbon('this wednesday');
+            $jueves = new Carbon('this thursday');
+            $viernes = new Carbon('this friday');
+            $sabado = new Carbon('this saturday');
+
+            $allRegister = Llamados::allRegisters($lunes, $sabado->toDateString());
+            $allIntRegister = Llamados::allIntRegisters($lunes, $sabado->toDateString());
+
+            $newRegisters = [];
+
+            $int = 0;
+            foreach ($allIntRegister as $val) {
+                $newRegisters[$int]['actor'] = $val->actor;
+                $newRegisters[$int]['credencial'] = "";
+                $newRegisters[$int]['lunes'] = 0;
+                $newRegisters[$int]['martes'] = 0;
+                $newRegisters[$int]['miercoles'] = 0;
+                $newRegisters[$int]['jueves'] = 0;
+                $newRegisters[$int]['viernes'] = 0;
+                $newRegisters[$int]['sabado'] = 0;
+                $int++;
+            }
+            for($i=0; $i < count($allIntRegister); $i++){
+              foreach($allRegister as $val){
+                if( $newRegisters[$i]['actor'] == $val->actor ){
+                  $newRegisters[$i]['credencial'] = $val->credencial;
+                  $cita = explode("-", $val->cita_end);
+                  //Se vuelve a realizar explode por que el dia se concatena con la hora por un espacio
+                  $dia = explode(" ", $cita[2]);
+                  $cita_db = Carbon::create($cita[0], $cita[1], $dia[0])->toDateString();
+                  //Lunes
+                  if($lunes->toDateString() == $cita_db){
+                    $newRegisters[$i]['lunes'] += (float)$val->pago_total_loops;
+                    $newRegisters[$i]['lunes'] = money_format($newRegisters[$i]['lunes'], 2);
+                  }
+                  //Martes
+                  if($martes->toDateString() == $cita_db){
+                    $newRegisters[$i]['martes'] += (float)$val->pago_total_loops;
+                    $newRegisters[$i]['martes'] = money_format($newRegisters[$i]['martes'], 2);
+                  }
+                  //Miércoles
+                  if($miercoles->toDateString() == $cita_db){
+                    $newRegisters[$i]['miercoles'] += (float)$val->pago_total_loops;
+                    $newRegisters[$i]['miercoles'] = money_format($newRegisters[$i]['miercoles'], 2);
+                  }
+                  //Jueves
+                  if($jueves->toDateString() == $cita_db){
+                    $newRegisters[$i]['jueves'] += (float)$val->pago_total_loops;
+                    $newRegisters[$i]['jueves'] = money_format($newRegisters[$i]['jueves'], 2);
+                  }
+                  //Viernes
+                  if($viernes->toDateString() == $cita_db){
+                    $newRegisters[$i]['viernes'] += (float)$val->pago_total_loops;
+                    $newRegisters[$i]['viernes'] = money_format($newRegisters[$i]['viernes'], 2);
+                  }
+                  //Sábado
+                  if($sabado->toDateString() == $cita_db){
+                    $newRegisters[$i]['sabado'] += (float)$val->pago_total_loops;
+                    $newRegisters[$i]['sabado'] = money_format($newRegisters[$i]['sabado'], 2);
+                  }
+
+                }
+              }
+            }
+
+            for($i=0; $i < count($newRegisters); $i++){
+              $newRegisters[$i]['importe'] = (float)$newRegisters[$i]['lunes'] + (float)$newRegisters[$i]['martes'] +(float)$newRegisters[$i]['miercoles'] + (float)$newRegisters[$i]['jueves'] + (float)$newRegisters[$i]['viernes'] +
+              + (float)$newRegisters[$i]['sabado'];
+              $newRegisters[$i]['importe'] = money_format($newRegisters[$i]['importe'], 2);
+            }
+
+            return Response(['msg'=>'success', 'datos'=>$newRegisters], 200)->header('Content-Type', 'application/json');
           }
 
       } catch(\Exception $e){

@@ -76,7 +76,7 @@
           	type: 'POST',
           	data: $( this ).serialize(),
           	success: function(data){
-          		$('.detalle').html('<div><a href="javascript:void(0)" class="btn btn-success">Excel</a></div><br><br>\
+          		$('.detalle').html('<br>\
             		<div class="col-sm-12 col-md-12 col-lg-12">\
 								<table style="width:100%" class=" table table-condensed ">\
             		<tbody style="background: #AAA;"><tr><td>PROYECTO</td><td>NÚMERO DE EPISODIO</td></tr></tbody>\
@@ -95,7 +95,6 @@
                   <th>Fecha</th>\
                   <th>Entrada</th>\
                   <th>Salida</th>\
-									<th>Firma</th>\
                 </tr>\
               </thead>\
               <tbody> '+contenido(data)+'\
@@ -120,6 +119,7 @@
           });
 
           var midata = $('#table_actores').DataTable({
+						"order": [[9, 'asc']],
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",
@@ -209,7 +209,6 @@
       			list_llamados += "<td>"+data.llamados[i].fecha+"</td>";
       			list_llamados += "<td>"+data.llamados[i].entrada+"</td>";
       			list_llamados += "<td>"+data.llamados[i].salida+"</td>";
-						list_llamados += "<td></td>";
       			list_llamados += "</tr>";
       		}
 

@@ -35,7 +35,7 @@
 							<div class="col-md-4">
 								{{ csrf_field() }}
 								<label>Sala</label>
-								<select name="search_sala" id="search_sala" class="form-control" required>
+								<select name="search_sala" id="search_sala" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 									<option value="">Seleccionar...</option>
 									@foreach($salas as $sala)
 										<option {{$sala->sala}}>{{$sala->sala}}</option>
@@ -118,6 +118,7 @@
 @section('script')
 	<script>
 		$(document).on('ready', function(){
+
 			//Calendarios
 				$('#search_fecha').datepicker({
 					dateFormat: "yy-mm-dd",
@@ -142,6 +143,7 @@
                   type: 'POST',
                   data: $( this ).serialize(),
                   success: function(data){
+										console.log(data);
 
                   	$('#list-table').html('<br><br>\
                   		<div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
@@ -160,6 +162,7 @@
 			                  <th>Fecha</th>\
 			                  <th>Entrada</th>\
 			                  <th>Salida</th>\
+												<th>Firma</th>\
 			                </tr>\
 			              </thead>\
 			              <tbody> '+contenido(data)+'\
@@ -173,6 +176,7 @@
 						<option value="Total Loops">Total Loops</option>\
 						<option value="Entrada">Entrada</option>\
 						<option value="Salida">Salida</option>\
+						<option value="Firma">Firma</option>\
                   		');
 					$('#select_headers').multiselect();
 					$('#select_headers').multiselect('refresh');
@@ -185,6 +189,7 @@
 
 
           var midata = $('#table_actores').DataTable({
+						"order": [[8, 'asc']],
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",
@@ -204,15 +209,15 @@
 					});
 
 					$('#create-pdf').css({display: 'block'});
-                  	if( $('#create-pdf').is(":visible") ){
-                  		$('#sala').val($('#search_sala').val());
-                  		$('#fecha').val($('#search_fecha').val());
-	              	}
+              	if( $('#create-pdf').is(":visible") ){
+              		$('#sala').val($('#search_sala').val());
+              		$('#fecha').val($('#search_fecha').val());
+            	}
 
-	              	midata.on('search.dt', function() {
+            	midata.on('search.dt', function() {
 					    var num = midata.rows( { filter : 'applied'} ).data();
 					    $('#data').val(num);
-					    var n = 'ID,Actor,Credencial,Personaje,Director,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
+					    var n = 'ID,Actor,Credencial,Personaje,Director,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida,Firma;';
 					    for(var i=0; i<num.length; i++){
 					    	n +=  num[i]+';';
 					    }
@@ -220,7 +225,7 @@
 					});
 					var num2 = midata.rows( { filter : 'applied'} ).data();
 					    $('#data').val(num2);
-					    var n2 = 'ID,Actor,Credencial,Personaje,Director,S'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
+					    var n2 = 'ID,Actor,Credencial,Personaje,Director,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida,Firma;';
 					    for(var i=0; i<num2.length; i++){
 					    	n2 +=  num2[i]+';';
 					    }
@@ -237,7 +242,6 @@
 
 
 		function contenido(data){
-			console.log(data);
 			if(data.llamados.length <= 0){
 				return "";
 			}
@@ -308,7 +312,7 @@
       		//Permite mostrar las llaves del arreglo
       		for( property in list_new_llamados ){
 
-			  var list_llamados;
+			  var list_llamados = '';
 
       			list_llamados += "<tr>";
       			list_llamados += "<td>"+list_new_llamados[property].actor+"</td>";
@@ -323,6 +327,7 @@
       			list_llamados += "<td>"+list_new_llamados[property].fecha+"</td>";
       			list_llamados += "<td>"+list_new_llamados[property].entrada+"</td>";
       			list_llamados += "<td>"+list_new_llamados[property].salida+"</td>";
+						list_llamados += "<td></td>";
       			list_llamados += "</tr>";
 
 			}

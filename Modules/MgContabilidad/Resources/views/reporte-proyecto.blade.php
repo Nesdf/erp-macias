@@ -80,7 +80,7 @@
 							$('.reporte').html('<br><br><div><a href="javascript:void(0)" class="btn btn-success">Excel</a></div>\
 	                  		<div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
 	                  		</table></div>\
-	                  		<table id="table_actores" \
+	                  		<table id="table_proyectos" \
 	                  		class="table table-striped table-bordered table-hover">\
 				              <thead>\
 				                <tr>\
@@ -95,6 +95,25 @@
 				              </tbody>\
 				            </table>');
 						}
+
+						$('#table_proyectos').DataTable({
+							"pageLength": 100,
+							language: {
+								search:   "Buscar: ",
+											lengthMenu: "Mostrar _MENU_ registros por página",
+											zeroRecords: "No se encontraron registros",
+											info: "Página _PAGE_ de _PAGES_",
+											infoEmpty: "Se buscó en",
+											infoFiltered: "(_MAX_ registros)",
+											responsive:     true,
+											paginate: {
+													first:      "Primero",
+													previous:   "Previo",
+													next:       "Siguiente",
+													last:       "Anterior"
+									},
+								},
+						});
 
 						function dataProyectos(data){
 							if(data.proyectos.length <= 0){

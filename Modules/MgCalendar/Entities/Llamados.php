@@ -24,7 +24,8 @@ class Llamados extends Model
         CASE WHEN actor IS NOT NULL THEN cita_end::time END AS salida,
         CASE WHEN actor IS NOT NULL THEN cita_end::date END AS fecha
         FROM calendario
-        WHERE  cita_start::text LIKE '%".$date."%' AND sala='".$sala."' AND estatus_llamado = '".Config::RTK."' "));
+        WHERE  cita_end::text LIKE '%".$date."%' AND sala='".$sala."' AND estatus_llamado = '".Config::RTK."'
+				ORDER BY cita_end DESC"));
 
     }
 

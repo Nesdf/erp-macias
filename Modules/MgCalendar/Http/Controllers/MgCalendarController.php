@@ -228,6 +228,7 @@ class MgCalendarController extends Controller
                 $allFolios = [];
                 foreach ($llamados as $key => $value) {
 
+                    #$allFolios[] = $value->folio;
                     $allFolios[] = $value->folio;
                 }
                 $proyectos = Proyectos::allProyects($allFolios);
@@ -286,6 +287,7 @@ class MgCalendarController extends Controller
 
                 $array_multiselect = explode(',', $request->input('headers'));
                 $explode_data = substr($request->input('data'), 3);
+
                 $llamados = Llamados::allLlamados($request->input('sala'), $request->input('fecha'));
                 $allFolios = [];
                 foreach ($llamados as $key => $value) {

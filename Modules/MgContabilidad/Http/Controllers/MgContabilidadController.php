@@ -298,7 +298,7 @@ class MgContabilidadController extends Controller
             $total = 0;
             for($i=0; $i < count($newRegisters); $i++){
               $total += (float)$newRegisters[$i]['importe'];
-              $newRegisters[$i]['importe'] = money_format($newRegisters[$i]['importe'],2);
+              $total = money_format($total,2);
             }
 
             return Response(['msg'=>'success', 'total'=> $total, 'datos'=>$newRegisters], 200)->header('Content-Type', 'application/json');

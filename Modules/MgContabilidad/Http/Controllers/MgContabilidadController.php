@@ -295,8 +295,13 @@ class MgContabilidadController extends Controller
               + (float)$newRegisters[$i]['sabado'];
               $newRegisters[$i]['importe'] = money_format($newRegisters[$i]['importe'], 2);
             }
+            $total = 0;
+            for($i=0; $i < count($newRegisters); $i++){
+              $total += (float)$newRegisters[$i]['importe'];
+              $newRegisters[$i]['importe'] = money_format($newRegisters[$i]['importe'],2);
+            }
 
-            return Response(['msg'=>'success', 'sabado'=> $sabado, 'datos'=>$newRegisters], 200)->header('Content-Type', 'application/json');
+            return Response(['msg'=>'success', 'total'=> $total, 'datos'=>$newRegisters], 200)->header('Content-Type', 'application/json');
           }
 
       } catch(\Exception $e){

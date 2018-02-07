@@ -321,4 +321,16 @@ class MgContabilidadController extends Controller
           \Log::error(' Trace2: ' .$e->getTraceAsString());
       }
     }
+
+    public function reporteTrabajoActor()
+    {
+      try{
+
+        $actores = Llamados::getAllActores($folio, $fecha_inicio, $fecha_fin);
+        return view('mgcontabilidad::detalle-trabajo-actor', compact('actores'));
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
 }

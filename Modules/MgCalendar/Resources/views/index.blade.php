@@ -352,7 +352,7 @@ input.tipo_numero{
 
                                     //Si se modifica la hora de entrada, se modifica también la hora de salida
                                       $('input[name=hora_entrada]').on('change', function(){
-
+                                        console.log("Hora_entrada: " + $(this).val());
                                         $('input[name=hora_salida]').val($(this).val());
 
                                         var dia = end._d;
@@ -367,21 +367,25 @@ input.tipo_numero{
                                     //Si se modifica los minutos de entrada, se modifica también los minutos de salida
                                     $('input[name=min_entrada]').on('change', function(){
                                       $('input[name=min_salida]').val($(this).val());
+                                      console.log("Min_entrada: " + $(this).val());
                                     });
                                      //Si se modifica la hora de salida y es menor a la de entrada, éste no se podrá modificar
-                                    $('input[name=hora_salida]').on('change', function(){
+                                    /*$('input[name=hora_salida]').on('change', function(){
+                                      console.log("Hora_salida: " + $(this).val());
                                       var salida = 0;
                                       var entrada = 0;
-                                      salida = parseInt( $(this).val() );
+                                      salida = parseInt( $('input[name=hora_salida]').val() );
                                       entrada = parseInt( $('input[name=hora_entrada]').val() );
+                                      console.log("Entrada: " + entrada);
+                                      console.log("Salida: " + salida);
                                       if( parseInt( entrada ) > parseInt(  salida)  ){
                                         $(this).val($('input[name=hora_entrada]').val());
                                         alert('El tiempo debe ser mayor a la de entrada.');
                                       }
-                                    });
+                                    });*/
 
                                     $('input[name=min_salida]').on('change', function(){
-
+                                      console.log("Min_salida: " + $(this).val());
                                       if( parseInt( $('input[name=hora_salida]').val() ) == parseInt( $('input[name=hora_entrada]').val() )){
                                         if( parseInt( $(this).val() ) < parseInt( $('input[name=min_entrada]').val() ) ) {
                                           $('input[name=min_salida]').val($('input[name=min_entrada]').val());
@@ -427,20 +431,6 @@ input.tipo_numero{
                                     var m = d.getMinutes();
                                     var tiempo = {'1':'01', '2':'02', '3':'03', '4':'04', '5':'05', '6':'06', '7':'07', '8':'08', '9':'09' , '10':'10', '11':'11', '12':'12', '13':'13', '14':'14', '15':'15', '16':'16', '17':'17', '18':'18', '19':'19', '20':'20', '21':'21', '22':'22', '23':'23', '24':'24', '25':'25', '26':'26', '27':'27', '28':'28', '29':'29' , '30':'30', '31':'31', '32':'32', '33':'33', '34':'34', '35':'35', '36':'36', '37':'37', '38':'38', '39':'39' , '40':'40', '41':'41', '42':'42', '43':'43', '44':'44', '45':'45', '46':'46', '47':'47', '48':'48', '49':'49', '50':'50', '51':'51', '52':'52', '53':'53', '54':'54', '55':'55', '56':'56', '57':'57', '58':'58', '59':'59' , '0':'00', '00':'00'};
 
-                                    /*$('.entrada').timepicker({
-                                      timeOnlyTitle: 'Hora de Entrada',
-                                      showSecond: false,
-                                      showMillisec: false,
-                                      showMicrosec: false,
-                                      showTimezone: false
-                                    });
-                                    $('.salida').timepicker({
-                                      timeOnlyTitle: 'Hora de Salida',
-                                      showSecond: false,
-                                      showMillisec: false,
-                                      showMicrosec: false,
-                                      showTimezone: false
-                                    });*/
                                     $('.entrada, .salida').mask('00:00');
                                     $('#entrada, #salida').val(tiempo[h]+':'+tiempo[m]);
                                     var dia = end._d;
@@ -449,7 +439,6 @@ input.tipo_numero{
 
                                     $('#fecha').val($('#data_episodios').val())
 
-                                    //$('#data_episodios').v
 
                                   //Cambia el horario de salida para que no sea menor al de entrada
                                   $('.entrada').on('change', function(){

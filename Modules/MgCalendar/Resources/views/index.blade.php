@@ -97,6 +97,7 @@ input.tipo_numero{
                         var id = $(this).val();
                         var id_episodio = $(this).find(':selected').data('id');
 
+                        //Permite mostrar el calendario si existiran episodios
                         if(!id){
                           $('#show-calendar').html('');
                           $('#name_sala').html('');
@@ -104,14 +105,16 @@ input.tipo_numero{
                         }else{
                           $('#show-calendar').html('<div id="calendario"></div>');
                         }
-
+                          //Se hace la petición para traer los llamados de la sala
+                          // identificada por el ID
+                          //Inicia peticion ajax mgcalendar/list_salas
                           $.ajax({
                             url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                             type: "GET",
                             success: function( data ){
-
                               $('div#reload').html('');
-                               $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong>  <strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
+                               $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong> '+data.estudio+' </h3>\
+                               <h3 style="text-align: center;" ><strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
 
                                $('#external-events div.external-event').each(function() {
 
@@ -132,10 +135,6 @@ input.tipo_numero{
                                 });
 
                               });
-
-
-
-
                               /* initialize the calendar
                               -----------------------------------------------------------------*/
 
@@ -289,14 +288,8 @@ input.tipo_numero{
                                           </div>\
                                           <br><label>Personaje: </label>\
                                           <select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>\
-                                          <option value="">Seleccionar...</option>\
-                                          @foreach($actores_personajes as $item)\
-                                          <option value="{{ $item->personaje }}">{{ $item->personaje }}</option>\
-                                          @endforeach\
-                                          <option value="otro">Otro</option>\
                                           </select>\
-                                          <div class="personaje">\
-                                          </div>\
+                                          <div class="personaje"> </div>\
                                           <div class="msj-error" ></div>\
                                           <br><br><button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Guardar</button>\
                                        </form>\
@@ -311,36 +304,56 @@ input.tipo_numero{
                                   var modal = $(modal).appendTo('body');
                                   modal.find(function(){
 
-                                    $('select[name=actor], select[name=personaje]').selectpicker();
+                                    $.ajax({
+                                      url: "{{ url('mgcalendar/ajax-get-personajes') }}",
+                                      type: 'GET',
+                                      data: '',
+                                      success: function(data){
+                                        if(data.msg == 'success'){
+                                          var valuePersonajes = "";
 
-                                    $('select[name=personaje]').on('change', function(){
+                                          for(var i=0; i<data.actores.length; i++){
+                                            valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
+                                          }
+                                          $('select[name=personaje]').append(valuePersonajes+"<option value='otro'> Otro </otro> ").selectpicker('refresh');
 
-                                      if($('select[name=personaje]').val() == 'otro'){
+                                          $('select[name=personaje]').on('change', function(){
+                                            console.log($('select[name=personaje]').val());
+                                            if($('select[name=personaje]').val() == 'otro'){
 
-                                        $(this).removeAttr('required');
-                                        $(this).attr('disabled', true);
-                                        $('.personaje').html('\
-                                          <label>Agregar nuevo personaje</label>\
-                                          <input name="nuevo_personaje" class="form-control" required>\
-                                          <label> Fijo\
-                                          <input type="checkbox" name="fijo" >\
-                                          </label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
-                                          <label> Cine\
-                                          <input type="checkbox" name="proyecto" >\
-                                          </label><br>\
-                                          <a href="javascript:void(0)" class="cancelar btn bt-info">Cancelar</a>\
-                                        ');
-                                      } else {
-                                        $('.personaje').html('');
+                                              $(this).removeAttr('required');
+                                              $(this).attr('disabled', true);
+                                              $('.personaje').html('\
+                                                <label>Agregar nuevo personaje</label>\
+                                                <input name="nuevo_personaje" class="form-control" required>\
+                                                <label> Fijo\
+                                                <input type="checkbox" name="fijo" >\
+                                                </label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
+                                                <label> Cine\
+                                                <input type="checkbox" name="proyecto" >\
+                                                </label><br>\
+                                                <a href="javascript:void(0)" class="cancelar btn bt-info">Cancelar</a>\
+                                              ');
+                                            } else {
+                                              $('.personaje').html('');
+                                            }
+
+                                            $('.cancelar').on('click', function(){
+                                              $('.personaje').html('');
+                                              $('select[name=personaje]').attr('required', true);
+                                              $('select[name=personaje]').removeAttr('disabled');
+                                            });
+
+                                          });
+                                          //$('select[name=personaje]').selectpicker('refresh');
+                                        }
+                                      },
+                                      error: function(error){
+
                                       }
-
-                                      $('.cancelar').on('click', function(){
-                                        $('.personaje').html('');
-                                        $('select[name=personaje]').attr('required', true);
-                                        $('select[name=personaje]').removeAttr('disabled');
-                                      });
-
                                     });
+
+                                    $('select[name=actor], select[name=personaje]').selectpicker();
 
                                     var d = new Date();
                                     var h = d.getHours();
@@ -352,7 +365,6 @@ input.tipo_numero{
 
                                     //Si se modifica la hora de entrada, se modifica también la hora de salida
                                       $('input[name=hora_entrada]').on('change', function(){
-                                        console.log("Hora_entrada: " + $(this).val());
                                         $('input[name=hora_salida]').val($(this).val());
 
                                         var dia = end._d;
@@ -367,7 +379,6 @@ input.tipo_numero{
                                     //Si se modifica los minutos de entrada, se modifica también los minutos de salida
                                     $('input[name=min_entrada]').on('change', function(){
                                       $('input[name=min_salida]').val($(this).val());
-                                      console.log("Min_entrada: " + $(this).val());
                                     });
                                      //Si se modifica la hora de salida y es menor a la de entrada, éste no se podrá modificar
                                     /*$('input[name=hora_salida]').on('change', function(){
@@ -385,7 +396,6 @@ input.tipo_numero{
                                     });*/
 
                                     $('input[name=min_salida]').on('change', function(){
-                                      console.log("Min_salida: " + $(this).val());
                                       if( parseInt( $('input[name=hora_salida]').val() ) == parseInt( $('input[name=hora_entrada]').val() )){
                                         if( parseInt( $(this).val() ) < parseInt( $('input[name=min_entrada]').val() ) ) {
                                           $('input[name=min_salida]').val($('input[name=min_entrada]').val());
@@ -393,8 +403,6 @@ input.tipo_numero{
                                         }
                                       }
                                     });
-
-
 
                                     var dia_ingles = end._d;
                                     dia_ingles = dia_ingles.toString();
@@ -503,7 +511,6 @@ input.tipo_numero{
                                         );
                                       },
                                       error: function(error){
-                                        console.log(error);
                                         if(error.status == 400){
                                           modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">'+error.responseJSON.error+'</div>');
                                         }

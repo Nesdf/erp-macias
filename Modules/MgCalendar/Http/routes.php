@@ -23,6 +23,7 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcalendar', 'namesp
 {
     Route::post('llamado-actor', 'MgCalendarController@LlamadoActor')->name('llamado_actor');
     Route::get('reagendar-llamado', 'MgCalendarController@reagendarLlamado')->name('reagendar_llamado');
+    Route::get('ajax-get-personajes', 'MgCalendarController@ajaxGetPersonajes')->name('ajax_get_personajes');
     Route::post('search-llamado-reagendado', 'MgCalendarController@searchReagendarLlamado')->name('search_llamado_reagendado');
     Route::post('save-llamado-reagendado', 'MgCalendarController@saveReagendarLlamado')->name('save_llamado_reagendado');
 });

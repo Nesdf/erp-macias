@@ -14,6 +14,7 @@ use \Modules\MgCalendar\Entities\Llamados as Llamados;
 use \Modules\MgCalendar\Entities\Episodios as Episodios;
 use \Modules\MgCalendar\Entities\Salas as Salas;
 use \Modules\MgCalendar\Entities\Tabulador as Tabulador;
+use \Modules\MgCalendar\Entities\User as User;
 use App\Globals\Config;
 
 class MgCalendarController extends Controller
@@ -30,8 +31,8 @@ class MgCalendarController extends Controller
             $proyectos = Proyectos::get();
             $estudios = Estudios::get();
             $actores = Actores::get();
-            $actores_personajes = ActorPersonaje::get();
-            return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores', 'actores_personajes'));
+            //$actores_personajes = ActorPersonaje::get();
+            return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores'));
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -103,11 +104,12 @@ class MgCalendarController extends Controller
                 $director = "No se ha seleccionador director";
             } else{
 
-                $dir = \Modules\MgCalendar\Entities\User::find($folio->directorId);
+                $dir = User::find($folio->directorId);
                 $director = $dir->name.' '.$dir->ap_paterno.' '.$dir->ap_materno;
+                $data_estudios = Estudios::find($salas[0]->estudio_id);
             }
 
-            return Response(['msg' => $salas, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
+            return Response(['msg' => $salas, 'estudio'=>$data_estudios->estudio, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -396,6 +398,17 @@ class MgCalendarController extends Controller
           return view('mgcalendar::reagendar-llamado', compact('actores'));
         }
 
+      } catch(\Exception $e){
+          \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+          return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+      }
+    }
+
+    public function ajaxGetPersonajes(){
+      try{
+        $actores_personajes = ActorPersonaje::get();
+        return Response(['msg' => 'success', 'actores' => $actores_personajes ], 200)->header('Content-Type', 'application/json');
       } catch(\Exception $e){
           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());

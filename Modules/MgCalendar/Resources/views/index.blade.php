@@ -67,8 +67,6 @@ input.tipo_numero{
 @stop
 
 @section('modales')
-
-
 @stop
 
 @section('script')
@@ -231,7 +229,6 @@ input.tipo_numero{
                                 dayNamesMin: [ "Do","Lu","Ma","Mi","Ju","Vi","Sa" ],
                                 selectHelper: true,
                                 select: function(start, end, allDay) {
-
                                   if(start.isBefore(moment())) {
                                     alert('No se puede agregar llamado en este día.');
                                       $('#calendar').fullCalendar('unselect');
@@ -287,8 +284,8 @@ input.tipo_numero{
                                           </label>\
                                           </div>\
                                           <br><label>Personaje: </label>\
-                                          <select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>\
-                                          </select>\
+                                          <div id="eliminar_select"><select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>\
+                                          </select></div>\
                                           <div class="personaje"> </div>\
                                           <div class="msj-error" ></div>\
                                           <br><br><button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Guardar</button>\
@@ -303,23 +300,28 @@ input.tipo_numero{
 
                                   var modal = $(modal).appendTo('body');
                                   modal.find(function(){
-
                                     $.ajax({
                                       url: "{{ url('mgcalendar/ajax-get-personajes') }}",
                                       type: 'GET',
-                                      data: '',
                                       success: function(data){
+                                        console.log(data);
+                                        console.log('Total de selects: ');
+                                        console.log($('select[name=personaje]').size());
                                         if(data.msg == 'success'){
-                                          var valuePersonajes = "";
+                                          if($('select[name=personaje]').size() > 0){
+                                            //$('select[name=personaje]').remove();
+                                          }
 
+                                          var valuePersonajes = "";
                                           for(var i=0; i<data.actores.length; i++){
                                             valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
                                           }
-                                          $('select[name=personaje]').append(valuePersonajes+"<option value='otro'> Otro </otro> ").selectpicker('refresh');
+                                          valuePersonajes += '<option value="otro">Otro</option>';
+                                          $('select[name=personaje]').append(valuePersonajes).selectpicker('refresh');
 
                                           $('select[name=personaje]').on('change', function(){
-                                            console.log($('select[name=personaje]').val());
-                                            if($('select[name=personaje]').val() == 'otro'){
+                                            console.log($(this).val());
+                                            if($(this).val() == 'otro'){
 
                                               $(this).removeAttr('required');
                                               $(this).attr('disabled', true);
@@ -491,14 +493,15 @@ input.tipo_numero{
                                       type: 'POST',
                                       data: $( this ).serialize(),
                                       success: function(data){
-                                        console.log('success');
-                                        console.log(data);
+
+                                        $('.eliminar_select').remove();
                                         var inicio = String(data.start);
                                         var fin = String(data.end);
                                         var start = inicio.split(" ");
                                         var end = fin.split(" ");
 
                                         modal.modal("hide");
+
                                         calendar.fullCalendar('renderEvent',
                                           {
                                             title: data.actor,
@@ -557,7 +560,7 @@ input.tipo_numero{
                                     });
                                   });
 
-                                },
+                                },//Se termina el evento SELECT
                                 eventClick: function(calEvent, jsEvent, view) {
                                   $.ajax({
                                     url: '{{url("mgcalendar/edit-llamado")}}'+'/'+id,
@@ -670,7 +673,6 @@ input.tipo_numero{
                                   //$(this).css('border-color', 'red');
 
                                 }
-
                               });
                             },
                             beforeSend: function(){

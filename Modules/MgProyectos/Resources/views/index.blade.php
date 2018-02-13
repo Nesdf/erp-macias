@@ -11,7 +11,7 @@
     <div class="row">
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
-			
+
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Proyectos de Macias Group</h3>
@@ -75,7 +75,7 @@
 												<a data-id="{{ $proyecto->id }}" data-toggle="modal" data-target="#modal_update_proyecto" class="btn btn-xs btn-info" title="Editar">
 													<i class="ace-icon fa fa-pencil bigger-120"></i>
 												</a>
-											@endif		
+											@endif
 											@if(\Request::session()->has('delete_proyecto'))
 												<a data-toggle="modal" data-target="#modal_delete_proyecto" data-id="{{ $proyecto->id }}" class="btn btn-xs btn-danger" title="Eliminar">
 													<i class="ace-icon fa fa-trash-o bigger-120"></i>
@@ -88,7 +88,7 @@
 						</table>
 					</div>
 				</div>
-			</div>		
+			</div>
 
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
@@ -116,7 +116,7 @@
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>
 							@endforeach
 						</select>
-					</div>	
+					</div>
 					<div id="input_titulo_espanol" class="form-group"></div>
 					<div id="input_titulo_ingles" class="form-group"></div>
 					<div id="input_titulo_portugues" class="form-group"></div>
@@ -130,11 +130,11 @@
 					<div class="form-group">
 						<label for="titulo_serie">{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
 						<input type="text" class="form-control" name="titulo_serie" placeholder="Título Original de la Serie">
-					</div>	
+					</div>
 					<div class="form-group">
 						<label>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
 						<input type="text" class="form-control" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
-					</div>	
+					</div>
 					<div class="form-group">
 					<label>Vía</label>
 					<select class="form-control selectpicker" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
@@ -154,7 +154,7 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>			
+							<label>
 								<input type="checkbox" id="adr_ingles" name="adr_ingles"> {{trans('mgproyectos::ui.label.ingles')}}
 							</label>
 						</td>
@@ -164,7 +164,7 @@
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" id="adr_espanol" name="adr_espanol"> {{trans('mgproyectos::ui.label.espanol')}}
 							</label>
 						</td>
@@ -174,7 +174,7 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" id="mix20" name="mix20"> 2.0
 							</label>
 						</td>
@@ -184,7 +184,7 @@
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" id="mix71" name="mix71"> 7.1
 							</label>
 						</td>
@@ -194,22 +194,22 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="relleno_mande"> {{trans('mgproyectos::ui.label.relleno')}}
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="m_e_20"> 2.0
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="m_e_51"> 5.1
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="m_e_71"> 7.1
 							</label>
 						</td>
@@ -219,17 +219,17 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" id="subtitulaje_espanol" name="subtitulaje_espanol"> {{trans('mgproyectos::ui.label.espanol')}}
 							</label>
 						</td>
 						<td>
-							<label>			
+							<label>
 								<input type="checkbox" name="subtitulaje_ingles"> {{trans('mgproyectos::ui.label.ingles')}}
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="subtitulaje_portugues"> {{trans('mgproyectos::ui.label.portugues')}}
 							</label>
 						</td>
@@ -282,7 +282,7 @@
 		  </div>
 		</div>
 	</div>
-	
+
 	<!-- Modal Update-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_update_proyecto" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
@@ -304,22 +304,22 @@
 								<option value="{{ $cliente->id }}"> {{ $cliente->razon_social }} </option>
 							@endforeach
 						</select>
-					</div>	
+					</div>
 					<div id="input_titulo_espanol_update"></div>
 					<div id="input_titulo_ingles_update"></div>
 					<div id="input_titulo_portugues_update"></div>
 					<div class="form-group">
 						<label for="temporada">Temporada</label>
 						<input type="text" class="form-control" name="temporada" placeholder="Temporada">
-					</div>	
+					</div>
 					<div class="form-group">
 						<label>{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
 						<input type="text" class="form-control" name="titulo_serie" placeholder="Título Original de la Serie">
-					</div>	
+					</div>
 					<div class="form-group">
 						<label>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>
 						<input type="text" class="form-control" name="titulo_proyecto" placeholder="Título Aprobado del Proyecto">
-					</div>					
+					</div>
 					<div class="form-group">
 						<select class="form-control selectpicker" name="via" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 							<option select value="">{{trans('mgproyectos::ui.label.seleccionar')}}</option>
@@ -332,7 +332,7 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="adr_ingles" id="adr_ingles_update"> {{trans('mgproyectos::ui.label.ingles')}}
 							</label>
 						</td>
@@ -343,7 +343,7 @@
 							</div>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox"  name="adr_espanol" id="adr_espanol_update"> {{trans('mgproyectos::ui.label.espanol')}}
 							</label>
 						</td>
@@ -353,7 +353,7 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="mix20"> 2.0
 							</label>
 						</td>
@@ -363,7 +363,7 @@
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="mix71"> 7.1
 							</label>
 						</td>
@@ -373,22 +373,22 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="relleno_mande"> {{trans('mgproyectos::ui.label.relleno')}}
 							</label>
 						</td>
 						<td>
-							<label>			
+							<label>
 								<input type="checkbox" name="m_e_20"> 2.0
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="m_e_51"> 5.1
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="m_e_71"> 7.1
 							</label>
 						</td>
@@ -399,23 +399,23 @@
 				<table class="table">
 					<tr>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="subtitulaje_espanol"> Español
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="subtitulaje_ingles"> Inglés
 							</label>
 						</td>
 						<td>
-							<label>				
+							<label>
 								<input type="checkbox" name="subtitulaje_portugues"> Portugués
 							</label>
 						</td>
 					</tr>
 				</table>
-					
+
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -426,7 +426,7 @@
 		  </div>
 		</div>
 	</div>
-	
+
 	<!-- Modal Delete-->
 	<div class="col-md-12">
 		<div class="modal fade" id="modal_delete_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -483,7 +483,7 @@
 				$('#input_titulo_espanol').html('');
 				$('#input_titulo_ingles').html('');
 				$('#input_titulo_portugues').html('');
-				$('.selectpicker').selectpicker('refresh');	
+				$('.selectpicker').selectpicker('refresh');
 				//Sección de inputs para crear
 				$('input[name=adr_espanol]').on('click', function(){
 					if($(this).is(':checked')){
@@ -525,7 +525,7 @@
 							if(error.responseJSON.msg.length > 0){
 								var err = "";
 							for(var i in error.responseJSON.msg){
-								err += error.responseJSON.msg[i] + "<br>";														
+								err += error.responseJSON.msg[i] + "<br>";
 							}
 							$('#error_create_proyecto').html('<div class="alert alert-danger">' + err + '</div>');
 							}
@@ -549,7 +549,7 @@
 						$('input[name=titulo_serie]').val(data.titulo_original);
 						$('input[name=titulo_proyecto]').val(data.titulo_aprobado);
 						$('input[name=temporada]').val(data.temporada);
-						$('select[name=cliente]').val(data.clienteId);	
+						$('select[name=cliente]').val(data.clienteId);
 						$('select[name=via]').val(data.viaId);
 						$('#input_titulo_espanol_update').html('');
 						$('#input_titulo_ingles_update').html('');
@@ -665,7 +665,7 @@
 							$('input[name=m_e_71]').prop("checked", false);
 						}
 
-						//Checkbox Subtitulos 
+						//Checkbox Subtitulos
 						if(data.subt_espanol == true){
 							$('input[name=subtitulaje_espanol]').prop( "checked", true );
 						} else{
@@ -700,13 +700,13 @@
 								error: function(error){
 									var err = "";
 									for(var i in error.responseJSON.msg){
-										err += error.responseJSON.msg[i] + "<br>";														
+										err += error.responseJSON.msg[i] + "<br>";
 									}
 									$('#error_update_proyecto').html('<div class="alert alert-danger">' + err + '</div>');
 								}
 							});
-						});	
-						
+						});
+
 					}
 				});
 
@@ -715,22 +715,22 @@
 			/*
 			* Modal para mostrar proyectos
 			*/
-			$('#modal_show_proyecto').on('shown.bs.modal', function(e){
-				var id = $(e.relatedTarget).data().id;
+			$('#modal_show_proyecto').on('shown.bs.modal', function(event){
+				var id = $(event.relatedTarget).data().id;
 				event.preventDefault();
 
 				$.ajax({
 					url: "{{ url('mgproyectos/show_proyecto') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
-						
+
 						if(data.proyecto[0].titulo_original != null){
 							$('#titulo_original_show').html(data.proyecto[0].titulo_original);
 						}
 						if(data.proyecto[0].titulo_aprobado != null){
 							$('#titulo_aprobado_show').html(data.proyecto[0].titulo_aprobado);
 						}
-						
+
 						$('#cliente_show').html(data.proyecto[0].cliente);
 						$('#temporada_show').html('<td><h4>Temporada:</h4> <span>'+data.proyecto[0].temporada+'</span></td>');
 						$('#via_show').html('<td><h4>Vía:</h4> <span>'+data.proyecto[0].viaId+'</span></td>');
@@ -765,7 +765,7 @@
 						var m_e = '';
 						if(data.proyecto[0].relleno_mande == true){
 							m_e += '<li>M&E</li>';
-						}						
+						}
 						if(data.proyecto[0].m_e_20 == true){
 							$m_e += '<li>2.0</li>';
 						}
@@ -803,9 +803,9 @@
 			$('#modal_delete_proyecto').on('shown.bs.modal', function(e) {
 			  	var id = $(e.relatedTarget).data().id;
 				$('#form_delete_proyecto').attr('action', '{{ url("mgproyectos/form_delete") }}/' + id);
-			})	
-					
+			})
+
 	});
-	
+
 	</script>
 @stop

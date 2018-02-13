@@ -17,9 +17,8 @@
 					<h3 class="header smaller lighter blue">Reporte por Proyecto</h3>
 
 					<form id="form_search">
-						{{ csrf_field() }}
 						<div class="col-md-4">
-							<label>Fecha Inicial</label>
+							<label>Lunes</label>
 							<input type="text" name="lunes_search" id="lunes_search" class="form-control" required>
 						</div>
 						{{ csrf_field() }}
@@ -75,8 +74,7 @@
 					success: function( data ){
 						if(data.msg == 'success'){
 
-							$('.reporte').html('<br><br><div><a href="javascript:void(0)" class="btn btn-success">Excel</a></div>\
-	                  		<div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
+							$('.reporte').html('<br><br><div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
 	                  		</table></div>\
 	                  		<table id="table_proyectos" \
 	                  		class="table table-striped table-bordered table-hover">\
@@ -111,6 +109,10 @@
 													last:       "Anterior"
 									},
 								},
+								dom: 'Bfrtip',
+				        buttons: [
+				            'excel'
+				        ]
 						});
 
 						function dataProyectos(data){

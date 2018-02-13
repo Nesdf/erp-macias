@@ -337,6 +337,12 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
+							<li @if(\Request::is('mgcontabilidad/reporte-proyceto')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/detalle-trabajo-actor') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Detalle por Actor
+								</a>
+								<b class="arrow"></b>
+							</li>
 							<!--<li @if(\Request::is('mgcontabilidad/reporte-episodio')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/reporte-episodio') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Reporte por episodio
@@ -483,6 +489,16 @@
 	    <script src="{{ asset('assets/dashboard/js/bootbox.js')}}"></script>
 	    <script src="{{ asset('assets/multiselect/bootstrap-multiselect.js')}}"></script>
 	    <script src="{{ asset('assets/timepicker/js/timepicker.js')}}"></script>
+
+			<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
 		<!-- inline scripts related to this page -->

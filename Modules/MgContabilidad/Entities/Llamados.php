@@ -48,4 +48,15 @@ class Llamados extends Model
 		{
 			return \DB::select(\DB::raw("SELECT actor FROM calendario WHERE cita_end BETWEEN '".$lunes."' AND '".$sabado."' GROUP BY actor"));
 		}
+
+
+
+		public static function getDetalleActores($fecha_inicial, $fecha_final)
+		{
+			return \DB::select(\DB::raw("SELECT C.nombre_real, C.actor, C.cita_end, C.loops, C.pago_total_loops, E.num_episodio, P.titulo_original
+				FROM calendario AS C
+				INNER JOIN episodios AS E ON E.folio = C.folio
+				INNER JOIN proyectos AS P ON P.id = E.\"proyectoId\"
+				WHERE C.cita_start >= '".$fecha_inicial."' AND C.cita_end <= '".$fecha_final."'"));
+		}
 }

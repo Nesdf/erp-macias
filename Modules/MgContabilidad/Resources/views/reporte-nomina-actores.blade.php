@@ -75,8 +75,7 @@
 		          	success: function(data){
 									console.log(data);
 
-		          		$('.detalle').html('<div><a href="javascript:void(0)" class="btn btn-success">Excel</a></div><br><br>\
-									<div style="text-align: right;" class=" importe" ></div>\
+		          		$('.detalle').html('<div style="text-align: right;" class=" importe" ></div>\
 		            		<div class="col-sm-12 col-md-12 col-lg-12">\
 		            		<table id="table_nomina" \
 		            		class="table table-striped table-bordered table-hover">\
@@ -114,6 +113,10 @@
 														last:       "Anterior"
 											},
 										},
+										dom: 'Bfrtip',
+						        buttons: [
+						            'excel'
+						        ]
 								});
 							},
 							error: function(error){

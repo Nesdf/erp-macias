@@ -15,4 +15,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'mgcontabilidad', 'namespace' =
     Route::get('reporte-episodio', 'MgContabilidadController@reporteEpisodio')->name('reporte_episodio');
     Route::post('ajax_reporte-episodios', 'MgContabilidadController@ajaxReporteEpisodios')->name('ajax_reporte_episodios');
     Route::get('reporte-trabajo-actor', 'MgContabilidadController@reporteTrabajoActor')->name('reporte_trabajo_actor');
+
+    Route::get('detalle-trabajo-actor', 'MgContabilidadController@detallePorActor')->name('detalle_trabajo_actor');
+    Route::post('ajax-detalle-actores', 'MgContabilidadController@ajaxDetalleActores')->name('detalle_trabajo_actor');
 });

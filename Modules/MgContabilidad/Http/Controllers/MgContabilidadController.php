@@ -225,7 +225,6 @@ class MgContabilidadController extends Controller
       try{
           if( $request->isMethod('post') && $request->ajax() ) {
 
-            $data = $request->all();
             $lunes = $request->input('lunes_search');
             $fechaArray = explode("-", $lunes);
             $date = Carbon::create($fechaArray[0], $fechaArray[1], $fechaArray[2])->toDateString();
@@ -337,6 +336,33 @@ class MgContabilidadController extends Controller
 
         $actores = Llamados::getAllActores($folio, $fecha_inicio, $fecha_fin);
         return view('mgcontabilidad::detalle-trabajo-actor', compact('actores'));
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
+
+    public function detallePorActor(){
+      try{
+        $actores = Actores::all();
+        return view('mgcontabilidad::detalle-trabajo-actor', compact('actores'));
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
+
+    public function ajaxDetalleActores(Request $request)
+    {
+      try{
+        if( $request->isMethod('post') && $request->ajax() ){
+
+
+          $data = Llamados::getDetalleActores($request->input('inicial_search'), $request->input('final_search'));
+          //$allRegister = Llamados::allRegisters($lunes, $sabado->toDateString());
+
+          return Response(['msg'=>'success', 'data'=> $data], 200)->header('Content-Type', 'application/json');
+        }
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());

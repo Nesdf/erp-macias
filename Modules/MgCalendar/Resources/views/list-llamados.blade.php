@@ -33,7 +33,7 @@
 					<div>
 						<form id="form_search">
 							<div class="col-md-4">
-								{{ csrf_field() }}
+
 								<label>Sala</label>
 								<select name="search_sala" id="search_sala" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 									<option value="">Seleccionar...</option>
@@ -41,6 +41,7 @@
 										<option {{$sala->sala}}>{{$sala->sala}}</option>
 									@endforeach
 								</select>
+								{{ csrf_field() }}
 							</div>
 							<div class="col-md-4">
 								<label>Fecha</label>

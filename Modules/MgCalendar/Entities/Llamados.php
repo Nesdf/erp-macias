@@ -13,7 +13,7 @@ class Llamados extends Model
 
     public static function listaLlamados($sala)
     {
-    	return \DB::select(\DB::raw("SELECT id, loops, director, credencial, cita_start, cita_end, descripcion AS descr, actor AS title, CASE WHEN actor IS NOT NULL THEN 'label-success' END AS \"className\", CASE WHEN actor IS NOT NULL THEN actor ||'<br> Entrada: ' || cita_start::time ||'</span> <br> '|| 'Salida: ' || cita_end::time END AS descripcion, cita_end AS start, cita_end as end FROM calendario WHERE sala='$sala' AND estatus_llamado = '".Config::RTK."' "));
+    	return \DB::select(\DB::raw("SELECT id, loops, director, credencial, cita_start, cita_end, descripcion AS descr, actor AS title, CASE WHEN actor IS NOT NULL THEN 'label-success' END AS \"className\", CASE WHEN actor IS NOT NULL THEN actor ||'<br> Entrada: ' || cita_start::time ||'</span> <br> '|| 'Salida: ' || cita_end::time END AS descripcion, cita_end AS start, cita_end as end FROM calendario WHERE sala='".$sala."' AND estatus= true  AND estatus_llamado = '".Config::RTK."' "));
     }
 
     public static function allLlamados($sala, $date)
@@ -24,14 +24,14 @@ class Llamados extends Model
         CASE WHEN actor IS NOT NULL THEN cita_end::time END AS salida,
         CASE WHEN actor IS NOT NULL THEN cita_end::date END AS fecha
         FROM calendario
-        WHERE  cita_end::text LIKE '%".$date."%' AND sala='".$sala."' AND estatus_llamado = '".Config::RTK."'
+        WHERE  cita_end::text LIKE '%".$date."%' AND sala='".$sala."' AND estatus = 1 AND  estatus_llamado = '".Config::RTK."'
 				ORDER BY cita_end DESC"));
 
     }
 
     public static function EntreFechas($dateInicial, $dateFinal, $sala)
     {
-        return \DB::select(\DB::raw("SELECT * FROM calendario where cita_start BETWEEN '".$dateInicial."' AND '".$dateFinal."' AND sala = '".$sala."' OR cita_end BETWEEN '".$dateInicial."' AND '".$dateFinal."' AND sala = '".$sala."' "));
+        return \DB::select(\DB::raw("SELECT * FROM calendario where cita_start BETWEEN '".$dateInicial."' AND '".$dateFinal."' AND sala = '".$sala."' OR cita_end BETWEEN '".$dateInicial."' AND '".$dateFinal."' AND sala = '".$sala."' AND estatus_llamado = '".Config::RTK."' AND estatus= true "));
     }
 
     public static function ActorLlamado($texto)
@@ -41,6 +41,11 @@ class Llamados extends Model
 
 		public static function getLlamados($actor, $fecha)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario where cita_end::text LIKE '%".$fecha."%'  AND actor = '".$actor."' "));
+			return \DB::select(\DB::raw("SELECT * FROM calendario where cita_end::text LIKE '%".$fecha."%'  AND actor = '".$actor."'  AND estatus_llamado = '".Config::RTK."' AND estatus= true "));
+		}
+
+		public static function eliminarLlamado($id)
+		{
+			return \DB::select(\DB::raw("UPDATE calendario SET estatus = false where id= ".$id." "));
 		}
 }

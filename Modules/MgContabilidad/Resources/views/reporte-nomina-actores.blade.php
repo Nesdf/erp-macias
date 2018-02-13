@@ -129,7 +129,7 @@
 		});
 
 		function allData(data){
-			console.log(data.length)
+			console.log(data)
 			var datos = '';
 			for(var i=0; i<data.length; i++){
 				datos += "<tr>";

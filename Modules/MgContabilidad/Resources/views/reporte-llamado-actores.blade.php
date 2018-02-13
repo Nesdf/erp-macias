@@ -76,6 +76,7 @@
           	type: 'POST',
           	data: $( this ).serialize(),
           	success: function(data){
+							console.log(data);
           		$('.detalle').html('<br>\
             		<div class="col-sm-12 col-md-12 col-lg-12">\
 								<table style="width:100%" class=" table table-condensed ">\
@@ -107,7 +108,7 @@
     });
 
           var midata = $('#table_actores').DataTable({
-						"order": [[7, 'asc']],
+						"order": [[5, 'asc']],
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",

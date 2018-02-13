@@ -121,7 +121,7 @@ class MgCalendarController extends Controller
     {
         try{
 
-            $actores = \Modules\MgCalendar\Entities\Actores::get();
+            $actores = Actores::get();
             return Response(['msg' => 'menasje', 'actores' => $actores], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -133,7 +133,7 @@ class MgCalendarController extends Controller
     {
         try{
 
-            $episodios = \Modules\MgCalendar\Entities\Episodios::listEpisodios($id);
+            $episodios = Episodios::listEpisodios($id);
             return Response(['msg' => $episodios], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -218,7 +218,7 @@ class MgCalendarController extends Controller
     }
 
     public function listLlamados(){
-        $salas = \Modules\MgCalendar\Entities\Salas::get();
+        $salas = Salas::get();
         return view('mgcalendar::list-llamados', compact('salas'));
     }
 
@@ -260,7 +260,7 @@ class MgCalendarController extends Controller
     {
         try{
 
-            $llamado = \Modules\MgCalendar\Entities\Actores::find($id);
+            $llamado = Actores::find($id);
             return Response(['llamado' => $llamado], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -272,7 +272,7 @@ class MgCalendarController extends Controller
     {
         try{
 
-            if(\Modules\MgCalendar\Entities\Llamados::destroy($id)){
+            if(Llamados::eliminarLlamado($id)){
                 return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
             }
         } catch(\Exception $e){

@@ -18,7 +18,7 @@ class Llamados extends Model
 
     public static function allLlamados($sala, $date)
     {
-        return \DB::select(\DB::raw("SELECT  actor, director, folio, sala, pago_total_loops, loops, credencial, descripcion AS descr,
+        return \DB::select(\DB::raw("SELECT  actor, director, folio, nombre_real, sala, pago_total_loops, loops, credencial, descripcion AS descr,
         (SELECT estudio FROM estudios where id = (SELECT estudio_id FROM salas where sala = '".$sala."')) AS estudio,
         CASE WHEN actor IS NOT NULL THEN  cita_start::time  END AS entrada,
         CASE WHEN actor IS NOT NULL THEN cita_end::time END AS salida,

@@ -3,7 +3,7 @@
 @section('guia')
 	<li>
 		<i class="ace-icon fa fa-users"></i>
-		<a href="{{ url('mgclientes') }}">Reporte por Llamado de Actores</a>
+		<a href="{{ url('mgclientes') }}">Reporte de llamado por sala</a>
 	</li>
 @stop
 
@@ -14,7 +14,7 @@
 
 			<div class="row">
 				<div class="col-xs-12">
-					<h3 class="header smaller lighter blue">Reporte por Llamado de Actores</h3>
+					<h3 class="header smaller lighter blue">Reporte de Llamado por Sala</h3>
 
 					<form id="form_search">
 						{{ csrf_field() }}
@@ -88,27 +88,15 @@
                 <tr>\
                   <th>Actor</th>\
                   <th>Personaje</th>\
-									<th>Sala</th>\
                   <th>Director</th>'+encabezados(data)+'\
                   <th>Total Loops</th>\
 									<th>Total</th>\
-                  <th>Fecha</th>\
                   <th>Entrada</th>\
-                  <th>Salida</th>\
                 </tr>\
               </thead>\
               <tbody> '+contenido(data)+'\
               </tbody>\
             </table>');
-            	$('#select_headers').append('\
-            		<option value="Actor">Actor</option>\
-            		<option value="Credencial">Credencial</option>\
-            		<option value="Personaje">Personaje</option>\
-            		<option value="Director">Director</option>'+encabezadosSelect(data)+'\
-			<option value="Total Loops">Total Loops</option>\
-			<option value="Entrada">Entrada</option>\
-			<option value="Salida">Salida</option>\
-            		');
 		$('#select_headers').multiselect();
 		$('#select_headers').multiselect('refresh');
 		$('#select_headers').on('change', function(){
@@ -116,10 +104,10 @@
           	var select_headers = $(this).val();
           	var headers= select_headers.join(",");
           	$('#headers').val(headers);
-          });
+    });
 
           var midata = $('#table_actores').DataTable({
-						"order": [[9, 'asc']],
+						"order": [[7, 'asc']],
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",
@@ -137,34 +125,6 @@
 				        },
 
 					});
-
-		$('#create-pdf').css({display: 'block'});
-            	if( $('#create-pdf').is(":visible") ){
-            		$('#sala').val($('#search_sala').val());
-            		$('#fecha').val($('#search_fecha').val());
-          	}
-
-          	midata.on('search.dt', function() {
-		    var num = midata.rows( { filter : 'applied'} ).data();
-		    $('#data').val(num);
-		    var n = 'ID,Actor,Credencial,Personaje,Director,'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
-		    for(var i=0; i<num.length; i++){
-		    	n +=  num[i]+';';
-		    }
-		    $('#data').val(n);
-		});
-
-		var num2 = midata.rows( { filter : 'applied'} ).data();
-	    $('#data').val(num2);
-	    var n2 = 'ID,Actor,Credencial,Personaje,Director,S'+encabezadosPdf(data)+'Total Loops,Fecha,Entrada,Salida;';
-	    for(var i=0; i<num2.length; i++){
-	    	n2 +=  num2[i]+';';
-	    }
-	    $('#data').val(n2);
-
-		/*$('input[type="search"]').keyup(function(event) {
-			$('#search').val($(this).val());
-		});*/
     	},
     	error: function(error){
 
@@ -185,13 +145,11 @@
 					nuevoArray.push(data.llamados[i]);
 				}
 			}
-			console.log(nuevoArray);
       		var list_llamados = new Array();
       		for(var i=0; i<data.llamados.length; i++){
       			list_llamados += "<tr>";
-      			list_llamados += "<td>"+data.llamados[i].actor+"</td>";
+      			list_llamados += "<td>"+data.llamados[i].nombre_real+"</td>";
 						list_llamados += "<td>"+data.llamados[i].descr+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].sala+"</td>";
       			list_llamados += "<td>"+data.llamados[i].director+"</td>";
       			for(var j=0; j<data.proyectos.length; j++){
       				if(data.proyectos[j].folios == data.llamados[i].folio){
@@ -206,9 +164,7 @@
       				}
       			}
 						list_llamados += "<td>$"+data.llamados[i].pago_total_loops+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].fecha+"</td>";
       			list_llamados += "<td>"+data.llamados[i].entrada+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].salida+"</td>";
       			list_llamados += "</tr>";
       		}
 
@@ -236,29 +192,6 @@
       		for(var i=0; i<data.proyectos.length; i++){
       			list_encabezados += "<td id="+data.proyectos[i].capitulo+">"+data.proyectos[i].capitulo+"</td>";
       		}
-      			return list_encabezados;
-      	}
-
-				function encabezadosSelect(data){
-			if(data.proyectos.length <= 0){
-				return "";
-			}
-      		var list_encabezados = new Array();
-      		for(var i=0; i<data.proyectos.length; i++){
-      			list_encabezados += "<option value="+data.proyectos[i].capitulo+">"+data.proyectos[i].capitulo+"</option>";
-      		}
-
-      			return list_encabezados;
-      	}
-      	function encabezadosPdf(data){
-			if(data.proyectos.length <= 0){
-				return "";
-			}
-      		var list_encabezados = new Array();
-      		for(var i=0; i<data.proyectos.length; i++){
-      			list_encabezados += data.proyectos[i].capitulo+",";
-      		}
-
       			return list_encabezados;
       	}
 	</script>

@@ -252,6 +252,7 @@ input.tipo_numero{
                                           <input type="hidden" name="sala"  value="'+sala+'"/>\
                                           <input type="hidden" name="dia" id="dia" value="'+end._d+'"/>\
                                           <input type="hidden" name="folio" id="folio" value="'+data.folio+'"/>\
+                                          <input type="hidden" name="nombre_real" id="nombre_real"/>\
                                           <input type="hidden" name="capitulo" id="capitulo" value="'+data.capitulo+'"/>\
                                           <input type="hidden" name="fecha" id="fecha" />\
                                           <label> Actor: &nbsp;</label>\
@@ -304,14 +305,7 @@ input.tipo_numero{
                                       url: "{{ url('mgcalendar/ajax-get-personajes') }}",
                                       type: 'GET',
                                       success: function(data){
-                                        console.log(data);
-                                        console.log('Total de selects: ');
-                                        console.log($('select[name=personaje]').size());
                                         if(data.msg == 'success'){
-                                          if($('select[name=personaje]').size() > 0){
-                                            //$('select[name=personaje]').remove();
-                                          }
-
                                           var valuePersonajes = "";
                                           for(var i=0; i<data.actores.length; i++){
                                             valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
@@ -551,7 +545,9 @@ input.tipo_numero{
                                       url: '{{url("mgcalendar/credenciales-actores")}}'+'/'+id_val,
                                       type: 'GET',
                                       success: function(data){
+                                        console.log(data);
                                         $(".credencial").html('');
+                                        $('input[name=nombre_real]').val(data.nombre_real.nombre_completo);
                                         $(".credencial").html('<option value="">Seleccionar...</option>');
                                         for(var i=0;  i < data.credenciales.length; i++ ){
                                           $(".credencial").append('<option value='+ data.credenciales[i].folio + '>' + data.credenciales[i].folio +'</option>');

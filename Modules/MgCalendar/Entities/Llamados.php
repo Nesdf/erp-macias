@@ -8,7 +8,7 @@ use App\Globals\Config;
 class Llamados extends Model
 {
 	protected $table = 'calendario';
-    protected $fillable = ['actor', 'director', 'cita_start', 'cita_end', 'folio', 'descripcion', 'estatus_grupo', 'estatus', 'sala', 'credencial', 'loops', 'capitulo', 'estatus_llamado', 'pago_total_loops', 'id_llamado_reagendado', 'descripcion_reagenda', 'estatus_reagenda',  'created_at', 'updated_at'];
+    protected $fillable = ['actor', 'director', 'cita_start', 'cita_end', 'folio', 'descripcion', 'estatus_grupo', 'estatus', 'sala', 'credencial', 'loops', 'capitulo', 'estatus_llamado', 'pago_total_loops', 'id_llamado_reagendado', 'descripcion_reagenda', 'estatus_reagenda', 'nombre_real', 'created_at', 'updated_at'];
 
 
     public static function listaLlamados($sala)

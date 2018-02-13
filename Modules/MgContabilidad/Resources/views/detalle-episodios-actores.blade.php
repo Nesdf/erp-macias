@@ -36,6 +36,7 @@
 					<thead>
 						<tr>
 							<th>Nombre Actor</th>
+							<th>Fecha de llamado</th>
 							<th>Personaje</th>
 							<th>Loops</th>
 							<th>Importe</th>
@@ -46,6 +47,10 @@
 						@foreach($actores as $actor)
 							<tr>
 								<td>{{$actor->actor}}</td>
+								@php
+									$cita_end = explode(" ", $actor->cita_end);
+								@endphp
+								<td>{{$cita_end[0]}}</td>
 								<td>{{$actor->descripcion}}</td>
 								<td>{{$actor->loops}}</td>
 								<td>${{$actor->pago_total_loops}}</td>

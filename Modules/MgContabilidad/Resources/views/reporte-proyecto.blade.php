@@ -20,13 +20,9 @@
 						{{ csrf_field() }}
 						<div class="col-md-4">
 							<label>Fecha Inicial</label>
-							<input type="text" name="fecha_inicial_search" id="fecha_inicial_search" class="form-control" required>
+							<input type="text" name="lunes_search" id="lunes_search" class="form-control" required>
 						</div>
 						{{ csrf_field() }}
-						<div class="col-md-4">
-							<label>Fecha final</label>
-							<input type="text" name="fecha_final_search" id="fecha_final_search" class="form-control" required>
-						</div>
 						<div class="col-md-2">
 							<br>
 							<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
@@ -53,7 +49,7 @@
 
 			$('#proyectos').selectpicker();
 
-			$('#fecha_inicial_search, #fecha_final_search').datepicker({
+			$('input[name=lunes_search]').datepicker({
 				dateFormat: "yy-mm-dd",
 				//minDate: 0,
 				closeText: 'Cerrar',
@@ -65,6 +61,9 @@
 			    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
 			    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
 			    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+					beforeShowDay: function(date){
+							 return [date.getDay() == 1,"","Solo los lunes"];
+				 }
 			});
 
 			$('#form_search').on('submit', function(event){
@@ -75,7 +74,6 @@
 					data: $( this ).serialize(),
 					success: function( data ){
 						if(data.msg == 'success'){
-							console.log(data);
 
 							$('.reporte').html('<br><br><div><a href="javascript:void(0)" class="btn btn-success">Excel</a></div>\
 	                  		<div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
@@ -86,7 +84,7 @@
 				                <tr>\
 				                  <th>Proyecto</th>\
 				                  <th>Episodio</th>\
-													<th>Título del episodio</th>\
+													<th>Capítulo</th>\
 				                  <th>Importe</th>\
 													<th>Detalle</th>\
 				                </tr>\
@@ -119,16 +117,14 @@
 							if(data.proyectos.length <= 0){
 								return "";
 							}
-									var fecha_inicial = $('input[name=fecha_inicial_search]').val();
-									var fecha_final = $('input[name=fecha_final_search]').val();
 				      		var list_proyectos = '';
 				      		for(var i=0; i<data.proyectos.length; i++){
 				      			list_proyectos += "<tr>";
 				      			list_proyectos += "<td>"+data.proyectos[i].titulo_proyecto+"</td>";
-				      			list_proyectos += "<td>"+data.proyectos[i].num_episodio+"</td>";
 				      			list_proyectos += "<td>"+data.proyectos[i].titulo_original+"</td>";
+				      			list_proyectos += "<td>"+data.proyectos[i].num_episodio+"</td>";
 										list_proyectos += "<td>$"+data.proyectos[i].total+"</td>";
-										list_proyectos += "<td><a href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+fecha_inicial+"/"+fecha_final+"'>Detalle</a></td>";
+										list_proyectos += "<td><a href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+data.lunes+"/"+data.sabado+"'>Detalle</a></td>";
 				      			list_proyectos += "</tr>";
 				      		}
 

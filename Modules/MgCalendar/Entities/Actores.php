@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actores extends Model
 {
-	protected $table = 'actores'; 
+	protected $table = 'actores';
     protected $fillable = ['nombre_completo', 'nombre_artistico', 'created_at', 'updated_at'];
 
     public static function Directores()
@@ -16,10 +16,10 @@ class Actores extends Model
             ->where('jobs.job', 'Director')
             ->select([
                 'users.id',
-                'users.name', 
-                'users.email', 
-                'jobs.job', 
-                'users.ap_paterno', 
+                'users.name',
+                'users.email',
+                'jobs.job',
+                'users.ap_paterno',
                 'users.ap_materno'])
             ->get();
     }
@@ -31,4 +31,12 @@ class Actores extends Model
             ->select('folio')
             ->get();
     }
+
+		public static function nombreReal($id)
+		{
+			return \DB::table('actores')
+					->where('id', '=', $id)
+					->select('nombre_completo')
+					->get();
+		}
 }

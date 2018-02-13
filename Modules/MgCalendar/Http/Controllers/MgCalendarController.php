@@ -198,7 +198,7 @@ class MgCalendarController extends Controller
                     'pago_total_loops' => round($pago_total_loops[0]->tabulador,2),
                     'estatus_llamado' => Config::RTK,
                     'sala' => $request->input('sala'),
-                    //'descripcion' => $request->input('personaje'),
+                    'nombre_real' => $request->input('nombre_real'),
                     'descripcion' => ($request->input('nuevo_personaje')) ? ucwords( strtolower( $request->input('nuevo_personaje') ) ) : ucwords( strtolower( $request->input('personaje') ) ),
                     'estatus_grupo' => ($request->input('estatus_grupo') == 'on') ? true : false,
                     'estatus' => true
@@ -247,8 +247,9 @@ class MgCalendarController extends Controller
     {
         try{
 
-            $credenciales = \Modules\MgCalendar\Entities\Actores::credencialesActores($id);
-            return Response(['credenciales' => $credenciales], 200)->header('Content-Type', 'application/json');
+            $credenciales = Actores::credencialesActores($id);
+            $nombre_real = Actores::nombreReal($id);
+            return Response(['credenciales' => $credenciales, 'nombre_real' => $nombre_real[0]], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

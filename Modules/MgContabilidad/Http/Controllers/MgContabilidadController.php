@@ -202,9 +202,18 @@ class MgContabilidadController extends Controller
     public function ajaxReporteProyectos(Request $request) {
         try{
 
-            $proyectos = Episodios::allEpisodios($request->input('fecha_inicial_search'), $request->input('fecha_final_search'));
+            //$proyectos = Episodios::allEpisodios($request->input('fecha_inicial_search'), $request->input('fecha_final_search'));
+            $lunes = $request->input('lunes_search');
+            $fechaArray = explode("-", $lunes);
+            $date = Carbon::create($fechaArray[0], $fechaArray[1], $fechaArray[2])->toDateString();
+            Carbon::setTestNow($date);
+            $lunes = new Carbon('this monday');
+            $sabado = new Carbon('this saturday');
+            Carbon::setTestNow();
+            $proyectos = Episodios::allEpisodios($lunes->toDateString(), $sabado->toDateString());
 
-            return Response(['msg'=>'success', 'proyectos' => $proyectos], 200)->header('Content-Type', 'application/json');
+
+            return Response(['msg'=>'success', 'proyectos' => $proyectos, 'lunes' => $lunes->toDateString(), 'sabado' => $sabado->toDateString()], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

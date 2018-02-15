@@ -247,7 +247,7 @@
 				return "";
 			}
 
-			var formArray = new Array();
+			var formArray = [];
 			for(var i=0; i<data.llamados.length; i++){
 				//JSON.stringify : Convierte valor a notacion json
 				formArray[i] = JSON.stringify({actor: data.llamados[i].actor});
@@ -256,15 +256,16 @@
 			var nuevoArray = new Array();
 			for(var i=0; i<data.llamados.length; i++){
 
-				if(nuevoArray.indexOf(data.llamados[i].actor)){
+				if(nuevoArray.includes(data.llamados[i].actor)){
 
 				} else {
 					nuevoArray.push(data.llamados[i]);
 				}
 			}
+			console.log(nuevoArray);
 
 			// Genera el nuevo arreglo
-			var list_new_llamados = new Array();
+			var list_new_llamados = [];
       		for(var i=0; i<data.llamados.length; i++){
 
       			if(list_new_llamados[data.llamados[i].credencial]){
@@ -309,62 +310,31 @@
       			}
       		}
 
+					console.log("Nueva lista de llamados");
+					console.log(list_new_llamados);
+
       		//console.log(list_new_llamados);
       		//Permite mostrar las llaves del arreglo
+					var list_llamados = '';
       		for( property in list_new_llamados ){
 
-			  var list_llamados = '';
+		      			list_llamados += "<tr>";
+		      			list_llamados += "<td>"+list_new_llamados[property].actor+"</td>";
+		      			list_llamados += "<td>"+list_new_llamados[property].credencial+"</td>";
+		      			list_llamados += "<td>"+list_new_llamados[property].descripcion+"</td>";
+		      			list_llamados += "<td>"+list_new_llamados[property].director+"</td>";
+		      			for(var j=0; j<data.proyectos.length; j++){
+		      				list_llamados += "<td>"+list_new_llamados[property][data.proyectos[j].folios]+"</td>";
+		      			}
 
-      			list_llamados += "<tr>";
-      			list_llamados += "<td>"+list_new_llamados[property].actor+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].credencial+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].descripcion+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].director+"</td>";
-      			for(var j=0; j<data.proyectos.length; j++){
-      				list_llamados += "<td>"+list_new_llamados[property][data.proyectos[j].folios]+"</td>";
-      			}
+		      			list_llamados += "<td>"+list_new_llamados[property].total+"</td>";
+		      			list_llamados += "<td>"+list_new_llamados[property].fecha+"</td>";
+		      			list_llamados += "<td>"+list_new_llamados[property].entrada+"</td>";
+		      			list_llamados += "<td>"+list_new_llamados[property].salida+"</td>";
+								list_llamados += "<td></td>";
+		      			list_llamados += "</tr>";
 
-      			list_llamados += "<td>"+list_new_llamados[property].total+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].fecha+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].entrada+"</td>";
-      			list_llamados += "<td>"+list_new_llamados[property].salida+"</td>";
-						list_llamados += "<td></td>";
-      			list_llamados += "</tr>";
-
-			}
-
-
-
-
-
-
-
-      		/*var list_llamados;
-      		for(var i=0; i<data.llamados.length; i++){
-      			list_llamados += "<tr>";
-      			list_llamados += "<td>"+data.llamados[i].actor+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].credencial+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].descr+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].director+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].sala+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].estudio+"</td>";
-      			for(var j=0; j<data.proyectos.length; j++){
-      				if(data.proyectos[j].folios == data.llamados[i].folio){
-      					list_llamados += "<td>"+data.llamados[i].loops+"</td>";
-      				} else{
-      					list_llamados += "<td>0</td>";
-      				}
-      			}
-      			for(var j=0; j<data.proyectos.length; j++){
-      				if(data.proyectos[j].folios == data.llamados[i].folio){
-      					list_llamados += "<td>"+data.llamados[i].loops+"</td>";
-      				}
-      			}
-      			list_llamados += "<td>"+data.llamados[i].fecha+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].entrada+"</td>";
-      			list_llamados += "<td>"+data.llamados[i].salida+"</td>";
-      			list_llamados += "</tr>";
-      		}*/
+					}
 
       			return list_llamados;
       	}

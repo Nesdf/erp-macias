@@ -314,7 +314,7 @@ input.tipo_numero{
                                           $('select[name=personaje]').append(valuePersonajes).selectpicker('refresh');
 
                                           $('select[name=personaje]').on('change', function(){
-                                            console.log($(this).val());
+
                                             if($(this).val() == 'otro'){
 
                                               $(this).removeAttr('required');
@@ -631,6 +631,8 @@ input.tipo_numero{
                                   fechaActual.setHours(horaActual, minutosActual, segundosctual, 0);
 
                                   var modal = $(modal).appendTo('body');
+                                  console.log(fechaEvento.getTime());
+                                  console.log(fechaActual.getTime());
                                   if( fechaEvento.getTime() <= fechaActual.getTime() ){
                                     modal.find('.btn-eliminar').css({display:"none"});
                                   } else {

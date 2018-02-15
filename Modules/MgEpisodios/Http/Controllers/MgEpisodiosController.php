@@ -5,6 +5,7 @@ namespace Modules\MgEpisodios\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use \Modules\MgEpisodios\Entities\Episodios as Episodios;
 use Carbon\Carbon;
 
 class MgEpisodiosController extends Controller
@@ -18,7 +19,7 @@ class MgEpisodiosController extends Controller
         try{
 
             $proyecto = \Modules\MgEpisodios\Entities\Proyectos::find($id);
-        
+
             $proyecto_id = $id;
             $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
 
@@ -37,7 +38,7 @@ class MgEpisodiosController extends Controller
             \Log::error(' Trace2: ' .$e->getTraceAsString());
            return $request->session()->flash('success', trans('Error al cargar los datos, favor de revisar con el administrador'));
         }
-        
+
     }
 
     /**
@@ -59,17 +60,17 @@ class MgEpisodiosController extends Controller
         try{
 
             if( $request->isMethod('post') && $request->ajax() ){
-            
+
                 $rules = [
                     'entrega_episodio' => 'required',
                 ];
-                
+
                 $messages = [
                     'entrega_episodio.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.entrega_episodio')])
-                ]; 
-                
-                $validator = \Validator::make($request->all(), $rules, $messages);          
-                
+                ];
+
+                $validator = \Validator::make($request->all(), $rules, $messages);
+
                 if ( $validator->fails() ) {
                     return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else {
@@ -78,9 +79,9 @@ class MgEpisodiosController extends Controller
                     $folio = $this->generateFolio();
                     if(\Modules\MgEpisodios\Entities\Episodios::searchFolio($folio)){
                         $folio = $this->generateFolio();
-                    } 
-                    
-                    \Modules\MgEpisodios\Entities\Episodios::create([      
+                    }
+
+                    \Modules\MgEpisodios\Entities\Episodios::create([
                         'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                         'bw' => ($request->input('bw') == 'on') ? true : false ,
                         'netcut' => ($request->input('netcut') == 'on') ? true : false ,
@@ -104,7 +105,7 @@ class MgEpisodiosController extends Controller
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }
-            
+
             }
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -142,7 +143,7 @@ class MgEpisodiosController extends Controller
             \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => 'error'], 400)->header('Content-Type', 'application/json');
         }
-        
+
     }
 
     /**
@@ -152,7 +153,7 @@ class MgEpisodiosController extends Controller
     public function edit($id)
     {
         try{
-            return \Modules\MgEpisodios\Entities\Episodios::find($id); 
+            return \Modules\MgEpisodios\Entities\Episodios::find($id);
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -173,19 +174,19 @@ class MgEpisodiosController extends Controller
                 $rules = [
                     'proyectoId' => 'required',
                 ];
-                
+
                 $messages = [
                     'proyectoId.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.entrega_episodio')])
-                ]; 
-                
-                $validator = \Validator::make($request->all(), $rules, $messages);          
-                
+                ];
+
+                $validator = \Validator::make($request->all(), $rules, $messages);
+
                 if ( $validator->fails() ) {
                     return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else {
                     try{
                         \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
-                            ->update([      
+                            ->update([
                                 'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                                 'configuracion' => $request->input('configuracion'),
                                 'date_entrega' => $request->input('entrega_episodio') ,
@@ -198,12 +199,12 @@ class MgEpisodiosController extends Controller
                             ]);
                             $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                             return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-                           
+
                     } catch(\Exception $e){
                         report($e);
                         return false;
                     }
-                    
+
                 }
             }
         } catch(\Exception $e){
@@ -241,20 +242,20 @@ class MgEpisodiosController extends Controller
                 'fecha_entrega_traductor' => 'required',
                 'traductor' => 'required'
             ];
-            
+
             $messages = [
                 'fecha_entrega_traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_entrega_traductor')]),
                 'traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.traductor')])
-            ]; 
-            
-            $validator = \Validator::make($request->all(), $rules, $messages);   
+            ];
+
+            $validator = \Validator::make($request->all(), $rules, $messages);
             if ( $validator->fails() ) {
                 return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
             } else {
                 try{
                     $hoy = Carbon::today('America/Mexico_City');
                     $update = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('episodioId'))
-                        ->update([      
+                        ->update([
                             'fecha_asignacion_traductor' => $hoy->now(),
                             'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),
                             'salaId' => $request->input('sala'),
@@ -297,10 +298,10 @@ class MgEpisodiosController extends Controller
                 $data = ['final' => $request->input('final'), 'date_final' => $hoy];
             }
 
-            \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+            Episodios::where('id', $request->input('id'))
                 ->update($data);
             $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
-            return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+            return Response(['msg' => 'success', 'status' => 200], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -340,15 +341,15 @@ class MgEpisodiosController extends Controller
                     'traductor' => 'required',
                     'fecha_entrega_traductor' => 'required',
                 ];
-                
+
                 $messages = [
                     'traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.traductor')]),
                     'fecha_entrega_traductor.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.fecha_entrega_traductor')]),
-                ]; 
+                ];
 
-                
-                $validator = \Validator::make($request->all(), $rules, $messages);          
-                
+
+                $validator = \Validator::make($request->all(), $rules, $messages);
+
                 if ( $validator->fails() ) {
                     return Response(['validator' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else{
@@ -356,7 +357,7 @@ class MgEpisodiosController extends Controller
                     $arrayData = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))->get();
 
                     \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
-                    ->update([      
+                    ->update([
                         'traductorId' => ucwords( $request->input('traductor') ),
                         'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),
                         'aprobacion_cliente' => $request->input('aprobacion_cliente'),
@@ -372,7 +373,7 @@ class MgEpisodiosController extends Controller
                     ]);
                     $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-                }            
+                }
             }
         } catch(\Excepton $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -381,27 +382,27 @@ class MgEpisodiosController extends Controller
         }
     }
 
-    
+
     public function addProductor(Request $request)
     {
         try{
 
             if($request->isMethod('post') && $request->ajax()){
-            
+
                 $rules = [
                     'sala' => 'required',
                     'director' => 'required',
                    // 'fecha_doblaje' => 'required',
                 ];
-                
+
                 $messages = [
                     'sala.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.sala')]),
                     'director.required' => trans('mgepisodios::ui.display.error_required', ['attribute' => trans('mgepisodios::ui.attribute.director')]),
-                ]; 
+                ];
 
-                
-                $validator = \Validator::make($request->all(), $rules, $messages);          
-                
+
+                $validator = \Validator::make($request->all(), $rules, $messages);
+
                 if ( $validator->fails() ) {
                     return Response(['validator' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else{
@@ -409,7 +410,7 @@ class MgEpisodiosController extends Controller
                     $arrayData = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))->get();
 
                     \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
-                    ->update([      
+                    ->update([
                         'salaId' => ucwords( $request->input('sala') ),
                         'directorId' => $request->input('director'),
                         'fecha_doblaje' => $request->input('fecha_doblaje'),
@@ -428,7 +429,7 @@ class MgEpisodiosController extends Controller
                     ]);
                     $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-                }            
+                }
             }
         } catch(\Excepton $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -437,5 +438,3 @@ class MgEpisodiosController extends Controller
         }
     }
 }
-
-

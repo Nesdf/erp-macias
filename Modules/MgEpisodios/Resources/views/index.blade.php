@@ -495,39 +495,38 @@
 		<div class="modal fade" id="modal_update_configuracion" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
-			  <div class="modal-header">
-				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-				<h4 class="modal-title" id="t_header">Modificar Configuración</h4>
-				<div id="error_update_episodios"></div>
-			  </div>
-			  <form role="form" id="form_update_configuracion">
-			  <div class="modal-body">
-				<div class="modal-body">
-				{{ csrf_field() }}
-				<input type="hidden" name="id" id="id_update">
-				<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
-				<table class="table table-striped ">
-					<tr>
-						<td>
-							<input type="checkbox"  id="bw_update" name="bw"> BW
-						</td>
-						<td>
-							<input type="checkbox"  id="netcut_update" name="netcut"> NetCut
-						</td>
-						<td>
-							<input type="checkbox"  id="lockcut_update" name="lockcut"> LockCut
-						</td>
-						<td>
-							<input type="checkbox"  id="final_update" name="final"> Final
-						</td>
-					</tr>
-				</table>
-			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			  </div>
-			  </form>
+				  <div class="modal-header">
+						<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+						<h4 class="modal-title" id="t_header">Modificar Configuración</h4>
+						<div id="error_update_episodios"></div>
+				  </div>
+				  <form role="form" id="form_update_configuracion">
+					  <div class="modal-body">
+						{{ csrf_field() }}
+						<input type="hidden" name="id" id="id_configuracion">
+						<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
+						<table class="table table-striped ">
+							<tr>
+								<td>
+									<input type="checkbox"  id="bw_update" name="bw"> BW
+								</td>
+								<td>
+									<input type="checkbox"  id="netcut_update" name="netcut"> NetCut
+								</td>
+								<td>
+									<input type="checkbox"  id="lockcut_update" name="lockcut"> LockCut
+								</td>
+								<td>
+									<input type="checkbox"  id="final_update" name="final"> Final
+								</td>
+							</tr>
+						</table>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+						<button type="submit" class="btn btn-primary">Guardar</button>
+					  </div>
+				  </form>
 			</div>
 		  </div>
 		</div>
@@ -913,6 +912,7 @@
 			*/
 			$('#modal_update_configuracion').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
+				$('#id_configuracion').val(id);
 
 				$.ajax({
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
@@ -948,6 +948,25 @@
 						}
 					}
 				});
+
+				$('#form_update_configuracion').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ url('mgepisodios/update-configuracion') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function(data) {
+						console.log(data);
+							if(data.status == 200){
+								window.location.reload(true);
+							}
+
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					});
+				})
 			});
 
 			/*

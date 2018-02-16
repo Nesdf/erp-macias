@@ -41,12 +41,12 @@ class Llamados extends Model
 
 		public static function allRegisters($lunes, $sabado)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE estatus_llamado = '".Config::RTK."' AND estatus= true AND cita_end BETWEEN '".$lunes."' AND '".$sabado."' "));
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE estatus_llamado = '".Config::RTK."' AND estatus= true AND cita_end >= '".$lunes."' AND cita_end <= '".$sabado."' "));
 		}
 
 		public static function allIntRegisters($lunes, $sabado)
 		{
-			return \DB::select(\DB::raw("SELECT actor FROM calendario WHERE  estatus_llamado = '".Config::RTK."' AND estatus= true AND  cita_end BETWEEN '".$lunes."' AND '".$sabado."' GROUP BY actor"));
+			return \DB::select(\DB::raw("SELECT actor FROM calendario WHERE  estatus_llamado = '".Config::RTK."' AND estatus= true AND  cita_end >= '".$lunes."' AND cita_end <= '".$sabado."' GROUP BY actor"));
 		}
 
 

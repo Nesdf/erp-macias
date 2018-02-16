@@ -741,7 +741,7 @@
 					</div>
 					<div class="form-group">
 						<label for="sala">Seleccionar Sala</label>
-						<select class="form-control" id="sala" name="sala" id="sala">
+						<select class="form-control selectpicker" id="sala" name="sala" id="sala" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." >
 							<option value="">Seleccionar</option>
 							@foreach($salas as $sala)
 								<option value="{{ $sala->id }}"> {{ $sala->sala }} </option>
@@ -750,7 +750,7 @@
 					</div>
 					<div class="form-group">
 						<label for="traductor">Asignar Traductor</label>
-						<select name="traductor" class="form-control">
+						<select name="traductor" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							<option value="">Seleccionar...</option>
 							@foreach($traductores as $traductor)
 								<option value="{{$traductor->id}}">{{$traductor->name}} {{$traductor->ap_paterno}} {{$traductor->ap_materno}}</option>

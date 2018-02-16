@@ -10,10 +10,12 @@ use Modules\MgContabilidad\Entities\Actores as Actores;
 use Modules\MgContabilidad\Entities\Episodios as Episodios;
 use Modules\MgContabilidad\Entities\Proyectos as Proyectos;
 use Modules\MgContabilidad\Entities\Llamados as Llamados;
+use Modules\MgContabilidad\Entities\Estudios as Estudios;
 use Carbon\Carbon as Carbon;
 
 class MgContabilidadController extends Controller
 {
+  public $estudios;
     /**
      * Display a listing of the resource.
      * @return Response
@@ -140,7 +142,8 @@ class MgContabilidadController extends Controller
 
         try{
             $actores = Actores::all();
-            return view('mgcontabilidad::reporte-nomina-actores', compact('actores'));
+            $estudios = Estudios::all();
+            return view('mgcontabilidad::reporte-nomina-actores', compact('actores', 'estudios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -155,7 +158,8 @@ class MgContabilidadController extends Controller
 
         try{
             $proyectos = Proyectos::all();
-            return view('mgcontabilidad::reporte-proyecto', compact('proyectos'));
+            $estudios = Estudios::all();
+            return view('mgcontabilidad::reporte-proyecto', compact('proyectos', 'estudios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -238,8 +242,32 @@ class MgContabilidadController extends Controller
             $sabado = new Carbon('this saturday');
             Carbon::setTestNow();
 
-            $allRegister = Llamados::allRegisters($lunes, $sabado->toDateString());
-            $allIntRegister = Llamados::allIntRegisters($lunes, $sabado->toDateString());
+            //Permite buscar por estudio
+            $this->estudios ;
+            if($request->input('estudio_search') == "ALL"){
+              $consultaEstudios = Salas::All();
+              foreach($consultaEstudios as $value){
+                if ($value == end($consultaEstudios)) {
+                    $this->estudios .= "'".$value->sala."'";
+                } else{
+                  $this->estudios .= "'".$value->sala."',";
+                }
+              }
+              $this->estudios = trim($this->estudios, ',');
+            } else{
+              $consultaEstudios = Salas::searchEstudio($request->input('estudio_search'));
+              foreach($consultaEstudios as $value){
+                if ($value == end($consultaEstudios)) {
+                    $this->estudios .= "'".$value->sala."'";
+                } else{
+                  $this->estudios .= "'".$value->sala."',";
+                }
+              }
+              $this->estudios = trim($this->estudios, ',');
+            }
+
+            $allRegister = Llamados::allRegisters($lunes, $sabado->toDateString(), $this->estudios);
+            $allIntRegister = Llamados::allIntRegisters($lunes, $sabado->toDateString(), $this->estudios);
 
             $newRegisters = [];
 
@@ -347,7 +375,8 @@ class MgContabilidadController extends Controller
     public function detallePorActor(){
       try{
         $actores = Actores::all();
-        return view('mgcontabilidad::detalle-trabajo-actor', compact('actores'));
+        $estudios = Estudios::all();
+        return view('mgcontabilidad::detalle-trabajo-actor', compact('actores', 'estudios'));
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -359,8 +388,31 @@ class MgContabilidadController extends Controller
       try{
         if( $request->isMethod('post') && $request->ajax() ){
 
+          //Permite buscar por estudio
+          $this->estudios ;
+          if($request->input('estudio_search') == "ALL"){
+            $consultaEstudios = Salas::All();
+            foreach($consultaEstudios as $value){
+              if ($value == end($consultaEstudios)) {
+                  $this->estudios .= "'".$value->sala."'";
+              } else{
+                $this->estudios .= "'".$value->sala."',";
+              }
+            }
+            $this->estudios = trim($this->estudios, ',');
+          } else{
+            $consultaEstudios = Salas::searchEstudio($request->input('estudio_search'));
+            foreach($consultaEstudios as $value){
+              if ($value == end($consultaEstudios)) {
+                  $this->estudios .= "'".$value->sala."'";
+              } else{
+                $this->estudios .= "'".$value->sala."',";
+              }
+            }
+            $this->estudios = trim($this->estudios, ',');
+          }
 
-          $data = Llamados::getDetalleActores($request->input('inicial_search'), $request->input('final_search'));
+          $data = Llamados::getDetalleActores($request->input('inicial_search'), $request->input('final_search'), $this->estudios);
           //$allRegister = Llamados::allRegisters($lunes, $sabado->toDateString());
 
           return Response(['msg'=>'success', 'data'=> $data], 200)->header('Content-Type', 'application/json');

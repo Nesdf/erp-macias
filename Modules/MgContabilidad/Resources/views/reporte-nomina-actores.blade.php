@@ -23,6 +23,15 @@
 							<label>Fecha día lunes</label>
 							<input type="text" name="lunes_search"  class="form-control" required>
 						</div>
+						<div class="col-md-3">
+							<label>Estudio</label>
+							<select class="form-control selectpicker" name="estudio_search" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+								<option value="ALL">TODOS LOS ESTUDIOS</option>
+								@foreach($estudios as $item)
+									<option value="{{$item->estudio}}">{{$item->estudio}}</option>
+								@endforeach
+							</select>
+						</div>
 						<div class="col-md-2"><br>
 							<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
 						</div>

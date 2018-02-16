@@ -1222,7 +1222,7 @@
 						url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
 						type: 'GET',
 						success: function(data){
-
+							console.log(data);
 							$('.date-type-rayado').html('');
 							if(data.fecha_rayado){
 								$('.date-type-rayado').html('Fecha rayado: ' + data.fecha_rayado);
@@ -1232,6 +1232,7 @@
 							$('input[name=id]').val(data.id);
 							$('select[name=sala]').val(data.salaId);
 							$('select[name=director]').val(data.directorId);
+							$('select[name=operador]').val(data.responsable);
 							if(data.chk_qc == true){
 								$('input[name=chk_qc]').prop('checked', true)
 							}

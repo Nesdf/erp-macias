@@ -21,4 +21,9 @@ class Episodios extends Model
           AND cita_end >= \''.$lunes.' 00:00:00\' AND cita_end <= \''.$sabado.' 23:59:00\') IS NOT NULL '));
 
     }
+
+    public static function getAllById($id_proyecto)
+    {
+      return \DB::select(\DB::raw("SELECT * FROM episodios WHERE \"proyectoId\" = '".$id_proyecto."'"));
+    }
 }

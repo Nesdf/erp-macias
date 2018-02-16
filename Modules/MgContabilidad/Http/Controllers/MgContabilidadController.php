@@ -422,4 +422,33 @@ class MgContabilidadController extends Controller
           \Log::error(' Trace2: ' .$e->getTraceAsString());
       }
     }
+
+    public function ajaxSearchProyecto($id)
+    {
+      try{
+            $episodios = Episodios::getAllById( $id );
+
+            return Response(['msg'=>'success', 'episodios'=> $episodios, 'code' => 200], 200)->header('Content-Type', 'application/json');
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
+
+    public function ajaxSearchEpisodio(Request $request)
+    {
+      try{
+            if( $request->isMethod('post') && $request->ajax() ){
+              $fecha_inicial = $request->input('fecha_inicial_search');
+              $fecha_final = $request->input('fecha_final_search');
+              $folio = $request->input('episodios_search');
+              $llamados = Llamados::getAllActores( $folio, $fecha_inicial, $fecha_final );
+
+              return Response(['msg'=>'success', 'llamados'=> $llamados, 'code' => 200], 200)->header('Content-Type', 'application/json');
+            }
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
 }

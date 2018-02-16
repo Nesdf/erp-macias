@@ -73,10 +73,8 @@
 		          	type: 'POST',
 		          	data: $( this ).serialize(),
 		          	success: function(data){
-									console.log(data);
 
-		          		$('.detalle').html('<div style="text-align: right;" class=" importe" ></div>\
-		            		<div class="col-sm-12 col-md-12 col-lg-12">\
+		          		$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
 		            		<table id="table_nomina" \
 		            		class="table table-striped table-bordered table-hover">\
 		              <thead>\
@@ -94,29 +92,72 @@
 		              </thead>\
 		              <tbody>'+allData(data.datos)+'\
 		              </tbody>\
+									<tfoot>\
+										<tr>\
+												<th colspan="8" style="text-align:right">Total:</th>\
+												<th></th>\
+										</tr>\
+								 </tfoot>\
 		            </table>\
 								</div>');
-								$('.importe').html("<h2>Total: $"+data.total+"</h2");
 								$('#table_nomina').DataTable({
-								language: {
-									search:   "Buscar: ",
-												lengthMenu: "Mostrar _MENU_ registros por página",
-												zeroRecords: "No se encontraron registros",
-												info: "Página _PAGE_ de _PAGES_",
-												infoEmpty: "Se buscó en",
-												infoFiltered: "(_MAX_ registros)",
-												responsive:     true,
-												paginate: {
-														first:      "Primero",
-														previous:   "Previo",
-														next:       "Siguiente",
-														last:       "Anterior"
+									"pageLength": 200,
+									aLengthMenu: [
+							        [50, 100, 200, -1],
+							        [50, 100, 200, "All"]
+							    ],
+									dom: 'lBfrtip',
+									buttons: [
+											{"extend": 'excel', "text":'Excel',"className": 'btn btn-success btn-xs'}
+									],
+									language: {
+										search:   "Buscar: ",
+													lengthMenu: "Mostrar _MENU_ registros por página",
+													zeroRecords: "No se encontraron registros",
+													info: "Página _PAGE_ de _PAGES_",
+													infoEmpty: "Se buscó en",
+													infoFiltered: "(_MAX_ registros)",
+													responsive:     true,
+													paginate: {
+															first:      "Primero",
+															previous:   "Previo",
+															next:       "Siguiente",
+															last:       "Anterior"
+												},
 											},
-										},
-										dom: 'Bfrtip',
-						        buttons: [
-						            'excel'
-						        ]
+											"footerCallback": function ( row, data, start, end, display ) {
+			                    var api = this.api(), data;
+
+			                    // Remove the formatting to get integer data for summation
+			                    var intVal = function ( i ) {
+			                        return typeof i === 'string' ?
+			                            i.replace(/[\$,]/g, '')*1 :
+			                            typeof i === 'number' ?
+			                                i : 0;
+			                    };
+
+			                    // Total over all pages
+			                    total = api
+			                        .column( 8 )
+			                        .data()
+			                        .reduce( function (a, b) {
+			                            return intVal(a) + intVal(b);
+			                        }, 0 );
+
+			                    // Total over this page
+			                    pageTotal = api
+			                        .column( 8, { page: 'current'} )
+			                        .data()
+			                        .reduce( function (a, b) {
+			                            return intVal(a) + intVal(b);
+			                        }, 0 );
+
+			                    // Update footer
+			                    $( api.column( 8 ).footer() ).html(
+			                        //'$'+pageTotal +' ( $'+ total +' total)'
+			                        '$'+pageTotal.toFixed(2)
+			                    );
+			                }
 								});
 							},
 							error: function(error){

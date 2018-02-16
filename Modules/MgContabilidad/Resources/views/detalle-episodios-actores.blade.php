@@ -15,7 +15,6 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h3 class="header smaller lighter blue">Actores de Macias Group</h3>
 			@if(Session::has('success'))
 				<div class="alert alert-success">{{ Session::get('success') }}</div>
 			@endif
@@ -27,7 +26,9 @@
 						Regresar
 					</a>
 			</div>
-
+			<h2 style="text-align: center;">Proyecto: {{$proyecto[0]->titulo_original}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Episodio: {{$actores[0]->capitulo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Sala: {{$actores[0]->sala}}</h2>
 			<!-- div.table-responsive -->
 
 			<!-- div.dataTables_borderWrap -->

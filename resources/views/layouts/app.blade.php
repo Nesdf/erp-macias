@@ -28,6 +28,7 @@
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/ace-rtl.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/calendario/jquery-ui.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/datatable/media/css/jquery.dataTables.min.css') }}" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.bootstrap.min.css" />
 		<link rel="stylesheet" href="{{ asset('assets/multiselect/bootstrap-multiselect.css') }}" />
 		<link rel="stylesheet" href="{{ asset('assets/timepicker/css/timepicker.css') }}" />
 		<!-- Latest compiled and minified CSS -->
@@ -490,13 +491,19 @@
 	    <script src="{{ asset('assets/multiselect/bootstrap-multiselect.js')}}"></script>
 	    <script src="{{ asset('assets/timepicker/js/timepicker.js')}}"></script>
 
+			<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
 			<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.bootstrap.min.js"></script>
 			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
 			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
 			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+			<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
+
+
 
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>

@@ -102,7 +102,15 @@
 						}
 
 						$('#table_proyectos').DataTable({
-							"pageLength": 100,
+							"pageLength": 200,
+							aLengthMenu: [
+					        [50, 100, 200, -1],
+					        [50, 100, 200, "All"]
+					    ],
+							dom: 'lBfrtip',
+							buttons: [
+									{"extend": 'excel', "text":'Excel',"className": 'btn btn-success btn-xs'}
+							],
 							language: {
 								search:   "Buscar: ",
 											lengthMenu: "Mostrar _MENU_ registros por página",

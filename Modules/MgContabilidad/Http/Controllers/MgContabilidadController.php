@@ -323,7 +323,9 @@ class MgContabilidadController extends Controller
       try{
 
         $actores = Llamados::getAllActores($folio, $fecha_inicio, $fecha_fin);
-        return view('mgcontabilidad::detalle-episodios-actores', compact('actores'));
+
+        $proyecto = Llamados::getProyecto($actores[0]->folio);
+        return view('mgcontabilidad::detalle-episodios-actores', compact('actores','proyecto'));
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());

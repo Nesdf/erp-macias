@@ -30,7 +30,7 @@ class Llamados extends Model
 
     public static function EntreFechas($dateInicial, $dateFinal, $sala)
     {
-        return \DB::select(\DB::raw("SELECT * FROM calendario where cita_start BETWEEN '".$dateInicial."' AND '".$dateFinal."' AND sala = '".$sala."' OR cita_end BETWEEN '".$dateInicial."' AND '".$dateFinal."' AND sala = '".$sala."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+        return \DB::select(\DB::raw("SELECT * FROM calendario WHERE cita_end >= '".$dateInicial."' AND cita_end <= '".$dateFinal."' AND sala = '".$sala."' OR cita_end >= '".$dateInicial."' AND cita_end <= '".$dateFinal."' AND sala = '".$sala."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
     }
 
     public static function getAllActores($folio, $fecha_inicio, $fecha_fin)
@@ -58,5 +58,10 @@ class Llamados extends Model
 				INNER JOIN episodios AS E ON E.folio = C.folio
 				INNER JOIN proyectos AS P ON P.id = E.\"proyectoId\"
 				WHERE C.cita_start >= '".$fecha_inicial."' AND C.cita_end <= '".$fecha_final."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+		}
+
+		public static function getProyecto($folio)
+		{
+			return \DB::select(\DB::raw("SELECT E.\"proyectoId\", P.titulo_original FROM episodios AS E INNER JOIN proyectos AS P ON P.id = E.\"proyectoId\" WHERE folio = '".$folio."'"));
 		}
 }

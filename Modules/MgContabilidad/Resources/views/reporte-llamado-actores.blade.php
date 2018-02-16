@@ -108,7 +108,7 @@
     });
 
           var midata = $('#table_actores').DataTable({
-						"order": [[5, 'asc']],
+						"order": [[6, 'desc']],
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",

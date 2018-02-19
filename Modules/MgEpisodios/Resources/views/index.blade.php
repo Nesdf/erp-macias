@@ -1245,7 +1245,7 @@
 								if(data.fecha_script != null){
 									fechaScript = data.fecha_script;
 								}*/
-								$('#add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script2" name="fecha_script" class="form-control" value="'+data.rayado+'" required></input>');
+								$('#add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script2" name="fecha_script" class="form-control" value="'+data.fecha_rayado+'" required></input>');
 
 								$('#fecha_doblaje_update, #fecha_script2').datepicker({
 									dateFormat: "yy-mm-dd",

@@ -61,8 +61,8 @@ class CreateEpisodiosTable extends Migration
             $table->date('nombre_regrabador')->nullable();
             $table->date('nombre_editor')->nullable();
             $table->date('fecha_regrabacion')->nullable();
-			$table->timestamps();         
-			
+			$table->timestamps();
+
         });
     }
 

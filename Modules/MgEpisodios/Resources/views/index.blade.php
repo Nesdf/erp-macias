@@ -300,7 +300,7 @@
 				</select>
 				<div class="add_date_script"></div>
 				<label> Operador </label>
-				<select name="operador" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+				<select name="responsable" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 					@foreach($tecnicos as $tecnico)
 						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
 					@endforeach
@@ -357,7 +357,7 @@
 				</select>
 				<div id="add_date_script"></div>
 				<label> Operador </label>
-				<select name="operador" class="form-control selectpicker"  data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+				<select name="responsable" class="form-control selectpicker"  data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 					@foreach($tecnicos as $tecnico)
 						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
 					@endforeach
@@ -1232,7 +1232,7 @@
 							$('input[name=id]').val(data.id);
 							$('select[name=sala]').val(data.salaId);
 							$('select[name=director]').val(data.directorId);
-							$('select[name=operador]').val(data.responsable);
+							$('select[name=responsable]').val(data.responsable);
 							if(data.chk_qc == true){
 								$('input[name=chk_qc]').prop('checked', true)
 							}

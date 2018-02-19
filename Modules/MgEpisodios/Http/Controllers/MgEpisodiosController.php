@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use \Modules\MgEpisodios\Entities\Episodios as Episodios;
+use \Modules\MgEpisodios\Entities\Proyectos as Proyectos;
+use \Modules\MgEpisodios\Entities\Tcr as Tcr;
+use \Modules\MgEpisodios\Entities\Salas as Salas;
+use \Modules\MgEpisodios\Entities\Users as Users;
+use \Modules\MgEpisodios\Entities\TipoReporte as TipoReporte;
 use Carbon\Carbon;
 
 class MgEpisodiosController extends Controller
@@ -18,19 +23,19 @@ class MgEpisodiosController extends Controller
     {
         try{
 
-            $proyecto = \Modules\MgEpisodios\Entities\Proyectos::find($id);
+            $proyecto = Proyectos::find($id);
 
             $proyecto_id = $id;
-            $episodios = \Modules\MgEpisodios\Entities\Episodios::allEpisodioOfProject($id);
+            $episodios = Episodios::allEpisodioOfProject($id);
 
-            $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
-            $salas = \Modules\MgEpisodios\Entities\Salas::All();
-            $productores = \Modules\MgEpisodios\Entities\Users::Productores();
-            $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
-            $directores = \Modules\MgEpisodios\Entities\Users::Directores();
-            $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
-            $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
-            $tecnicos = \Modules\MgEpisodios\Entities\Users::Tecnicos();
+            $tcrs = Tcr::All();
+            $salas = Salas::All();
+            $productores = Users::Productores();
+            $responsables = Users::Responsables();
+            $directores = Users::Directores();
+            $traductores = Users::traductores();
+            $reportes = TipoReporte::get();
+            $tecnicos = Users::Tecnicos();
             return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos'));
 
         } catch(\Exception $e){
@@ -77,11 +82,11 @@ class MgEpisodiosController extends Controller
                      Carbon::today('America/Mexico_City');
                     $hoy = Carbon::now();
                     $folio = $this->generateFolio();
-                    if(\Modules\MgEpisodios\Entities\Episodios::searchFolio($folio)){
+                    if(Episodios::searchFolio($folio)){
                         $folio = $this->generateFolio();
                     }
 
-                    \Modules\MgEpisodios\Entities\Episodios::create([
+                    Episodios::create([
                         'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                         'bw' => ($request->input('bw') == 'on') ? true : false ,
                         'netcut' => ($request->input('netcut') == 'on') ? true : false ,
@@ -123,7 +128,7 @@ class MgEpisodiosController extends Controller
     {
         try{
 
-            $episodio =  \Modules\MgEpisodios\Entities\Episodios::findEpisodio($id);
+            $episodio =  Episodios::findEpisodio($id);
             $hoy = Carbon::today('America/Mexico_City');
             $fechaentrega = Carbon::parse($episodio[0]->date_entrega, 'America/Mexico_City');
             $diferencia_dias = $fechaentrega->diffInDays($hoy, false);
@@ -153,7 +158,7 @@ class MgEpisodiosController extends Controller
     public function edit($id)
     {
         try{
-            return \Modules\MgEpisodios\Entities\Episodios::find($id);
+            return Episodios::find($id);
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -185,7 +190,7 @@ class MgEpisodiosController extends Controller
                     return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else {
                     try{
-                        \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+                        Episodios::where('id', $request->input('id'))
                             ->update([
                                 'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                                 'configuracion' => $request->input('configuracion'),
@@ -222,9 +227,9 @@ class MgEpisodiosController extends Controller
     {
         try{
 
-            $eliminar = \Modules\MgEpisodios\Entities\Episodios::destroy($id);
+            $eliminar = Episodios::destroy($id);
             if($eliminar){
-                \Modules\MgEpisodios\Entities\Episodios::eliminarCalificacion($id);
+                Episodios::eliminarCalificacion($id);
             }
             \Request::session()->flash('success', trans('mgclientes::ui.flash.flash_delete_episodio'));
             return redirect('mgepisodios/'.$id_proyecto);
@@ -354,9 +359,9 @@ class MgEpisodiosController extends Controller
                     return Response(['validator' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else{
 
-                    $arrayData = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))->get();
+                    $arrayData = Episodios::where('id', $request->input('id'))->get();
 
-                    \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+                    Episodios::where('id', $request->input('id'))
                     ->update([
                         'traductorId' => ucwords( $request->input('traductor') ),
                         'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),
@@ -407,9 +412,9 @@ class MgEpisodiosController extends Controller
                     return Response(['validator' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else{
 
-                    $arrayData = \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))->get();
+                    $arrayData = Episodios::where('id', $request->input('id'))->get();
 
-                    \Modules\MgEpisodios\Entities\Episodios::where('id', $request->input('id'))
+                    Episodios::where('id', $request->input('id'))
                     ->update([
                         'salaId' => ucwords( $request->input('sala') ),
                         'directorId' => $request->input('director'),

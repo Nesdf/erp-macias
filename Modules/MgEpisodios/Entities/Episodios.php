@@ -7,7 +7,55 @@ use Illuminate\Database\Eloquent\Model;
 class Episodios extends Model
 {
     protected $table = 'episodios';
-    protected $fillable = ['titulo_original', 'date_entrega', 'salaId', 'productor', 'responsable', 'validador_traductor', 'fecha_asignacion_traductor', 'fecha_entrega_traductor', 'sin_script', 'status_coordinador', 'traductorId', 'num_episodio', 'proyectoId', 'date_m_and_e', 'material_calificado', 'configuracion',  'bw', 'netcut', 'lockcut', 'final', 'date_bw', 'date_netcut', 'date_lockcut', 'date_final', 'rayado', 'folio', 'directorId', quien_modifico_productor', 'quien_modifico_traductor', 'fecha_script', 'aprobacion_cliente', 'fecha_aprobacion_cliente', 'fecha_rayado', 'fecha_doblaje', 'chk_canciones', 'chk_subtitulos', 'chk_lenguaje_diferente_original', 'chk_qc', 'chk_reprobacion', 'chk_edicion', 'fecha_edicion', 'nombre_editor', 'fecha_regrabacion', 'nombre_regrabador', 'nombre_qc', 'fecha_qc', 'created_at', 'updated_at'];
+    protected $fillable = [
+      'titulo_original',
+      'date_entrega',
+      'salaId',
+      'productor',
+      'responsable',
+      'validador_traductor',
+      'fecha_asignacion_traductor',
+      'fecha_entrega_traductor',
+      'sin_script',
+      'status_coordinador',
+      'traductorId',
+      'num_episodio',
+      'proyectoId',
+      'date_m_and_e',
+      'material_calificado',
+      'configuracion',
+      'bw', '
+      netcut',
+      'lockcut',
+      'final',
+      'date_bw',
+      'date_netcut',
+      'date_lockcut',
+      'date_final',
+      'rayado', '
+      folio',
+      'directorId',
+      'quien_modifico_productor',
+      'quien_modifico_traductor',
+      'fecha_script',
+      'aprobacion_cliente',
+      'fecha_aprobacion_cliente',
+      'fecha_rayado',
+      'fecha_doblaje',
+      'chk_canciones',
+      'chk_subtitulos',
+      'chk_lenguaje_diferente_original',
+      'chk_qc',
+      'chk_reprobacion',
+      'chk_edicion',
+      'fecha_edicion',
+      'nombre_editor',
+      'fecha_regrabacion',
+      'nombre_regrabador',
+      'nombre_qc',
+      'fecha_qc',
+      'created_at',
+      'updated_at'];
 
     /*public static function allEpisodioOfProject($id)
     {

@@ -33,14 +33,6 @@
 					<div id="div_form_search_proyecto">
 						<form id="form_search_proyecto">
 							<div class="col-md-4">
-								<label>Fecha Inicial</label>
-								<input type="text" name="fecha_inicial_search"  class="form-control" required>
-							</div>
-							<div class="col-md-4">
-								<label>Fecha Final</label>
-								<input type="text" name="fecha_final_search"  class="form-control" required>
-							</div>
-							<div class="col-md-4">
 								<label>Proyecto</label>
 								<select class="form-control selectpicker" name="proyecto_search" data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar...">
 									@foreach($proyectos as $item)

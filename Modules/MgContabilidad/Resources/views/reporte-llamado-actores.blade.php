@@ -87,6 +87,7 @@
             		class="table table-striped table-bordered table-hover">\
               <thead>\
                 <tr>\
+								<th>Fecha hidden</th>\
                   <th>Actor</th>\
                   <th>Personaje</th>\
                   <th>Director</th>'+encabezados(data)+'\
@@ -108,7 +109,14 @@
     });
 
           var midata = $('#table_actores').DataTable({
-						"order": [[, 'asc']],
+						"columnDefs": [
+		            {
+		                "targets": [ 0 ],
+		                "visible": false,
+		                "searchable": false
+		            }
+		        ],
+						"order": [[0, 'asc']],
 						language: {
 							search:   "Buscar: ",
 				            lengthMenu: "Mostrar _MENU_ registros por página",
@@ -149,6 +157,7 @@
       		var list_llamados = new Array();
       		for(var i=0; i<data.llamados.length; i++){
       			list_llamados += "<tr>";
+						list_llamados += "<td>"+data.llamados[i].entrada+"</td>";
       			list_llamados += "<td>"+data.llamados[i].nombre_real+"</td>";
 						list_llamados += "<td>"+data.llamados[i].descr+"</td>";
       			list_llamados += "<td>"+data.llamados[i].director+"</td>";

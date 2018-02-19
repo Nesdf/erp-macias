@@ -430,8 +430,8 @@ class MgEpisodiosController extends Controller
                         'nombre_qc' => ($request->input('nombre_qc') ? $request->input('nombre_qc') : NULL)
                     ];
 
-                      if($request->input('fecha_script') != NULL || request->input('fecha_script') != 'null'){
-                        $data['fecha_script'] = request->input('fecha_script');
+                      if($request->input('fecha_script') != NULL || $request->input('fecha_script') != 'null'){
+                        $data['fecha_script'] = $request->input('fecha_script');
                       }
 
                     Episodios::where('id', $request->input('id'))

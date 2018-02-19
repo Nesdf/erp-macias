@@ -425,6 +425,7 @@ class MgEpisodiosController extends Controller
                         'chk_reprobacion' => ($request->input('chk_reprobacion') ? true : false),
                         'chk_edicion' => ($request->input('chk_edicion') ? true : false),
                         'fecha_edicion' => $request->input('fecha_edicion'),
+                        'responsable' => $request->input('responsable'),
                         'fecha_regrabacion' => ($request->input('fecha_regrabacion') ? $request->input('fecha_regrabacion') : NULL),
                         'nombre_regrabador' => ($request->input('nombre_regrabador') ? $request->input('nombre_regrabador') : NULL),
                         'nombre_editor' => ($request->input('nombre_editor') ? $request->input('nombre_editor') : NULL),

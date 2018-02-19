@@ -1219,7 +1219,7 @@
 					var id = $(e.relatedTarget).data().id;
 
 					$.ajax({
-						url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
+						url: "{{ url('/mgepisodios/edit') }}"+"/"+id,
 						type: 'GET',
 						success: function(data){
 							console.log(data);
@@ -1292,7 +1292,7 @@
 							if(data.chk_reprobacion== true){
 								$('input[name=chk_reprobacion]').prop('checked', true);
 								$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
-										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_edicion+'" required>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_regrabacion+'" required>\
 										<label>Regrabador</label>\
 										<select name="nombre_regrabador"  class="form-control" required>\
 										<option value="">Seleccionar</option>\
@@ -1373,7 +1373,7 @@
 							if(data.chk_qc== true){
 								$('input[name=chk_qc]').prop('checked', true);
 								$('div.dateQC').html('<label>Fecha QC</label>\
-									<input type="text" name="fecha_qc" class="form-control"  value="'+data.fecha_edicion+'" required>\
+									<input type="text" name="fecha_qc" class="form-control"  value="'+data.fecha_qc+'" required>\
 									<label>QC</label>\
 									<select name="nombre_qc"  class="form-control" required>\
 									<option value="">Seleccionar</option>\

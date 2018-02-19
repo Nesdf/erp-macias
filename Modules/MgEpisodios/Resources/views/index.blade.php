@@ -1240,8 +1240,8 @@
 								$('input[name=chk_reprobacion]').prop('checked', true)
 							}
 
-							/*if(data.sin_script == false){
-								var fechaScript = '';
+							if(data.sin_script == false){
+								/*var fechaScript = '';
 								if(data.fecha_script != null){
 									fechaScript = data.fecha_script;
 								}*/

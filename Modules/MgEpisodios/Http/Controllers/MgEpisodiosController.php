@@ -413,13 +413,10 @@ class MgEpisodiosController extends Controller
                 } else{
 
                     $arrayData = Episodios::where('id', $request->input('id'))->get();
-
-                    Episodios::where('id', $request->input('id'))
-                    ->update([
+                    $data = [
                         'salaId' => ucwords( $request->input('sala') ),
                         'directorId' => $request->input('director'),
                         'fecha_doblaje' => $request->input('fecha_doblaje'),
-                        'fecha_script' => ($request->input('fecha_script')) ? $request->input('fecha_script') : null,
                         'quien_modifico_productor' => $arrayData[0]->quien_modifico_traductor.','. \Auth::user()->name.' '.\Auth::user()->ap_paterno.' '.\Auth::user()->name,
                         'chk_qc' => ($request->input('chk_qc') ? true : false),
                         'chk_reprobacion' => ($request->input('chk_reprobacion') ? true : false),
@@ -430,9 +427,15 @@ class MgEpisodiosController extends Controller
                         'nombre_regrabador' => ($request->input('nombre_regrabador') ? $request->input('nombre_regrabador') : NULL),
                         'nombre_editor' => ($request->input('nombre_editor') ? $request->input('nombre_editor') : NULL),
                         'fecha_qc' => ($request->input('fecha_qc') ? $request->input('fecha_qc') : NULL),
-                        'nombre_qc' => ($request->input('nombre_qc') ? $request->input('nombre_qc') : NULL),
+                        'nombre_qc' => ($request->input('nombre_qc') ? $request->input('nombre_qc') : NULL)
+                    ];
 
-                    ]);
+                      if($request->input('fecha_script') != NULL || request->input('fecha_script') != 'null'){
+                        $data['fecha_script'] = request->input('fecha_script');
+                      }
+
+                    Episodios::where('id', $request->input('id'))
+                    ->update($data);
                     $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }

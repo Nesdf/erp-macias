@@ -1294,9 +1294,13 @@
 							}
 
 							if(data.chk_reprobacion== true){
+								var fechaRegrabacion = '';
+								if(data.fecha_regrabacion != 'null'){
+									fechaRegrabacion = data.fecha_regrabacion;
+								}
 								$('input[name=chk_reprobacion]').prop('checked', true);
 								$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
-										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_regrabacion+'" required>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+fechaRegrabacion+'" required>\
 										<label>Regrabador</label>\
 										<select name="nombre_regrabador"  class="form-control" required>\
 										<option value="">Seleccionar</option>\
@@ -1333,8 +1337,12 @@
 							$('input[name=chk_reprobacion]').on('click', function(){
 								if($(this).is(':checked')){
 									if(data.fecha_edicion){
+										var fechaRegrabacion = '';
+										if(data.fecha_regrabacion != 'null'){
+											fechaRegrabacion = data.fecha_regrabacion;
+										}
 										$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
-										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_regrabacion+'" required>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+fechaRegrabacion+'" required>\
 										<label>Regrabador</label>\
 										<select name="nombre_regrabador"  class="form-control" required>\
 										<option value="">Seleccionar</option>\

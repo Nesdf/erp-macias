@@ -21,11 +21,6 @@
 			<div class="clearfix">
 				<div class="pull-right tableTools-container"></div>
 			</div>
-			<div class="table-header">
-				<a href="{{URL::previous()}}" class="btn btn-success">
-						Regresar
-					</a>
-			</div>
 			<h2 style="text-align: center;">Proyecto: {{$proyecto[0]->titulo_original}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			Episodio: {{$actores[0]->capitulo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			Sala: {{$actores[0]->sala}}</h2>

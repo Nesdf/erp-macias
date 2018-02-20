@@ -15,6 +15,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Detalle nómina de actores</h3>
+					<h2 style="text-align:center;">Episodio: {{$nombre_episodio}}</h2>
 
 						<table id="table_detalle" class="table table-striped table-bordered table-hover">\
 						<thead>

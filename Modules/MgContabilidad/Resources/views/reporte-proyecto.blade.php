@@ -282,7 +282,7 @@
 				      			list_proyectos += "<td>"+data.proyectos[i].titulo_original+"</td>";
 				      			list_proyectos += "<td>"+data.proyectos[i].num_episodio+"</td>";
 										list_proyectos += "<td>$"+data.proyectos[i].total+"</td>";
-										list_proyectos += "<td><a href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+data.lunes+"/"+data.sabado+"'>Detalle</a></td>";
+										list_proyectos += "<td><a target='_blank' href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+data.lunes+"/"+data.sabado+"'>Detalle</a></td>";
 				      			list_proyectos += "</tr>";
 				      		}
 

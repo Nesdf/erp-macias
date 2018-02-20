@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('url_css')
-	
+	<link rel="stylesheet" href="{{ asset('assets/switch/switch.css') }}">
 @stop
 
 @section('guia')

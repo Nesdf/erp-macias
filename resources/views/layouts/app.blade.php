@@ -34,7 +34,7 @@
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 		@yield('url_css')
-		
+
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
 		<![endif]-->
@@ -268,15 +268,15 @@
 											<b class="arrow"></b>
 										@endif
 									</li>
-									<li >
-
+									<li @if(\Request::is('mgcalendar')) class="active" @endif>
+										@if(\Request::session()->has('mgcalendar/reagendar-llamado'))
 											<a href="{{ url('mgcalendar/reagendar-llamado') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Re-Agendar Llamado
 											</a>
 											<b class="arrow"></b>
-
+											@endif
 									</li>
-									<li @if(\Request::is('mgcalendar/*')) class="active" @endif>
+									<li @if(\Request::is('mgcalendar/list-llamados')) class="active" @endif>
 										@if(\Request::session()->has('list_llamado'))
 											<a href="{{ url('mgcalendar/list-llamados') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Lista de llamados

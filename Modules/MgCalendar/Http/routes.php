@@ -16,14 +16,20 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgc
   	Route::get('/credenciales-actores/{id}', 'MgCalendarController@credencialesActores')->name('credenciales_actores');
     Route::get('/edit-llamado/{id}', 'MgCalendarController@editllamado')->name('edit_llamado');
     Route::get('/delete_llamado/{id}', 'MgCalendarController@deleteLlamado')->name('delete_llamado');
-});
 
-
-Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcalendar', 'namespace' => 'Modules\MgCalendar\Http\Controllers'], function()
-{
     Route::post('llamado-actor', 'MgCalendarController@LlamadoActor')->name('llamado_actor');
     Route::get('reagendar-llamado', 'MgCalendarController@reagendarLlamado')->name('reagendar_llamado');
     Route::get('ajax-get-personajes', 'MgCalendarController@ajaxGetPersonajes')->name('ajax_get_personajes');
     Route::post('search-llamado-reagendado', 'MgCalendarController@searchReagendarLlamado')->name('search_llamado_reagendado');
     Route::post('save-llamado-reagendado', 'MgCalendarController@saveReagendarLlamado')->name('save_llamado_reagendado');
 });
+
+
+/*Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcalendar', 'namespace' => 'Modules\MgCalendar\Http\Controllers'], function()
+{
+    Route::post('llamado-actor', 'MgCalendarController@LlamadoActor')->name('llamado_actor');
+    Route::get('reagendar-llamado', 'MgCalendarController@reagendarLlamado')->name('reagendar_llamado');
+    Route::get('ajax-get-personajes', 'MgCalendarController@ajaxGetPersonajes')->name('ajax_get_personajes');
+    Route::post('search-llamado-reagendado', 'MgCalendarController@searchReagendarLlamado')->name('search_llamado_reagendado');
+    Route::post('save-llamado-reagendado', 'MgCalendarController@saveReagendarLlamado')->name('save_llamado_reagendado');
+});*/

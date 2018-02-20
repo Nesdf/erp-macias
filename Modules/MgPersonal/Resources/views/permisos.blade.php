@@ -422,7 +422,22 @@
 						        <h3>Administrar Calendario de llamado</h3>
 						        <p>
 											<label>Generar Llamados<br>
-											<input type="checkbox" name="mgcalendar-llamados_salas-llamado_episodios-llamado_salas-llamado-credenciales_actores-delete_llamado" class="toggle" @if( isset($urlArray['mgcalendar']) ) checked @endif >
+											<input type="checkbox" name="mgcalendar-llamados_salas-llamado_episodios-llamado_salas-llamado-credenciales_actores-delete_llamado-ajax_get_personajes" class="toggle" @if( isset($urlArray['mgcalendar']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Re-agendar Llamados<br>
+											<input type="checkbox" name="reagendar_llamado-search_llamado_reagendado-save_llamado_reagendado" class="toggle" @if( isset($urlArray['mgcalendar']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Consultar llamado<br>
+											<input type="checkbox" name="list_llamado-search_llamado-credenciales_actores-edit_llamado-delete_llamado"class="toggle"  @if( isset($urlArray['list_llamado']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Generar PDF de Llamado<br>
+											<input type="checkbox" name="pdf_llamado" class="toggle" @if( isset($urlArray['pdf_llamado']) ) checked @endif >
 											</label>
 										</p>
 						      </div>
@@ -450,16 +465,6 @@
 										<p>
 											<label>Eliminar Actor<br>
 											<input type="checkbox" name="delete_actor" class="toggle" @if( isset($urlArray['delete_actor']) ) checked @endif >
-											</label>
-										</p>
-										<p>
-											<label>Consultar llamado<br>
-											<input type="checkbox" name="list_llamado-search_llamado-credenciales_actores-edit_llamado-delete_llamado"class="toggle"  @if( isset($urlArray['list_llamado']) ) checked @endif >
-											</label>
-										</p>
-										<p>
-											<label>Generar PDF de Llamado<br>
-											<input type="checkbox" name="pdf_llamado" class="toggle" @if( isset($urlArray['pdf_llamado']) ) checked @endif >
 											</label>
 										</p>
 						      </div>

@@ -503,7 +503,7 @@ class MgContabilidadController extends Controller
           }
           $this->estudios = trim($this->estudios, ',');
         } else{
-          $consultaEstudios = Salas::searchEstudio($request->input('estudio_search'));
+          $consultaEstudios = Salas::searchEstudio($estudio);
           foreach($consultaEstudios as $value){
             if ($value == end($consultaEstudios)) {
                 $this->estudios .= "'".$value->sala."'";

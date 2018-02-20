@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'mgcontabilidad', 'namespace' => 'Modules\MgContabilidad\Http\Controllers'], function()
+Route::group(['middleware' => 'web', 'prefix', 'verify_routes' => 'mgcontabilidad', 'namespace' => 'Modules\MgContabilidad\Http\Controllers'], function()
 {
     //Route::get('/', 'MgContabilidadController@index');
     Route::get('reporte-general', 'MgContabilidadController@reporteGeneral')->name('reporte_general');

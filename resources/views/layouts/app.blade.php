@@ -242,7 +242,7 @@
 						@endif
 					</li>
 					<li @if(\Request::is('mgactores') || \Request::is('mgcalendar') || \Request::is('mgcalendar/*') ) class="open" @endif>
-						@if(\Request::session()->has('mgactores') || \Request::session()->has('mgcalendar') || \Request::session()->has('list_llamado'))
+						@if(\Request::session()->has('mgactores') || \Request::session()->has('mgcalendar') || \Request::session()->has('list_llamado') || \Request::session()->has('reagendar_llamado'))
 							<a href="#" class="dropdown-toggle">
 									<i class="menu-icon fa fa-calendar"></i>
 									<span class="menu-text"> Llamados </span>
@@ -269,7 +269,7 @@
 										@endif
 									</li>
 									<li @if(\Request::is('mgcalendar')) class="active" @endif>
-										@if(\Request::session()->has('mgcalendar/reagendar-llamado'))
+										@if(\Request::session()->has('reagendar_llamado'))
 											<a href="{{ url('mgcalendar/reagendar-llamado') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Re-Agendar Llamado
 											</a>
@@ -306,6 +306,7 @@
 						</li>
 					@endif
 					<li @if(\Request::is('mgcontabilidad/*') ) class="open" @endif>
+						@if(\Request::session()->has('mgcontabilidad') )
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-bank"></i>
 							<span class="menu-text"> Contabilidad </span>
@@ -353,6 +354,7 @@
 							</li>-->
 						</ul>
 					</li>
+					@endif
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

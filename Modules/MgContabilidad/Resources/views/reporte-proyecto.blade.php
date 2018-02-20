@@ -34,13 +34,12 @@
 						<form id="form_search_proyecto">
 							<div class="col-md-4">
 								<label>Proyecto</label>
-								<select class="form-control selectpicker" name="proyecto_search" data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar...">
+								<select class="form-control selectpicker" name="proyecto_search" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 									@foreach($proyectos as $item)
 										<option value="{{$item->id}}">{{$item->titulo_original}}</option>
 									@endforeach
 								</select>
 							</div>
-							<div id="input_episodio"></div>
 							{{ csrf_field() }}
 							<div class="col-md-2">
 								<br>
@@ -88,118 +87,101 @@
 
 			$('#proyectos').selectpicker();
 
-			$('select[name=proyecto_search]').on('change', function(){
-				console.log($(this).val());
-
+			//Mostrar los episodios con detalle
+			$('#form_search_proyecto').on('submit', function(event){
+				event.preventDefault();
 				$.ajax({
-					url: '{{url("mgcontabilidad/ajax-search-proyecto")}}/'+$(this).val(),
-					type: 'GET',
+					url: '{{url("mgcontabilidad/ajax-search-episodios")}}',
+					type: 'POST',
+					data: $(this).serialize(),
 					success: function(data){
-						if(data.code = 200){
+						if(data.code == 200){
 							console.log(data);
-							$('#input_episodio').html('\
-								<div class="col-md-4">\
-								<lable>Episodios</label>\
-								<select class="form-control" name="episodios_search"  data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar..." >'+allEpisodios(data)+'\
-								</select>\
-								</div>\
-							');
+							$('.reporte').html('<br><br><div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
+										</table></div>\
+										<table id="table_proyectos" \
+										class="table table-striped table-bordered table-hover">\
+									<thead>\
+										<tr>\
+											<th>Título</th>\
+											<th>Capìtulo</th>\
+											<th>Detalle</th>\
+										</tr>\
+									</thead>\
+								 <tbody>'+dataEpisodio(data)+'\
+									</tbody>\
+								</table>');
 						}
 
-						$('select[name=episodios_search]').selectpicker();
-
-						//Buscar por Proyectos
-						$('#form_search_proyecto').on('submit', function(event){
-							event.preventDefault();
-							$.ajax({
-								url: '{{url("mgcontabilidad/ajax-search-episodio")}}',
-								type: 'POST',
-								data: $(this).serialize(),
-								success: function(data){
-									if(data.code == 200){
-										console.log(data);
-										$('.reporte').html('<br><br><div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
-		                  		</table></div>\
-		                  		<table id="table_proyectos" \
-		                  		class="table table-striped table-bordered table-hover">\
-					              <thead>\
-					                <tr>\
-					                  <th>Actor</th>\
-					                  <th>Fecha Llamado</th>\
-														<th>Personaje</th>\
-					                  <th>Loops</th>\
-														<th>Importe</th>\
-					                </tr>\
-					              </thead>\
-					             <tbody>'+dataEpisodio(data)+'\
-					              </tbody>\
-					            </table>');
-									}
-
-									$('#table_proyectos').DataTable({
-										"pageLength": 200,
-										aLengthMenu: [
-								        [50, 100, 200, -1],
-								        [50, 100, 200, "All"]
-								    ],
-										dom: 'lBfrtip',
-										buttons: [
-												{"extend": 'excel', "text":'Excel',"className": 'btn btn-success btn-xs'}
-										],
-										language: {
-											search:   "Buscar: ",
-														lengthMenu: "Mostrar _MENU_ registros por página",
-														zeroRecords: "No se encontraron registros",
-														info: "Página _PAGE_ de _PAGES_",
-														infoEmpty: "Se buscó en",
-														infoFiltered: "(_MAX_ registros)",
-														responsive:     true,
-														paginate: {
-																first:      "Primero",
-																previous:   "Previo",
-																next:       "Siguiente",
-																last:       "Anterior"
-												},
-											}
-									});
-
-									function dataEpisodio(data){
-										if(data.llamados.length <= 0){
-											return "";
-										}
-							      		var list_proyectos = '';
-							      		for(var i=0; i<data.llamados.length; i++){
-							      			list_proyectos += "<tr>";
-							      			list_proyectos += "<td>"+data.llamados[i].nombre_real+"</td>";
-													var cita = data.llamados[i].cita_end;
-													var fecha = cita.split(" ");
-							      			list_proyectos += "<td>"+fecha[0]+"</td>";
-							      			list_proyectos += "<td>"+data.llamados[i].descripcion+"</td>";
-													list_proyectos += "<td>"+data.llamados[i].loops+"</td>";
-													list_proyectos += "<td>$"+data.llamados[i].pago_total_loops+"</td>";
-							      			list_proyectos += "</tr>";
-							      		}
-
-							      			return list_proyectos;
-									}
-								},
-								error: function(error){
-
+						$('#table_proyectos').DataTable({
+							"pageLength": 200,
+							aLengthMenu: [
+									[50, 100, 200, -1],
+									[50, 100, 200, "All"]
+							],
+							dom: 'lBfrtip',
+							buttons: [
+									{"extend": 'excel', "text":'Excel',"className": 'btn btn-success btn-xs'}
+							],
+							language: {
+								search:   "Buscar: ",
+											lengthMenu: "Mostrar _MENU_ registros por página",
+											zeroRecords: "No se encontraron registros",
+											info: "Página _PAGE_ de _PAGES_",
+											infoEmpty: "Se buscó en",
+											infoFiltered: "(_MAX_ registros)",
+											responsive:     true,
+											paginate: {
+													first:      "Primero",
+													previous:   "Previo",
+													next:       "Siguiente",
+													last:       "Anterior"
+									},
 								}
-							});
 						});
 
-						function allEpisodios(datos){
-							console.log(datos.episodios.length);
-							var episodios = '';
-							for (var i = 0; i < datos.episodios.length; i++) {
-								    episodios += "<option value="+datos.episodios[i].folio+"> "+datos.episodios[i].titulo_original+"</option>"
+						function dataEpisodio(data){
+							if(data.episodios.length <= 0){
+								return "";
 							}
-							return episodios;
+									var list_proyectos = '';
+									for(var i=0; i<data.episodios.length; i++){
+										list_proyectos += "<tr>";
+										list_proyectos += "<td>"+data.episodios[i].titulo_original+"</td>";
+										list_proyectos += "<td>"+data.episodios[i].num_episodio+"</td>";
+										list_proyectos += "<td><a href='{{url('mgcontabilidad/get-search-llamados')}}/"+data.episodios[i].folio+"/"+data.episodios[i].titulo_original+"' target='_blank' >Detalle</a></td>";
+										list_proyectos += "</tr>";
+									}
+
+										return list_proyectos;
 						}
+
+						$('#table_detalle').DataTable({
+							dom: 'lBfrtip',
+							buttons: [
+									{"extend": 'excel', "text":'Excel',"className": 'btn btn-success btn-xs'}
+							],
+							language: {
+								search:   "Buscar: ",
+											lengthMenu: "Mostrar _MENU_ registros por página",
+											zeroRecords: "No se encontraron registros",
+											info: "Página _PAGE_ de _PAGES_",
+											infoEmpty: "Se buscó en",
+											infoFiltered: "(_MAX_ registros)",
+											responsive:     true,
+											paginate: {
+													first:      "Primero",
+													previous:   "Previo",
+													next:       "Siguiente",
+													last:       "Anterior"
+									},
+								}
+						});
+
+
 					},
 					error: function(error){
-						console.log(error);
+
 					}
 				});
 			});

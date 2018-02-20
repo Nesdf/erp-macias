@@ -1,4 +1,10 @@
 @extends('layouts.app')
+@section('css')
+	<li>
+		<i class="ace-icon fa fa-users"></i>
+		<a href="{{ url('mgclientes') }}">Nómina Actores</a>
+	</li>
+@stop
 
 @section('guia')
 	<li>
@@ -180,10 +186,12 @@
 
 		function allData(data){
 			console.log(data)
+			var fecha = $('input[name=lunes_search]').val();
+			var sala = $('select[name=estudio_search]').val();
 			var datos = '';
 			for(var i=0; i<data.length; i++){
 				datos += "<tr>";
-				datos += "<td>"+data[i].actor+"</td>";
+				datos += "<td><a href='{{url("mgcontabilidad/get-search-nomina-actores")}}/"+fecha+"/"+sala+"' target='_blank'>"+data[i].actor+"</a></td>";
 				datos += "<td>"+data[i].credencial+"</td>";
 				datos += "<td>$"+data[i].lunes+"</td>";
 				datos += "<td>$"+data[i].martes+"</td>";
@@ -192,6 +200,7 @@
 				datos += "<td>$"+data[i].viernes+"</td>";
 				datos += "<td>$"+data[i].sabado+"</td>";
 				datos += "<td>$"+data[i].importe+"</td>";
+
 				datos += "</tr>";
 			}
 			return datos;

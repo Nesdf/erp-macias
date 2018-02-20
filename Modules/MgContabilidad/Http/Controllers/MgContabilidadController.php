@@ -423,12 +423,36 @@ class MgContabilidadController extends Controller
       }
     }
 
-    public function ajaxSearchProyecto($id)
+    /*public function ajaxSearchProyecto($id)
     {
       try{
             $episodios = Episodios::getAllById( $id );
 
             return Response(['msg'=>'success', 'episodios'=> $episodios, 'code' => 200], 200)->header('Content-Type', 'application/json');
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }*/
+
+    public function ajaxSearchFolios(Request $request)
+    {
+      try{
+            if( $request->isMethod('post') && $request->ajax() ){
+              //$llamados = Llamados::getAllActores( $request->input('ajaxEpisodio') );
+
+              $allFolios = Episodios::getAllById($request->input('proyecto_search'));
+              //Genera los folios de todos lo espidosio asignados a un proyecto
+              $getFolios = '';
+              foreach ($allFolios as $value) {
+                # code...
+                $getFolios .= "'".$value->folio."',";
+              }
+
+              $getFolios = trim($getFolios, ',');
+              $allLlamados = Llamados::getLlamadosByFolios($getFolios);
+              return Response(['msg'=>'success', 'llamados'=> $allLlamados, 'code' => 200], 200)->header('Content-Type', 'application/json');
+            }
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -439,13 +463,64 @@ class MgContabilidadController extends Controller
     {
       try{
             if( $request->isMethod('post') && $request->ajax() ){
-              $fecha_inicial = $request->input('fecha_inicial_search');
-              $fecha_final = $request->input('fecha_final_search');
-              $folio = $request->input('episodios_search');
-              $llamados = Llamados::getAllActores( $folio, $fecha_inicial, $fecha_final );
+              //$llamados = Llamados::getAllActores( $request->input('ajaxEpisodio') );
 
-              return Response(['msg'=>'success', 'llamados'=> $llamados, 'code' => 200], 200)->header('Content-Type', 'application/json');
+              $allEpisodios = Episodios::getAllById($request->input('proyecto_search'));
+
+              return Response(['msg'=>'success', 'episodios'=> $allEpisodios, 'code' => 200], 200)->header('Content-Type', 'application/json');
             }
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
+
+    public function getSearchLlamados($folio, $nombre_episodio)
+    {
+      try{
+          $allLlamados = Llamados::getLlamadosByFolio($folio);
+          return view('mgcontabilidad::get-search-llamados', compact('allLlamados', 'nombre_episodio'));
+
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
+
+    public function getSearchNominaActores($lunes, $estudio)
+    {
+      try{
+        //Permite buscar por estudio
+        $this->estudio = '';
+        if($estudio == "ALL"){
+          $consultaEstudios = Salas::All();
+          foreach($consultaEstudios as $value){
+            if ($value == end($consultaEstudios)) {
+                $this->estudios .= "'".$value->sala."'";
+            } else{
+              $this->estudios .= "'".$value->sala."',";
+            }
+          }
+          $this->estudios = trim($this->estudios, ',');
+        } else{
+          $consultaEstudios = Salas::searchEstudio($request->input('estudio_search'));
+          foreach($consultaEstudios as $value){
+            if ($value == end($consultaEstudios)) {
+                $this->estudios .= "'".$value->sala."'";
+            } else{
+              $this->estudios .= "'".$value->sala."',";
+            }
+          }
+          $this->estudios = trim($this->estudios, ',');
+        }
+        Carbon::setTestNow($lunes);
+        $lunes = new Carbon('this monday');
+        $sabado = new Carbon('this saturday');
+        Carbon::setTestNow();
+
+          $allLlamados = Llamados::getLlamadosByFechaAndEstudio($lunes, $sabado, $this->estudios);
+          return view('mgcontabilidad::get-search-llamados', compact('allLlamados'));
+
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());

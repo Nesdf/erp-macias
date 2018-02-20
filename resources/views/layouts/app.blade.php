@@ -33,7 +33,8 @@
 		<link rel="stylesheet" href="{{ asset('assets/timepicker/css/timepicker.css') }}" />
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-
+		@yield('url_css')
+		
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
 		<![endif]-->

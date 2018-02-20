@@ -70,4 +70,19 @@ class Llamados extends Model
 		{
 			return \DB::select(\DB::raw("SELECT * FROM estudios WHERE estudio = '".$salas."'"));
 		}
+
+		public static function getLlamadosByFolios($folios)
+		{
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio IN(".$folios.")"));
+		}
+
+		public static function getLlamadosByFolio($folio)
+		{
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio = '".$folio."'"));
+		}
+
+		public static function getLlamadosByFechaAndEstudio($lunes, $sabado, $estudios)
+		{
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE sala IN(".$estudios.") AND cita_end >= '".$lunes."' AND cita_end <='".$sabado."'"));
+		}
 }

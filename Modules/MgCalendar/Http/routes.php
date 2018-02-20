@@ -15,7 +15,7 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgc
   	Route::post('/pdf-llamados', 'MgCalendarController@pdfLlamados')->name('pdf_llamado');
   	Route::get('/credenciales-actores/{id}', 'MgCalendarController@credencialesActores')->name('credenciales_actores');
     Route::get('/edit-llamado/{id}', 'MgCalendarController@editllamado')->name('edit_llamado');
-    Route::get('/delete_llamado/{id}', 'MgCalendarController@deleteLlamado')->name('delete_llamado');
+    Route::get('/delete-llamado/{id}', 'MgCalendarController@deleteLlamado')->name('delete_llamado');
 
     Route::post('llamado-actor', 'MgCalendarController@LlamadoActor')->name('llamado_actor');
     Route::get('reagendar-llamado', 'MgCalendarController@reagendarLlamado')->name('reagendar_llamado');

@@ -35,6 +35,8 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 		@yield('url_css')
 
+		<link rel="stylesheet" href="{{ asset('assets/switch/switch.css') }}">
+
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
 		<![endif]-->
@@ -324,17 +326,13 @@
 
 						<b class="arrow"></b>
 						<ul class="submenu">
-							<!--<li @if(\Request::is('mgcontabilidad/reporte-general')) class="active" @endif>
-								<a href="{{ url('mgcontabilidad/reporte-general') }}">
-									<i class="menu-icon fa fa-caret-right"></i> Reporte general
-								</a>
-								<b class="arrow"></b>
-							</li>-->
 							<li @if(\Request::is('mgcontabilidad/reporte-llamado-actores')) class="active" @endif>
+								@if(\Request::session()->has('reporte_llamado_actores'))
 								<a href="{{ url('mgcontabilidad/reporte-llamado-actores') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Reporte de llamado por sala
 								</a>
 								<b class="arrow"></b>
+								@endif
 							</li>
 							<li @if(\Request::is('mgcontabilidad/reporte-nomina-actores')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/reporte-nomina-actores') }}">
@@ -354,12 +352,6 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<!--<li @if(\Request::is('mgcontabilidad/reporte-episodio')) class="active" @endif>
-								<a href="{{ url('mgcontabilidad/reporte-episodio') }}">
-									<i class="menu-icon fa fa-caret-right"></i> Reporte por episodio
-								</a>
-								<b class="arrow"></b>
-							</li>-->
 						</ul>
 					</li>
 					@endif

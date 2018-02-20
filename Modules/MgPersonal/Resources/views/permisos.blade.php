@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('url_css')
-	<link rel="stylesheet" href="{{ asset('assets/switch/switch.css') }}">
+	
 @stop
 
 @section('guia')
@@ -483,6 +483,22 @@
 						    </div>
 						  </div>
 						</div>
+						<!-- -->
+						<div class="row">
+							<div class="col-sm-6 col-md-3">
+							    <div class="thumbnail">
+							      <div class="caption">
+							        <h3>Administrar Contabilida</h3>
+											<p>
+												<label>Contabilida<br>
+												<input type="checkbox" name="mgcontabilidad-reporte_general-reporte_nomina_actores-ajax_nomina_actores-ajax_reporte_general-reporte_llamado_actores-ajax_llamado_actores-reporte_nomina-ajax_nomina-reporte_proyecto-ajax_reporte_proyecto-detalle_episodios_actores-reporte_episodio-ajax_reporte_episodios-reporte_trabajo_actor-detalle_trabajo_actor-detalle_trabajo_actor-detalle_trabajo_actor-get_search_llamados-get_search_nomina_actores-get_detalle_por_actor" class="toggle" @if( isset($urlArray['mgcontabilidad']) ) checked @endif >
+												</label>
+											</p>
+							      </div>
+							    </div>
+						  </div>
+						</div>
+
 @stop
 
 @section('script')

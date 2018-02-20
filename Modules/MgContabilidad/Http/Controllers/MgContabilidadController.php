@@ -285,7 +285,7 @@ class MgContabilidadController extends Controller
             }
             for($i=0; $i < count($allIntRegister); $i++){
               foreach($allRegister as $val){
-                if( $newRegisters[$i]['actor'] == $val->actor ){
+                if( $newRegisters[$i]['actor'] == $val->nombre_real ){
                   $newRegisters[$i]['credencial'] = $val->credencial;
                   $cita = explode("-", $val->cita_end);
                   //Se vuelve a realizar explode por que el dia se concatena con la hora por un espacio

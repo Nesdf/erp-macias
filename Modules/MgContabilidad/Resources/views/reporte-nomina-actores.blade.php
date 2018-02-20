@@ -191,7 +191,7 @@
 			var datos = '';
 			for(var i=0; i<data.length; i++){
 				datos += "<tr>";
-				datos += "<td><a href='{{url("mgcontabilidad/get-search-nomina-actores")}}/"+fecha+"/"+sala+"/"+data[i].nombre_real+"' target='_blank'>"+data[i].nombre_real+"</a></td>";
+				datos += "<td><a href='{{url("mgcontabilidad/get-search-nomina-actores")}}/"+fecha+"/"+sala+"/"+data[i].actor+"' target='_blank'>"+data[i].actor+"</a></td>";
 				datos += "<td>"+data[i].credencial+"</td>";
 				datos += "<td>$"+data[i].lunes+"</td>";
 				datos += "<td>$"+data[i].martes+"</td>";

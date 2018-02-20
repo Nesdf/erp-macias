@@ -1,5 +1,6 @@
 .toggle {
   -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
   width: 62px;
   height: 32px;
@@ -11,7 +12,8 @@
   border: none;
   cursor: pointer;
   background-color: #707070;
-  transition: background-color ease 0.3s;
+  -webkit-transition: background-color ease 0.3s;
+  -moz-transition: background-color ease 0.3s;
 }
 
 .toggle:before {
@@ -34,7 +36,8 @@
   text-shadow: -1px -1px rgba(0,0,0,0.15);
   white-space: nowrap;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+  -webkit-transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+  -moz-transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
 }
 
 .toggle:checked {

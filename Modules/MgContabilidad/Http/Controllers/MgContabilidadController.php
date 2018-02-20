@@ -490,8 +490,6 @@ class MgContabilidadController extends Controller
     public function getSearchNominaActores($lunes, $estudio, $nombre)
     {
       try{
-        echo $nombre;
-        exit;
         //Permite buscar por estudio
         $this->estudio = '';
         if($estudio == "ALL"){

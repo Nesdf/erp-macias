@@ -487,9 +487,11 @@ class MgContabilidadController extends Controller
       }
     }
 
-    public function getSearchNominaActores($lunes, $estudio)
+    public function getSearchNominaActores($lunes, $estudio, $nombre)
     {
       try{
+        echo $nombre;
+        exit;
         //Permite buscar por estudio
         $this->estudio = '';
         if($estudio == "ALL"){
@@ -518,7 +520,7 @@ class MgContabilidadController extends Controller
         $sabado = new Carbon('this saturday');
         Carbon::setTestNow();
 
-          $allLlamados = Llamados::getLlamadosByFechaAndEstudio($lunes, $sabado, $this->estudios);
+          $allLlamados = Llamados::getLlamadosByFechaAndEstudio($lunes, $sabado, $this->estudios, $nombre);
           return view('mgcontabilidad::get-search-llamados', compact('allLlamados'));
 
       } catch(\Exception $e){

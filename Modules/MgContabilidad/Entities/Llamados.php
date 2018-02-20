@@ -81,8 +81,8 @@ class Llamados extends Model
 			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio = '".$folio."'"));
 		}
 
-		public static function getLlamadosByFechaAndEstudio($lunes, $sabado, $estudios)
+		public static function getLlamadosByFechaAndEstudio($lunes, $sabado, $estudios, $nombre)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE sala IN(".$estudios.") AND cita_end >= '".$lunes."' AND cita_end <='".$sabado."'"));
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE nombre_real = '".$nombre."' AND sala IN(".$estudios.") AND cita_end >= '".$lunes."' AND cita_end <='".$sabado."'"));
 		}
 }

@@ -21,5 +21,5 @@ Route::group(['middleware' => 'web', 'prefix' => 'mgcontabilidad', 'namespace' =
     //Route::get('ajax-search-proyecto/{id}', 'MgContabilidadController@ajaxSearchProyecto')->name('ajax_search_proyecto');
     Route::post('ajax-search-episodios', 'MgContabilidadController@ajaxSearchEpisodio')->name('detalle_trabajo_actor');
     Route::get('get-search-llamados/{folio}/{nombre_episodio}', 'MgContabilidadController@getSearchLlamados')->name('get_search_llamados');
-    Route::get('get-search-nomina-actores/{fecha}/{estudio}', 'MgContabilidadController@getSearchNominaActores')->name('get_search_nomina_actores');
+    Route::get('get-search-nomina-actores/{fecha}/{estudio}/{nombre}', 'MgContabilidadController@getSearchNominaActores')->name('get_search_nomina_actores');
 });

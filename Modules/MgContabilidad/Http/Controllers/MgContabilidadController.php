@@ -412,7 +412,7 @@ class MgContabilidadController extends Controller
             $this->estudios = trim($this->estudios, ',');
           }
 
-          $data = Llamados::getDetalleActores($request->input('inicial_search'), $request->input('final_search'), $this->estudios);
+          $data = Llamados::getTrabajoActores($this->estudios);
           //$allRegister = Llamados::allRegisters($lunes, $sabado->toDateString());
 
           return Response(['msg'=>'success', 'data'=> $data], 200)->header('Content-Type', 'application/json');
@@ -520,6 +520,41 @@ class MgContabilidadController extends Controller
 
           $allLlamados = Llamados::getLlamadosByFechaAndEstudio($lunes, $sabado, $this->estudios, $nombre);
           return view('mgcontabilidad::get-search-llamados', compact('allLlamados'));
+
+      } catch(\Exception $e){
+           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+      }
+    }
+
+    public function getDetallePorActor($actor, $estudio)
+    {
+      try{
+          $this->estudio = '';
+          if($estudio == "ALL"){
+            $consultaEstudios = Salas::All();
+            foreach($consultaEstudios as $value){
+              if ($value == end($consultaEstudios)) {
+                  $this->estudios .= "'".$value->sala."'";
+              } else{
+                $this->estudios .= "'".$value->sala."',";
+              }
+            }
+            $this->estudios = trim($this->estudios, ',');
+          } else{
+            $consultaEstudios = Salas::searchEstudio($estudio);
+            foreach($consultaEstudios as $value){
+              if ($value == end($consultaEstudios)) {
+                  $this->estudios .= "'".$value->sala."'";
+              } else{
+                $this->estudios .= "'".$value->sala."',";
+              }
+            }
+            $this->estudios = trim($this->estudios, ',');
+          }
+
+          $llamadoByActor = Llamados::getLlamadosByActor($actor, $this->estudios);
+          return view('mgcontabilidad::get-detalle-actor', compact('llamadoByActor'));
 
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

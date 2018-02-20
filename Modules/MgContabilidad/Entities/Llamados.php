@@ -52,13 +52,13 @@ class Llamados extends Model
 
 
 
-		public static function getDetalleActores($fecha_inicial, $fecha_final, $salas)
+		public static function getDetalleActores($salas)
 		{
 			return \DB::select(\DB::raw("SELECT C.nombre_real, C.actor, C.cita_end, C.loops, C.pago_total_loops, E.num_episodio, P.titulo_original
 				FROM calendario AS C
 				INNER JOIN episodios AS E ON E.folio = C.folio
 				INNER JOIN proyectos AS P ON P.id = E.\"proyectoId\"
-				WHERE sala IN(".$salas.") AND C.cita_start >= '".$fecha_inicial."' AND C.cita_end <= '".$fecha_final."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+				WHERE sala IN(".$salas.") AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
 		}
 
 		public static function getProyecto($folio)
@@ -73,16 +73,32 @@ class Llamados extends Model
 
 		public static function getLlamadosByFolios($folios)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio IN(".$folios.")"));
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio IN(".$folios.") AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
 		}
 
 		public static function getLlamadosByFolio($folio)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio = '".$folio."'"));
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio = '".$folio."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
 		}
 
 		public static function getLlamadosByFechaAndEstudio($lunes, $sabado, $estudios, $nombre)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE nombre_real = '".$nombre."' AND sala IN(".$estudios.") AND cita_end >= '".$lunes."' AND cita_end <='".$sabado."'"));
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE nombre_real = '".$nombre."' AND sala IN(".$estudios.") AND cita_end >= '".$lunes."' AND cita_end <='".$sabado."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+		}
+
+		public static function getLlamadosByActor($actor, $salas)
+		{
+			return \DB::select(\DB::raw("SELECT P.titulo_original AS proyecto, E.num_episodio AS episodio,
+				C.nombre_real AS nombre, C.cita_end AS fecha, C.pago_total_loops AS importe,
+				C.loops AS loops, C.descripcion AS personaje FROM calendario AS C
+				INNER JOIN episodios AS E ON E.folio = C.folio
+				INNER JOIN proyectos AS P ON P.id = E.\"proyectoId\"
+				WHERE sala  IN(".$salas.") AND C.nombre_real = '".$actor."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+		}
+
+		public static function getTrabajoActores($salas)
+		{
+			return \DB::select(\DB::raw("SELECT nombre_real, SUM(CAST(pago_total_loops AS float))
+FROM calendario WHERE sala  IN(".$salas.")  AND estatus_llamado = '".Config::RTK."' AND estatus= true GROUP BY nombre_real "));
 		}
 }

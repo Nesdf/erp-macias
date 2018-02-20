@@ -21,15 +21,7 @@
 			<!-- div.dataTables_borderWrap -->
 			<div id="formulario">
         <form id="form_search">
-          <div class="col-md-3">
-            <label>Fecha Inicial</label>
-            <input type="text" name="inicial_search" class="form-control" required>
-          </div>
-          <div class="col-md-3">
-          <label>Fecha Final</label>
-          <input type="text" name="final_search" class="form-control" required>
-        	</div>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<label>Estudio</label>
 						<select class="form-control selectpicker" name="estudio_search" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 							<option value="ALL">TODOS LOS ESTUDIOS</option>
@@ -92,21 +84,11 @@
 				              <thead>\
 				                <tr>\
 				                  <th>Actor</th>\
-				                  <th>Fecha</th>\
-													<th>Proyecto</th>\
-                          <th>Episodio</th>\
-                          <th>Loop</th>\
 				                  <th>Importe</th>\
 				                </tr>\
 				              </thead>\
 				              <tbody>'+dataActores(data)+'\
 				              </tbody>\
-                      <tfoot>\
-                        <tr>\
-                            <th colspan="5" style="text-align:right">Total:</th>\
-                            <th></th>\
-                        </tr>\
-                     </tfoot>\
 				            </table>');
 						}
 
@@ -134,43 +116,12 @@
 													next:       "Siguiente",
 													last:       "Anterior"
 									},
-								},
-                "footerCallback": function ( row, data, start, end, display ) {
-                    var api = this.api(), data;
-
-                    // Remove the formatting to get integer data for summation
-                    var intVal = function ( i ) {
-                        return typeof i === 'string' ?
-                            i.replace(/[\$,]/g, '')*1 :
-                            typeof i === 'number' ?
-                                i : 0;
-                    };
-
-                    // Total over all pages
-                    total = api
-                        .column( 5 )
-                        .data()
-                        .reduce( function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0 );
-
-                    // Total over this page
-                    pageTotal = api
-                        .column( 5, { page: 'current'} )
-                        .data()
-                        .reduce( function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0 );
-
-                    // Update footer
-                    $( api.column( 5 ).footer() ).html(
-                        //'$'+pageTotal +' ( $'+ total +' total)'
-                        '$'+pageTotal.toFixed(2)
-                    );
-                }
+								}
 						});
 
 						function dataActores(data){
+							console.log(data);
+							var estudio = $('select[name=estudio_search]').val();
 							if(data.data.length <= 0){
 								return "";
 							}
@@ -178,14 +129,8 @@
                   var date = '';
 				      		for(var i=0; i<data.data.length; i++){
 				      			list_proyectos += "<tr>";
-				      			list_proyectos += "<td>"+data.data[i].nombre_real+"</td>";
-                    date = data.data[i].cita_end;
-                    date = date.split(" ");
-				      			list_proyectos += "<td>"+date[0]+"</td>";
-				      			list_proyectos += "<td>"+data.data[i].titulo_original+"</td>";
-                    list_proyectos += "<td>"+data.data[i].num_episodio+"</td>";
-                    list_proyectos += "<td>"+data.data[i].loops+"</td>";
-                    list_proyectos += "<td>$"+data.data[i].pago_total_loops+"</td>";
+				      			list_proyectos += "<td><a target='_blank' href=\"{{url('mgcontabilidad/get-detalle-por-actor')}}"+"/"+data.data[i].nombre_real+"/"+estudio+" \">"+data.data[i].nombre_real+" </a> </td>";
+                    list_proyectos += "<td>$"+data.data[i].sum+"</td>";
 				      			list_proyectos += "</tr>";
 				      		}
 

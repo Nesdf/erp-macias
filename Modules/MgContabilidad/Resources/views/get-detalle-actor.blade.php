@@ -19,32 +19,34 @@
 						<table id="table_detalle" class="table table-striped table-bordered table-hover">\
 						<thead>
 							<tr>
-								<th>Actor</th>
+							<th>Actor</th>
+								<th>Proyecto</th>
+								<th>Episodio</th>
 								<th>Personaje</th>
-								<th>Director</th>
-								<th>Total Loops</th>
+								<th>Loops</th>
 								<th>Entrada</th>
-								<th>Total</th>
+								<th>Importe</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($allLlamados as $item)
+							@foreach($llamadoByActor as $item)
 								<tr>
-									<td>{{$item->nombre_real}}</td>
-									<td>{{$item->descripcion}}</td>
-									<td>{{$item->director}}</td>
+									<td>{{$item->nombre}}</td>
+									<td>{{$item->proyecto}}</td>
+									<td>{{$item->episodio}}</td>
+									<td>{{$item->personaje}}</td>
 									<td>{{$item->loops}}</td>
 									@php
-										$cita = explode(" ", $item->cita_end)
+										$cita = explode(" ", $item->fecha)
 									@endphp
 									<td>{{$cita[0]}}</td>
-									<th>${{$item->pago_total_loops}}</th>
+									<th>${{$item->importe}}</th>
 								</tr>
 							@endforeach
 						</tbody>
 						<tfoot>
 							<tr>
-									<th colspan="5" style="text-align:right">Total:</th>
+									<th colspan="6" style="text-align:right">Total:</th>
 									<th></th>
 							</tr>
 					 </tfoot>
@@ -69,6 +71,10 @@
 
 		$(document).on('ready', function(){
 			$('#table_detalle').DataTable({
+				aLengthMenu: [
+						[300,500, -1],
+						[300, 500, "All"]
+				],
 				"order": [[5, 'asc']],
 				dom: 'lBfrtip',
 				buttons: [
@@ -102,7 +108,7 @@
 
 							// Total over all pages
 							total = api
-									.column( 5 )
+									.column( 6 )
 									.data()
 									.reduce( function (a, b) {
 											return intVal(a) + intVal(b);
@@ -110,14 +116,14 @@
 
 							// Total over this page
 							pageTotal = api
-									.column( 5, { page: 'current'} )
+									.column( 6, { page: 'current'} )
 									.data()
 									.reduce( function (a, b) {
 											return intVal(a) + intVal(b);
 									}, 0 );
 
 							// Update footer
-							$( api.column( 5 ).footer() ).html(
+							$( api.column( 6 ).footer() ).html(
 									//'$'+pageTotal +' ( $'+ total +' total)'
 									'$'+pageTotal.toFixed(2)
 							);

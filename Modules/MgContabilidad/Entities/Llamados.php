@@ -47,7 +47,7 @@ class Llamados extends Model
 
 		public static function allIntRegisters($lunes, $sabado, $salas)
 		{
-			return \DB::select(\DB::raw("SELECT actor FROM calendario WHERE sala IN(".$salas.") AND estatus_llamado = '".Config::RTK."' AND estatus= true AND  cita_end >= '".$lunes."' AND cita_end <= '".$sabado."' GROUP BY actor"));
+			return \DB::select(\DB::raw("SELECT nombre_real FROM calendario WHERE sala IN(".$salas.") AND estatus_llamado = '".Config::RTK."' AND estatus= true AND  cita_end >= '".$lunes."' AND cita_end <= '".$sabado."' GROUP BY nombre_real"));
 		}
 
 

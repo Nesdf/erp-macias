@@ -88,6 +88,7 @@
 		          	type: 'POST',
 		          	data: $( this ).serialize(),
 		          	success: function(data){
+									console.log(data);
 
 		          		$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
 		            		<table id="table_nomina" \
@@ -185,13 +186,14 @@
 		});
 
 		function allData(data){
+			console.log('data');
 			console.log(data)
 			var fecha = $('input[name=lunes_search]').val();
 			var sala = $('select[name=estudio_search]').val();
 			var datos = '';
 			for(var i=0; i<data.length; i++){
 				datos += "<tr>";
-				datos += "<td><a href='{{url("mgcontabilidad/get-search-nomina-actores")}}/"+fecha+"/"+sala+"/"+data[i].actor+"' target='_blank'>"+data[i].actor+"</a></td>";
+				datos += "<td><a href='{{url("mgcontabilidad/get-search-nomina-actores")}}/"+fecha+"/"+sala+"/"+data[i].nombre_real+"' target='_blank'>"+data[i].nombre_real+"</a></td>";
 				datos += "<td>"+data[i].credencial+"</td>";
 				datos += "<td>$"+data[i].lunes+"</td>";
 				datos += "<td>$"+data[i].martes+"</td>";

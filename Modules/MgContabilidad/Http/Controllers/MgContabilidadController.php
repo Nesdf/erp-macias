@@ -268,12 +268,12 @@ class MgContabilidadController extends Controller
 
             $allRegister = Llamados::allRegisters($lunes, $sabado->toDateString(), $this->estudios);
             $allIntRegister = Llamados::allIntRegisters($lunes, $sabado->toDateString(), $this->estudios);
-
+            //return Response(['msg'=>'success', 'datos'=>$allIntRegister], 200)->header('Content-Type', 'application/json');
             $newRegisters = [];
 
             $int = 0;
             foreach ($allIntRegister as $val) {
-                $newRegisters[$int]['actor'] = $val->actor;
+                $newRegisters[$int]['nombre_real'] = $val->nombre_real;
                 $newRegisters[$int]['credencial'] = "";
                 $newRegisters[$int]['lunes'] = 0;
                 $newRegisters[$int]['martes'] = 0;
@@ -285,7 +285,7 @@ class MgContabilidadController extends Controller
             }
             for($i=0; $i < count($allIntRegister); $i++){
               foreach($allRegister as $val){
-                if( $newRegisters[$i]['actor'] == $val->nombre_real ){
+                if( $newRegisters[$i]['nombre_real'] == $val->nombre_real ){
                   $newRegisters[$i]['credencial'] = $val->credencial;
                   $cita = explode("-", $val->cita_end);
                   //Se vuelve a realizar explode por que el dia se concatena con la hora por un espacio

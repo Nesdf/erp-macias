@@ -19,10 +19,20 @@
 			<!-- PAGE CONTENT BEGINS -->
 
 
+
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Nómina Actores</h3>
 
+					<div class="row">
+						<div class="col-md-4">
+							<form id="form_actores_search">
+								<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+								<a href="javascritp:void(0)" id="btn_search_actores" class="btn btn-success">Detalle semanal de actores</a>
+							</form>
+							<br><br>
+						</div>
+					</div>
 					<form id="form_search">
 						{{ csrf_field() }}
 						<div class="col-md-3">
@@ -47,6 +57,7 @@
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 	</div><!-- /.row -->
+	
 
 <br><br>
 	<div class="detalle"></div>
@@ -78,7 +89,112 @@
                  return [date.getDay() == 1,"","Solo los lunes"];
            }
 				});
+				
+				$('#btn_search_actores').on('click', function(){
+					var date = $('input[name=lunes_search]').val();
+					if(date == ''){
+						alert("Es necesario seleccionar fecha día lunes");
+						return;
+					}
 
+					$.ajax({
+						url: "{{ url('mgcontabilidad/ajax-detalle-actores-week')}}",
+						type: 'POST',
+						data: {_token: $('input[name=_token]').val(), lunes: $('input[name=lunes_search]').val()},
+						success: function(data){
+							if(data.code == 200){
+								$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
+									<table id="table_nomina" \
+									class="table table-striped table-bordered table-hover">\
+									<thead>\
+										<tr>\
+										<th>Nombre</th>\
+										<th>Personaje</th>\
+										<th>Director</th>\
+										<th>Sala</th>\
+										<th>Loops</th>\
+										<th>Fecha</th>\
+										<th>Importe</th>\
+										</tr>\
+									</thead>\
+									<tbody>'+allDataActor(data)+'\
+									</tbody>\
+										<tfoot>\
+											<tr>\
+													<th colspan="6" style="text-align:right">Total:</th>\
+													<th></th>\
+											</tr>\
+										</tfoot>\
+									</table>\
+										</div>');
+										$('#table_nomina').DataTable({
+												"pageLength": 200,
+												aLengthMenu: [
+													[50, 100, 200, -1],
+													[50, 100, 200, "All"]
+												],
+												dom: 'lBfrtip',
+												buttons: [
+														{"extend": 'excel', "text":'Excel',"className": 'btn btn-success btn-xs'}
+												],
+												language: {
+													search:   "Buscar: ",
+															lengthMenu: "Mostrar _MENU_ registros por página",
+															zeroRecords: "No se encontraron registros",
+															info: "Página _PAGE_ de _PAGES_",
+															infoEmpty: "Se buscó en",
+															infoFiltered: "(_MAX_ registros)",
+															responsive:     true,
+															paginate: {
+																	first:      "Primero",
+																	previous:   "Previo",
+																	next:       "Siguiente",
+																	last:       "Anterior"
+															},
+														},
+														"footerCallback": function ( row, data, start, end, display ) {
+															var api = this.api(), data;
+
+															// Remove the formatting to get integer data for summation
+															var intVal = function ( i ) {
+																return typeof i === 'string' ?
+																	i.replace(/[\$,]/g, '')*1 :
+																	typeof i === 'number' ?
+																		i : 0;
+															};
+
+															// Total over all pages
+															total = api
+																.column( 6 )
+																.data()
+																.reduce( function (a, b) {
+																	return intVal(a) + intVal(b);
+																}, 0 );
+
+															// Total over this page
+															pageTotal = api
+																.column( 6, { page: 'current'} )
+																.data()
+																.reduce( function (a, b) {
+																	return intVal(a) + intVal(b);
+																}, 0 );
+
+															// Update footer
+															$( api.column( 6 ).footer() ).html(
+																//'$'+pageTotal +' ( $'+ total +' total)'
+																'$'+pageTotal.toFixed(2)
+															);
+														}
+											});
+							}
+						},
+						error: function(error){
+							console.log(error);
+						}
+					});
+
+
+				});
 
 				$('#form_search').on('submit', function(e){
 						e.preventDefault();
@@ -88,33 +204,31 @@
 		          	type: 'POST',
 		          	data: $( this ).serialize(),
 		          	success: function(data){
-									console.log(data);
-
 		          		$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
 		            		<table id="table_nomina" \
 		            		class="table table-striped table-bordered table-hover">\
-		              <thead>\
-		                <tr>\
-		                  <th>Nombre</th>\
-		                  <th>Clave</th>\
-											<th>Lunes</th>\
-											<th>Martes</th>\
-											<th>Miércoles</th>\
-											<th>Jueves</th>\
-											<th>Viernes</th>\
-											<th>Sábado</th>\
-											<th>Importe</th>\
-		                </tr>\
-		              </thead>\
-		              <tbody>'+allData(data.datos)+'\
-		              </tbody>\
-									<tfoot>\
-										<tr>\
-												<th colspan="8" style="text-align:right">Total:</th>\
-												<th></th>\
-										</tr>\
-								 </tfoot>\
-		            </table>\
+							<thead>\
+								<tr>\
+								<th>Nombre</th>\
+								<th>Clave</th>\
+								<th>Lunes</th>\
+								<th>Martes</th>\
+								<th>Miércoles</th>\
+								<th>Jueves</th>\
+								<th>Viernes</th>\
+								<th>Sábado</th>\
+								<th>Importe</th>\
+								</tr>\
+							</thead>\
+							<tbody>'+allData(data.datos)+'\
+							</tbody>\
+								<tfoot>\
+									<tr>\
+											<th colspan="8" style="text-align:right">Total:</th>\
+											<th></th>\
+									</tr>\
+								</tfoot>\
+							</table>\
 								</div>');
 								$('#table_nomina').DataTable({
 									"pageLength": 200,
@@ -202,6 +316,26 @@
 				datos += "<td>$"+data[i].viernes+"</td>";
 				datos += "<td>$"+data[i].sabado+"</td>";
 				datos += "<td>$"+data[i].importe+"</td>";
+
+				datos += "</tr>";
+			}
+			return datos;
+		}
+
+		function allDataActor(data){
+			console.log(data);
+			var datos = '';
+			for(var i=0; i<data.llamados.length; i++){
+				datos += "<tr>";
+				datos += "<td>"+data.llamados[i].nombre_real+"</td>";
+				datos += "<td>"+data.llamados[i].descripcion+"</td>";
+				datos += "<td>"+data.llamados[i].director+"</td>";
+				datos += "<td>"+data.llamados[i].sala+"</td>";
+				datos += "<td>"+data.llamados[i].loops+"</td>";
+				var fecha = data.llamados[i].cita_end;
+				fecha = fecha.split(" ")
+				datos += "<td>"+fecha[0]+"</td>";
+				datos += "<td>$"+data.llamados[i].pago_total_loops+"</td>";
 
 				datos += "</tr>";
 			}

@@ -3,7 +3,7 @@
 @section('guia')
 	<li>
 		<i class="menu-icon fa fa-bank"></i>
-		<a href="{{ url('mgcontabilidad/reporte-proyectos') }}">Detalle nómina de actores</a>
+		<a href="{{ url('mgcontabilidad/reporte-proyectos') }}">Detalle nómina de actores2</a>
 	</li>
 @stop
 
@@ -72,8 +72,7 @@
 		$(document).on('ready', function(){
 			$('#table_detalle').DataTable({
 				aLengthMenu: [
-						[300,500, -1],
-						[300, 500, "All"]
+					[50,100,300,-1],[50,100,300,'All']
 				],
 				"order": [[5, 'asc']],
 				dom: 'lBfrtip',

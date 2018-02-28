@@ -487,7 +487,7 @@ input.tipo_numero{
                                       type: 'POST',
                                       data: $( this ).serialize(),
                                       success: function(data){
-
+                                        console.log(data);
                                         $('.eliminar_select').remove();
                                         var inicio = String(data.start);
                                         var fin = String(data.end);
@@ -509,6 +509,10 @@ input.tipo_numero{
                                       },
                                       error: function(error){
                                         if(error.status == 400){
+                                          modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">'+error.responseJSON.error+'</div>');
+                                        }
+
+                                        if(error.status == 401){
                                           modal.find('.msj-error').html('<div class="alert alert-danger" role="alert">'+error.responseJSON.error+'</div>');
                                         }
 

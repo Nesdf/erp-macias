@@ -12,7 +12,7 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgc
     Route::post('ajax-nomina-actores', 'MgContabilidadController@ajaxNominaActores')->name('ajax_nomina_actores');
     Route::get('reporte-proyectos', 'MgContabilidadController@reporteProyectos')->name('reporte_proyecto');
     Route::post('ajax-reporte-proyectos', 'MgContabilidadController@ajaxReporteProyectos')->name('ajax_reporte_proyecto');
-    Route::get('detalle-episodios-actores/{folio}/{fecha_inicio}/{fecha_fin}','MgContabilidadController@detalleEpisodiosActores')->name('detalle_episodios_actores');
+    Route::get('detalle-episodios-actores/{folio}/{fecha_inicio}/{fecha_fin}/{estudio}','MgContabilidadController@detalleEpisodiosActores')->name('detalle_episodios_actores');
     Route::get('reporte-episodio', 'MgContabilidadController@reporteEpisodio')->name('reporte_episodio');
     Route::post('ajax_reporte-episodios', 'MgContabilidadController@ajaxReporteEpisodios')->name('ajax_reporte_episodios');
     Route::get('reporte-trabajo-actor', 'MgContabilidadController@reporteTrabajoActor')->name('reporte_trabajo_actor');
@@ -24,4 +24,15 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgc
     Route::get('get-search-llamados/{folio}/{nombre_episodio}', 'MgContabilidadController@getSearchLlamados')->name('get_search_llamados');
     Route::get('get-search-nomina-actores/{fecha}/{estudio}/{nombre}', 'MgContabilidadController@getSearchNominaActores')->name('get_search_nomina_actores');
     Route::get('get-detalle-por-actor/{actor}/{estudio}', 'MgContabilidadController@getDetallePorActor')->name('get_detalle_por_actor');
+});
+
+Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcontabilidad', 'namespace' => 'Modules\MgContabilidad\Http\Controllers'], function()
+{
+    Route::post('ajax-detalle-actores-week', 'MgContabilidadController@ajaxDetalleActoresWeek')->name('ajax_detalle_actores_week');
+});
+
+Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcontabilidad', 'namespace' => 'Modules\MgContabilidad\Http\Controllers'], function()
+{
+    Route::get('get-all-actores-pagos', 'MgPagosController@getAllActoresPagos')->name('get_all_actores_pagos');
+    Route::post('get-pagos-actores', 'MgPagosController@getPagosActores')->name('get_pagos_actores');
 });

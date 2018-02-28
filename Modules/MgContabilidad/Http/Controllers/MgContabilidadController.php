@@ -214,7 +214,33 @@ class MgContabilidadController extends Controller
             $lunes = new Carbon('this monday');
             $sabado = new Carbon('this saturday');
             Carbon::setTestNow();
-            $proyectos = Episodios::allEpisodios($lunes->toDateString(), $sabado->toDateString());
+
+            //Permite buscar por estudio
+            $this->estudios ;
+            if($request->input('estudio_search') == "ALL"){
+              $consultaEstudios = Salas::All();
+              foreach($consultaEstudios as $value){
+                if ($value == end($consultaEstudios)) {
+                    $this->estudios .= "'".$value->sala."'";
+                } else{
+                  $this->estudios .= "'".$value->sala."',";
+                }
+              }
+              $this->estudios = trim($this->estudios, ',');
+            } else{
+              $consultaEstudios = Salas::searchEstudio($request->input('estudio_search'));
+              foreach($consultaEstudios as $value){
+                if ($value == end($consultaEstudios)) {
+                    $this->estudios .= "'".$value->sala."'";
+                } else{
+                  $this->estudios .= "'".$value->sala."',";
+                }
+              }
+              $this->estudios = trim($this->estudios, ',');
+            }
+
+
+            $proyectos = Episodios::allEpisodios($lunes->toDateString(), $sabado->toDateString(), $this->estudios);
 
 
             return Response(['msg'=>'success', 'proyectos' => $proyectos, 'lunes' => $lunes->toDateString(), 'sabado' => $sabado->toDateString()], 200)->header('Content-Type', 'application/json');
@@ -346,14 +372,44 @@ class MgContabilidadController extends Controller
       }
     }
 
-    public function detalleEpisodiosActores($folio, $fecha_inicio, $fecha_fin)
+    public function detalleEpisodiosActores($folio, $fecha_inicio, $fecha_fin, $estudios)
     {
       try{
 
-        $actores = Llamados::getAllActores($folio, $fecha_inicio, $fecha_fin);
-
-        $proyecto = Llamados::getProyecto($actores[0]->folio);
-        return view('mgcontabilidad::detalle-episodios-actores', compact('actores','proyecto'));
+        //Permite buscar por estudio
+        $this->estudios ;
+        if($estudios == "ALL"){
+          $consultaEstudios = Salas::All();
+          foreach($consultaEstudios as $value){
+            if ($value == end($consultaEstudios)) {
+                $this->estudios .= "'".$value->sala."'";
+            } else{
+              $this->estudios .= "'".$value->sala."',";
+            }
+          }
+          $this->estudios = trim($this->estudios, ',');
+        } else{
+          $consultaEstudios = Salas::searchEstudio($estudios);
+          foreach($consultaEstudios as $value){
+            if ($value == end($consultaEstudios)) {
+                $this->estudios .= "'".$value->sala."'";
+            } else{
+              $this->estudios .= "'".$value->sala."',";
+            }
+          }
+          $this->estudios = trim($this->estudios, ',');
+        }
+        
+        $actoresSinEstudio = Llamados::getAllActoresSinEstudio($folio, $fecha_inicio, $fecha_fin);
+        $actores = Llamados::getAllActores($folio, $fecha_inicio, $fecha_fin, $this->estudios);
+        $dataProyecto = Llamados::getProyecto($actoresSinEstudio[0]->folio);
+        if(count($actores) != 0){
+          $proyecto = Llamados::getProyecto($actores[0]->folio);
+        } else {
+          $proyecto = [];
+        }
+        
+        return view('mgcontabilidad::detalle-episodios-actores', compact('actores','proyecto', 'dataProyecto', 'actoresSinEstudio'));
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -479,7 +535,9 @@ class MgContabilidadController extends Controller
     {
       try{
           $allLlamados = Llamados::getLlamadosByFolio($folio);
-          return view('mgcontabilidad::get-search-llamados', compact('allLlamados', 'nombre_episodio'));
+
+          $nameEpisodio = Episodios::getNameEpisodio($folio);
+          return view('mgcontabilidad::get-search-llamados', compact('allLlamados', 'nameEpisodio'));
 
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -561,4 +619,46 @@ class MgContabilidadController extends Controller
           \Log::error(' Trace2: ' .$e->getTraceAsString());
       }
     }
+
+    public function ajaxDetalleActoresWeek( Request $request)
+    {
+      try{
+        if( $request->isMethod('post') && $request->ajax() ){
+            
+            $lunes = $request->input('lunes');
+            $fechaArray = explode("-", $lunes);
+            $date = Carbon::create($fechaArray[0], $fechaArray[1], $fechaArray[2])->toDateString();
+            //Seleccionar fecha por día
+            Carbon::setTestNow($date);
+            $lunes = new Carbon('this monday');
+            $martes = new Carbon('this tuesday');
+            $miercoles = new Carbon('this wednesday');
+            $jueves = new Carbon('this thursday');
+            $viernes = new Carbon('this friday');
+            $sabado = new Carbon('this saturday');
+            Carbon::setTestNow();
+            //->toDateString()
+            $llamados = Llamados::getLlamadosAllActor($lunes->toDateString(), $sabado->toDateString());
+
+          return Response(['msg'=>'success', 'llamados'=> $llamados, 'code' => 200], 200)->header('Content-Type', 'application/json');
+        }
+  } catch(\Exception $e){
+       \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+      \Log::error(' Trace2: ' .$e->getTraceAsString());
+  }
+}
+
+/*public function getSearchLlamados($folio, $nombre_episodio)
+{
+  try{
+      $allLlamados = Llamados::getLlamadosByFolio($folio);
+
+      $nameEpisodio = Episodios::getNameEpisodio($folio);
+      return view('mgcontabilidad::get-search-llamados', compact('allLlamados', 'nameEpisodio'));
+
+  } catch(\Exception $e){
+       \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+      \Log::error(' Trace2: ' .$e->getTraceAsString());
+  }
+    }*/
 }

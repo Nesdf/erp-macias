@@ -39,13 +39,18 @@ class Llamados extends Model
         return $texto;
     }
 
-		public static function getLlamados($actor, $fecha)
-		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario where cita_end::text LIKE '%".$fecha."%'  AND actor = '".$actor."'  AND estatus_llamado = '".Config::RTK."' AND estatus= true "));
-		}
+    public static function getLlamados($actor, $fecha)
+    {
+        return \DB::select(\DB::raw("SELECT * FROM calendario where cita_end::text LIKE '%".$fecha."%'  AND actor = '".$actor."'  AND estatus_llamado = '".Config::RTK."' AND estatus= true "));
+    }
 
-		public static function eliminarLlamado($id)
-		{
-			return \DB::select(\DB::raw("UPDATE calendario SET estatus = false where id= ".$id." "));
-		}
+    public static function eliminarLlamado($id)
+    {
+        return \DB::select(\DB::raw("UPDATE calendario SET estatus = false where id= ".$id." "));
+    }
+
+    public static function existeLlamadoHoy($actor, $sala, $fecha)
+    {
+       return \DB::select(\DB::raw("SELECT * FROM calendario where actor = '".$actor."' AND sala != '".$sala."' AND cita_end::text like '%".$fecha."%'"));
+    }
 }

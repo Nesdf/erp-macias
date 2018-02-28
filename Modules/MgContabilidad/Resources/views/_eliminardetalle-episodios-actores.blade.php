@@ -21,9 +21,9 @@
 			<div class="clearfix">
 				<div class="pull-right tableTools-container"></div>
 			</div>
-			<h2 style="text-align: center;">Proyecto: {{$dataProyecto[0]->titulo_original}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			Episodio: {{$actoresSinEstudio[0]->capitulo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			Sala: {{$actoresSinEstudio[0]->sala}}</h2>
+			<h2 style="text-align: center;">Proyecto: {{$proyecto[0]->titulo_original}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Episodio: {{$actores[0]->capitulo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Sala: {{$actores[0]->sala}}</h2>
 			<!-- div.table-responsive -->
 
 			<!-- div.dataTables_borderWrap -->
@@ -82,6 +82,7 @@
 										last:       "Anterior"
 							},
 						},
+
 			});
 		});
 	</script>

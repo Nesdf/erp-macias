@@ -154,9 +154,17 @@ class MgCalendarController extends Controller
                 $cita_entrada = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_entrada'))->minute($request->input('min_entrada'))->second(00)->toDateTimeString();
 
                 $cita_salida = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_salida'))->minute($request->input('min_salida'))->second(00)->toDateTimeString();
+                $fecha_salida = $date[3].'-'.$meses[$date[1]].'-'.$date[2];
+                //Valida si en éste día se tiene llamado en otra sala
+                
+                $existeLlamadoHoy = Llamados::existeLlamadoHoy( $request->input('actor') , $request->input('sala'), $fecha_salida );
+                
+                if( count($existeLlamadoHoy) > 0){
+                    return Response(['error' => $request->input('actor') . ' ya tiene llamado en la sala ' . $existeLlamadoHoy[0]->sala, 'code' => 401], 400)->header('Content-Type', 'application/json');
+                }
+                
                 //Validar fecha y hora disponible
-
-                $searchFecha = \Modules\MgCalendar\Entities\Llamados::EntreFechas($cita_entrada, $cita_salida, $request->input('sala'));
+                $searchFecha = Llamados::EntreFechas($cita_entrada, $cita_salida, $request->input('sala'));
 
                 if($request->input('estatus_grupo') != 'on'){
                     if( count($searchFecha) > 0){

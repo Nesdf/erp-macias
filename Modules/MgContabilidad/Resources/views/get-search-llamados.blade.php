@@ -11,10 +11,12 @@
     <div class="row">
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
-
+			
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Detalle nómina de actores</h3>
+
+					<h2>Episodio: {{$nameEpisodio[0]->titulo_original}} - {{$nameEpisodio[0]->num_episodio}}</h2>
 
 						<table id="table_detalle" class="table table-striped table-bordered table-hover">\
 						<thead>
@@ -69,6 +71,7 @@
 
 		$(document).on('ready', function(){
 			$('#table_detalle').DataTable({
+				aLengthMenu: [[100,300,-1],[100,300,'All']],
 				"order": [[5, 'asc']],
 				dom: 'lBfrtip',
 				buttons: [

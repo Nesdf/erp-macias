@@ -22,11 +22,21 @@
 								<label>Lunes</label>
 								<input type="text" name="lunes_search" id="lunes_search" class="form-control" required>
 							</div>
+							<div class="col-md-4">
+							<label>Estudios</label>
+							<select class="form-control selectpicker" name="estudio_search" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+								<option value="ALL">TODOS LOS ESTUDIOS</option>
+								@foreach($estudios as $item)
+									<option value="{{$item->estudio}}">{{$item->estudio}}</option>
+								@endforeach
+							</select>
+						</div>
 							{{ csrf_field() }}
 							<div class="col-md-2">
 								<br>
 								<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
 							</div>
+							
 						</form>
 					</div>
 
@@ -96,7 +106,6 @@
 					data: $(this).serialize(),
 					success: function(data){
 						if(data.code == 200){
-							console.log(data);
 							$('.reporte').html('<br><br><div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
 										</table></div>\
 										<table id="table_proyectos" \
@@ -105,6 +114,7 @@
 										<tr>\
 											<th>Título</th>\
 											<th>Capìtulo</th>\
+											<th>Importe Total</th>\
 											<th>Detalle</th>\
 										</tr>\
 									</thead>\
@@ -149,6 +159,7 @@
 										list_proyectos += "<tr>";
 										list_proyectos += "<td>"+data.episodios[i].titulo_original+"</td>";
 										list_proyectos += "<td>"+data.episodios[i].num_episodio+"</td>";
+										list_proyectos += "<td>$"+data.episodios[i].sum+"</td>";
 										list_proyectos += "<td><a href='{{url('mgcontabilidad/get-search-llamados')}}/"+data.episodios[i].folio+"/"+data.episodios[i].titulo_original+"' target='_blank' >Detalle</a></td>";
 										list_proyectos += "</tr>";
 									}
@@ -311,6 +322,7 @@
 						});
 
 						function dataProyectos(data){
+							var estudios = $('select[name=estudio_search]').val()
 							if(data.proyectos.length <= 0){
 								return "";
 							}
@@ -321,7 +333,7 @@
 				      			list_proyectos += "<td>"+data.proyectos[i].titulo_original+"</td>";
 				      			list_proyectos += "<td>"+data.proyectos[i].num_episodio+"</td>";
 										list_proyectos += "<td>$"+data.proyectos[i].total+"</td>";
-										list_proyectos += "<td><a target='_blank' href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+data.lunes+"/"+data.sabado+"'>Detalle</a></td>";
+										list_proyectos += "<td><a target='_blank' href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+data.lunes+"/"+data.sabado+"/"+estudios+"'>Detalle</a></td>";
 				      			list_proyectos += "</tr>";
 				      		}
 

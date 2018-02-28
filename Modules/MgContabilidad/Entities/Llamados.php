@@ -28,12 +28,18 @@ class Llamados extends Model
 
     }
 
-    public static function EntreFechas($dateInicial, $dateFinal, $sala)
+    public static function EntreFechas($dateInicial, $dateFinal, $salas)
     {
         return \DB::select(\DB::raw("SELECT * FROM calendario WHERE cita_end >= '".$dateInicial."' AND cita_end <= '".$dateFinal."' AND sala = '".$sala."' OR cita_end >= '".$dateInicial."' AND cita_end <= '".$dateFinal."' AND sala = '".$sala."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
     }
 
-    public static function getAllActores($folio, $fecha_inicio, $fecha_fin)
+    public static function getAllActores($folio, $fecha_inicio, $fecha_fin, $salas)
+    {
+        return \DB::select(\DB::raw("SELECT * FROM calendario WHERE sala IN(".$salas.") AND folio = '".$folio."'
+ 				AND cita_end >= '".$fecha_inicio." 00:00:00' AND cita_end <= '".$fecha_fin." 23:59:00' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+	}
+	
+	public static function getAllActoresSinEstudio($folio, $fecha_inicio, $fecha_fin)
     {
         return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio = '".$folio."'
  				AND cita_end >= '".$fecha_inicio." 00:00:00' AND cita_end <= '".$fecha_fin." 23:59:00' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
@@ -100,5 +106,16 @@ class Llamados extends Model
 		{
 			return \DB::select(\DB::raw("SELECT nombre_real, SUM(CAST(pago_total_loops AS float))
 FROM calendario WHERE sala  IN(".$salas.")  AND estatus_llamado = '".Config::RTK."' AND estatus= true GROUP BY nombre_real "));
+		}
+
+		public static function getLlamadosAllActor($lunes, $sabado)
+		{
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE cita_end >= '".$lunes."' 
+			AND cita_end <='".$sabado."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+		}
+
+		public static function getLlamadosOnlyActor($actor)
+		{
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE nombre_real = '".$actor."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
 		}
 }

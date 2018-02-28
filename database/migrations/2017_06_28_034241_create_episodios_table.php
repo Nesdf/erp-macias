@@ -57,9 +57,10 @@ class CreateEpisodiosTable extends Migration
             $table->boolean('chk_reprobacion')->nullable();
             $table->boolean('chk_edicion')->nullable();
             $table->date('fecha_edicion')->nullable();
-
-            $table->date('nombre_regrabador')->nullable();
-            $table->date('nombre_editor')->nullable();
+            $table->date('fecha_qc')->nullable();
+            $table->integer('nombre_regrabador')->nullable();
+            $table->integer('nombre_editor')->nullable();
+            $table->integer('nombre_qc')->nullable();
             $table->date('fecha_regrabacion')->nullable();
 			$table->timestamps();
 

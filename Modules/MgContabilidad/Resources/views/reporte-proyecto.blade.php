@@ -36,7 +36,7 @@
 								<br>
 								<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
 							</div>
-							
+
 						</form>
 					</div>
 
@@ -236,6 +236,7 @@
 					data: $( this ).serialize(),
 					success: function( data ){
 						if(data.msg == 'success'){
+							console.log(data);
 
 							$('.reporte').html('<br><br><div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
 	                  		</table></div>\
@@ -328,13 +329,15 @@
 							}
 				      		var list_proyectos = '';
 				      		for(var i=0; i<data.proyectos.length; i++){
-				      			list_proyectos += "<tr>";
-				      			list_proyectos += "<td>"+data.proyectos[i].titulo_proyecto+"</td>";
-				      			list_proyectos += "<td>"+data.proyectos[i].titulo_original+"</td>";
-				      			list_proyectos += "<td>"+data.proyectos[i].num_episodio+"</td>";
-										list_proyectos += "<td>$"+data.proyectos[i].total+"</td>";
-										list_proyectos += "<td><a target='_blank' href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+data.lunes+"/"+data.sabado+"/"+estudios+"'>Detalle</a></td>";
-				      			list_proyectos += "</tr>";
+				      			if(data.proyectos[i].total != '0'){
+											list_proyectos += "<tr>";
+					      			list_proyectos += "<td>"+data.proyectos[i].titulo_proyecto+"</td>";
+					      			list_proyectos += "<td>"+data.proyectos[i].titulo_original+"</td>";
+					      			list_proyectos += "<td>"+data.proyectos[i].num_episodio+"</td>";
+											list_proyectos += "<td>$"+data.proyectos[i].total+"</td>";
+											list_proyectos += "<td><a target='_blank' href='{{url("mgcontabilidad/detalle-episodios-actores" )}}"+"/"+data.proyectos[i].folio+"/"+data.lunes+"/"+data.sabado+"/"+estudios+"'>Detalle</a></td>";
+					      			list_proyectos += "</tr>";
+										}
 				      		}
 
 				      			return list_proyectos;

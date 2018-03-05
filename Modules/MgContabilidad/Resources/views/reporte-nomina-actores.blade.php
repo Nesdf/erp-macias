@@ -28,7 +28,6 @@
 						<div class="col-md-4">
 							<form id="form_actores_search">
 								<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-								<a href="javascritp:void(0)" id="btn_search_actores" class="btn btn-success">Detalle semanal de actores</a>
 							</form>
 							<br><br>
 						</div>
@@ -48,8 +47,11 @@
 								@endforeach
 							</select>
 						</div>
-						<div class="col-md-2"><br>
+						<div id="btn-buscar" class="col-md-2"><br>
 							<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
+						</div>
+						<div id="btn-detalle" style="display: none;" class="col-md-4"><br>
+							<a href="javascritp:void(0)" id="btn_search_actores" class="btn btn-success"> <i class="glyphicon glyphicon-search"> </i> Detalle semanal de actores</a>
 						</div>
 					</form>
 				</div>
@@ -57,7 +59,16 @@
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 	</div><!-- /.row -->
-	
+
+	<div class="row">
+		<br>
+		<label>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="check_btn">
+			Buscar por detalle de actor
+		</lable>
+	</div>
+
 
 <br><br>
 	<div class="detalle"></div>
@@ -70,6 +81,16 @@
 @section('script')
 	<script type="text/javascript">
 		$(document).on('ready', function(){
+
+			$('#check_btn').on('click', function(){
+				if( $(this).is(":checked") ) {
+					$('#btn-detalle').css({display: 'block'});
+					$('#btn-buscar').css({display: 'none'});
+				} else {
+				$('#btn-detalle').css({display: 'none'});
+				$('#btn-buscar').css({display: 'block'});
+				}
+			});
 
 
 			//Calendarios
@@ -89,18 +110,23 @@
                  return [date.getDay() == 1,"","Solo los lunes"];
            }
 				});
-				
+
 				$('#btn_search_actores').on('click', function(){
 					var date = $('input[name=lunes_search]').val();
+					var estudio = $('.selectpicker option:selected').val();
 					if(date == ''){
 						alert("Es necesario seleccionar fecha día lunes");
+						return;
+					}
+					if(estudio == ''){
+						alert("Es necesario seleccionar el estudio");
 						return;
 					}
 
 					$.ajax({
 						url: "{{ url('mgcontabilidad/ajax-detalle-actores-week')}}",
 						type: 'POST',
-						data: {_token: $('input[name=_token]').val(), lunes: $('input[name=lunes_search]').val()},
+						data: {_token: $('input[name=_token]').val(), lunes: $('input[name=lunes_search]').val(), estudio: $('.selectpicker option:selected').val()},
 						success: function(data){
 							if(data.code == 200){
 								$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\

@@ -6,7 +6,7 @@
 @section('guia')
 	<li>
 		<i class="ace-icon fa fa-child"></i>
-		<a href="#">Personal</a>
+		<a href="{{ url('mgpersonal') }}">Personal</a>
 	</li>
 @stop
 

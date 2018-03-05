@@ -38,7 +38,7 @@ class Llamados extends Model
         return \DB::select(\DB::raw("SELECT * FROM calendario WHERE sala IN(".$salas.") AND folio = '".$folio."'
  				AND cita_end >= '".$fecha_inicio." 00:00:00' AND cita_end <= '".$fecha_fin." 23:59:00' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
 	}
-	
+
 	public static function getAllActoresSinEstudio($folio, $fecha_inicio, $fecha_fin)
     {
         return \DB::select(\DB::raw("SELECT * FROM calendario WHERE folio = '".$folio."'
@@ -108,9 +108,9 @@ class Llamados extends Model
 FROM calendario WHERE sala  IN(".$salas.")  AND estatus_llamado = '".Config::RTK."' AND estatus= true GROUP BY nombre_real "));
 		}
 
-		public static function getLlamadosAllActor($lunes, $sabado)
+		public static function getLlamadosAllActor($lunes, $sabado, $salas)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE cita_end >= '".$lunes."' 
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE sala IN(".$salas.") AND  cita_end >= '".$lunes."'
 			AND cita_end <='".$sabado."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
 		}
 

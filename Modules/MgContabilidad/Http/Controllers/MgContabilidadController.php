@@ -399,7 +399,7 @@ class MgContabilidadController extends Controller
           }
           $this->estudios = trim($this->estudios, ',');
         }
-        
+
         $actoresSinEstudio = Llamados::getAllActoresSinEstudio($folio, $fecha_inicio, $fecha_fin);
         $actores = Llamados::getAllActores($folio, $fecha_inicio, $fecha_fin, $this->estudios);
         $dataProyecto = Llamados::getProyecto($actoresSinEstudio[0]->folio);
@@ -408,7 +408,7 @@ class MgContabilidadController extends Controller
         } else {
           $proyecto = [];
         }
-        
+
         return view('mgcontabilidad::detalle-episodios-actores', compact('actores','proyecto', 'dataProyecto', 'actoresSinEstudio'));
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -624,7 +624,7 @@ class MgContabilidadController extends Controller
     {
       try{
         if( $request->isMethod('post') && $request->ajax() ){
-            
+
             $lunes = $request->input('lunes');
             $fechaArray = explode("-", $lunes);
             $date = Carbon::create($fechaArray[0], $fechaArray[1], $fechaArray[2])->toDateString();
@@ -638,7 +638,33 @@ class MgContabilidadController extends Controller
             $sabado = new Carbon('this saturday');
             Carbon::setTestNow();
             //->toDateString()
-            $llamados = Llamados::getLlamadosAllActor($lunes->toDateString(), $sabado->toDateString());
+
+            //Permite buscar por estudio
+            $this->estudios ;
+            if($request->input('estudio') == "ALL"){
+              $consultaEstudios = Salas::All();
+              foreach($consultaEstudios as $value){
+                if ($value == end($consultaEstudios)) {
+                    $this->estudios .= "'".$value->sala."'";
+                } else{
+                  $this->estudios .= "'".$value->sala."',";
+                }
+              }
+              $this->estudios = trim($this->estudios, ',');
+            } else{
+              $consultaEstudios = Salas::searchEstudio($request->input('estudio'));
+              foreach($consultaEstudios as $value){
+                if ($value == end($consultaEstudios)) {
+                    $this->estudios .= "'".$value->sala."'";
+                } else{
+                  $this->estudios .= "'".$value->sala."',";
+                }
+              }
+              $this->estudios = trim($this->estudios, ',');
+            }
+
+
+            $llamados = Llamados::getLlamadosAllActor($lunes->toDateString(), $sabado->toDateString(), $this->estudios);
 
           return Response(['msg'=>'success', 'llamados'=> $llamados, 'code' => 200], 200)->header('Content-Type', 'application/json');
         }

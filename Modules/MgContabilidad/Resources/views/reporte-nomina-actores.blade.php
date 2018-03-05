@@ -129,6 +129,7 @@
 						data: {_token: $('input[name=_token]').val(), lunes: $('input[name=lunes_search]').val(), estudio: $('.selectpicker option:selected').val()},
 						success: function(data){
 							if(data.code == 200){
+								console.log(data);
 								$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
 									<table id="table_nomina" \
 									class="table table-striped table-bordered table-hover">\

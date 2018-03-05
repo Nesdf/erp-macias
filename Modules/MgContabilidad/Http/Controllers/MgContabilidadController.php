@@ -578,7 +578,11 @@ class MgContabilidadController extends Controller
         Carbon::setTestNow();
 
           $allLlamados = Llamados::getLlamadosByFechaAndEstudio($lunes, $sabado, $this->estudios, $nombre);
-          return view('mgcontabilidad::get-search-llamados', compact('allLlamados'));
+
+          $nameEpisodio = Episodios::getNameEpisodio($allLlamados[0]->folio);
+
+
+          return view('mgcontabilidad::get-search-llamados', compact('allLlamados', 'nameEpisodio'));
 
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

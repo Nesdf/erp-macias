@@ -268,7 +268,7 @@
 											<b class="arrow"></b>
 										@endif
 									</li>
-									<li @if(\Request::is('mgcalendar')) class="active" @endif>
+									<li @if(\Request::is('mgcalendar/reagendar-llamado')) class="active" @endif>
 										@if(\Request::session()->has('reagendar_llamado'))
 											<a href="{{ url('mgcalendar/reagendar-llamado') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Re-Agendar Llamado
@@ -284,14 +284,14 @@
 											<b class="arrow"></b>
 										@endif
 									</li>
-									<li @if(\Request::is('mgcalendar/list-llamados')) class="active" @endif>
+									<!--<li @if(\Request::is('mgcalendar/list-llamados')) class="active" @endif>
 										@if(\Request::session()->has('list_llamado'))
 											<a href="{{ url('mgcalendar/list-llamados') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Agregar Personajes
 											</a>
 											<b class="arrow"></b>
 										@endif
-									</li>
+									</li>-->
 								</ul>
 							@endif
 					</li>

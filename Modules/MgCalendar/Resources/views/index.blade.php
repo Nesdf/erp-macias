@@ -482,6 +482,7 @@ input.tipo_numero{
                                   }
                                   modal.find('form').on('submit', function(ev){
                                     ev.preventDefault();
+                                    console.log($( this ).serialize());
                                     $.ajax({
                                       url: '{{url("mgcalendar/cita-llamado")}}',
                                       type: 'POST',

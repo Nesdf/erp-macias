@@ -51,7 +51,7 @@
 							<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
 						</div>
 						<div id="btn-detalle" style="display: none;" class="col-md-4"><br>
-							<a href="javascritp:void(0)" id="btn_search_actores" class="btn btn-success"> <i class="glyphicon glyphicon-search"> </i> Detalle semanal de actores</a>
+							<a  id="btn_search_actores" class="btn btn-success"> <i class="glyphicon glyphicon-search"> </i> Detalle semanal de actores</a>
 						</div>
 					</form>
 				</div>

@@ -49,8 +49,9 @@ class Llamados extends Model
         return \DB::select(\DB::raw("UPDATE calendario SET estatus = false where id= ".$id." "));
     }
 
-    public static function existeLlamadoHoy($actor, $sala, $fecha)
+    public static function existeLlamadoHoy($actor, $sala, $fecha, $hora_entrada, $hora_salida)
     {
        return \DB::select(\DB::raw("SELECT * FROM calendario where actor = '".$actor."' AND sala != '".$sala."' AND cita_end::text like '%".$fecha."%'"));
+			 /*return \DB::select(\DB::raw("SELECT * FROM calendario WHERE actor = '".$actor."' AND sala != '".$sala."' AND cita_end >= '".$fecha_inicio." ".$hora_entrada."' AND cita_end <= '".$fecha_fin." ".$hora_salida."'"));*/
     }
 }

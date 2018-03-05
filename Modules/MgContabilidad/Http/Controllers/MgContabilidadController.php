@@ -537,6 +537,7 @@ class MgContabilidadController extends Controller
           $allLlamados = Llamados::getLlamadosByFolio($folio);
 
           $nameEpisodio = Episodios::getNameEpisodio($folio);
+
           return view('mgcontabilidad::get-search-llamados', compact('allLlamados', 'nameEpisodio'));
 
       } catch(\Exception $e){

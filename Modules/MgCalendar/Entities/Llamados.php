@@ -51,7 +51,8 @@ class Llamados extends Model
 
     public static function existeLlamadoHoy($actor, $sala, $fecha, $hora_entrada, $hora_salida)
     {
-       return \DB::select(\DB::raw("SELECT * FROM calendario where actor = '".$actor."' AND sala != '".$sala."' AND cita_end::text like '%".$fecha."%'"));
-			 /*return \DB::select(\DB::raw("SELECT * FROM calendario WHERE actor = '".$actor."' AND sala != '".$sala."' AND cita_end >= '".$fecha_inicio." ".$hora_entrada."' AND cita_end <= '".$fecha_fin." ".$hora_salida."'"));*/
+       //return \DB::select(\DB::raw("SELECT * FROM calendario where actor = '".$actor."' AND sala != '".$sala."' AND cita_end::text like '%".$fecha."%'"));
+			 return \DB::select(\DB::raw("SELECT * FROM calendario WHERE actor = '".$actor."' AND sala != '".$sala."' AND cita_end >= '".$fecha." ".$hora_entrada."' AND cita_end <= '".$fecha." ".$hora_salida."' AND estatus_llamado = '".Config::RTK."' AND estatus= true "));
+
     }
 }

@@ -28,8 +28,8 @@ class Users extends Model
 
     public static function Responsables()
     {
-    	return \DB::select( \DB::raw('select name, ap_paterno, ap_materno, id from users
-where name in(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\', \'Pedro Matthiesen\' , \'Fabio\') AND ap_paterno in(\'Solís\', \'Solis\', \'Mejía\', \'Mejia\', \'Galina\')'));
+    	return \DB::select( \DB::raw('SELECT name, ap_paterno, ap_materno, id FROM users
+WHERE name IN(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\', \'Pedro Matthiesen\' , \'Fabio\') AND ap_paterno IN(\'Solís\', \'Solis\', \'Mejía\', \'Mejia\', \'Galina\', \'Matthiesen Matthiesen\', \'Fabio\')'));
     }
 
     public static function Traductores()

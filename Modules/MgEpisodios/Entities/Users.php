@@ -29,7 +29,7 @@ class Users extends Model
     public static function Responsables()
     {
     	return \DB::select( \DB::raw('select name, ap_paterno, ap_materno, id from users
-where name in(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\') AND ap_paterno in(\'Solís\', \'Solis\', \'Mejía\', \'Mejia\', \'Galina\')'));
+where name in(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\', \'Matthiesen\' , \'Fabio\') AND ap_paterno in(\'Solís\', \'Solis\', \'Mejía\', \'Mejia\', \'Galina\')'));
     }
 
     public static function Traductores()
@@ -39,10 +39,10 @@ where name in(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\') AN
             ->where('jobs.job', 'Traductor')
             ->select([
                 'users.id',
-                'users.name', 
-                'users.email', 
-                'jobs.job', 
-                'users.ap_paterno', 
+                'users.name',
+                'users.email',
+                'jobs.job',
+                'users.ap_paterno',
                 'users.ap_materno'])
             ->get();
     }
@@ -54,10 +54,10 @@ where name in(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\') AN
             ->where('users.tipo_empleado', 1)
             ->select([
                 'users.id',
-                'users.name', 
-                'users.email', 
-                'jobs.job', 
-                'users.ap_paterno', 
+                'users.name',
+                'users.email',
+                'jobs.job',
+                'users.ap_paterno',
                 'users.ap_materno'])
             ->get();
     }

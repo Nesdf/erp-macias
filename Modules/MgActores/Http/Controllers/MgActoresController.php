@@ -5,7 +5,8 @@ namespace Modules\MgActores\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use \Modules\MgActores\Entities\Actores as Actores;
+use Modules\MgActores\Entities\Actores as Actores;
+
 class MgActoresController extends Controller
 {
     /**
@@ -312,13 +313,13 @@ class MgActoresController extends Controller
                 # code...
                 //echo $value->nombre_completo."<br>";
 
-                $existe Actores::where('nombre_completo', $value->nombre_completo);
+                $existe = Actores::where('nombre_completo', $value->nombre_completo);
 
                 if(!$existe){
-                    Actores::create([                 
+                    \Modules\MgActores\Entities\ActoresActores::create([                 
                         'nombre_completo' => $value->nombre_completo,
                         'nombre_artistico' => $value->nombre_artistico,
-                        'rfc' => $value->rfc;
+                        'rfc' => $value->rfc
                     ]); 
                 }
 

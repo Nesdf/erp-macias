@@ -324,7 +324,6 @@ class MgActoresController extends Controller
                     ]); 
                 //}
 
-                return "Exito";
 
             }
         });

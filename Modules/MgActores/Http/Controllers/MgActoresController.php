@@ -323,7 +323,7 @@ class MgActoresController extends Controller
                     ]); 
                 }
 
-                echo $existe;
+                return print_r($existe);
 
             }
         });

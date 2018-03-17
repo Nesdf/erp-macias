@@ -9,3 +9,9 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mga
     Route::get('/delete_actor/{id}', 'MgActoresController@destroy')->name('delete_actor');//Actualizar
     Route::get('/delete-folio-actor/{id}', 'MgActoresController@destroyFolio')->name('delete_folio_actor');//Actualizar
 });
+
+Route::group(['middleware' => ['web'], 'prefix' => 'mgactores', 'namespace' => 'Modules\MgActores\Http\Controllers'], function()
+{
+    Route::get('/csv-actores', 'MgActoresController@csvActores')->name('csvactores');
+    Route::post('/import-excel', 'MgActoresController@csvImportActores')->name('importexcel');
+});

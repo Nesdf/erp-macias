@@ -5,7 +5,7 @@ namespace Modules\MgActores\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
+use \Modules\MgActores\Entities\Actores as Actores;
 class MgActoresController extends Controller
 {
     /**
@@ -289,6 +289,41 @@ class MgActoresController extends Controller
                 \Modules\MgActores\Entities\FolioActores::destroy($id);
             }
             return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+        } catch(\Exeption $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+        
+    }
+
+    public function csvActores()
+    {
+        return view('mgactores::csv-actores1');
+    }
+
+    public function csvImportActores(Request $request)
+    {
+        try{
+            \Excel::load($request->excel, function($reader) {
+ 
+            $excel = $reader->get();
+            
+            foreach ($excel as $value) {
+                # code...
+                //echo $value->nombre_completo."<br>";
+
+                $existe Actores::where('nombre_completo', $value->nombre_completo);
+
+                if(!$existe){
+                    Actores::create([                 
+                        'nombre_completo' => $value->nombre_completo,
+                        'nombre_artistico' => $value->nombre_artistico,
+                        'rfc' => $value->rfc;
+                    ]); 
+                }
+
+            }
+        });
         } catch(\Exeption $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

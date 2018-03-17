@@ -305,6 +305,7 @@ class MgActoresController extends Controller
     public function csvImportActores(Request $request)
     {
         try{
+            ini_set('memory_limit', '2048M');
             \Excel::load($request->excel, function($reader) {
  
             $excel = $reader->get();
@@ -313,17 +314,17 @@ class MgActoresController extends Controller
                 # code...
                 //echo $value->nombre_completo."<br>";
 
-                $existe = Actores::where('nombre_completo', $value->nombre_completo);
+                //$existe = Actores::where('nombre_completo', $value->nombre_completo);
 
-                if(!$existe){
-                    \Modules\MgActores\Entities\ActoresActores::create([                 
+                //if(!$existe){
+                    Actores::create([                 
                         'nombre_completo' => $value->nombre_completo,
                         'nombre_artistico' => $value->nombre_artistico,
                         'rfc' => $value->rfc
                     ]); 
-                }
+                //}
 
-                return print_r($existe);
+                return "Exito";
 
             }
         });

@@ -323,6 +323,8 @@ class MgActoresController extends Controller
                     ]); 
                 }
 
+                echo $existe;
+
             }
         });
         } catch(\Exeption $e){

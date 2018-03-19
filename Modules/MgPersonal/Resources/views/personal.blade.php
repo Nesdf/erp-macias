@@ -293,12 +293,14 @@
 
 
 			$('#modal_update_personal').on('shown.bs.modal', function (e) {
+				$(".loader").fadeIn();
 			  	
 			  	var id = $(e.relatedTarget).data().id;
 			 	$.ajax({
 					url: "{{ url('mgpersonal/edit_personal') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
+
 						console.log(data.job);
 						$('#id_update').val(data.id);
 						$('#nombre_update').val(data.name);
@@ -332,6 +334,9 @@
 							});
 						});
 						
+					}, 
+					beforeSend: function(){
+						$(".loader").fadeOut("slow");	
 					}
 				});
 			})	

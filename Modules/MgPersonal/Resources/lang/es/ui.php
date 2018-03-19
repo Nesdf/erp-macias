@@ -16,6 +16,7 @@ return [
 		'cliente' => 'Cliente',
 		'idioma' => 'Idioma para el Título de la Serie',
 		'titulo_aprobado' => 'Título Aprobado del Personal',
+		'puesto' => 'Puesto',
 		'mande' => 'M&E'
 	]
 ];

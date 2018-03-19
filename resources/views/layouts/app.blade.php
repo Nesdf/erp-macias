@@ -34,6 +34,28 @@
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 		@yield('url_css')
+		<style type="text/css">
+			.loader {
+			    position: fixed;
+			    left: 0px;
+			    top: 0px;
+			    width: 100%;
+			    height: 100%;
+			    z-index: 9999;
+			    background: url("{{asset('loader.gif')}}") 50% 50% no-repeat rgb(249,249,249);
+			    opacity: .8;
+			}
+			.loader h1 {
+				position: absolute;
+				bottom: 25%;
+				left: 36%;
+				color: #000;
+			}
+			.loader h1 span{
+				text-align: center;
+			}
+			
+		</style>
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -58,6 +80,7 @@
 	</head>
 
 	<body class="no-skin">
+		<div class="loader"><h1>MACIAS - GROUP  Cargando...</h1></div>
 		<div id="navbar" class="navbar navbar-default ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
@@ -517,5 +540,10 @@
 
 		<!-- inline scripts related to this page -->
 		@yield('script')
+		<script type="text/javascript">
+			$(window).load(function() {
+			    $(".loader").fadeOut("slow");
+			});
+		</script>
 	</body>
 </html>

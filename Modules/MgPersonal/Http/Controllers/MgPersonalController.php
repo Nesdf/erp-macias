@@ -17,7 +17,7 @@ class MgPersonalController extends Controller
     {
 		$personas = \Modules\MgPersonal\Entities\User::Personal();
 		$puestos = \Modules\MgPersonal\Entities\Jobs::get();
-        return view('mgpersonal::index', compact('personas', 'puestos'));
+        return view('mgpersonal::personal', compact('personas', 'puestos'));
     }
 
     /**

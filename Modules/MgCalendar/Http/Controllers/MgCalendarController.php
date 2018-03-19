@@ -32,7 +32,7 @@ class MgCalendarController extends Controller
             $estudios = Estudios::get();
             $actores = Actores::get();
             //$actores_personajes = ActorPersonaje::get();
-            return view('mgcalendar::index', compact('estudios', 'proyectos', 'actores'));
+            return view('mgcalendar::llamados', compact('estudios', 'proyectos', 'actores'));
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -109,7 +109,9 @@ class MgCalendarController extends Controller
                 $data_estudios = Estudios::find($salas[0]->estudio_id);
             }
 
-            return Response(['msg' => $salas, 'estudio'=>$data_estudios->estudio, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
+            return Response(['msg' => 'OK'], 200)->header('Content-Type', 'application/json');
+
+            //return Response(['msg' => $salas, 'estudio'=>$data_estudios->estudio, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

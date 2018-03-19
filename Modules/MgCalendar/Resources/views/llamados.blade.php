@@ -74,6 +74,7 @@ input.tipo_numero{
     $(document).on('ready', function(){
 
       $( '#proyecto_id' ).on('change', function(){
+        $(".loader").fadeIn();
           var id = $(this).val();
           if(id != 'Seleccionar'){
             $.ajax({
@@ -81,6 +82,7 @@ input.tipo_numero{
               type: "GET",
               //Start Succes list_episodios
               success: function( data ){
+                $(".loader").fadeOut("slow");
                 if(data.msg.length > 0){
                     $('#list_episodios').html('<br><label>Episodio: </label><br><select id="data_episodios" class="form-control" data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar..." >\
                         <option value="">Seleccionar...</option>\
@@ -92,6 +94,7 @@ input.tipo_numero{
 
                     // Sala
                     $( '#data_episodios' ).on('change', function(){
+                      $(".loader").fadeIn();
                         var id = $(this).val();
                         var id_episodio = $(this).find(':selected').data('id');
 
@@ -110,6 +113,8 @@ input.tipo_numero{
                             url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                             type: "GET",
                             success: function( data ){
+                              $(".loader").fadeOut();
+                              console.log(data);
                               $('div#reload').html('');
                                $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong> '+data.estudio+' </h3>\
                                <h3 style="text-align: center;" ><strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
@@ -678,9 +683,9 @@ input.tipo_numero{
                                 }
                               });
                             },
-                            beforeSend: function(){
-                               $('div#reload').html('<img src="{{ asset('assets/mg/img/cargando.gif') }}">');
-                            },
+                            //beforeSend: function(){
+                            //   $('div#reload').html('<img src="{{ asset('assets/mg/img/cargando.gif') }}">');
+                            //},
                             error: function(error){
                               $('div#reload').html('');
                             }

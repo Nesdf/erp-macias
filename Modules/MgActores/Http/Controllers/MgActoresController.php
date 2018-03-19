@@ -16,7 +16,7 @@ class MgActoresController extends Controller
     public function index()
     {
         $actores = Actores::get();
-        return view('mgactores::index', compact('actores'));
+        return view('mgactores::actores', compact('actores'));
     }
 
     /**

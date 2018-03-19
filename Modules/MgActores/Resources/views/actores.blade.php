@@ -262,6 +262,7 @@
 					
 					$('input[name=id]').val(data.actor.id);
 					$('input[name=nombre_completo]').val(data.actor.nombre_completo);
+					$('input[name=rfc]').val(data.actor.rfc);
 					$('input[name=nombre_artistico]').val(data.actor.nombre_artistico);
 						var conteo = 0;
 						var h = $('#input_folios').html('');

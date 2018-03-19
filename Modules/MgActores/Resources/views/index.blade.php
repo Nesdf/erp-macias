@@ -40,6 +40,7 @@
 									<th>ID</th>
 									<th>Nombre Completo</th>
 									<th>Nombre Artístico</th>
+									<th>RFC</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -50,6 +51,7 @@
 										<td>{{$actor->id}}</td>
 										<td>{{$actor->nombre_completo}}</td>
 										<td>{{$actor->nombre_artistico}}</td>
+										<td>{{$actor->rfc}}</td>
 										<td>
 											@if(\Request::session()->has('edit_actor') && \Request::session()->has('update_actor') && \Request::session()->has('delete_folio_actor'))
 												<a data-id="{{ $actor->id }}" data-toggle="modal" data-target="#modal_update_actor" class="btn btn-xs btn-info" title="Editar">
@@ -97,6 +99,10 @@
 						<label for="nombre_artistico">Nombre Artístico</label>
 						<input type="text" class="form-control" id="nombre_artistico" name="nombre_artistico" placeholder="Nombre Artístico">
 					</div>	
+					<div class="form-group">
+						<label for="rfc">RFC</label>
+						<input type="text" class="form-control" id="rfc" name="rfc" placeholder="RFC">
+					</div>	
 					<div>
 						Agregar Folio <a href="javascript:void(0)" id="add_folio" class="btn btn-xs btn-info" >+</a>
 						<hr>
@@ -134,6 +140,10 @@
 					<div class="form-group">
 						<label for="nombre_artistico">Nombre Artítico</label>
 						<input type="text" class="form-control" name="nombre_artistico" placeholder="Nombre Artístico">
+					</div>	
+					<div class="form-group">
+						<label for="rfc">RFC</label>
+						<input type="text" class="form-control" name="rfc" placeholder="RFC">
 					</div>	
 					<div>
 						Agregar Folio <a href="javascript:void(0)" id="add_folio_update" class="btn btn-xs btn-info" >+</a>

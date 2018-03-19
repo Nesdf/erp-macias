@@ -15,7 +15,7 @@ class MgActoresController extends Controller
      */
     public function index()
     {
-        $actores = \Modules\MgActores\Entities\Actores::get();
+        $actores = Actores::get();
         return view('mgactores::index', compact('actores'));
     }
 
@@ -55,7 +55,8 @@ class MgActoresController extends Controller
 
                 $save = \Modules\MgActores\Entities\Actores::create([                 
                         'nombre_completo' => ( $request->input('nombre_completo') ) ?  ucwords(strtolower($request->input('nombre_completo')))  : null,
-                        'nombre_artistico' => ( $request->input('nombre_artistico') ) ?  ucwords(strtolower($request->input('nombre_artistico')))  : null
+                        'nombre_artistico' => ( $request->input('nombre_artistico') ) ?  ucwords(strtolower($request->input('nombre_artistico')))  : null,
+                        'rfc' => ( $request->input('rfc') ) ?  ucfirst($request->input('rfc'))  : null
                     ]);
 
                 if($save){
@@ -184,7 +185,8 @@ class MgActoresController extends Controller
                 $save = \Modules\MgActores\Entities\Actores::where('id', $id)
                     ->update([                 
                     'nombre_completo' => ( $request->input('nombre_completo') ) ?  ucwords(strtolower($request->input('nombre_completo')))  : null,
-                    'nombre_artistico' => ( $request->input('nombre_artistico') ) ?  ucwords(strtolower($request->input('nombre_artistico')))  : null
+                    'nombre_artistico' => ( $request->input('nombre_artistico') ) ?  ucwords(strtolower($request->input('nombre_artistico')))  : null,
+                    'rfc' => ( $request->input('rfc') ) ?  ucfirst($request->input('rfc'))  : null
                 ]);
 
                     if($save){

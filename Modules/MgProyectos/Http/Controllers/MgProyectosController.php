@@ -20,7 +20,7 @@ class MgProyectosController extends Controller
 	        $clientes = \Modules\MgProyectos\Entities\Clientes::get();
 	        $idiomas = \Modules\MgProyectos\Entities\Idiomas::get();
 	        $vias = \Modules\MgEpisodios\Entities\Vias::get();
-	        return view('mgproyectos::index', compact('idiomas', 'clientes', 'proyectos', 'vias'));
+	        return view('mgproyectos::proyectos', compact('idiomas', 'clientes', 'proyectos', 'vias'));
 		} catch(\Exception $e){
 
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

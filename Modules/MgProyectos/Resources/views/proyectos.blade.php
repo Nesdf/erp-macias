@@ -512,11 +512,13 @@
 
 				$('#form_create_proyecto').on('submit', function(event){
 					event.preventDefault();
+					$(".loader").fadeIn();
 					$.ajax({
 						url: "{{ url('mgproyectos/add_proyecto') }}",
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function( data ){
+							$(".loader").fadeOut("slow");
 							if(data.msg == 'success'){
 								window.location.reload(true);
 							}
@@ -539,12 +541,12 @@
 			*/
 			$('#modal_update_proyecto').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
-
+				$(".loader").fadeIn();
 				$.ajax({
 					url: "{{ url('mgproyectos/edit_proyecto') }}" + "/" + id,
 					type: "GET",
 					success: function(data){
-						console.log(data);
+						$(".loader").fadeOut("slow");
 						$('input[name=id]').val(data.id);
 						$('input[name=titulo_serie]').val(data.titulo_original);
 						$('input[name=titulo_proyecto]').val(data.titulo_aprobado);
@@ -718,11 +720,13 @@
 			$('#modal_show_proyecto').on('shown.bs.modal', function(event){
 				var id = $(event.relatedTarget).data().id;
 				event.preventDefault();
+				$(".loader").fadeIn();
 
 				$.ajax({
 					url: "{{ url('mgproyectos/show_proyecto') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
+						$(".loader").fadeOut("slow");
 
 						if(data.proyecto[0].titulo_original != null){
 							$('#titulo_original_show').html(data.proyecto[0].titulo_original);

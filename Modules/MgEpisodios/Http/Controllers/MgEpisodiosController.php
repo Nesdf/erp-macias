@@ -36,7 +36,7 @@ class MgEpisodiosController extends Controller
             $traductores = Users::traductores();
             $reportes = TipoReporte::get();
             $tecnicos = Users::Tecnicos();
-            return view('mgepisodios::index', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos'));
+            return view('mgepisodios::episodios', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos'));
 
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

@@ -802,11 +802,12 @@
 			*/
 			$('#modal_update_episodio').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
-
+				$(".loader").fadeIn();
 				$.ajax({
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function(data){
+						$(".loader").fadeOut("slow");
 						$('input[name=id]').val(data.id);
 						$('input[name=proyectoId]').val(data.proyectoId);
 						$('select[name=productor]').val(data.productor);
@@ -887,11 +888,13 @@
 
 			$('#form_add_traductor').on('submit', function(event){
 				event.preventDefault();
+				$(".loader").fadeIn();
 				$.ajax({
 					url: "{{ url('mgepisodios/assign-traductor') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
+						$(".loader").fadeOut("slow");
 						if(data.msg == 'success'){
 							window.location.reload(true);
 						}
@@ -913,12 +916,12 @@
 			$('#modal_update_configuracion').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
 				$('#id_configuracion').val(id);
-
+				$(".loader").fadeIn();
 				$.ajax({
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
-
+						$(".loader").fadeOut("slow");
 						//BW
 						if(data.bw == true){
 							$('#bw_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
@@ -951,6 +954,7 @@
 
 				$('#form_update_configuracion').on('submit', function(event){
 					event.preventDefault();
+
 					$.ajax({
 						url: "{{ url('mgepisodios/update-configuracion') }}",
 						type: "POST",
@@ -1000,12 +1004,12 @@
 
 			$('#modal_ver_episodio').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
-
+				$(".loader").fadeIn();
 				$.ajax({
 					url: "{{ url('mgepisodios/show_episodio	') }}" + "/" + id,
 					type: "GET",
 					success: function(data){
-
+						$(".loader").fadeOut("slow");
 						$('h2').html('Fecha de entrega: '+data.episodios[0].date_entrega).addClass('alert alert-'+data.status_entrega);
 
 						if(data.msg = 'success'){
@@ -1217,12 +1221,12 @@
 				*/
 				$('#modal_update_productor').on('shown.bs.modal', function(e){
 					var id = $(e.relatedTarget).data().id;
-
+					$(".loader").fadeIn();
 					$.ajax({
 						url: "{{ url('/mgepisodios/edit') }}"+"/"+id,
 						type: 'GET',
 						success: function(data){
-							console.log(data);
+							$(".loader").fadeOut("slow");
 							$('.date-type-rayado').html('');
 							if(data.fecha_rayado){
 								$('.date-type-rayado').html('Fecha rayado: ' + data.fecha_rayado);
@@ -1527,11 +1531,12 @@
 			$('#modal_update_traductor').on('shown.bs.modal', function (e) {
 				var id = $(e.relatedTarget).data().id;
 				$('input[name=id]').val(id);
+				$(".loader").fadeIn();
 				$.ajax({
 						url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
 						type: 'GET',
 						success: function(data){
-							console.log(data);
+							$(".loader").fadeOut("slow");
 							$('select[name=traductor]').val(data.traductorId);
 							$('input[name=fecha_entrega_traductor]').val(data.fecha_entrega_traductor);
 							if(data.chk_canciones == true){

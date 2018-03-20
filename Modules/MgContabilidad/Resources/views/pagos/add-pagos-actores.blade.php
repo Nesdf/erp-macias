@@ -47,6 +47,27 @@
 
 @section('modales')
 
+<div class="modal fade" id="pagos" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Pago de Actor</h4>
+      </div>
+      <div class="modal-body">
+        <label>No.</label><br>
+        <input type="text" name="numero" class="form-control"><br>
+        <label>Archivo</label><br>
+        <input type="file" name="numero" class="form-control"><br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary">Generar Pago</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @stop
 
 @section('script')
@@ -82,7 +103,7 @@
 						
 						if(data.code == 200){
 							$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
-							<button id="btn-pago" style="display:none;" class="btn btn-success">Realizar Pago</button><br><br>\
+							<button id="btn-pago" data-toggle="modal" data-target="#pagos" style="display:none;" class="btn btn-success">Realizar Pago</button><br><br>\
 							<h2 style="padding-left: 58%;"></h2>\
 		            		<table id="table_nomina" \
 		            		class="table table-striped table-bordered table-hover">\

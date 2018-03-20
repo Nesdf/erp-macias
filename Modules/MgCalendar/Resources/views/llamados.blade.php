@@ -659,7 +659,7 @@ input.tipo_numero{
                                   modal.find('button[data-action=delete]').on('click', function() {
                                     console.log(calEvent.id);
                                     $.ajax({
-                                      url: '{{url("/mgcalendar/delete_llamado")}}'+'/'+calEvent.id,
+                                      url: '{{url("/mgcalendar/delete-llamado")}}'+'/'+calEvent.id,
                                       type: 'GET',
                                       success: function(data){
                                         console.log(data);

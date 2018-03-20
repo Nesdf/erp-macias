@@ -79,10 +79,11 @@
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function(data){
-						console.log(data);
+						
 						if(data.code == 200){
 							$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
-							<button class="btn btn-success">Realizar Pago</button><br><br>\
+							<button id="btn-pago" style="display:none;" class="btn btn-success">Realizar Pago</button><br><br>\
+							<h2 style="padding-left: 58%;"></h2>\
 		            		<table id="table_nomina" \
 		            		class="table table-striped table-bordered table-hover">\
 							<thead>\
@@ -129,6 +130,43 @@
 								});
 						}
 
+						var pago = {};
+						var id = '';
+						var pago_loops = '';
+						$('.chk_pago').on('click', function(e){
+							id = $(this).attr('data-id');
+							pago_loops = $(this).attr('data-total');
+							
+							
+
+							if(!pago[id]){
+								pago[id] = pago_loops;
+							} else {
+								delete pago[id];
+							}
+
+							if(Object.keys(pago).length < 1){
+								$('#btn-pago').css('display', 'none');
+							} else {
+								$('#btn-pago').css('display', 'block');
+							}
+							var p = 0;
+							for (value in pago){
+								p +=  parseFloat(pago[value]);
+							}
+
+							p = 'Por pagar: $' + Math.round(p * 100) / 100;
+
+							$('h2').html(p);
+
+							$('#btn-pago').on('click', function(){
+								console.log('submit');
+							});
+
+						});
+
+
+
 					},
 					error: function(error){
 						console.log(error);
@@ -150,7 +188,7 @@
 				var fecha = data.actores[i].cita_end;
 				fecha = fecha.split(" ")
 				datos += "<td>"+fecha[0]+"</td>";
-				datos += "<td><input type='checkbox'></td>";
+				datos += "<td ><input type='checkbox' class='chk_pago' data-id='"+data.actores[i].id+"' data-total='"+data.actores[i].pago_total_loops+"'></td>";
 				datos += "<td>$"+data.actores[i].pago_total_loops+"</td>";
 
 				datos += "</tr>";

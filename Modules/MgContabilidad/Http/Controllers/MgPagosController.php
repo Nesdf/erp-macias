@@ -97,7 +97,7 @@ class MgPagosController extends Controller
     {
         try{
             $actores = Actores::all();
-            return view('mgcontabilidad::pagos.get-pagos-actores', compact('actores'));
+            return view('mgcontabilidad::pagos.add-pagos-actores', compact('actores'));
       
         } catch(\Exception $e){
              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

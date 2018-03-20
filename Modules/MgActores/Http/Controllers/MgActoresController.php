@@ -335,4 +335,35 @@ class MgActoresController extends Controller
         }
         
     }
+
+    public function csvActoresMx()
+    {
+        return view('mgactores::csv-actoresmx');
+    }
+
+    public function csvImportActoresMx(Request $request)
+    {
+        try{
+            ini_set('memory_limit', '2048M');
+            \Excel::load($request->excel, function($reader) {
+ 
+            $excel = $reader->get();
+            
+            foreach ($excel as $value) {
+                $nombre = strtolower($value->nombre);
+                $id = Actores::getId(ucwords($nombre));
+                
+                if(count($id) == 1){
+                    Actores::where('id', $id[0]->id)->update([               
+                        'rfc' => $value->rfc
+                    ]);
+                } 
+            }
+        });
+        } catch(\Exeption $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+        
+    }
 }

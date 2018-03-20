@@ -14,4 +14,6 @@ Route::group(['middleware' => ['web'], 'prefix' => 'mgactores', 'namespace' => '
 {
     Route::get('/csv-actores', 'MgActoresController@csvActores')->name('csvactores');
     Route::post('/import-excel', 'MgActoresController@csvImportActores')->name('importexcel');
+    Route::get('/csv-actores-mx', 'MgActoresController@csvActoresMx')->name('csvactores');
+    Route::post('/import-excel-mx', 'MgActoresController@csvImportActoresMx')->name('importexcelmx');
 });

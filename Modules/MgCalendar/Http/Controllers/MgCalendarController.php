@@ -420,11 +420,12 @@ class MgCalendarController extends Controller
     public function ajaxGetPersonajes(){
       try{
         $actores_personajes = ActorPersonaje::get();
-        return Response(['msg' => 'success', 'pagos' => $actores_personajes ], 200)->header('Content-Type', 'application/json');
+        return Response(['msg' => 'success', 'actores' => $actores_personajes, 'pagos' => $actores_personajes ], 200)->header('Content-Type', 'application/json');
       } catch(\Exception $e){
           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());
           return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+          //
       }
     }
     

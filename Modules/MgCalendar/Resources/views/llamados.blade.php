@@ -311,6 +311,7 @@ input.tipo_numero{
                                       success: function(data){
                                         if(data.msg == 'success'){
                                           var valuePersonajes = "";
+                                          console.log(data);
                                           for(var i=0; i<data.actores.length; i++){
                                             valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
                                           }

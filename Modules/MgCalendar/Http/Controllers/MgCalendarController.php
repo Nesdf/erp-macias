@@ -208,6 +208,7 @@ class MgCalendarController extends Controller
                     'pago_total_loops' => round($pago_total_loops[0]->tabulador,2),
                     'estatus_llamado' => Config::RTK,
                     'sala' => $request->input('sala'),
+                    'estatus_pago' => 'No Pagado',
                     'nombre_real' => $request->input('nombre_real'),
                     'descripcion' => ($request->input('nuevo_personaje')) ? ucwords( strtolower( $request->input('nuevo_personaje') ) ) : ucwords( strtolower( $request->input('personaje') ) ),
                     'estatus_grupo' => ($request->input('estatus_grupo') == 'on') ? true : false,
@@ -419,7 +420,7 @@ class MgCalendarController extends Controller
     public function ajaxGetPersonajes(){
       try{
         $actores_personajes = ActorPersonaje::get();
-        return Response(['msg' => 'success', 'actores' => $actores_personajes ], 200)->header('Content-Type', 'application/json');
+        return Response(['msg' => 'success', 'pagos' => $actores_personajes ], 200)->header('Content-Type', 'application/json');
       } catch(\Exception $e){
           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());

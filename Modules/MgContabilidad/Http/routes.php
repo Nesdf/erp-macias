@@ -35,4 +35,6 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcontabilidad', 'na
 {
     Route::get('get-all-actores-pagos', 'MgPagosController@getAllActoresPagos')->name('get_all_actores_pagos');
     Route::post('get-pagos-actores', 'MgPagosController@getPagosActores')->name('get_pagos_actores');
+    Route::post('send-email-pagos', 'MgPagosController@sendEmailPagos')->name('send_email_pagos');
+    Route::post('save-files-pagos', 'MgPagosController@saveFilesPagos')->name('save_files_pagos');
 });

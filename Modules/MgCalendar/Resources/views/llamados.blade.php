@@ -114,7 +114,6 @@ input.tipo_numero{
                             type: "GET",
                             success: function( data ){
                               $(".loader").fadeOut();
-                              console.log(data);
                               $('div#reload').html('');
                                $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong> '+data.estudio+' </h3>\
                                <h3 style="text-align: center;" ><strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');
@@ -294,7 +293,7 @@ input.tipo_numero{
                                           </select></div>\
                                           <div class="personaje"> </div>\
                                           <div class="msj-error" ></div>\
-                                          <br><br><button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Guardar</button>\
+                                          <br><br><button type="submit" class="btn btn-sm btn-success submit_cita"><i class="ace-icon fa fa-check"></i> Guardar</button>\
                                        </form>\
                                      </div>\
                                      <div class="modal-footer">\
@@ -349,6 +348,12 @@ input.tipo_numero{
                                           //$('select[name=personaje]').selectpicker('refresh');
                                         }
                                       },
+                                      beforeSend: function() {
+                                          $(".loader").fadeIn();
+                                      },
+                                      complete: function() {
+                                          $(".loader").fadeOut("slow");
+                                      },
                                       error: function(error){
 
                                       }
@@ -399,8 +404,8 @@ input.tipo_numero{
                                     $('input[name=min_salida]').on('change', function(){
                                       if( parseInt( $('input[name=hora_salida]').val() ) == parseInt( $('input[name=hora_entrada]').val() )){
                                         if( parseInt( $(this).val() ) < parseInt( $('input[name=min_entrada]').val() ) ) {
-                                          $('input[name=min_salida]').val($('input[name=min_entrada]').val());
-                                          alert('El tiempo de salida debe ser mayor a la de entrada.');
+                                          //$('input[name=min_salida]').val($('input[name=min_entrada]').val());
+                                         // alert('El tiempo de salida debe ser mayor a la de entrada.');
                                         }
                                       }
                                     });
@@ -487,13 +492,11 @@ input.tipo_numero{
                                   }
                                   modal.find('form').on('submit', function(ev){
                                     ev.preventDefault();
-                                    console.log($( this ).serialize());
                                     $.ajax({
                                       url: '{{url("mgcalendar/cita-llamado")}}',
                                       type: 'POST',
                                       data: $( this ).serialize(),
                                       success: function(data){
-                                        console.log(data);
                                         $('.eliminar_select').remove();
                                         var inicio = String(data.start);
                                         var fin = String(data.end);
@@ -512,6 +515,14 @@ input.tipo_numero{
                                           },
                                           false // make the event "stick"
                                         );
+                                      },
+                                      beforeSend: function() {
+                                        $(".submit_cita").attr("disabled");
+                                        $(".loader").fadeIn();
+                                      },
+                                      complete: function() {
+                                        $(".submit_cita").removeAttr("disabled");
+                                        $(".loader").fadeOut("slow");
                                       },
                                       error: function(error){
                                         if(error.status == 400){
@@ -555,7 +566,6 @@ input.tipo_numero{
                                       url: '{{url("mgcalendar/credenciales-actores")}}'+'/'+id_val,
                                       type: 'GET',
                                       success: function(data){
-                                        console.log(data);
                                         $(".credencial").html('');
                                         $('input[name=nombre_real]').val(data.nombre_real.nombre_completo);
                                         $(".credencial").html('<option value="">Seleccionar...</option>');
@@ -641,8 +651,6 @@ input.tipo_numero{
                                   fechaActual.setHours(horaActual, minutosActual, segundosctual, 0);
 
                                   var modal = $(modal).appendTo('body');
-                                  console.log(fechaEvento.getTime());
-                                  console.log(fechaActual.getTime());
                                   if( fechaEvento.getTime() <= fechaActual.getTime() ){
                                     modal.find('.btn-eliminar').css({display:"none"});
                                   } else {
@@ -657,12 +665,10 @@ input.tipo_numero{
                                     //modal.modal("hide");
                                   });
                                   modal.find('button[data-action=delete]').on('click', function() {
-                                    console.log(calEvent.id);
                                     $.ajax({
                                       url: '{{url("/mgcalendar/delete-llamado")}}'+'/'+calEvent.id,
                                       type: 'GET',
                                       success: function(data){
-                                        console.log(data);
                                       }
                                     });
 

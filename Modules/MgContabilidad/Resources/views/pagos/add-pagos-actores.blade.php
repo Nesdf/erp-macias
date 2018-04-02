@@ -50,20 +50,27 @@
 <div class="modal fade" id="pagos" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Pago de Actor</h4>
-      </div>
-      <div class="modal-body">
-        <label>No.</label><br>
-        <input type="text" name="numero" class="form-control"><br>
-        <label>Archivo</label><br>
-        <input type="file" name="numero" class="form-control"><br>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Generar Pago</button>
-      </div>
+    	<form id="form_xml_pdf" accept-charset="UTF-8" enctype="multipart/form-data">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">Pago de Actor</h4>
+	      </div>
+	      <div class="modal-body">
+	      	{{ csrf_field() }}
+	        <label>No.</label><br>
+	        <input type="text" name="folio_factura" class="form-control" required><br>
+	        <label>Archivo XML</label><br>
+	        <input type="file" name="xml" class="form-control" required><br>
+	        <label>Archivo PDF</label><br>
+	        <input type="file" name="pdf" class="form-control" required><br>
+	        <label>Fecha de Pago</label><br>
+	        <input type="text" name="fecha_propuesta_pago" class="form-control" required><br>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        <button type="submit" class="btn btn-primary">Generar Pago</button>
+	      </div>
+	  </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -93,6 +100,20 @@
            			}
 				});
 
+			$('input[name=fecha_propuesta_pago]').datepicker({
+					dateFormat: "yy-mm-dd",
+					//minDate: 0,
+					closeText: 'Cerrar',
+				    prevText: '<Ant',
+				    nextText: 'Sig>',
+				    currentText: 'Hoy',
+				    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá']
+				});
+
 			$('#form_search').on('submit', function(event){
 				event.preventDefault();
 				$.ajax({
@@ -102,9 +123,31 @@
 					success: function(data){
 						
 						if(data.code == 200){
+							console.log(data);
+							var pago = {};
+							var send_pago = {};
+							var send_pago_demo = {};
+							var id = '';
+							var pago_loops = '';
+							var p = 0;
+
+							for(var j=0; j<data.actores.length; j++){
+								p += parseFloat(data.actores[j].pago_total_loops);
+								pago[data.actores[j].id] = data.actores[j].pago_total_loops;
+							}
+
+							for(var j=0; j<data.actores.length; j++){
+								send_pago[data.actores[j].id] =  {'personaje': data.actores[j].descripcion, 'capitulo': data.actores[j].capitulo, 'director': data.actores[j].director, 'sala': data.actores[j].sala, 'loops': data.actores[j].loops, 'fecha': data.actores[j].cita_end, 'importe': data.actores[j].pago_total_loops};
+								send_pago_demo[data.actores[j].id] =  {'personaje': data.actores[j].descripcion, 'capitulo': data.actores[j].capitulo, 'director': data.actores[j].director, 'sala': data.actores[j].sala, 'loops': data.actores[j].loops, 'fecha': data.actores[j].cita_end, 'importe': data.actores[j].pago_total_loops};
+							}
+
+							p = 'Por pagar: $' + Math.round(parseFloat(p) * 100) / 100;
+
 							$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
-							<button id="btn-pago" data-toggle="modal" data-target="#pagos" style="display:none;" class="btn btn-success">Realizar Pago</button><br><br>\
-							<h2 style="padding-left: 58%;"></h2>\
+								<div class="col-sm-3"><button id="btn-pago" data-toggle="modal" data-target="#pagos" class="btn btn-success">Subir XML y PDF</button> </div>\
+								<div class="col-sm-3"><button id="btn-pago" data-toggle="modal" data-target="#pagos" class="btn btn-success">Pago deFactura</button> </div>\
+							<div class="col-sm-3"><button id="btn-correo" class="btn btn-info">Enviar Correo</button></div><br><br>\
+							<h2 style="padding-left: 58%;">'+p+'</h2>\
 		            		<table id="table_nomina" \
 		            		class="table table-striped table-bordered table-hover">\
 							<thead>\
@@ -117,6 +160,7 @@
 								<th>Fecha</th>\
 								<th>Pago</th>\
 								<th>Importe</th>\
+								<th>Estatus</th>\
 								</tr>\
 							</thead>\
 							<tbody>'+allDataActor(data)+'\
@@ -151,19 +195,18 @@
 								});
 						}
 
-						var pago = {};
-						var id = '';
-						var pago_loops = '';
+						
+
 						$('.chk_pago').on('click', function(e){
 							id = $(this).attr('data-id');
 							pago_loops = $(this).attr('data-total');
-							
-							
 
 							if(!pago[id]){
 								pago[id] = pago_loops;
+								send_pago[id] = send_pago_demo[id];
 							} else {
 								delete pago[id];
+								delete send_pago[id];
 							}
 
 							if(Object.keys(pago).length < 1){
@@ -185,8 +228,37 @@
 							});
 
 						});
+						//Enviar Correo
+						$('#btn-correo').on('click', function(){
+							var confirmacion = confirm('Requieres enviar Correo para informar el pago.');
 
+							if( confirmacion == true ){
+								$.ajax({
+									url: "{{ url('mgcontabilidad/send-email-pagos') }}",
+									type: "POST",
+									data: {_token: "{{ csrf_token() }}", data: send_pago, pago: p},
+									success: function(data){
+										console.log(data);
+									}
+								});
+							} else {
+								alert('Envio de correo cancelado.');
+							}
 
+							console.log();
+						});
+
+						$('#form_xml_pdf').on('submit', function(e){
+							e.preventDefault();
+							$.ajax({
+								url: "{{ url('mgcontabilidad/save-files-pagos') }}",
+								type: "POST",
+								data: $( this ).serialize()+'&&=data'+send_pago,
+								success: function(data){
+									console.log(data);
+								}
+							});
+						});
 
 					},
 					error: function(error){
@@ -197,7 +269,7 @@
 		});
 
 		function allDataActor(data){
-			console.log(data);
+			
 			var datos = '';
 			for(var i=0; i<data.actores.length; i++){
 				datos += "<tr>";
@@ -207,13 +279,16 @@
 				datos += "<td>"+data.actores[i].sala+"</td>";
 				datos += "<td>"+data.actores[i].loops+"</td>";
 				var fecha = data.actores[i].cita_end;
-				fecha = fecha.split(" ")
+				fecha = fecha.split(" ");
 				datos += "<td>"+fecha[0]+"</td>";
-				datos += "<td ><input type='checkbox' class='chk_pago' data-id='"+data.actores[i].id+"' data-total='"+data.actores[i].pago_total_loops+"'></td>";
+				datos += "<td ><input type='checkbox' checked class='chk_pago' data-id='"+data.actores[i].id+"' data-total='"+data.actores[i].pago_total_loops+"'></td>";
 				datos += "<td>$"+data.actores[i].pago_total_loops+"</td>";
+				datos += "<td>"+data.actores[i].estatus_pago+"</td>";
 
 				datos += "</tr>";
+
 			}
+
 			return datos;
 		}
 	</script>

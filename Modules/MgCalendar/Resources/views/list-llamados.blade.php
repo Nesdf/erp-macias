@@ -315,7 +315,7 @@
 
       		//console.log(list_new_llamados);
       		//Permite mostrar las llaves del arreglo
-					var list_llamados = '';
+			var list_llamados = '';
       		for( property in list_new_llamados ){
 
 		      			list_llamados += "<tr>";

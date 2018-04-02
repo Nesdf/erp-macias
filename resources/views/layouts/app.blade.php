@@ -379,6 +379,12 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
+							<li @if(\Request::is('mgcontabilidad/show-pagos-actores')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/show-pagos-actores') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Pago Realizados Actor
+								</a>
+								<b class="arrow"></b>
+							</li>
 						</ul>
 					</li>
 					@endif

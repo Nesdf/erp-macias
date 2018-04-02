@@ -331,7 +331,7 @@ class MgCalendarController extends Controller
             dd($request->all());
             if($request->isMethod('post') && $request->ajax()){
 
-                \Modules\MgCalendar\Entities\Llamados::allLlamados($request->input());
+                Llamados::allLlamados($request->input());
             }
 
         } catch(\Exception $e){
@@ -427,4 +427,5 @@ class MgCalendarController extends Controller
           return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
       }
     }
+    
 }

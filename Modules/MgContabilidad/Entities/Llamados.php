@@ -118,4 +118,9 @@ FROM calendario WHERE sala  IN(".$salas.")  AND estatus_llamado = '".Config::RTK
 		{
 			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE nombre_real = '".$actor."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
 		}
+
+		public static function allLlamadosPagoCompletado($actor)
+		{
+			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE nombre_real = '".$actor."' AND estatus_llamado = '".Config::RTK."' AND estatus= true AND estatus_pago ='Completado'"));
+		}
 }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Storage;
+use File;
 use Illuminate\Support\Facades\Mail;
 use Modules\MgContabilidad\Emails\PagosEmail as PagosEmail;
 use Modules\MgContabilidad\Entities\Salas as Salas;
@@ -108,6 +110,19 @@ class MgPagosController extends Controller
         }
     }
 
+    public function showPagosActores()
+    {
+        try{
+            $actores = Actores::all();
+            return view('mgcontabilidad::pagos.show-pagos-actores', compact('actores'));
+      
+        } catch(\Exception $e){
+             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+      
+        }
+    }
+
     public function sendEmailPagos( Request $request )
     {
         try{
@@ -121,7 +136,7 @@ class MgPagosController extends Controller
                 ]);
             }
                 
-             return Response(['msg'=>'success', 'data'=> $request->all(), 'code' => 200], 200)->header('Content-Type', 'application/json');
+             return Response(['msg'=>'success', 'data'=> $request->input('data'), 'code' => 200], 200)->header('Content-Type', 'application/json');
       
         } catch(\Exception $e){
              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -132,13 +147,13 @@ class MgPagosController extends Controller
     public function saveFilesPagos( Request $request )
     {
         try{
-            
-            foreach ($request->input('data') as $key => $value) {
-                # code...
-                //Llamados::where('id', $key)->update([               
-                //    'estatus_pago' => 'Transito a Pago'
-                //]);
-            }
+            //obtenemos el campo file definido en el formulario
+            //$xml = $request->file('xml');
+            //$pdf = $request->file('pdf');
+
+            //indicamos que queremos guardar un nuevo archivo en el disco local
+            //Storage::disk('local')->put('n.xml',  File::get($xml));
+            //Storage::disk('local')->put('n.pdf',  File::get($pdf));
                 
              return Response(['msg'=>'success', 'data'=> $request->all(), 'code' => 200], 200)->header('Content-Type', 'application/json');
       
@@ -146,5 +161,38 @@ class MgPagosController extends Controller
              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
         }
+    }
+
+    public function updateStatusPagos( Request $request )
+    {
+         try{   
+
+            foreach ($request->input('data') as $key => $value) {
+                # code...
+                Llamados::where('id', $key)->update([               
+                    'estatus_pago' => 'Tránsito a Pago'
+                ]);
+            }
+                
+             return Response(['msg'=>'success', 'data'=> $request->input('data'), 'code' => 200], 200)->header('Content-Type', 'application/json');
+      
+        } catch(\Exception $e){
+             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+    }
+
+    public function getPagosCompletadoActores( Request $request ){
+      try{
+        if($request->isMethod('post') && $request->ajax()){
+
+            $pagos = Llamados::allLlamadosPagoCompletado($request->input('actor_search'));
+        }
+        return Response(['msg' => 'success', 'pagos' => $pagos ], 200)->header('Content-Type', 'application/json');
+      } catch(\Exception $e){
+          \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+          return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+      }
     }
 }

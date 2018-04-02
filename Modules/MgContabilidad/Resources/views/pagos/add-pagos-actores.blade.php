@@ -39,7 +39,6 @@
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 	</div><!-- /.row -->
-	
 
 <br><br>
 	<div class="detalle"></div>
@@ -75,6 +74,28 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="pagos_final" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    	<form id="form_xml_pdf" accept-charset="UTF-8" enctype="multipart/form-data">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">Pago de Actor</h4>
+	      </div>
+	      <div class="modal-body">
+	      	{{ csrf_field() }}
+	        <label>Fecha del pago realizado</label><br>
+	        <input type="text" name="fecha_pago_realizado" class="form-control" required><br>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        <button type="submit" class="btn btn-primary">Generar Pago</button>
+	      </div>
+	  </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @stop
 
 @section('script')
@@ -100,7 +121,7 @@
            			}
 				});
 
-			$('input[name=fecha_propuesta_pago]').datepicker({
+			$('input[name=fecha_propuesta_pago], input[name=fecha_pago_realizado]').datepicker({
 					dateFormat: "yy-mm-dd",
 					//minDate: 0,
 					closeText: 'Cerrar',
@@ -144,9 +165,9 @@
 							p = 'Por pagar: $' + Math.round(parseFloat(p) * 100) / 100;
 
 							$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
-								<div class="col-sm-3"><button id="btn-pago" data-toggle="modal" data-target="#pagos" class="btn btn-success">Subir XML y PDF</button> </div>\
-								<div class="col-sm-3"><button id="btn-pago" data-toggle="modal" data-target="#pagos" class="btn btn-success">Pago deFactura</button> </div>\
-							<div class="col-sm-3"><button id="btn-correo" class="btn btn-info">Enviar Correo</button></div><br><br>\
+								<div class="col-sm-2"><button id="btn-pago" data-toggle="modal" data-target="#pagos" class="btn btn-success">Subir XML y PDF</button> </div>\
+							<div class="col-sm-2"><button id="btn-correo" class="btn btn-info">Enviar Correo</button></div>\
+							<div class="col-sm-2"><button id="btn-pago" data-toggle="modal" data-target="#pagos_final" class="btn btn-success">Pago de Factura</button> </div>\
 							<h2 style="padding-left: 58%;">'+p+'</h2>\
 		            		<table id="table_nomina" \
 		            		class="table table-striped table-bordered table-hover">\
@@ -231,13 +252,15 @@
 						//Enviar Correo
 						$('#btn-correo').on('click', function(){
 							var confirmacion = confirm('Requieres enviar Correo para informar el pago.');
-
+							$(".loader").fadeIn();
 							if( confirmacion == true ){
 								$.ajax({
 									url: "{{ url('mgcontabilidad/send-email-pagos') }}",
 									type: "POST",
 									data: {_token: "{{ csrf_token() }}", data: send_pago, pago: p},
 									success: function(data){
+										$(".loader").fadeOut("slow");
+										alert("El correo se envio con éxito");
 										console.log(data);
 									}
 								});
@@ -245,17 +268,28 @@
 								alert('Envio de correo cancelado.');
 							}
 
-							console.log();
 						});
-
+						//Subir archivo XML y PDF
 						$('#form_xml_pdf').on('submit', function(e){
 							e.preventDefault();
+							$(".loader").fadeIn();
 							$.ajax({
 								url: "{{ url('mgcontabilidad/save-files-pagos') }}",
 								type: "POST",
-								data: $( this ).serialize()+'&&=data'+send_pago,
-								success: function(data){
-									console.log(data);
+								data: $( this ).serialize(),
+								success: function(data1){
+									if( data1.code == 200){
+										$.ajax({
+											url: "{{ url('mgcontabilidad/update-status-pagos') }}",
+											type: "POST",
+											data: {_token: "{{ csrf_token() }}", data: send_pago},
+											success: function(data2){
+												$(".loader").fadeOut("slow");
+												console.log(data2);
+												$('#pagos').modal('toggle');
+											}
+										});
+									}
 								}
 							});
 						});

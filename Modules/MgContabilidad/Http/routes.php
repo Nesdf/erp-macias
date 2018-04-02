@@ -34,7 +34,10 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcontabilidad', 'na
 Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcontabilidad', 'namespace' => 'Modules\MgContabilidad\Http\Controllers'], function()
 {
     Route::get('get-all-actores-pagos', 'MgPagosController@getAllActoresPagos')->name('get_all_actores_pagos');
+    Route::get('show-pagos-actores', 'MgPagosController@showPagosActores')->name('show_pagos_actores');
     Route::post('get-pagos-actores', 'MgPagosController@getPagosActores')->name('get_pagos_actores');
     Route::post('send-email-pagos', 'MgPagosController@sendEmailPagos')->name('send_email_pagos');
     Route::post('save-files-pagos', 'MgPagosController@saveFilesPagos')->name('save_files_pagos');
+    Route::post('update-status-pagos', 'MgPagosController@updateStatusPagos')->name('update_status_pagos');
+    Route::post('get-pagos-completado-actores', 'MgPagosController@getPagosCompletadoActores')->name('get_pagos_completado_actores');
 });

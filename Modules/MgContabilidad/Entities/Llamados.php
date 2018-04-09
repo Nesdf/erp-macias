@@ -116,7 +116,7 @@ FROM calendario WHERE sala  IN(".$salas.")  AND estatus_llamado = '".Config::RTK
 
 		public static function getLlamadosOnlyActor($actor)
 		{
-			return \DB::select(\DB::raw("SELECT C.nombre_real, C.actor, C.descripcion, C.director, C.sala, C.loops, 
+			return \DB::select(\DB::raw("SELECT C.id, C.nombre_real, C.actor, C.descripcion, C.director, C.sala, C.loops, 
 				C.cita_end, C.pago_total_loops, C.estatus_pago, E.estudio, 
 				EP.titulo_original AS titulo_serie, P.titulo_original AS titulo_proyecto, EP.num_episodio FROM calendario C
 				INNER JOIN salas S ON C.sala = S.sala

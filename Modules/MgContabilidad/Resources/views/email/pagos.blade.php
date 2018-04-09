@@ -33,8 +33,8 @@
 			<thead>
 				<tr >
 					<th>PERSONAJE</th>
-					<th>DIRECTOR</th>
-					<th>SALA</th>
+					<th>PROYECTO</th>
+					<th>EPISODIO</th>
 					<th>LOOPS</th>
 					<th>FECHA</th>
 					<th>IMPORTE</th>
@@ -44,8 +44,8 @@
 				@foreach( $data as $key =>$value )
 					<tr>
 						<td>{{ $value['personaje'] }}</td>
-						<td>{{ $value['director'] }}</td>
-						<td>{{ $value['sala'] }}</td>
+						<td>{{ $value['proyecto'] }}</td>
+						<td>{{ $value['episodio'] }}</td>
 						<td>{{ $value['loops'] }}</td>
 						<td>{{ $value['fecha'] }}</td>
 						<td>${{ number_format($value['importe'], 2) }}</td>	

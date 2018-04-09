@@ -158,8 +158,8 @@
 							}
 
 							for(var j=0; j<data.actores.length; j++){
-								send_pago[data.actores[j].id] =  {'personaje': data.actores[j].descripcion, 'capitulo': data.actores[j].capitulo, 'director': data.actores[j].director, 'sala': data.actores[j].sala, 'loops': data.actores[j].loops, 'fecha': data.actores[j].cita_end, 'importe': data.actores[j].pago_total_loops};
-								send_pago_demo[data.actores[j].id] =  {'personaje': data.actores[j].descripcion, 'capitulo': data.actores[j].capitulo, 'director': data.actores[j].director, 'sala': data.actores[j].sala, 'loops': data.actores[j].loops, 'fecha': data.actores[j].cita_end, 'importe': data.actores[j].pago_total_loops};
+								send_pago[data.actores[j].id] =  {'personaje': data.actores[j].descripcion, 'capitulo': data.actores[j].capitulo, 'director': data.actores[j].director, 'sala': data.actores[j].sala, 'loops': data.actores[j].loops, 'fecha': data.actores[j].cita_end, 'importe': data.actores[j].pago_total_loops, 'proyecto': data.actores[j].titulo_proyecto, 'episodio': data.actores[j].num_episodio};
+								send_pago_demo[data.actores[j].id] =  {'personaje': data.actores[j].descripcion, 'capitulo': data.actores[j].capitulo, 'director': data.actores[j].director, 'sala': data.actores[j].sala, 'loops': data.actores[j].loops, 'fecha': data.actores[j].cita_end, 'importe': data.actores[j].pago_total_loops, 'proyecto': data.actores[j].titulo_proyecto, 'episodio': data.actores[j].num_episodio};
 							}
 
 							p = 'Por pagar: $' + Math.round(parseFloat(p) * 100) / 100;
@@ -255,6 +255,8 @@
 						});
 						//Enviar Correo
 						$('#btn-correo').on('click', function(){
+							console.log("DATA CORREO");
+							console.log(send_pago);
 							var confirmacion = confirm('Requieres enviar Correo para informar el pago.');
 							$(".loader").fadeIn();
 							if( confirmacion == true ){

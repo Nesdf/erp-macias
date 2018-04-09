@@ -41,6 +41,10 @@
 									<th>Nombre Completo</th>
 									<th>Nombre Artístico</th>
 									<th>RFC</th>
+									<th>Email</th>
+									<th>Banco</th>
+									<th>Cuenta Banacaria</th>
+									<th>CLABE</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -52,6 +56,10 @@
 										<td>{{$actor->nombre_completo}}</td>
 										<td>{{$actor->nombre_artistico}}</td>
 										<td>{{$actor->rfc}}</td>
+										<td>{{$actor->email}}</td>
+										<td>{{$actor->banco}}</td>
+										<td>{{$actor->cuenta_bancaria}}</td>
+										<td>{{$actor->clabe}}</td>
 										<td>
 											@if(\Request::session()->has('edit_actor') && \Request::session()->has('update_actor') && \Request::session()->has('delete_folio_actor'))
 												<a data-id="{{ $actor->id }}" data-toggle="modal" data-target="#modal_update_actor" class="btn btn-xs btn-info" title="Editar">
@@ -103,6 +111,22 @@
 						<label for="rfc">RFC</label>
 						<input type="text" class="form-control" id="rfc" name="rfc" placeholder="RFC">
 					</div>	
+					<div class="form-group">
+						<label for="email">Correo Electrónico</label>
+						<input type="email" class="form-control" id="email" name="email" placeholder="Correo Electrónico">
+					</div>	
+					<div class="form-group">
+						<label for="banco">Banco</label>
+						<input type="text" class="form-control" id="banco" name="banco" placeholder="Banco">
+					</div>	
+					<div class="form-group">
+						<label for="cuenta_bancaria">Cuenta Bancaria</label>
+						<input type="numeric" class="form-control" id="cuenta_bancaria" name="cuenta_bancaria" placeholder="Cuenta Banacaria">
+					</div>	
+					<div class="form-group">
+						<label for="clabe">CLABE</label>
+						<input type="numeric" class="form-control" id="clabe" name="clabe" placeholder="CLABE">
+					</div>	
 					<div>
 						Agregar Folio <a href="javascript:void(0)" id="add_folio" class="btn btn-xs btn-info" >+</a>
 						<hr>
@@ -145,6 +169,22 @@
 						<label for="rfc">RFC</label>
 						<input type="text" class="form-control" name="rfc" placeholder="RFC">
 					</div>	
+					<div class="form-group">
+						<label for="email">Correo Electrónico</label>
+						<input type="email" class="form-control" id="email" name="email" placeholder="Correo Electrónico">
+					</div>	
+					<div class="form-group">
+						<label for="banco">Banco</label>
+						<input type="text" class="form-control" id="banco" name="banco" placeholder="Banco">
+					</div>	
+					<div class="form-group">
+						<label for="cuenta_bancaria">Cuenta Bancaria</label>
+						<input type="numeric" class="form-control" id="cuenta_bancaria" name="cuenta_bancaria" placeholder="Cuenta Banacaria">
+					</div>	
+					<div class="form-group">
+						<label for="clabe">CLABE</label>
+						<input type="numeric" class="form-control" id="clabe" name="clabe" placeholder="CLABE">
+					</div>
 					<div>
 						Agregar Folio <a href="javascript:void(0)" id="add_folio_update" class="btn btn-xs btn-info" >+</a>
 						<hr>
@@ -264,6 +304,10 @@
 					$('input[name=nombre_completo]').val(data.actor.nombre_completo);
 					$('input[name=rfc]').val(data.actor.rfc);
 					$('input[name=nombre_artistico]').val(data.actor.nombre_artistico);
+					$('input[name=banco]').val(data.actor.banco);
+					$('input[name=cuenta_bancaria]').val(data.actor.cuenta_bancaria);
+					$('input[name=email]').val(data.actor.email);
+					$('input[name=clabe]').val(data.actor.clabe);
 						var conteo = 0;
 						var h = $('#input_folios').html('');
 						var add='';

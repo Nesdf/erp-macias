@@ -56,7 +56,11 @@ class MgActoresController extends Controller
                 $save = \Modules\MgActores\Entities\Actores::create([                 
                         'nombre_completo' => ( $request->input('nombre_completo') ) ?  ucwords(strtolower($request->input('nombre_completo')))  : null,
                         'nombre_artistico' => ( $request->input('nombre_artistico') ) ?  ucwords(strtolower($request->input('nombre_artistico')))  : null,
-                        'rfc' => ( $request->input('rfc') ) ?  ucfirst($request->input('rfc'))  : null
+                        'rfc' => ( $request->input('rfc') ) ?  ucfirst($request->input('rfc'))  : null,
+                        'banco' => ( $request->input('banco') ) ?  ucfirst($request->input('banco'))  : null,
+                        'cuenta_bancaria' => ( $request->input('cuenta_bancaria') ) ?  $request->input('cuenta_bancaria')  : null,
+                        'email' => ( $request->input('email') ) ?  strtolower($request->input('email'))  : null,
+                        'clabe' => ( $request->input('clabe') ) ?  $request->input('clabe')  : null,
                     ]);
 
                 if($save){
@@ -186,7 +190,11 @@ class MgActoresController extends Controller
                     ->update([                 
                     'nombre_completo' => ( $request->input('nombre_completo') ) ?  ucwords(strtolower($request->input('nombre_completo')))  : null,
                     'nombre_artistico' => ( $request->input('nombre_artistico') ) ?  ucwords(strtolower($request->input('nombre_artistico')))  : null,
-                    'rfc' => ( $request->input('rfc') ) ?  ucfirst($request->input('rfc'))  : null
+                    'rfc' => ( $request->input('rfc') ) ?  ucfirst($request->input('rfc'))  : null,
+                    'banco' => ( $request->input('banco') ) ?  strtoupper($request->input('banco'))  : null,
+                        'cuenta_bancaria' => ( $request->input('cuenta_bancaria') ) ?  $request->input('cuenta_bancaria')  : null,
+                        'email' => ( $request->input('email') ) ?  strtolower($request->input('email'))  : null,
+                        'clabe' => ( $request->input('clabe') ) ?  $request->input('clabe')  : null,
                 ]);
 
                     if($save){

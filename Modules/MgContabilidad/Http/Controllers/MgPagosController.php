@@ -182,13 +182,42 @@ class MgPagosController extends Controller
         }
     }
 
-    public function getPagosCompletadoActores( Request $request ){
+    public function getPagosCompletadoActores( Request $request )
+    {
           try{
             if($request->isMethod('post') && $request->ajax()){
 
                 $pagos = Llamados::allLlamadosPagoCompletado($request->input('actor_search'));
             }
             return Response(['msg' => 'success', 'pagos' => $pagos ], 200)->header('Content-Type', 'application/json');
+          } catch(\Exception $e){
+              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+              \Log::error(' Trace2: ' .$e->getTraceAsString());
+              return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+          }
+    }
+
+    public function showStatusActores()
+    {
+        try{
+
+            return view('mgcontabilidad::pagos.show-status-actores');
+          } catch(\Exception $e){
+              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+              \Log::error(' Trace2: ' .$e->getTraceAsString());
+              return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+          }
+    }
+
+    public function getPagosStatusActores( Request $request )
+    {
+          try{
+            if($request->isMethod('post') && $request->ajax()){
+
+                $estatus = Llamados::allLlamadosStatusPago($request->input('status_search'));
+                return Response(['msg' => 'success', 'code' => 200, 'estatus' => $estatus ], 200)->header('Content-Type', 'application/json');
+            }
+            
           } catch(\Exception $e){
               \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
               \Log::error(' Trace2: ' .$e->getTraceAsString());

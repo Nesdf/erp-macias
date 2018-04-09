@@ -385,6 +385,12 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
+							<li @if(\Request::is('mgcontabilidad/show-pagos-actores')) class="active" @endif>
+								<a href="{{ url('mgcontabilidad/show-status-actores') }}">
+									<i class="menu-icon fa fa-caret-right"></i> Consulta por Estatus
+								</a>
+								<b class="arrow"></b>
+							</li>
 						</ul>
 					</li>
 					@endif

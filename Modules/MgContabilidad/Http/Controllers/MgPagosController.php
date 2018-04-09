@@ -183,16 +183,16 @@ class MgPagosController extends Controller
     }
 
     public function getPagosCompletadoActores( Request $request ){
-      try{
-        if($request->isMethod('post') && $request->ajax()){
+          try{
+            if($request->isMethod('post') && $request->ajax()){
 
-            $pagos = Llamados::allLlamadosPagoCompletado($request->input('actor_search'));
-        }
-        return Response(['msg' => 'success', 'pagos' => $pagos ], 200)->header('Content-Type', 'application/json');
-      } catch(\Exception $e){
-          \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
-          \Log::error(' Trace2: ' .$e->getTraceAsString());
-          return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
-      }
+                $pagos = Llamados::allLlamadosPagoCompletado($request->input('actor_search'));
+            }
+            return Response(['msg' => 'success', 'pagos' => $pagos ], 200)->header('Content-Type', 'application/json');
+          } catch(\Exception $e){
+              \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+              \Log::error(' Trace2: ' .$e->getTraceAsString());
+              return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+          }
     }
 }

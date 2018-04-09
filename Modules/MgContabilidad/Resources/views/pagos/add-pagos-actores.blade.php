@@ -177,6 +177,10 @@
 								<th>Personaje</th>\
 								<th>Director</th>\
 								<th>Sala</th>\
+								<th>Estudio</th>\
+								<th>Proyecto</th>\
+								<th>Serie</th>\
+								<th>Episodio</th>\
 								<th>Loops</th>\
 								<th>Fecha</th>\
 								<th>Pago</th>\
@@ -311,6 +315,10 @@
 				datos += "<td>"+data.actores[i].descripcion+"</td>";
 				datos += "<td>"+data.actores[i].director+"</td>";
 				datos += "<td>"+data.actores[i].sala+"</td>";
+				datos += "<td>"+data.actores[i].estudio+"</td>";
+				datos += "<td>"+data.actores[i].titulo_proyecto+"</td>";
+				datos += "<td>"+data.actores[i].titulo_serie+"</td>";
+				datos += "<td>"+data.actores[i].num_episodio+"</td>";
 				datos += "<td>"+data.actores[i].loops+"</td>";
 				var fecha = data.actores[i].cita_end;
 				fecha = fecha.split(" ");

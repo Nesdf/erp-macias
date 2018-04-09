@@ -116,7 +116,14 @@ FROM calendario WHERE sala  IN(".$salas.")  AND estatus_llamado = '".Config::RTK
 
 		public static function getLlamadosOnlyActor($actor)
 		{
-			return \DB::select(\DB::raw("SELECT * FROM calendario WHERE nombre_real = '".$actor."' AND estatus_llamado = '".Config::RTK."' AND estatus= true"));
+			return \DB::select(\DB::raw("SELECT C.nombre_real, C.actor, C.descripcion, C.director, C.sala, C.loops, 
+				C.cita_end, C.pago_total_loops, C.estatus_pago, E.estudio, 
+				EP.titulo_original AS titulo_serie, P.titulo_original AS titulo_proyecto, EP.num_episodio FROM calendario C
+				INNER JOIN salas S ON C.sala = S.sala
+				INNER JOIN estudios E ON S.estudio_id = E.id
+				INNER JOIN episodios EP ON C.folio = EP.folio
+				INNER JOIN proyectos P ON EP.\"proyectoId\" = P.id
+				WHERE C.nombre_real = '".$actor."' AND C.estatus_llamado = 'RTK' AND C.estatus= true"));
 		}
 
 		public static function allLlamadosPagoCompletado($actor)

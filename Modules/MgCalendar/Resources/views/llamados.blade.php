@@ -506,7 +506,7 @@ input.tipo_numero{
 
                                         modal.modal("hide");
 
-                                        calendar.fullCalendar('renderEvent',
+                                        /*calendar.fullCalendar('renderEvent',
                                           {
                                             title: data.actor,
                                             start: data.start,
@@ -515,7 +515,7 @@ input.tipo_numero{
                                             descripcion: data.actor + ' <br> Entrada: ' + start[1] + ':00' + '<br> Salida: '+  end[1] + ':00'
                                           },
                                           false // make the event "stick"
-                                        );
+                                        );*/
                                       },
                                       beforeSend: function() {
                                         $(".submit_cita").attr("disabled");

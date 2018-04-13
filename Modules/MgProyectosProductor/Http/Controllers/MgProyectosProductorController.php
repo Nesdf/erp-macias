@@ -15,7 +15,7 @@ class MgProyectosProductorController extends Controller
     public function index()
     {
         $episodios = \Modules\MgProyectosProductor\Entities\Episodios::AllEpisodios();
-        return view('mgproyectosproductor::index', compact('episodios'));
+        return view('mgproyectosproductor::productor', compact('episodios'));
     }
 
     /**

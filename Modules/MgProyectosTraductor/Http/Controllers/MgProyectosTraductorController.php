@@ -15,7 +15,7 @@ class MgProyectosTraductorController extends Controller
     public function index()
     {
         $episodios = \Modules\MgProyectosTraductor\Entities\Episodios::AllEpisodios();
-        return view('mgproyectostraductor::index', compact('episodios'));
+        return view('mgproyectostraductor::traductor', compact('episodios'));
     }
 
     /**

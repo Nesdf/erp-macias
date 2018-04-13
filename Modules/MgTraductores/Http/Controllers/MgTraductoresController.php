@@ -23,7 +23,7 @@ class MgTraductoresController extends Controller
         $productores = \Modules\MgEpisodios\Entities\Users::Productores();
         $responsables = \Modules\MgEpisodios\Entities\Users::Responsables();
         $traductores = \Modules\MgEpisodios\Entities\Users::traductores();
-        return view('mgtraductores::index', compact('proyecto', 'vias', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores'));
+        return view('mgtraductores::traductores', compact('proyecto', 'vias', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores'));
     }
 
     /**

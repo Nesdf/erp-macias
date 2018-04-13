@@ -56,12 +56,14 @@
 
 			$('#form_search').on('submit', function(event){
 				event.preventDefault();
+				$(".loader").fadeIn();
 				$.ajax({
 					url: "{{url('mgcontabilidad/get-pagos-status-actores')}}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function(data){
 						console.log(data);
+						$(".loader").fadeOut('slow');
 						if(data.code == 200){
 
 							$('.detalle').html('<div class="col-sm-12 col-md-12 col-lg-12">\
@@ -75,11 +77,9 @@
 									<th>Sala</th>\
 									<th>Estudio</th>\
 									<th>Proyecto</th>\
-									<th>Serie</th>\
 									<th>Episodio</th>\
 									<th>Loops</th>\
 									<th>Fecha</th>\
-									<th>Pago</th>\
 									<th>Importe</th>\
 									<th>Estatus</th>\
 								</tr>\
@@ -135,13 +135,11 @@
 				datos += "<td>"+data.estatus[i].sala+"</td>";
 				datos += "<td>"+data.estatus[i].estudio+"</td>";
 				datos += "<td>"+data.estatus[i].titulo_proyecto+"</td>";
-				datos += "<td>"+data.estatus[i].titulo_serie+"</td>";
 				datos += "<td>"+data.estatus[i].num_episodio+"</td>";
 				datos += "<td>"+data.estatus[i].loops+"</td>";
 				var fecha = data.estatus[i].cita_end;
 				fecha = fecha.split(" ");
 				datos += "<td>"+fecha[0]+"</td>";
-				datos += "<td ><input type='checkbox' checked class='chk_pago' data-id='"+data.estatus[i].id+"' data-total='"+data.estatus[i].pago_total_loops+"'></td>";
 				datos += "<td>$"+data.estatus[i].pago_total_loops+"</td>";
 				datos += "<td>"+data.estatus[i].estatus_pago+"</td>";
 

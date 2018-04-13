@@ -113,7 +113,7 @@ input.tipo_numero{
                             url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                             type: "GET",
                             success: function( data ){
-                              $(".loader").fadeOut();
+                              $(".loader").fadeOut('slow');
                               $('div#reload').html('');
                                $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong> '+data.estudio+' </h3>\
                                <h3 style="text-align: center;" ><strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>');

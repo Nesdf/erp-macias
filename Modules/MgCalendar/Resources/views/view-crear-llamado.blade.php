@@ -161,7 +161,7 @@ input.tipo_numero{
             success: function( data ){
               var dataAll = data;
               $(".loader").fadeOut("slow");
-              //console.log("LIST EPISODIOS: " + JSON.stringify(data));
+              console.log("LIST EPISODIOS: " + JSON.stringify(data));
               if(data.msg.length > 0){
                 $('#list_episodios').html('<br><label>Episodio: </label><br><select id="data_episodios" class="form-control" data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar..." >\
                         <option value="">Seleccionar...</option>\
@@ -181,7 +181,7 @@ input.tipo_numero{
                     type: "GET",
                     success: function( data ){
                       //console.log("LIST SALAS: " + JSON.stringify(data['director']));
-                      //console.log("LIST SALAS: " + JSON.stringify(data));
+                      console.log("LIST SALAS: " + JSON.stringify(data));
                       var proyecto = $('#proyecto_id option:selected').text();
                       var episodio = $('#data_episodios option:selected').text();
                       var sala = $('#data_sala').text();
@@ -190,12 +190,12 @@ input.tipo_numero{
                       $('input[name=director]').val(data['director']);
                       $('input[name=proyecto]').val(proyecto);
                       $('input[name=episodio]').val(episodio);
-                      $('input[name=sala]').val(dataAll['msg'][0]['salaId']);
+                      $('input[name=sala]').val(data['msg'][0]['sala']);
                       //$('input[name=dia]').val($('input[name=dateNow]').val());
                       //console.log("DATENOW: " + $('input[name=dateNow]').val());
-                      $('input[name=folio]').val(dataAll['msg'][0]['folio']);
+                      $('input[name=folio]').val(data['folio']);
                       $('input[name=nombre_real]').val(dataAll['msg'][0]['titulo_original']);
-                      $('input[name=capitulo]').val(dataAll['msg'][0]['num_episodio']);
+                      $('input[name=capitulo]').val(['capitulo']);
                       $('input[name=fecha]').val(dataAll['msg'][0]['date_entrega']);
                       $('div#reload').html('');
                         $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong> '+data.estudio+' </h3>\

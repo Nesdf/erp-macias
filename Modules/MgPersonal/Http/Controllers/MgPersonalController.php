@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Modules\MgPersonal\Entities\Estudios as Estudios;
+use Modules\MgPersonal\Entities\User as User;
+use Modules\MgPersonal\Entities\Jobs as Jobs;
+
 class MgPersonalController extends Controller
 {
     /**
@@ -15,9 +19,10 @@ class MgPersonalController extends Controller
      */
     public function index()
     {
-		$personas = \Modules\MgPersonal\Entities\User::Personal();
-		$puestos = \Modules\MgPersonal\Entities\Jobs::get();
-        return view('mgpersonal::personal', compact('personas', 'puestos'));
+		$personas = User::Personal();
+		$puestos = Jobs::get();
+		$estudios = Estudios::get();
+        return view('mgpersonal::personal', compact('personas', 'puestos', 'estudios'));
     }
 
     /**
@@ -43,7 +48,8 @@ class MgPersonalController extends Controller
 				'ap_paterno' => 'required|min:2|max:50',
 				'correo' => 'required|email',
 				'password' => 'required',
-				'puesto' => 'required'
+				'puesto' => 'required',
+				'lista_estudios' => 'required'
 				
 			];
 			
@@ -52,6 +58,7 @@ class MgPersonalController extends Controller
 				'nombre.min' => trans('mgpersonal::ui.display.error_min2', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
 				'nombre.max' => trans('mgpersonal::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
 				'ap_paterno.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
+				'lista_estudios.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.lista_estudios')]),
 				'ap_paterno.min' => trans('mgpersonal::ui.display.error_min2', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
 				'ap_paterno.max' => trans('mgpersonal::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
 				'correo.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.correo')]),
@@ -65,12 +72,14 @@ class MgPersonalController extends Controller
 			if ( $validator->fails() ) {
 				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 			} else {
-				\Modules\MgPersonal\Entities\User::create([					
+				
+				User::create([					
 					'ap_paterno' => ucwords( strtolower($request->input('ap_paterno')) ),
 					'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
 					'password' => Hash::make( $request->input('password') ),
 					'email' => strtolower( $request->input('correo') ),
-					'name' => ucwords( strtolower($request->input('nombre')) ),
+					'name' => ucwords( strtolower( $request->input('nombre') ) ),
+					'lista_estudios' => $request->input('estudios'),
 					'job' => $request->input('puesto'),
 					'tipo_empleado' => $request->input('tipo_empleado') == 'on' ? true : false 
 				]);
@@ -111,7 +120,8 @@ class MgPersonalController extends Controller
 				'nombre' => 'required|min:2|max:50',
 				'ap_paterno' => 'required|min:2|max:50',
 				'correo' => 'required|email',
-				'puesto' => 'required'
+				'puesto' => 'required',
+				'lista_estudios' => 'required'
 				
 			];
 			
@@ -122,6 +132,7 @@ class MgPersonalController extends Controller
 				'ap_paterno.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
 				'ap_paterno.min' => trans('mgpersonal::ui.display.error_min2', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
 				'ap_paterno.max' => trans('mgpersonal::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
+				'lista_estudios.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.lista_estudios')]),
 				'correo.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.correo')]),
 				'correo.email' => trans('mgpersonal::ui.display.error_email', ['attribute' => trans('mgpersonal::ui.attribute.correo')]),
 				'puesto.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.puesto')])
@@ -138,6 +149,7 @@ class MgPersonalController extends Controller
 					'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
 					'email' => strtolower( $request->input('correo') ),
 					'name' => ucwords( strtolower($request->input('nombre')) ),
+					'lista_estudios' => $request->input('estudios'),
 					'job' => $request->input('puesto'),
 					'tipo_empleado' => $request->input('tipo_empleado') == 'on' ? true : false 
 				);

@@ -50,6 +50,7 @@
 									<th>Apellido(s)</th>
 									<th>Correo</th>
 									<th>Puesto</th>
+									<th>Estudos</th>
 									@if(\Request::session()->has('add_permisos') || \Request::session()->has('edit_personal') && \Request::session()->has('update_personal') || \Request::session()->has('delete_personal'))
 										<th></th>
 									@endif
@@ -73,6 +74,9 @@
 										</td>
 										<td>
 											{{ $persona->job }}
+										</td>
+										<td>
+											{{ $persona->lista_estudios }}
 										</td>
 										@if(\Request::session()->has('add_permisos') || \Request::session()->has('edit_personal') && \Request::session()->has('update_personal') || \Request::session()->has('delete_personal'))
 											<td>
@@ -121,27 +125,36 @@
 			  <div class="modal-body">
 					{{ csrf_field() }}
 					<div class="form-group">
-						<label for="exampleInputEmail1">Nombre(s)</label>
+						<label for="nombre">Nombre(s)</label>
 						<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre(s)">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Apellido Paterno</label>
+						<label for="ap_paterno">Apellido Paterno</label>
 						<input type="text" class="form-control" id="ap_paterno" name="ap_paterno" placeholder="Apellido Paterno">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Apellido Materno</label>
+						<label for="ap_materno">Apellido Materno</label>
 						<input type="text" class="form-control" id="ap_materno" name="ap_materno" placeholder="Apellido Materno">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Correo Elecrónico</label>
+						<label for="estudios">Estudios</label><br>
+						<select name="lista_estudios" class="form-control" multiple="multiple" required>
+							@foreach( $estudios as $data )
+								<option value="{{ $data->estudio }}">{{ $data->estudio }}</option>
+							@endforeach
+						</select>
+						<input type="hidden" name="estudios" id="estudios" value="">
+					</div>
+					<div class="form-group">
+						<label for="correo">Correo Elecrónico</label>
 						<input type="text" class="form-control" id="correo" name="correo" placeholder="Correo Electrónico">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Contraseña</label>
+						<label for="password">Contraseña</label>
 						<input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona el puesto</label>
+						<label for="puesto">Selecciona el puesto</label>
 						<select class="form-control" id="puesto" name="puesto">
 							<option select value="">Seleccionar</option>
 							@foreach($puestos as $puesto)
@@ -188,6 +201,15 @@
 					<div class="form-group">
 						<label for="exampleInputEmail1">Apellido Materno</label>
 						<input type="text" class="form-control" id="ap_materno_update" name="ap_materno" placeholder="Apellido Materno">
+					</div>
+					<div class="form-group">
+						<label for="estudios">Estudios</label><br>
+						<select name="lista_estudios" class="form-control" multiple="multiple" required>
+							@foreach( $estudios as $data )
+								<option value="{{ $data->estudio }}">{{ $data->estudio }}</option>
+							@endforeach
+						</select>
+						<input type="hidden" name="estudios" value="">
 					</div>
 					<div class="form-group">
 						<label for="exampleInputEmail1">Correo Elecrónico</label>
@@ -248,8 +270,17 @@
 	<script>
 		$(document).on('ready', function(){
 
+			$( 'select[name=lista_estudios]' ).multiselect();
+			$('select[name=lista_estudios]').on('change', function(){
 
-			$('#table_personal').DataTable({
+            	var lista_estudios = $(this).val();
+            	estudios = lista_estudios.join(",");
+            	$('input[name=estudios]').val(estudios);
+            });
+
+
+			$( '#table_personal' ).DataTable({
+		        "pageLength": 50,
 				language: {
 					search:   "Buscar: ",
 		            lengthMenu: "Mostrar _MENU_ registros por página",
@@ -301,7 +332,20 @@
 					type: "GET",
 					success: function( data ){
 
-						console.log(data.job);
+						var datos = data.lista_estudios;
+						var valArr = [];
+						console.log(datos)
+						$('select[name=lista_estudios]').multiselect('refresh');
+						if( datos !== null ){
+							valArr = datos.split(",");
+					        for(var i=0; i<valArr.length; i++){
+					        	valArr[i] = valArr[i].replace('&amp;', '&')
+					        }
+						}
+				        console.log(valArr);
+						$('select[name=lista_estudios]').multiselect('select', valArr);
+						$('select[name=lista_estudios]').multiselect('refresh');
+
 						$('#id_update').val(data.id);
 						$('#nombre_update').val(data.name);
 						$('#ap_paterno_update').val(data.ap_paterno);

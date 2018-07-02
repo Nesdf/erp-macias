@@ -8,7 +8,7 @@ class User extends Model
 {
 	//Tipo_empleado: 1 = Técnico; 0 = Administrativo
 	protected $table = 'users';
-    protected $fillable = ['name', 'email', 'password', 'job', 'ap_paterno', 'ap_materno', 'tipo_empleado', 'password','created_at', 'updated_at'];
+    protected $fillable = ['name', 'email', 'password', 'job', 'ap_paterno', 'ap_materno', 'tipo_empleado', 'password', 'lista_estudios', 'created_at', 'updated_at'];
 	protected $hidden = ['password'];
 
 	public static function Personal()
@@ -19,6 +19,7 @@ class User extends Model
 				'users.id',
 				'users.name', 
 				'users.email', 
+				'users.lista_estudios',
 				'jobs.job', 
 				'users.ap_paterno', 
 				'users.ap_materno'])

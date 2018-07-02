@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\MgEpisodios\Entities\MaterialCalificado as MaterialCalificado;
+use Modules\MgEpisodios\Entities\Episodios as Episodios;
+use Modules\MgEpisodios\Entities\Timecode as Timecode;
+use Modules\MgEpisodios\Entities\Tcr as Tcr;
+use \Modules\MgEpisodios\Entities\Proyectos as Proyectos;
 
 class MgCalificarMaterialController extends Controller
 {
@@ -54,7 +59,7 @@ class MgCalificarMaterialController extends Controller
                         return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                     } else {
                         $id = $request->input('id');
-                        $calificacion = \Modules\MgEpisodios\Entities\MaterialCalificado::create([      
+                        $calificacion = MaterialCalificado::create([      
                             'correo_activo' => Auth::user()->email,
                             'duracion' => $request->input('duracion'),
                             'tipo_reporte' => $request->input('reporte'),
@@ -65,7 +70,7 @@ class MgCalificarMaterialController extends Controller
                         ]);
 
                         if( $calificacion ){
-                            \Modules\MgEpisodios\Entities\Episodios::where( 'id',  $id)
+                            Episodios::where( 'id',  $id)
                                 ->update([  
                                     'material_calificado' => true 
                                 ]);
@@ -129,7 +134,7 @@ class MgCalificarMaterialController extends Controller
                 if ( $validator->fails() ) {
                     return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else {
-                    \Modules\MgEpisodios\Entities\MaterialCalificado::select('id' , $request->input('id_episodio'))
+                    MaterialCalificado::select('id' , $request->input('id_episodio'))
                         ->update([ 
                             'duracion' => $request->input('duracion'),
                             'tipo_reporte' => $request->input('reporte'),
@@ -161,9 +166,9 @@ class MgCalificarMaterialController extends Controller
     {
         try{
 
-            $observaciones = \Modules\MgEpisodios\Entities\Timecode::get();
-            $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
-            $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
+            $observaciones = Timecode::get();
+            $tcrs = Tcr::All();
+            $allProyect = Proyectos::allProyect($id_episodio, $id_proyecto);
            
             $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
             $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'desc')->get();
@@ -204,9 +209,9 @@ class MgCalificarMaterialController extends Controller
                         ]);
 
                     //return redirect('/mgepisodios/material-calificado/'.$request->input('id_episodio').'/'.$request->input('id_proyecto'));
-                    $observaciones = \Modules\MgEpisodios\Entities\Timecode::get();
-                    $tcrs = \Modules\MgEpisodios\Entities\Tcr::All();
-                    $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
+                    $observaciones = Timecode::get();
+                    $tcrs = Tcr::All();
+                    $allProyect = Proyectos::allProyect($id_episodio, $id_proyecto);
                     $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
                     $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
                     $request->session()->flash('success', trans('mgepisodios::ui.flash.flash_create_timecode'));

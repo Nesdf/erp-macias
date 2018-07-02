@@ -83,7 +83,6 @@ class MgContabilidadController extends Controller
      * @return Response
      */
     public function reporteGeneral() {
-
         try{
             $episodios = Episodios::All();
             return view('mgcontabilidad::reporte-general', compact('episodios'));
@@ -141,8 +140,19 @@ class MgContabilidadController extends Controller
     public function reporteNominaActores() {
 
         try{
+            $estudiosArray = explode(',', \Auth::user()->lista_estudios);
+
             $actores = Actores::all();
-            $estudios = Estudios::all();
+            //$estudios = Estudios::whereIn('estudio', $estudiosArray);
+            for( $i=0; $i<count( $estudiosArray ); $i++ )
+            {
+              $estudiosString .= ''.$estudiosArray[$i].',';
+            }
+            $estudiosString = trim($estudiosString, ',');
+            $estudios = Estudios::estudios($estudiosArray);
+            print_r($estudios);
+            exit;
+            
             return view('mgcontabilidad::reporte-nomina-actores', compact('actores', 'estudios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -155,11 +165,10 @@ class MgContabilidadController extends Controller
      * @return Response
      */
     public function reporteProyectos() {
-
         try{
             $proyectos = Proyectos::all();
             $estudios = Estudios::all();
-            return view('mgcontabilidad::reporte-proyecto', compact('proyectos', 'estudios'));
+            return view('mgcontabilidad::reporte-proyectos', compact('proyectos', 'estudios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -519,8 +528,7 @@ class MgContabilidadController extends Controller
     {
       try{
             if( $request->isMethod('post') && $request->ajax() ){
-              //$llamados = Llamados::getAllActores( $request->input('ajaxEpisodio') );
-
+              
               $allEpisodios = Episodios::getAllById($request->input('proyecto_search'));
 
               return Response(['msg'=>'success', 'episodios'=> $allEpisodios, 'code' => 200], 200)->header('Content-Type', 'application/json');

@@ -22,6 +22,7 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgc
     Route::get('ajax-get-personajes', 'MgCalendarController@ajaxGetPersonajes')->name('ajax_get_personajes');
     Route::post('search-llamado-reagendado', 'MgCalendarController@searchReagendarLlamado')->name('search_llamado_reagendado');
     Route::post('save-llamado-reagendado', 'MgCalendarController@saveReagendarLlamado')->name('save_llamado_reagendado');
+    //Route::get('view-crear-llamado', 'MgCalendarController@viewCrearLlamado')->name('view_crear_llamado');
 });
 
 
@@ -33,3 +34,8 @@ Route::group(['middleware' => ['web', 'auth', 'verify_routes'], 'prefix' => 'mgc
     Route::post('search-llamado-reagendado', 'MgCalendarController@searchReagendarLlamado')->name('search_llamado_reagendado');
     Route::post('save-llamado-reagendado', 'MgCalendarController@saveReagendarLlamado')->name('save_llamado_reagendado');
 });*/
+
+Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'mgcalendar', 'namespace' => 'Modules\MgCalendar\Http\Controllers'], function()
+{
+  Route::get('view-crear-llamado', 'MgCalendarController@viewCrearLlamado')->name('view_crear_llamado');
+});

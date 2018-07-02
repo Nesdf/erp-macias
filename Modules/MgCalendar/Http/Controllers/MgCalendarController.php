@@ -147,14 +147,16 @@ class MgCalendarController extends Controller
     {
         try{
             if($request->isMethod('post') && $request->ajax()){
-
+                
                 $meses = ['Jan'=>'01', 'Feb'=>'02', 'Mar'=>'03','Apr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'8','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dec'=>'12'];
-                $date = explode(' ', $request->input('dia'));
+                $meses = ['01'=>'01', '02'=>'02', '03'=>'03','04'=>'04','05'=>'05','06'=>'06','07'=>'07','08'=>'8','09'=>'09','10'=>'10', '11'=>'11', '12'=>'12'];
+                $date = explode('-', $request->input('dia'));
+                
                 $dt = Carbon::now();
-                $cita_entrada = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_entrada'))->minute($request->input('min_entrada'))->second(00)->toDateTimeString();
+                $cita_entrada = $dt->year($date[0])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_entrada'))->minute($request->input('min_entrada'))->second(00)->toDateTimeString();
 
-                $cita_salida = $dt->year($date[3])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_salida'))->minute($request->input('min_salida'))->second(00)->toDateTimeString();
-                $fecha_salida = $date[3].'-'.$meses[$date[1]].'-'.$date[2];
+                $cita_salida = $dt->year($date[0])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_salida'))->minute($request->input('min_salida'))->second(00)->toDateTimeString();
+                $fecha_salida = $date[0].'-'.$meses[$date[1]].'-'.$date[2];
                 //Valida si en éste día se tiene llamado en otra sala
                 $hora_entrada = $request->input('hora_entrada').':'.$request->input('min_entrada').':00';
                 $hora_salida = $request->input('hora_salida').':'.$request->input('min_salida').':00';
@@ -188,6 +190,8 @@ class MgCalendarController extends Controller
                             'fijo' => ($request->input('fijo') == 'on') ? true : false,
                             'proyecto' => ($request->input('proyecto') == 'on') ? true : false
                         ]);
+
+                        $request->session()->put('key', 'value');
                     }
 
                 }
@@ -421,6 +425,20 @@ class MgCalendarController extends Controller
       try{
         $actores_personajes = ActorPersonaje::get();
         return Response(['msg' => 'success', 'actores' => $actores_personajes, 'pagos' => $actores_personajes ], 200)->header('Content-Type', 'application/json');
+      } catch(\Exception $e){
+          \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+          \Log::error(' Trace2: ' .$e->getTraceAsString());
+          return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+          //
+      }
+    }
+
+    public function viewCrearLlamado(){
+      try{
+        $proyectos = Proyectos::get();
+        $estudios = Estudios::get();
+        $actores = Actores::get();
+        return view('mgcalendar::view-crear-llamado', compact('estudios', 'proyectos', 'actores'));
       } catch(\Exception $e){
           \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());

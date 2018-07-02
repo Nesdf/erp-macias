@@ -307,14 +307,14 @@
 											<b class="arrow"></b>
 										@endif
 									</li>
-									<!--<li @if(\Request::is('mgcalendar/list-llamados')) class="active" @endif>
-										@if(\Request::session()->has('list_llamado'))
-											<a href="{{ url('mgcalendar/list-llamados') }}">
-												<i class="menu-icon fa fa-caret-right"></i> Agregar Personajes
+									<li @if(\Request::is('mgcalendar/view-crear-llamado')) class="active" @endif>
+										
+											<a href="{{ url('mgcalendar/view-crear-llamado') }}">
+												<i class="menu-icon fa fa-caret-right"></i> Generar llamado
 											</a>
 											<b class="arrow"></b>
-										@endif
-									</li>-->
+										
+									</li>
 								</ul>
 							@endif
 					</li>

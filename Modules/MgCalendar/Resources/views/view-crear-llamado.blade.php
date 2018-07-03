@@ -79,7 +79,7 @@ input.tipo_numero{
                             <input type="number" min="1" name="loops" class="form-control" required>
                             <hr>
                             <div class="form-group">
-                            <input type="hidden" name="episodio_folio" value="'+data.folio+'">
+                            <input type="hidden" name="episodio_folio" >
                             Hora de Entrada:
                             <input type="number" name="hora_entrada" id="hora_entrada" class="tipo_numero" min="00" max="23"  required> : <input type="number" name="min_entrada" class="tipo_numero" min="00" max="59" required>
                             </div>
@@ -194,6 +194,7 @@ input.tipo_numero{
                       //$('input[name=dia]').val($('input[name=dateNow]').val());
                       //console.log("DATENOW: " + $('input[name=dateNow]').val());
                       $('input[name=folio]').val(data['folio']);
+                      $('input[name=episodio_folio]').val(data['folio']);
                       $('input[name=nombre_real]').val(dataAll['msg'][0]['titulo_original']);
                       $('input[name=capitulo]').val(['capitulo']);
                       $('input[name=fecha]').val(dataAll['msg'][0]['date_entrega']);
@@ -307,7 +308,7 @@ input.tipo_numero{
                             dataDB.push( data );
 
                             var foo = dataDB.map(function(data){
-                                return '<li>'+data.actor+' '+data.start+'</li>';
+                                return '<li>'+data.actor+' | '+data.start+'</li>';
                               })
                               document.getElementById("foo").innerHTML = foo;
 

@@ -52,7 +52,7 @@ input.tipo_numero{
                          
                          <form id="form-llamado" class="no-margin">
                           <label> Fecha: &nbsp;</label><br>
-                          <input type="text" name="dia" class="form-control" required><br>
+                          <input type="text" name="dia" autocomplete="off" class="form-control" required><br>
                             {{ csrf_field() }}
                             <input type="hidden" name="proyecto" />
                             <input type="hidden" name="episodio" />
@@ -251,7 +251,7 @@ input.tipo_numero{
                               if($(this).val() == 'otro'){
 
                                 $(this).removeAttr('required');
-                                $(this).attr('disabled', true);
+                                //$(this).attr('disabled', true);
                                 $('.personaje').html('\
                                   <label>Agregar nuevo personaje</label>\
                                   <input name="nuevo_personaje" class="form-control" required>\
@@ -312,25 +312,85 @@ input.tipo_numero{
                               })
                               document.getElementById("foo").innerHTML = foo;
 
-                            //modal.modal("hide");
+                              alert("Guardado Exitosamente");
 
-                            /*calendar.fullCalendar('renderEvent',
-                              {
-                                title: data.actor,
-                                start: data.start,
-                                end: data.end,
-                                className: 'label-primary',
-                                descripcion: data.actor + ' <br> Entrada: ' + start[1] + ':00' + '<br> Salida: '+  end[1] + ':00'
-                              },
-                              false // make the event "stick"
-                            );*/
+
+                            $('input[name=dia]').val('');
+                            $('select[name=actor]').val('');
+                            $('select[name=credencial]').val('');
+                            $('select[name=loops]').val('');
+                            $('input[name=hora_entrada]').val('');
+                            $('input[name=min_entrada]').val('');
+                            $('input[name=hora_salida]').val('');
+                            $('input[name=min_salida]').val('');
+                            $('select[name=personaje]').val('');
+                            $('.personaje').html('');
+
+                            $.ajax({
+                                url: "{{ url('mgcalendar/ajax-get-personajes') }}",
+                                type: 'GET',
+                                success: function(data){
+                                  if(data.msg == 'success'){
+                                    var valuePersonajes = "";
+                                    console.log(data);
+                                    for(var i=0; i<data.actores.length; i++){
+                                      valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
+                                    }
+                                    valuePersonajes += '<option value="otro">Otro</option>';
+                                    $('select[name=personaje]').append(valuePersonajes).selectpicker('refresh');
+
+                                    $('select[name=personaje]').on('change', function(){
+
+                                      if($(this).val() == 'otro'){
+
+                                        $(this).removeAttr('required');
+                                        //$(this).attr('disabled', true);
+
+                                        $('.personaje').html('\
+                                          <label>Agregar nuevo personaje</label>\
+                                          <input name="nuevo_personaje" class="form-control" required>\
+                                          <label> Fijo\
+                                          <input type="checkbox" name="fijo" >\
+                                          </label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
+                                          <label> Cine\
+                                          <input type="checkbox" name="proyecto" >\
+                                          </label><br>\
+                                          <a href="javascript:void(0)" class="cancelar btn bt-info">Cancelar</a>\
+                                        ');
+                                      } else {
+                                        $('.personaje').html('');
+                                      }
+
+                                      $('.cancelar').on('click', function(){
+                                        $('.personaje').html('');
+                                        $('select[name=personaje]').attr('required', true);
+                                        $('select[name=personaje]').removeAttr('disabled');
+                                      });
+
+                                    });
+                                    //$('select[name=personaje]').selectpicker('refresh');
+                                  }
+                                },
+                                beforeSend: function() {
+                                    $(".loader").fadeIn();
+                                },
+                                complete: function() {
+                                    $(".loader").fadeOut("slow");
+                                },
+                                error: function(error){
+
+                                }
+                              });
+
+                           
                           },
                           beforeSend: function() {
                             $(".submit_cita").attr("disabled");
                             $(".loader").fadeIn();
                           },
                           complete: function() {
-                            $(".submit_cita").removeAttr("disabled");
+                            
+                             $(".submit_cita").removeAttr("disabled");
                             $(".loader").fadeOut("slow");
                           },
                           error: function(error){

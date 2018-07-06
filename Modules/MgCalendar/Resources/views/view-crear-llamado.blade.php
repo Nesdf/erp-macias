@@ -392,6 +392,7 @@ input.tipo_numero{
                             
                              $(".submit_cita").removeAttr("disabled");
                             $(".loader").fadeOut("slow");
+                            $('.msj-error').html('');
                           },
                           error: function(error){
                             $('.msj-error').html('<div class="alert alert-danger" role="alert">'+error.responseJSON.error+'</div>')

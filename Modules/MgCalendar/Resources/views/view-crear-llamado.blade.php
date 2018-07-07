@@ -318,13 +318,14 @@ input.tipo_numero{
                             $('input[name=dia]').val('');
                             $('select[name=actor]').val('');
                             $('select[name=credencial]').val('');
-                            $('select[name=loops]').val('');
                             $('input[name=hora_entrada]').val('');
                             $('input[name=min_entrada]').val('');
                             $('input[name=hora_salida]').val('');
                             $('input[name=min_salida]').val('');
+                            $('input[name=loops]').val('');
                             $('select[name=personaje]').val('');
                             $('.personaje').html('');
+                            $('.msj-error').html('');
 
                             $.ajax({
                                 url: "{{ url('mgcalendar/ajax-get-personajes') }}",
@@ -392,7 +393,7 @@ input.tipo_numero{
                             
                              $(".submit_cita").removeAttr("disabled");
                             $(".loader").fadeOut("slow");
-                            $('.msj-error').html('');
+                            
                           },
                           error: function(error){
                             $('.msj-error').html('<div class="alert alert-danger" role="alert">'+error.responseJSON.error+'</div>')

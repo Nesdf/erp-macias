@@ -63,8 +63,7 @@ input.tipo_numero{
                             <input type="hidden" name="capitulo" id="capitulo"/>
                             <input type="hidden" name="fecha" id="fecha" />
                             <label> Actor: &nbsp;</label>
-                            <select class="form-control actor" name="actor" id="actor" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
-                            <option value="">Selecccionar</option>
+                            <select class="form-control" name="actor" id="actor" data-style="btn-primary" data-show-subtext="false" data-live-search="true" title="Seleccionar..." required>
                             @foreach($actores as $actor)
                              <option value="{{$actor->nombre_artistico}}" data-id="{{$actor->id}}">{{$actor->nombre_artistico}}</option>
                             @endforeach
@@ -300,30 +299,25 @@ input.tipo_numero{
                           success: function(data){
                             console.log("MIDATA: " + JSON.stringify(data))
                             $('.eliminar_select').remove();
-                            var inicio = String(data.start);
-                            var fin = String(data.end);
-                            var start = inicio.split(" ");
-                            var end = fin.split(" ");
+                              alert("Guardado Exitosamente");
 
-                            dataDB.push( data );
+                              dataDB.push( data );
 
-                            var foo = dataDB.map(function(data){
+                              var foo = dataDB.map(function(data){
                                 return '<li>'+data.actor+' | '+data.start+'</li>';
                               })
-                              document.getElementById("foo").innerHTML = foo;
-
-                              alert("Guardado Exitosamente");
+                              document.getElementById("foo").innerHTML = foo; 
 
 
                             $('input[name=dia]').val('');
-                            $('select[name=actor]').val('');
+                            $('select[name=actor]').val('').selectpicker('refresh');
                             $('select[name=credencial]').val('');
                             $('input[name=hora_entrada]').val('');
                             $('input[name=min_entrada]').val('');
                             $('input[name=hora_salida]').val('');
                             $('input[name=min_salida]').val('');
                             $('input[name=loops]').val('');
-                            $('select[name=personaje]').val('');
+                            $('select[name=personaje]').val('').selectpicker('refresh');
                             $('.personaje').html('');
                             $('.msj-error').html('');
 
@@ -371,6 +365,7 @@ input.tipo_numero{
                                     });
                                     //$('select[name=personaje]').selectpicker('refresh');
                                   }
+
                                 },
                                 beforeSend: function() {
                                     $(".loader").fadeIn();

@@ -232,7 +232,7 @@ input.tipo_numero{
                                 dayNamesShort: [ "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab" ], // For formatting
                                 dayNamesMin: [ "Do","Lu","Ma","Mi","Ju","Vi","Sa" ],
                                 selectHelper: true,
-                                select: function(start, end, allDay) {
+                                select_para_seleccionar: function(start, end, allDay) {
                                   if(start.isBefore(moment())) {
                                     alert('No se puede agregar llamado en este día.');
                                       $('#calendar').fullCalendar('unselect');

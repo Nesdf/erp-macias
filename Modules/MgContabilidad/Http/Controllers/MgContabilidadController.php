@@ -144,14 +144,15 @@ class MgContabilidadController extends Controller
 
             $actores = Actores::all();
             //$estudios = Estudios::whereIn('estudio', $estudiosArray);
+            $estudiosString  = '';
             for( $i=0; $i<count( $estudiosArray ); $i++ )
             {
               $estudiosString .= ''.$estudiosArray[$i].',';
             }
             $estudiosString = trim($estudiosString, ',');
-            $estudios = Estudios::estudios($estudiosArray);
-            print_r($estudios);
-            exit;
+            //$estudios = Estudios::estudios($estudiosArray);
+            $estudios = $estudiosArray;
+            
             
             return view('mgcontabilidad::reporte-nomina-actores', compact('actores', 'estudios'));
         } catch(\Exception $e) {

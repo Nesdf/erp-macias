@@ -11,6 +11,6 @@ class Estudios extends Model
 
     public static function estudios( $estudios )
     {
-    	return \DB::select( \DB::raw('SELECT * FROM estudios WHERE estudio IN('.$estudios.')') );
+    	return \DB::select( \DB::raw("SELECT * FROM estudios WHERE estudio IN(".$estudios.")") );
     }
 }

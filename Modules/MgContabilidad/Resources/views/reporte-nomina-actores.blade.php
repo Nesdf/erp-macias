@@ -18,8 +18,6 @@
 		<div class="col-xs-12">
 			<!-- PAGE CONTENT BEGINS -->
 
-
-
 			<div class="row">
 				<div class="col-xs-12">
 					<h3 class="header smaller lighter blue">Nómina Actores</h3>
@@ -42,8 +40,8 @@
 							<label>Estudio</label>
 							<select class="form-control selectpicker" name="estudio_search" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 								<option value="ALL">TODOS LOS ESTUDIOS</option>
-								@foreach($estudios as $item)
-									<option value="{{$item->estudio}}">{{$item->estudio}}</option>
+								@foreach($estudios as $item => $value)
+									<option value="{{$value['estudio']}}">{{$value->['estudio']}}</option>
 								@endforeach
 							</select>
 						</div>

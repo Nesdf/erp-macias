@@ -180,6 +180,7 @@ input.tipo_numero{
                     type: "GET",
                     success: function( data ){
                       //console.log("LIST SALAS: " + JSON.stringify(data['director']));
+                      $('#foo').html('');
                       console.log("LIST SALAS: " + JSON.stringify(data));
                       var proyecto = $('#proyecto_id option:selected').text();
                       var episodio = $('#data_episodios option:selected').text();

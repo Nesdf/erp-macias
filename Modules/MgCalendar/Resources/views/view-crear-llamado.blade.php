@@ -111,9 +111,7 @@ input.tipo_numero{
                   <h3 class="panel-title">Lista de llamados</h3>
                 </div>
                 <div class="panel-body">
-                  <div id="foo">
-
-                  </div>
+                  <div id="foo"></div>
                 </div>
               </div>
             </div>
@@ -150,6 +148,7 @@ input.tipo_numero{
 @section('script')
 	 <script type="text/javascript">
     $(document).on('ready', function(){
+      var dataDB = new Array();
       $( '#proyecto_id' ).on('change', function(){
         $(".loader").fadeIn();
         var id = $(this).val();
@@ -160,7 +159,7 @@ input.tipo_numero{
             success: function( data ){
               var dataAll = data;
               $(".loader").fadeOut("slow");
-              console.log("LIST EPISODIOS: " + JSON.stringify(data));
+              //console.log("LIST EPISODIOS: " + JSON.stringify(data));
               if(data.msg.length > 0){
                 $('#list_episodios').html('<br><label>Episodio: </label><br><select id="data_episodios" class="form-control" data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar..." >\
                         <option value="">Seleccionar...</option>\
@@ -174,16 +173,16 @@ input.tipo_numero{
                   $(".loader").fadeIn();
                     var id = $(this).val();
                     var id_episodio = $(this).find(':selected').data('id');
-                    var dataDB = new Array();
+                    $('#foo').empty();
+                    console.log("Data 1" + dataDB.length);
+                    dataDB =  [];
+                    console.log("Data 2" + dataDB.length);
                   $.ajax({
                     url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                     type: "GET",
                     success: function( data ){
                       //console.log("LIST SALAS: " + JSON.stringify(data['director']));
-
-                      //
-                      $('#foo').html('');
-                      console.log("LIST SALAS: " + JSON.stringify(data));
+                      //console.log("LIST SALAS: " + JSON.stringify(data));
                       var proyecto = $('#proyecto_id option:selected').text();
                       var episodio = $('#data_episodios option:selected').text();
                       var sala = $('#data_sala').text();
@@ -241,7 +240,7 @@ input.tipo_numero{
                         success: function(data){
                           if(data.msg == 'success'){
                             var valuePersonajes = "";
-                            console.log(data);
+                            //console.log(data);
                             for(var i=0; i<data.actores.length; i++){
                               valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
                             }
@@ -300,16 +299,22 @@ input.tipo_numero{
                           type: 'POST',
                           data: $( this ).serialize(),
                           success: function(data){
+                            $(".loader").fadeOut("slow");
                             console.log("MIDATA: " + JSON.stringify(data))
                             $('.eliminar_select').remove();
                               alert("Guardado Exitosamente");
 
                               dataDB.push( data );
 
-                              var foo = dataDB.map(function(data){
+                              /*var foo = dataDB.map(function(data){
                                 return '<li>'+data.actor+' | '+data.start+'</li>';
-                              })
-                              document.getElementById("foo").innerHTML = foo; 
+                              })*/
+                              $('#foo').html('');
+                              for( var i = 0;   i < dataDB.length ; i++  ){
+                                
+                                $('#foo').append('<li>' + dataDB[i].actor + ' | ' + dataDB[i].start + '</li>');
+                              }
+                             // document.getElementById("foo").innerHTML = foo; 
 
 
                             $('input[name=dia]').val('');
@@ -330,7 +335,7 @@ input.tipo_numero{
                                 success: function(data){
                                   if(data.msg == 'success'){
                                     var valuePersonajes = "";
-                                    console.log(data);
+                                    //console.log(data);
                                     for(var i=0; i<data.actores.length; i++){
                                       valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
                                     }

@@ -227,6 +227,7 @@ input.tipo_numero{
                     url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                     type: "GET",
                     success: function( data ){
+                      console.log("PRUEBA: " + JSON.stringify(data));
                       //console.log("LIST SALAS: " + JSON.stringify(data['director']));
                       //console.log("LIST SALAS: " + JSON.stringify(data));
                       var proyecto = $('#proyecto_id option:selected').text();

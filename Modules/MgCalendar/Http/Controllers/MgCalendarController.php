@@ -99,6 +99,7 @@ class MgCalendarController extends Controller
             $salas = Salas::listSalas($id);
             $llamados = Llamados::listaLlamados($salas[0]->sala);
             $folio = Episodios::where('id', '=', $id_episodio)->get();
+            $folio = $folio[0];
             
 
             if( count($folio) == 0){

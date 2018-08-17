@@ -223,6 +223,7 @@ input.tipo_numero{
                     console.log("Data 1" + dataDB.length);
                     dataDB =  [];
                     console.log("Data 2" + dataDB.length);
+                    console.log(id +" - "+id_episodio);
                   $.ajax({
                     url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                     type: "GET",

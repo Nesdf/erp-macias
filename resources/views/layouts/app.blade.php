@@ -150,7 +150,7 @@
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
 
-			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+			<div id="sidebar" class="sidebar responsive ace-save-state">
 				<script type="text/javascript">
 					try{ace.settings.loadState('sidebar')}catch(e){}
 				</script>
@@ -313,7 +313,13 @@
 												<i class="menu-icon fa fa-caret-right"></i> Generar llamado
 											</a>
 											<b class="arrow"></b>
+									</li>
+									<li @if(\Request::is('mgcalendar/view-crear-llamado')) class="active" @endif>
 										
+											<a href="{{ url('mgreadpdf') }}">
+												<i class="menu-icon fa fa-caret-right"></i> Agregar Personajes
+											</a>
+											<b class="arrow"></b>
 									</li>
 								</ul>
 							@endif
@@ -520,6 +526,7 @@
 		<script src="{{ asset('assets/dashboard/js/bootstrap.min.js') }}"></script>
 
 		<!-- page specific plugin scripts -->
+
 
 		<!-- ace scripts -->
 		<script src="{{ asset('assets/dashboard/js/ace-elements.min.js') }}"></script>

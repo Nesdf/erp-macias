@@ -24,8 +24,8 @@ input.tipo_numero{
                   de llamados.
                 </small>
               </h1>
-              <form>
-                <div class="col-md-4">
+              <div class="col-md-4">
+              <form><br><br>
                   <label>Proyectos:</label>
                   <select class="form-control" id="proyecto_id" selectpicker" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
                     <option value="">Seleccionar</option>
@@ -35,9 +35,39 @@ input.tipo_numero{
                   </select>
                   <div id="list_episodios"></div>
                   <div id="name_sala"></div>
-
-                </div>
               </form>
+              </div>
+              <div class="col-md-8">
+                <br><br>
+                <div class="panel panel-success">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Lista de Actores</h3>
+                  </div>
+                  <div class="panel-body">
+                    <table class="table table-condensed" id="table-personajes">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Loops</th>
+                          <th>Asignado</th>
+                          <th>Agregar Personaje</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                      </tbody>
+                      <!--<tr>
+                        <td>Nestor</td>
+                        <td>34</td>
+                        <td><a href="javascript:void(0)" onclick="myFunction()">Agregar</a></td>
+                      </tr>-->
+                      <div id="mostrarActores">
+
+                      </div>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div><!-- /.page-header -->
 
             <div class="col-md-12 mostrarPanel">
@@ -57,7 +87,7 @@ input.tipo_numero{
                             <input type="hidden" name="proyecto" />
                             <input type="hidden" name="episodio" />
                             <input type="hidden" name="sala" />
-                            <!--<input type="hidden" name="dia" id="dia" />-->
+                            <input type="hidden" name="episodio_folio"  />
                             <input type="hidden" name="folio" id="folio" />
                             <input type="hidden" name="nombre_real" id="nombre_real"/>
                             <input type="hidden" name="capitulo" id="capitulo"/>
@@ -75,7 +105,7 @@ input.tipo_numero{
                             <label> Director: &nbsp;</label>
                             <input type="text" name="director"  class="form-control" readonly>
                             <label>Loops</label>
-                            <input type="number" min="1" name="loops" class="form-control" required>
+                            <input type="number" min="1" name="loops" class="form-control readonly" required>
                             <hr>
                             <div class="form-group">
                             <input type="hidden" name="episodio_folio" >
@@ -89,10 +119,14 @@ input.tipo_numero{
                             <label>
                             <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario
                             </label>
+                            <label>
+                            <input type="checkbox" name="fijo"> Personaje fijo
+                            </label>
                             </div>
                             <br><label>Personaje: </label>
-                            <div id="eliminar_select"><select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>
-                            </select></div>
+                            <input type="text" class="form-control readonly" name="personaje" required>
+                            <!--<div id="eliminar_select"><select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>
+                            </select></div>-->
                             <div class="personaje"> </div>
                             <div class="msj-error" ></div>
                             <br><br><button type="submit" class="btn btn-sm btn-success submit_cita"><i class="ace-icon fa fa-check"></i> Guardar</button>
@@ -148,6 +182,18 @@ input.tipo_numero{
 @section('script')
 	 <script type="text/javascript">
     $(document).on('ready', function(){
+
+      $(".readonly").keydown(function(e){
+          e.preventDefault();
+      });
+
+      $('body').on('click', '.datos_personajes', function(){
+        $('input[name=loops]').val($(this).data('loops'));
+        $('input[name=personaje]').val($(this).data('personaje'));
+        $('input[name=episodio_folio]').val($(this).data('folio'));
+        //alert($(this).data('folio'));
+      })
+
       var dataDB = new Array();
       $( '#proyecto_id' ).on('change', function(){
         $(".loader").fadeIn();
@@ -192,6 +238,24 @@ input.tipo_numero{
                       $('input[name=proyecto]').val(proyecto);
                       $('input[name=episodio]').val(episodio);
                       $('input[name=sala]').val(data['msg'][0]['sala']);
+
+                      var table = $("#table-personajes tbody");
+                      var asignado ='';
+                      table.html('');
+                      console.log(data['actores']);
+                      $.each(data['actores'], function(idx, elem){
+                        id_personaje = elem['id'];
+
+                          if( elem.asignado == false){
+                            asignado = '<i class="glyphicon glyphicon-remove"></i>';
+                            table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>><td>"+asignado+"</td><td><a class='datos_personajes'  href='javascript:void(0);' data-personaje='"+elem.personaje+"' data-loops='"+elem.loops+"' data-folio='"+elem.episodio_folio+"'>Agregar</a></td></tr>");
+                          } else {
+                            asignado = '<i class="glyphicon glyphicon-ok"></i>';
+                            table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>   <td>"+asignado+"</td><td>Agregado</td></tr>");
+                          }
+                          
+                      });
+
                       //$('input[name=dia]').val($('input[name=dateNow]').val());
                       //console.log("DATENOW: " + $('input[name=dateNow]').val());
                       $('input[name=folio]').val(data['folio']);
@@ -322,9 +386,11 @@ input.tipo_numero{
                             $('select[name=credencial]').val('');
                             $('input[name=hora_entrada]').val('');
                             $('input[name=min_entrada]').val('');
+                            $('input[name=loops]').val('');
+                            $('input[name=personaje]').val('');
                             $('input[name=hora_salida]').val('');
                             $('input[name=min_salida]').val('');
-                            $('input[name=loops]').val('');
+                            //$('input[name=loops]').val('');
                             $('select[name=personaje]').val('').selectpicker('refresh');
                             $('.personaje').html('');
                             $('.msj-error').html('');
@@ -427,5 +493,8 @@ input.tipo_numero{
       });
     });
     $('select[name=cliente]').selectpicker();
+
+    
    </script>
+   <!--Funciones-->
 @stop

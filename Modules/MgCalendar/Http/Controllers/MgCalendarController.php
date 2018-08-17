@@ -99,6 +99,13 @@ class MgCalendarController extends Controller
             $salas = Salas::listSalas($id);
             $llamados = Llamados::listaLlamados($salas[0]->sala);
             $folio = Episodios::find($id_episodio);
+            
+
+            if( count($folio) == 0){
+                $actores = [];
+            } else {
+                $actores = ActorPersonaje::where('episodio_folio', '=', $folio->folio)->get();
+            }
 
             if($folio->directorId == null){
                 $director = "No se ha seleccionador director";
@@ -109,7 +116,7 @@ class MgCalendarController extends Controller
                 $data_estudios = Estudios::find($salas[0]->estudio_id);
             }
 
-            return Response(['msg' => $salas, 'estudio'=>$data_estudios->estudio, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
+            return Response(['actores' => $actores, 'msg' => $salas, 'estudio'=>$data_estudios->estudio, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -174,11 +181,29 @@ class MgCalendarController extends Controller
                     if( count($searchFecha) > 0){
 
                         return Response(['error' => 'Ya existe un registro en este horario'], 404)->header('Content-Type', 'application/json');
-                    }
-                }
-                //Termina validación de fecha disponible
+                    } else {
+                        //Termina validación de fecha disponible
 
-                $existe = ActorPersonaje::getExiste(ucwords( strtolower( $request->input('nuevo_personaje') ) ), $request->input('episodio_folio'));
+                    if($request->input('fijo') == 'on'){
+                        ActorPersonaje::where(['loops' => $request->input('loops'), 'personaje' => $request->input('personaje'), 'episodio_folio' => $request->input('episodio_folio')])->update([
+                            'asignado' => true,
+                            'fijo' => true
+                        ]);
+                    } else {
+                        ActorPersonaje::where(['loops' => $request->input('loops'), 'personaje' => $request->input('personaje'), 'episodio_folio' => $request->input('episodio_folio')])->update([
+                            'asignado' => true
+                        ]);
+                    }
+
+                    }
+                } 
+                
+
+               
+
+                $request->session()->put('key', 'value');
+
+                /*$existe = ActorPersonaje::getExiste(ucwords( strtolower( $request->input('nuevo_personaje') ) ), $request->input('episodio_folio'));
 
                 if(!$existe){
 
@@ -194,7 +219,7 @@ class MgCalendarController extends Controller
                         $request->session()->put('key', 'value');
                     }
 
-                }
+                }*/
                 // verifica en el tabulador el pago por loops
                 $pago_total_loops = Tabulador::getTabulador((int)$request->input('loops'));
 

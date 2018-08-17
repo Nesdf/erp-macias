@@ -99,14 +99,16 @@ class MgCalendarController extends Controller
             $salas = Salas::listSalas($id);
             $llamados = Llamados::listaLlamados($salas[0]->sala);
             $folio = Episodios::where('id', '=', $id_episodio)->get();
-            $folio = $folio[0];
+
             
 
             if( count($folio) == 0){
                 $actores = [];
             } else {
-                $actores = ActorPersonaje::where('episodio_folio', '=', $folio->folio)->get();
+                $actores = ActorPersonaje::where('episodio_folio', '=', $folio[0]->folio)->get();
             }
+
+            $folio = $folio[0];
 
             if($folio->directorId == null){
                 $director = "No se ha seleccionador director";

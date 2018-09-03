@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Macias Group</title>
+		<title>GPS by MG</title>
 
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -80,7 +80,7 @@
 	</head>
 
 	<body class="no-skin">
-		<div class="loader"><h1>MACIAS - GROUP  Cargando...</h1></div>
+		<div class="loader"><h1>GPS by MG  Cargando...</h1></div>
 		<div id="navbar" class="navbar navbar-default ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
@@ -96,7 +96,7 @@
 				<div class="navbar-header pull-left">
 					<a href="index.html" class="navbar-brand">
 						<small>
-							Macias Group
+							GPS by MG
 						</small>
 					</a>
 				</div>
@@ -321,6 +321,13 @@
 											</a>
 											<b class="arrow"></b>
 									</li>
+									<li @if(\Request::is('mgcalendar/view-crear-llamado')) class="active" @endif>
+										
+											<a href="{{ url('mgreadpdf/modificar-personajes') }}">
+												<i class="menu-icon fa fa-caret-right"></i> Modificar Personajes
+											</a>
+											<b class="arrow"></b>
+									</li>
 								</ul>
 							@endif
 					</li>
@@ -499,7 +506,7 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							Macias Group 2017
+							GPS by MG 2017
 						</span>
 					</div>
 				</div>

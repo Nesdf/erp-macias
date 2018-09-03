@@ -15,6 +15,10 @@ input.tipo_numero{
 .mostrarPanel{
   display: none;
 }
+.panel-personajes {
+  overflow:scroll;
+  height:290px;
+}
 </style>
     <div class="page-header">
               <h1>
@@ -39,7 +43,7 @@ input.tipo_numero{
               </div>
               <div class="col-md-8">
                 <br><br>
-                <div class="panel panel-success">
+                <div class="panel panel-success panel-personajes">
                   <div class="panel-heading">
                     <h3 class="panel-title">Lista de Actores</h3>
                   </div>
@@ -92,6 +96,7 @@ input.tipo_numero{
                             <input type="hidden" name="nombre_real" id="nombre_real"/>
                             <input type="hidden" name="capitulo" id="capitulo"/>
                             <input type="hidden" name="fecha" id="fecha" />
+                            <input type="hidden" name="ids" />
                             <label> Actor: &nbsp;</label>
                             <select class="form-control" name="actor" id="actor" data-style="btn-primary" data-show-subtext="false" data-live-search="true" title="Seleccionar..." required>
                             @foreach($actores as $actor)
@@ -105,7 +110,7 @@ input.tipo_numero{
                             <label> Director: &nbsp;</label>
                             <input type="text" name="director"  class="form-control" readonly>
                             <label>Loops</label>
-                            <input type="number" min="1" name="loops" class="form-control readonly" required>
+                            <input type="number" min="1" name="loops" class="form-control readonly" autocomplete="off" required>
                             <hr>
                             <div class="form-group">
                             <input type="hidden" name="episodio_folio" >
@@ -124,7 +129,7 @@ input.tipo_numero{
                             </label>
                             </div>
                             <br><label>Personaje: </label>
-                            <input type="text" class="form-control readonly" name="personaje" required>
+                            <input type="text" class="form-control readonly" name="personaje" autocomplete="off" required>
                             <!--<div id="eliminar_select"><select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>
                             </select></div>-->
                             <div class="personaje"> </div>
@@ -250,12 +255,42 @@ input.tipo_numero{
 
                           if( elem.asignado == false){
                             asignado = '<i class="glyphicon glyphicon-remove"></i>';
-                            table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>><td>"+asignado+"</td><td><a class='datos_personajes'  href='javascript:void(0);' data-personaje='"+elem.personaje+"' data-loops='"+elem.loops+"' data-folio='"+elem.episodio_folio+"'>Agregar</a></td></tr>");
-                          } else {
+                            table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>><td>"+asignado+"</td><td id='"+elem.id+"'><input type='checkbox' class='datos_personajes' data-personaje='"+elem.personaje+"' data-id='"+elem.id+"' data-loops='"+elem.loops+"' data-folio='"+elem.episodio_folio+"'></td></tr>");
+                          } else if( elem.asignado == true ) {
                             asignado = '<i class="glyphicon glyphicon-ok"></i>';
-                            table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>   <td>"+asignado+"</td><td>Agregado</td></tr>");
+                            table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>   <td>"+asignado+"</td><td>Asignado</td></tr>");
                           }
                           
+                      });
+
+                      //Permite agregar a los actores en arreglo,
+                      //Ademas de sumar los loops por cada vez 
+                      //que den click
+                      var datosLoops = 0;
+                      var datosPersonajes = [];
+                      var idsPersonajes = [];
+                      $('.datos_personajes').on('change', function(){
+                        if( $(this).is(':checked') ){
+                          datosLoops += parseInt( $(this).data('loops') );
+                          datosPersonajes.push( " "+$(this).data('personaje') );
+                          idsPersonajes.push( $(this).data('id') );
+                          $( 'input[name=loops]' ).val(datosLoops);
+                          $( 'input[name=personaje]' ).val(datosPersonajes);
+                          $( 'input[name=ids]' ).val(idsPersonajes);
+                        } else{
+                          datosLoops -= parseInt( $(this).data('loops') );
+                          var i = datosPersonajes.indexOf(" "+$(this).data('personaje'));
+                          if(i != -1) {
+                            datosPersonajes.splice(i, 1);
+                          }
+                          var j = idsPersonajes.indexOf($(this).data('id'));
+                          if(j != -1) {
+                            idsPersonajes.splice(j, 1);
+                          }
+                          $( 'input[name=loops]' ).val(datosLoops);
+                          $( 'input[name=personaje]' ).val(datosPersonajes);
+                          $( 'input[name=ids]' ).val(idsPersonajes);
+                        }
                       });
 
                       //$('input[name=dia]').val($('input[name=dateNow]').val());
@@ -300,61 +335,6 @@ input.tipo_numero{
                           dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
                       });
 
-                      $.ajax({
-                        url: "{{ url('mgcalendar/ajax-get-personajes') }}",
-                        type: 'GET',
-                        success: function(data){
-                          if(data.msg == 'success'){
-                            var valuePersonajes = "";
-                            //console.log(data);
-                            for(var i=0; i<data.actores.length; i++){
-                              valuePersonajes += '<option value="'+data.actores[i].personaje+'"> '+data.actores[i].personaje+'</option> ';
-                            }
-                            valuePersonajes += '<option value="otro">Otro</option>';
-                            $('select[name=personaje]').append(valuePersonajes).selectpicker('refresh');
-
-                            $('select[name=personaje]').on('change', function(){
-
-                              if($(this).val() == 'otro'){
-
-                                $(this).removeAttr('required');
-                                //$(this).attr('disabled', true);
-                                $('.personaje').html('\
-                                  <label>Agregar nuevo personaje</label>\
-                                  <input name="nuevo_personaje" class="form-control" required>\
-                                  <label> Fijo\
-                                  <input type="checkbox" name="fijo" >\
-                                  </label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\
-                                  <label> Cine\
-                                  <input type="checkbox" name="proyecto" >\
-                                  </label><br>\
-                                  <a href="javascript:void(0)" class="cancelar btn bt-info">Cancelar</a>\
-                                ');
-                              } else {
-                                $('.personaje').html('');
-                              }
-
-                              $('.cancelar').on('click', function(){
-                                $('.personaje').html('');
-                                $('select[name=personaje]').attr('required', true);
-                                $('select[name=personaje]').removeAttr('disabled');
-                              });
-
-                            });
-                            //$('select[name=personaje]').selectpicker('refresh');
-                          }
-                        },
-                        beforeSend: function() {
-                            $(".loader").fadeIn();
-                        },
-                        complete: function() {
-                            $(".loader").fadeOut("slow");
-                        },
-                        error: function(error){
-
-                        }
-                      });
-
 
                       //Guardar datos
                       $('#form-llamado').on('submit', function(ev){
@@ -381,9 +361,12 @@ input.tipo_numero{
                                 $('#foo').append('<li>' + dataDB[i].actor + ' | ' + dataDB[i].start + '</li>');
                               }
                              // document.getElementById("foo").innerHTML = foo; 
+                             var ids_actores = $('input[name=ids]').val();
+                             var idsPersonajesSuccess = ids_actores.split(",");
 
 
                             $('input[name=dia]').val('');
+                            $('input[name=ids]').val('');
                             $('select[name=actor]').val('').selectpicker('refresh');
                             $('select[name=credencial]').val('');
                             $('input[name=hora_entrada]').val('');
@@ -402,6 +385,11 @@ input.tipo_numero{
                                 type: 'GET',
                                 success: function(data){
                                   if(data.msg == 'success'){
+                                    for( var i=0; i<idsPersonajesSuccess.length; i++ ){
+                                      $('#'+idsPersonajesSuccess[i]).html('Asignado');
+                                      console.log("Asignado", idsPersonajesSuccess[i]);
+                                    }
+
                                     var valuePersonajes = "";
                                     //console.log(data);
                                     for(var i=0; i<data.actores.length; i++){

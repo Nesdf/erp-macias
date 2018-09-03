@@ -38,21 +38,21 @@ class MgReadPdfController extends Controller
             //$data1 = strip_tags($data1);
             //$data = htmlspecialchars($data1);
             $data = explode('</p><p>', $data1);
-            //$datos  = intval(preg_replace('/[^0-9]+/', '', $data[0]), 10);
-
-            $arrayHtml = array('&nbs;', '<>', '</>', 'p', 'nbs', '<p>', '</p>');
+            //$datos  = intval(preg_replace('/[^0-9]+/', '', $data[0]), 10);            //$arrayHtml = array('&nbs;', '<>', '</>', 'p', 'nbs', '<p>', '</p>');
 
             for( $i=0; $i < count($data); $i++ ) {
-                $loops = intval(preg_replace('/[^0-9]+/', '', $data[$i]), 10);
-                $personaje = preg_replace('/[^a-zA-Z]+/', '', str_replace($arrayHtml, "", $data[$i]));
+                //$loops = intval(preg_replace('/[^0-9]+/', '', $data[$i]), 10);
+                //$personaje = preg_replace('/[^a-zA-Z]+/', '', str_replace($arrayHtml, "", $data[$i]));
 
-                $existe = ActorPersonaje::where(['episodio_folio' => $folio, 'personaje' => $personaje, 'loops' => $loops])->get();
+                $actor = explode('&nbsp;', $data[$i]);
+
+                $existe = ActorPersonaje::where(['episodio_folio' => $folio, 'personaje' => $actor[0], 'loops' => $actor[1]])->get();
 
                 if(count($existe) == 0){
                     ActorPersonaje::create([
                         'episodio_folio' => $folio,
-                        'personaje' => $personaje,
-                        'loops' => $loops,
+                        'personaje' => str_replace('<p>', "", $actor[0]) ,
+                        'loops' => $actor[1],
                         'fijo' => false,
                         'asignado' => false,
                         'proyecto' => $episodio
@@ -79,7 +79,10 @@ class MgReadPdfController extends Controller
      */
     public function create()
     {
-        return view('mgreadpdf::create');
+        $proyectos = Proyectos::get();
+        $episodios = [];
+
+        return view('mgreadpdf::modificar', compact('proyectos', 'episodios'));
     }
 
     /**

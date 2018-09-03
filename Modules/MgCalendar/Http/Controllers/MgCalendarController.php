@@ -188,14 +188,33 @@ class MgCalendarController extends Controller
                         //Termina validación de fecha disponible
 
                     if($request->input('fijo') == 'on'){
-                        ActorPersonaje::where(['loops' => $request->input('loops'), 'personaje' => $request->input('personaje'), 'episodio_folio' => $request->input('episodio_folio')])->update([
+                        /*ActorPersonaje::where(['loops' => $request->input('loops'), 'personaje' => $request->input('personaje'), 'episodio_folio' => $request->input('episodio_folio')])->update([
                             'asignado' => true,
                             'fijo' => true
-                        ]);
+                        ]);*/
+
+                        $total = explode(",", $request->input('ids'));
+
+
+                        for( $i=0; $i<count($total); $i++ ){
+                            ActorPersonaje::where(['id' => $total[$i]])->update([
+                                'asignado' => true,
+                                'fijo' => true
+                            ]);
+                        }
+
                     } else {
-                        ActorPersonaje::where(['loops' => $request->input('loops'), 'personaje' => $request->input('personaje'), 'episodio_folio' => $request->input('episodio_folio')])->update([
+                        /*ActorPersonaje::where(['loops' => $request->input('loops'), 'personaje' => $request->input('personaje'), 'episodio_folio' => $request->input('episodio_folio')])->update([
                             'asignado' => true
-                        ]);
+                        ]);*/
+                         $total = explode(",", $request->input('ids'));
+
+
+                        for( $i=0; $i<count($total); $i++ ){
+                            ActorPersonaje::where(['id' => $total[$i]])->update([
+                                'asignado' => true
+                            ]);
+                        }
                     }
 
                     }

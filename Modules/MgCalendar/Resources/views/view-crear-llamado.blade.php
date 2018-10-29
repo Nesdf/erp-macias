@@ -110,7 +110,7 @@ input.tipo_numero{
                             <label> Director: &nbsp;</label>
                             <input type="text" name="director"  class="form-control" readonly>
                             <label>Loops</label>
-                            <input type="number" min="1" name="loops" class="form-control readonly" autocomplete="off" required>
+                            <input type="number" min="1" name="loops" class="form-control" autocomplete="off" required><!--Agregar readonly-->
                             <hr>
                             <div class="form-group">
                             <input type="hidden" name="episodio_folio" >

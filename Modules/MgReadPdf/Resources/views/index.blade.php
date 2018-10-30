@@ -15,6 +15,22 @@
 			        {{ session('status') }}
 			    </div>
 			@endif
+			<div class="alert alert-warning" role="alert">
+				<h2>Indicaciones de pegado</h2>
+				<p>
+					<b>Herramientas: </b> Utilizar Hoja de cálculo de Drive(GMAIL).
+				</p>
+				<ul>
+					<li>Copiar la tabla del PDF en la hoja de cálculo de Drive</li>
+					<li>Eliminar columnas CREDENCIAL, NOMBRE DEL ACTOR, HORA, FIJO, DTV, T.C, COL</li>
+					<li>Entre la columna PERSONAJE y LOOPS, agregar una columna y llenarla de guión medio(-)</li>
+					<li>Eliminar la cuadricula negra.</li>
+					<li>Eliminar letra en negrita.</li>
+					<li>Copiar las 3 columnas sin título en el editor de abajo</li>
+					<li>Seleccionar proyecto y episodio para concluír</li>
+				</ul>
+				
+			</div>
 			<!-- PAGE CONTENT BEGINS -->
 			<form method="POST"  action="{{route('save_pdf_actores')}}" >
 				 {{ csrf_field() }}

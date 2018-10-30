@@ -39,12 +39,11 @@ class MgReadPdfController extends Controller
             //$data = htmlspecialchars($data1);
             $data = explode('</p><p>', $data1);
             //$datos  = intval(preg_replace('/[^0-9]+/', '', $data[0]), 10);            //$arrayHtml = array('&nbs;', '<>', '</>', 'p', 'nbs', '<p>', '</p>');
-
             for( $i=0; $i < count($data); $i++ ) {
                 //$loops = intval(preg_replace('/[^0-9]+/', '', $data[$i]), 10);
                 //$personaje = preg_replace('/[^a-zA-Z]+/', '', str_replace($arrayHtml, "", $data[$i]));
 
-                $actor = explode('&nbsp;', $data[$i]);
+                $actor = explode('-', $data[$i]);
 
                 $existe = ActorPersonaje::where(['episodio_folio' => $folio, 'personaje' => $actor[0], 'loops' => $actor[1]])->get();
 
@@ -62,6 +61,8 @@ class MgReadPdfController extends Controller
 
                 //$resultado = str_replace($valor, "", $data[$i]);
             }
+            $proyectos = Proyectos::get();
+            $episodios = [];
             return redirect('mgreadpdf')->with('status', 'Se alamcenaron los personajes exitosamente.');
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

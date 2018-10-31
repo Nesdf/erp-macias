@@ -45,9 +45,11 @@ input.tipo_numero{
                 <br><br>
                 <div class="panel panel-success panel-personajes">
                   <div class="panel-heading">
-                    <h3 class="panel-title">Lista de Actores</h3>
+                    <h3 class="panel-title">Lista de Personajes</h3>
                   </div>
                   <div class="panel-body">
+                      <input class="form-control" id="myInput" type="text" placeholder="Buscar personaje...">
+                      <br>
                     <table class="table table-condensed" id="table-personajes">
                       <thead>
                         <tr>
@@ -82,8 +84,7 @@ input.tipo_numero{
                   <h3 class="panel-title">Agendar llamados</h3>
                 </div>
                 <div class="panel-body">
-                  <div >                         
-                         
+                  <div >        
                          <form id="form-llamado" class="no-margin">
                           <label> Fecha: &nbsp;</label><br>
                           <input type="text" name="dia" autocomplete="off" class="form-control" required><br>
@@ -260,6 +261,14 @@ input.tipo_numero{
                             asignado = '<i class="glyphicon glyphicon-ok"></i>';
                             table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>   <td>"+asignado+"</td><td>Asignado</td></tr>");
                           }
+
+
+                          $("#myInput").on("keyup", function() {
+                            var value = $(this).val().toLowerCase();
+                            $("#table-personajes tr").filter(function() {
+                              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                          });
                           
                       });
 

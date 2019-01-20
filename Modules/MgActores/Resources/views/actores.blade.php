@@ -280,9 +280,8 @@
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
-						console.log(data);
 						if(data.msg == 'success'){
-							//window.location.reload(true);
+							window.location.reload(true);
 						}
 					},
 					error: function(error){

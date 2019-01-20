@@ -32,7 +32,8 @@ return [
 	],
 	'attribute' => [	
 		'cliente' => 'Cliente',
-		'titulo_serie' => 'Título Original',
+		//'titulo_serie' => 'Título Original',
+		'titulo_serie' => 'Título en español',
 		'idioma' => 'Idioma para el Título de la Serie',
 		'titulo_proyecto' => 'Serie/LM'
 	]

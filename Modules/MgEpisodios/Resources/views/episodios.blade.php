@@ -427,6 +427,8 @@
 					<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 					</label><br>
 					<div id="input_rayado"></div>
+					<label>Observaciones</label>
+					<textarea class="form-control" name="observaciones_traductor" ></textarea>
 				  </div>
 				  <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -480,6 +482,8 @@
 						<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 						</label><br>
 						<div id="input_rayado2"></div>
+						<label>Observaciones</label>
+						<textarea class="form-control" name="observaciones_traductor" ></textarea>
 					  </div>
 					  <div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>

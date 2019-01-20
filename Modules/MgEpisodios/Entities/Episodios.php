@@ -54,6 +54,7 @@ class Episodios extends Model
       'nombre_regrabador',
       'nombre_qc',
       'fecha_qc',
+      'observaciones_traductor',
       'created_at',
       'updated_at'];
 

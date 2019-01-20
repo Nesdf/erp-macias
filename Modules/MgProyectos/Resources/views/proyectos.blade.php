@@ -40,7 +40,7 @@
 								<tr>
 									<th>ID</th>
 									<th>{{trans('mgproyectos::ui.attribute.titulo_serie')}}</th>
-									<th>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</th>
+									<!--<th>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</th>-->
 									<th>Cliente</th>
 									<th>Episosdios</th>
 									<th></th>
@@ -56,9 +56,9 @@
 										<td>
 											{{ $proyecto->titulo_original }}
 										</td>
-										<td>
+										<!--<td>
 											{{ $proyecto->titulo_aprobado }}
-										</td>
+										</td>-->
 										<td>
 											{{ $proyecto->cliente }}
 										</td>
@@ -128,8 +128,8 @@
 					<div id="input_titulo_ingles" class="form-group"></div>
 					<div id="input_titulo_portugues" class="form-group"></div>
 					<div class="form-group">
-						<label for="titulo_serie">{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
-						<input type="text" class="form-control" name="titulo_serie" placeholder="Título Original de la Serie">
+						<!--<label for="titulo_serie">{{trans('mgproyectos::ui.attribute.titulo_serie')}}</label>
+						<input type="text" class="form-control" name="titulo_serie" placeholder="Título Original de la Serie">-->
 					</div>
 					<div class="form-group">
 						<label>{{trans('mgproyectos::ui.attribute.titulo_proyecto')}}</label>

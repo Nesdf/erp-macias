@@ -252,6 +252,15 @@
 		*/
 
 		$('#modal_save_artista').on('shown.bs.modal', function(){
+			/*Limpiar input modal*/
+			$(this)
+		    .find("input,textarea,select")
+		       .val('')
+		       .end()
+		    .find("input[type=checkbox], input[type=radio]")
+		       .prop("checked", "")
+		       .end();
+		     /***/
 
 			var conteo = 0;
 

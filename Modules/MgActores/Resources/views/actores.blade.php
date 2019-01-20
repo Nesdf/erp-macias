@@ -252,15 +252,13 @@
 		*/
 
 		$('#modal_save_artista').on('shown.bs.modal', function(){
-			/*Limpiar input modal*/
-			$(this)
-		    .find("input,textarea,select")
-		       .val('')
-		       .end()
-		    .find("input[type=checkbox], input[type=radio]")
-		       .prop("checked", "")
-		       .end();
-		     /***/
+
+			$("input[name='nombre_completo']").val('');
+			$("input[name='nombre_artistico']").val('');
+			$("input[name='rfc']").val('');
+			$("input[name='email']").val('');
+			$("input[name='cuenta_bancaria']").val('');
+			$("input[name='clabe']").val('');
 
 			var conteo = 0;
 
@@ -282,8 +280,9 @@
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
+						console.log(data);
 						if(data.msg == 'success'){
-							window.location.reload(true);
+							//window.location.reload(true);
 						}
 					},
 					error: function(error){
@@ -295,8 +294,12 @@
 					}
 				});
 			});
+
+			
 		});
 
+
+		
 		/*
 		* Modal modificar el Actor
 		*/

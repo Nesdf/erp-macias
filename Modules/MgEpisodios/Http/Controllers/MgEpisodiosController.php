@@ -374,7 +374,7 @@ class MgEpisodiosController extends Controller
                         'chk_canciones' => ($request->input('chk_canciones') ? true : false),
                         'chk_subtitulos' => ($request->input('chk_subtitulos') ? true : false),
                         'chk_lenguaje_diferente_original' => ($request->input('chk_lenguaje_diferente_original') ? true : false),
-                        'observaciones_traductor' => $request->input('observaciones_traductor'
+                        'observaciones_traductor' => $request->input('observaciones_traductor')
 
                     ]);
                     $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));

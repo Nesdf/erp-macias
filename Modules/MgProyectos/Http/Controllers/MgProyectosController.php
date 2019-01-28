@@ -5,6 +5,10 @@ namespace Modules\MgProyectos\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\MgProyectos\Entities\Proyectos;
+use Modules\MgProyectos\Entities\Clientes;
+use Modules\MgProyectos\Entities\Idiomas;
+use Modules\MgEpisodios\Entities\Vias;
 
 class MgProyectosController extends Controller
 {
@@ -16,10 +20,10 @@ class MgProyectosController extends Controller
     {
 		try{
 
-			$proyectos = \Modules\MgProyectos\Entities\Proyectos::fullProyects();
-	        $clientes = \Modules\MgProyectos\Entities\Clientes::get();
-	        $idiomas = \Modules\MgProyectos\Entities\Idiomas::get();
-	        $vias = \Modules\MgEpisodios\Entities\Vias::get();
+			$proyectos = Proyectos::fullProyects();
+	        $clientes = Clientes::get();
+	        $idiomas = Idiomas::get();
+	        $vias = Vias::get();
 	        return view('mgproyectos::proyectos', compact('idiomas', 'clientes', 'proyectos', 'vias'));
 		} catch(\Exception $e){
 
@@ -59,38 +63,40 @@ class MgProyectosController extends Controller
 				
 				if ( $validator->fails() ) {
 					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-				} else {
-					
-					\Modules\MgProyectos\Entities\Proyectos::create([					
-						'clienteId' => $request->input('cliente'),
-						'titulo_original' => ucwords( strtolower($request->input('titulo_serie')) ),
-						'titulo_aprobado' => ucwords( strtolower($request->input('titulo_proyecto')) ),
-						'statusId' => true,
-						'm_and_e' => true,
-						'titulo_espanol' => ($request->has('titulo_espanol')) ? ucwords( strtolower($request->input('titulo_espanol')) ) : null,
-						'titulo_ingles' => ($request->has('titulo_ingles')) ? ucwords( strtolower($request->input('titulo_ingles')) ) : null,
-						'titulo_portugues' => ($request->has('titulo_portugues')) ? ucwords( strtolower($request->input('titulo_portugues')) ) : null,
-						'viaId' => $request->input('via') ,
-						'temporada' => $request->input('temporada'),
-						'adr_ingles' => ( $request->input('adr_ingles') == 'on' ) ? true : false,
-						'adr_portugues' => ( $request->input('adr_portugues') == 'on') ? true : false,
-						'adr_espanol' => ( $request->input('adr_espanol') == 'on' ) ? true : false,
-						'mix20' => ( $request->input('mix20') == 'on' ) ? true : false,
-						'mix51' => ( $request->input('mix51') == 'on' ) ? true : false,
-						'mix71' => ( $request->input('mix71') == 'on' ) ? true : false,
-						'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
-						'm_e_20' => ( $request->input('m_e_20') == 'on' ) ? true : false,
-						'm_e_51' => ( $request->input('m_e_51') == 'on' ) ? true : false,
-						'm_e_71' => ( $request->input('m_e_71') == 'on' ) ? true : false,
-						'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
-						'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
-						'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
-					]);
-					
-					
+				} 
+
+				$guardar =  Proyectos::create([					
+					'clienteId' => $request->input('cliente'),
+					'titulo_original' => ucwords( strtolower($request->input('titulo_proyecto')) ),
+					'titulo_aprobado' => ucwords( strtolower($request->input('titulo_proyecto')) ),
+					'statusId' => true,
+					'm_and_e' => true,
+					'titulo_espanol' => ($request->has('titulo_espanol')) ? ucwords( strtolower($request->input('titulo_espanol')) ) : null,
+					'titulo_ingles' => ($request->has('titulo_ingles')) ? ucwords( strtolower($request->input('titulo_ingles')) ) : null,
+					'titulo_portugues' => ($request->has('titulo_portugues')) ? ucwords( strtolower($request->input('titulo_portugues')) ) : null,
+					'viaId' => $request->input('via') ,
+					'temporada' => $request->input('temporada'),
+					'adr_ingles' => ( $request->input('adr_ingles') == 'on' ) ? true : false,
+					'adr_portugues' => ( $request->input('adr_portugues') == 'on') ? true : false,
+					'adr_espanol' => ( $request->input('adr_espanol') == 'on' ) ? true : false,
+					'mix20' => ( $request->input('mix20') == 'on' ) ? true : false,
+					'mix51' => ( $request->input('mix51') == 'on' ) ? true : false,
+					'mix71' => ( $request->input('mix71') == 'on' ) ? true : false,
+					'relleno_mande' => ( $request->input('relleno_mande') ) ? true : false,
+					'm_e_20' => ( $request->input('m_e_20') == 'on' ) ? true : false,
+					'm_e_51' => ( $request->input('m_e_51') == 'on' ) ? true : false,
+					'm_e_71' => ( $request->input('m_e_71') == 'on' ) ? true : false,
+					'subt_espanol' => ( $request->input('subtitulaje_espanol') ) ? true : false,
+					'subt_ingles' => ( $request->input('subtitulaje_ingles') ) ? true : false,
+					'subt_portugues' => ( $request->input('subtitulaje_portugues') ) ? true : false
+				]);
+				
+				if($guardar){
 					$request->session()->flash('success', trans('mgproyectos::ui.flash.flash_create_cliente'));
 					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 				}
+
+				return false;
 			}
 		} catch(\Exception $e){
 			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

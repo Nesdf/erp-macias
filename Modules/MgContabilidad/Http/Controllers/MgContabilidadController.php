@@ -141,7 +141,6 @@ class MgContabilidadController extends Controller
 
         try{
             $estudiosArray = explode(',', \Auth::user()->lista_estudios);
-
             $actores = Actores::all();
             //$estudios = Estudios::whereIn('estudio', $estudiosArray);
             $estudiosString  = '';
@@ -152,9 +151,7 @@ class MgContabilidadController extends Controller
             $estudiosString = trim($estudiosString, ',');
             //$estudios = Estudios::estudios($estudiosArray);
             $estudios = $estudiosArray;
-            
-            
-            return view('mgcontabilidad::reporte-nomina-actores', compact('actores', 'estudios'));
+            return view('mgcontabilidad::reporte-nomina-actores1', compact('actores', 'estudios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

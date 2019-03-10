@@ -41,7 +41,7 @@
 							<select class="form-control selectpicker" name="estudio_search" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 								<option value="ALL">TODOS LOS ESTUDIOS</option>
 								@foreach($estudios as $item => $value)
-									<option value="{{$value['estudio']}}">{{$value->['estudio']}}</option>
+									<option value="{{$value}}">{{ $value }}</option>
 								@endforeach
 							</select>
 						</div>

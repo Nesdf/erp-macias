@@ -95,15 +95,11 @@
 
 				<div class="navbar-header pull-left">
 					<a href="index.html" class="navbar-brand">
-						<small>
-							GPS by MG
-						</small>
+						<small> GPS by MG </small>
 					</a>
 				</div>
-
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-
 						<li class="light-blue dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="{{ asset('assets/dashboard/images/avatars/user_1.png') }}" alt="Jason's Photo" />
@@ -115,7 +111,6 @@
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>
-
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
 									<a href="#">
@@ -123,9 +118,7 @@
 										{{\Session::get('admin_puesto')}}
 									</a>
 								</li>
-
 								<li class="divider"></li>
-
 								<li>
 									<a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -164,12 +157,9 @@
 							<a href="#" class="dropdown-toggle">
 								<i class="menu-icon fa fa-list"></i>
 								<span class="menu-text"> Elementos </span>
-
 								<b class="arrow fa fa-angle-down"></b>
 							</a>
-
 							<b class="arrow"></b>
-
 							<ul class="submenu " >
 								@if(\Request::session()->has('mgpuestos'))
 									<li @if(\Request::is('mgpuestos')) class="active" @endif>
@@ -209,10 +199,7 @@
 								</li>
 								<li @if(\Request::is('mgtcr')) class="active" @endif>
 									@if(\Request::session()->has('mgtcr'))
-										<a href="{{ url('mgtcr') }}">
-											<i class="menu-icon fa fa-caret-right"></i>
-											TCR
-										</a>
+										<a href="{{ url('mgtcr') }}"> TCR </a>
 										<b class="arrow"></b>
 									@endif
 								</li>
@@ -227,12 +214,17 @@
 								</li>-->
 								<li @if(\Request::is('mgtiporeporte')) class="active" @endif>
 									@if(\Request::session()->has('mgtiporeporte'))
-										<a href="{{ url('mgtiporeporte') }}">
-											<i class="menu-icon fa fa-caret-right"></i>
-											Descripción de Timecode
-										</a>
+										<a href="{{ url('mgtiporeporte') }}"> Descripción de Timecode </a>
 										<b class="arrow"></b>
 									@endif
+								</li>
+								<li >
+									<a href="{{ route('tipo-error') }}"> Tipo de error</a> 
+									<b class="arrow"></b>
+								</li>
+								<li >
+									<a href="{{ route('departamento-responsable') }}"> Departamento responsable </a>
+									<b class="arrow"></b>
 								</li>
 							</ul>
 						@endif
@@ -407,6 +399,13 @@
 						</ul>
 					</li>
 					@endif
+					<li class="">
+						<a href="{{ route('rechazos') }}">
+							<i class="menu-icon fa fa-warning"></i>
+							<span class="menu-text"> Rechazos </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

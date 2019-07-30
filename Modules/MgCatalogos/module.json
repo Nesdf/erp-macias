@@ -1,0 +1,16 @@
+{
+    "name": "MgCatalogos",
+    "alias": "mgcatalogos",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgCatalogos\\Providers\\MgCatalogosServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

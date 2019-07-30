@@ -155,8 +155,7 @@
 					</div>
 					<div class="form-group">
 						<label for="puesto">Selecciona el puesto</label>
-						<select class="form-control" id="puesto" name="puesto">
-							<option select value="">Seleccionar</option>
+						<select class="form-control selectpicker" id="puesto" name="puesto" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							@foreach($puestos as $puesto)
 								<option value="{{ $puesto->id }}"> {{ $puesto->job }} </option>
 							@endforeach

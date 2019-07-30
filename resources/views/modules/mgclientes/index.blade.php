@@ -109,22 +109,20 @@
 						<input type="text" class="form-control" id="razon_social" name="razon_social" placeholder="Razón Social">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">R.F.C.</label>
+						<label for="rfc">R.F.C.</label>
 						<input type="text" class="form-control" id="rfc" name="rfc" placeholder="R.F.C.">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona el País</label>
-						<select class="form-control" id="pais" name="pais">
-							<option select value="">Seleccionar</option>
+						<label for="pais">Selecciona el País</label>
+						<select class="form-control selectpicker" id="pais" name="pais" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							@foreach($paises as $pais)
 								<option value="{{ $pais->id }}"> {{ $pais->pais }} </option>
 							@endforeach
 						</select>
 					</div>	
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona una Localidad</label>
-						<select class="form-control" id="localidad" name="localidad">
-							<option select value="">Seleccionar</option>
+						<label for="localidad">Selecciona una Localidad</label>
+						<select class="form-control selectpicker" id="localidad" name="localidad" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 						</select>
 					</div>					
 			  </div>
@@ -153,26 +151,24 @@
 					{{ csrf_field() }}
 					<input type="hidden" id="id_update" name="id">
 					<div class="form-group">
-						<label for="exampleInputEmail1">Razón Social</label>
+						<label for="razon_social_update">Razón Social</label>
 						<input type="text" class="form-control" id="razon_social_update" name="razon_social" placeholder="Razón Social">
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">R.F.C.</label>
+						<label for="pais_update">R.F.C.</label>
 						<input type="text" class="form-control" id="rfc_update" name="rfc" placeholder="R.F.C.">
 					</div>		
 					<div class="form-group">
 						<label for="exampleInputEmail1">Selecciona el País</label>
-						<select class="form-control" id="pais_update" name="pais">
-							<option select value="">Seleccionar</option>
+						<select class="form-control selectpicker" id="pais_update" name="pais" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							@foreach($paises as $pais)
 								<option value="{{ $pais->id }}"> {{ $pais->pais }} </option>
 							@endforeach
 						</select>
 					</div>	
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona una Localidad</label>
-						<select class="form-control" id="localidad_update" name="localidad">
-							<option select value="">Seleccionar</option>
+						<label for="localidad_update">Selecciona una Localidad</label>
+						<select class="form-control selectpicker" id="localidad_update" name="localidad" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 							@foreach($estados as $estado)
 								<option value="{{ $estado->id }}"> {{ $estado->estado }} </option>
 							@endforeach
@@ -314,6 +310,7 @@
 						for(var i=0;  i < data.msg.length; i++ ){
 							$("#localidad").append('<option value='+ data.msg[i].id + '>' + data.msg[i].estado +'</option>');
 						} 
+						$('.selectpicker').selectpicker('refresh');
 					},
 					error: function(error){
 					}
@@ -331,6 +328,7 @@
 						for(var i=0;  i < data.msg.length; i++ ){
 							$("#localidad_update").append('<option value='+ data.msg[i].id + '>' + data.msg[i].estado +'</option>');
 						} 
+						$('.selectpicker').selectpicker('refresh');
 					},
 					error: function(error){
 					}

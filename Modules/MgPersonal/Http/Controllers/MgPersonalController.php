@@ -143,22 +143,26 @@ class MgPersonalController extends Controller
 			if ( $validator->fails() ) {
 				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 			} else {
-
+				
 				$data = array(
 					'ap_paterno' => ucwords( strtolower($request->input('ap_paterno')) ),
 					'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
 					'email' => strtolower( $request->input('correo') ),
 					'name' => ucwords( strtolower($request->input('nombre')) ),
-					'lista_estudios' => $request->input('estudios'),
+					//'lista_estudios' => $request->input('estudios'),
 					'job' => $request->input('puesto'),
 					'tipo_empleado' => $request->input('tipo_empleado') == 'on' ? true : false 
 				);
+
+				if(!User::verificarEstudios($request->estudios)){
+					$data['lista_estudios'] = $request->estudios;
+				}
 
 				if( $request->input('password') ){
 					$data['password'] = \Hash::make($request->input('password'));
 				}
 
-				\Modules\MgPersonal\Entities\User::where('id', $request->input('id'))
+				User::where('id', $request->input('id'))
 				->update( $data );
 				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_personal'));
 				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

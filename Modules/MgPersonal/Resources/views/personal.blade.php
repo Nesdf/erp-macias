@@ -137,7 +137,7 @@
 						<input type="text" class="form-control" id="ap_materno" name="ap_materno" placeholder="Apellido Materno">
 					</div>
 					<div class="form-group">
-						<label for="estudios">Estudios</label><br>
+						<label for="lista_estudios">Estudios</label><br>
 						<select name="lista_estudios" class="form-control" multiple="multiple" required>
 							@foreach( $estudios as $data )
 								<option value="{{ $data->estudio }}">{{ $data->estudio }}</option>
@@ -202,7 +202,7 @@
 						<input type="text" class="form-control" id="ap_materno_update" name="ap_materno" placeholder="Apellido Materno">
 					</div>
 					<div class="form-group">
-						<label for="estudios">Estudios</label><br>
+						<label for="lista_estudios">Estudios</label><br>
 						<select name="lista_estudios" class="form-control" multiple="multiple" required>
 							@foreach( $estudios as $data )
 								<option value="{{ $data->estudio }}">{{ $data->estudio }}</option>
@@ -271,12 +271,11 @@
 
 			$( 'select[name=lista_estudios]' ).multiselect();
 			$('select[name=lista_estudios]').on('change', function(){
-
             	var lista_estudios = $(this).val();
             	estudios = lista_estudios.join(",");
             	$('input[name=estudios]').val(estudios);
             });
-
+			
 
 			$( '#table_personal' ).DataTable({
 		        "pageLength": 50,

@@ -40,4 +40,9 @@ class User extends Model
 				'users.ap_materno'])
 			->get();
 	}
+
+	public static function verificarEstudios($estudios)
+	{
+		return User::where('lista_estudios', '=', $estudios)->exists();
+	}
 }

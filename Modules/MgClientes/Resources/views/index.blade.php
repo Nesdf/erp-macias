@@ -161,7 +161,7 @@
 						<input type="text" class="form-control" id="rfc_update" name="rfc" placeholder="R.F.C.">
 					</div>		
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona el País</label>
+						<label for="pais_update">Selecciona el País</label>
 						<select class="form-control" id="pais_update" name="pais">
 							<option select value="">Seleccionar</option>
 							@foreach($paises as $pais)

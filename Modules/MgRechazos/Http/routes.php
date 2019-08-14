@@ -9,4 +9,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'mgrechazos', 'namespace' => 'M
     Route::post('/rechazos-select-proyectos', 'MgRechazosController@rechazosSelectProyectos')->name('rechazos-select-proyectos');
     Route::post('/rechazos-select-temporada', 'MgRechazosController@rechazosSelectTemporada')->name('rechazos-select-temporada');
     Route::post('/rechazos-select-proyectos-id', 'MgRechazosController@rechazosSelectProyectosId')->name('rechazos-select-proyectos-id');
+    //ista-rechazos
+    Route::post('/lista-rechazo', 'MgRechazosController@listaRechazos')->name('lista-rechazos');
 });

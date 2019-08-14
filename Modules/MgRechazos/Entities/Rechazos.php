@@ -118,4 +118,47 @@ class Rechazos extends Model
         $rechazos->acciones_tomadas = $request->input('acciones_tomadas');
         return $rechazos->save();
     }
+
+    public static function listaPersonalizadaRechazos($request)
+    {
+        echo Rechazos::select([
+            'fecha_rechazo',
+            'fecha_original_envio',
+            'clientes.razon_social AS cliente',
+            'proyectos.titulo_original AS titulo_programa',
+            'proyectoTemporada.temporada AS temporada',
+            'idioma',
+            'rechazo_tipo_error.nombre AS tipo_error',
+            'rechazo_departamento_responsable.nombre AS departamento_responsable',
+            'jobs.job AS puesto_responsable',
+            'nombre_completo_responsable',
+            'nivel_gravedad',
+            'numero_rechazo',
+            'descripcion_motivo_rechazo',
+            \DB::raw("CONCAT(coordinador.name,' ', coordinador.ap_paterno) AS nombre_coordinador"),
+            \DB::raw("CONCAT(productor.name,' ', productor.ap_paterno) AS nombre_productor"),
+            \DB::raw("CONCAT(director.name,' ', director.ap_paterno) AS nombre_director"),
+            \DB::raw("CONCAT(editor.name,' ', editor.ap_paterno) AS nombre_editor"),
+            \DB::raw("CONCAT(regrabador.name,' ', regrabador.ap_paterno) AS nombre_regrabador"),
+            'rechazos.observaciones',
+            'tomar_acciones_prevencion',
+            'acciones_tomadas',
+            'numEpisodios.num_episodio AS num_episodio'
+            ])
+        ->join('clientes', 'clientes.id', '=', 'rechazos.cliente')
+        ->join('proyectos', 'proyectos.id', '=', 'rechazos.titulo_programa')
+        ->join('proyectos AS proyectoTemporada', 'proyectoTemporada.id', '=', 'rechazos.id_episodio_temporada')
+        ->join('episodios AS numEpisodio', 'numEpisodio.id', '=', 'rechazos.id_episodio_temporada')
+        ->join('rechazo_tipo_error', 'rechazo_tipo_error.id', '=', 'rechazos.id_tipo_error')
+        ->join('rechazo_departamento_responsable', 'rechazo_departamento_responsable.id', '=', 'rechazos.id_departamento_responsable')
+        ->join('jobs', 'jobs.id', '=', 'rechazos.id_puesto_responsable')
+        ->join('users AS coordinador', 'coordinador.id', '=', 'rechazos.id_coordinador')
+        ->join('users AS productor', 'productor.id', '=', 'rechazos.id_productor')
+        ->join('users AS director', 'director.id', '=', 'rechazos.id_director')
+        ->join('users AS editor', 'editor.id', '=', 'rechazos.id_editor')
+        ->join('users AS regrabador', 'regrabador.id', '=', 'rechazos.id_regrabador')
+        ->join('episodios AS numEpisodios', 'numEpisodios.id', '=', 'rechazos.id_numero_episodio')
+        ->orWhere('cliente.', 'like', '%'.$request->buscar.'%')
+        ->toSql();
+    }
 }

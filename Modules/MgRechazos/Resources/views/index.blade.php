@@ -33,15 +33,17 @@
 					</div>
 					<div class="col-md-3">
 						<form>
-							<label>Buscar: </label>
-							<input type="text" class="form-control" placeholder="Escribe una palabra">
+							<a href="javascript:void(0)" id="buscar">Buscar</a>
+							<input type="text" class="form-control" id="input-buscar" placeholder="Escribe una palabra"> 
 						</form>
 					</div>
 					@foreach ( $rechazos as $rechazo)
 						<div class="container-fluid">
 							<div class="col-lg-12 col-md-12 col-xs-12">
 								<div class="panel panel-primary">
-									<div class="panel-heading">{{$rechazo->fecha_rechazo}} | {{$rechazo->cliente}} | {{$rechazo->titulo_programa}} | <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span> </div>
+									<div class="panel-heading">{{$rechazo->fecha_rechazo}} | {{$rechazo->cliente}} | {{$rechazo->titulo_programa}} | <a data-toggle="modal" data-target="#modal_update_rechazos" style="color:white">
+										<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
+									</a> </div>
 									<div class="panel-body">
 										<div class="col-md-4">
 												<div class="form-group">
@@ -123,6 +125,196 @@
 @section('modales')
 <div class="col-md-12">
 		<div class="modal fade" id="modal_create_rechazos" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+				<h4 class="modal-title" id="t_header">Rechazo</h4>
+				<div id="error_update_responsables"></div>
+				</div>
+				<form role="form" id="form_create_rechazo">
+				<div class="modal-body">
+					{{ csrf_field() }}
+					<div class="col-md-12">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="fecha_rechazo">Fecha del rechazo</label>
+								<input type="text" class="form-control" name="fecha_rechazo" readonly="true" placeholder="Fecha del rechazo" required>
+							</div>
+							<div class="form-group">
+								<label for="fecha_original_envio">Fecha original del envío del cliente</label>
+								<input type="text" class="form-control" name="fecha_original_envio" readonly="true" placeholder="Fecha original del envío del cliente" required>
+							</div>
+							<div class="form-group">
+								<label for="cliente">Cliente</label>
+								<select class="form-control selectpicker"  id="cliente" name="cliente" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($clientes) > 0)
+										@foreach($clientes as $cliente)
+											<option value="{{ $cliente->id }} "> {{ $cliente->razon_social }}  </option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="titulo_programa">Título de programa</label>
+								<select class="form-control selectpicker"  id="titulo_programa" name="titulo_programa" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."></select>
+							</div>
+							<div class="form-group">
+								<label for="id_episodio_temporada">Temporada</label>
+								<select class="form-control selectpicker"  id="id_episodio_temporada" name="id_episodio_temporada" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."></select>
+							</div>
+							<div class="form-group">
+								<label for="id_numero_episodio">Número completo de episodio</label>
+								<select class="form-control selectpicker"  id="id_numero_episodio" name="id_numero_episodio" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."></select>
+							</div>
+							<div class="form-group">
+								<label for="idioma">Idioma(LAS/BPO)</label>
+								<select class="form-control selectpicker" name="idioma" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($idiomas) > 0)
+										@foreach($idiomas as $idioma)
+											<option value="{{ $idioma }} "> {{ $idioma }}  </option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="id_tipo_error">Tipo de error</label>
+								<select class="form-control selectpicker" name="id_tipo_error" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($tipoErrores) > 0)
+										@foreach($tipoErrores as $tipoError)
+											<option value="{{ $tipoError->id }} "> {{ $tipoError->nombre }}  </option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="id_departamento_responsable">Departmento responsable</label>
+								<select class="form-control selectpicker" name="id_departamento_responsable" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($deptoResponsable) > 0)
+										@foreach($deptoResponsable as $depto)
+											<option value="{{ $depto->id }} "> {{ $depto->nombre }}  </option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="id_puesto_responsable">Puesto responsable</label>
+								<select class="form-control selectpicker" name="id_puesto_responsable" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($puestoResponsable) > 0)
+										@foreach($puestoResponsable as $puesto)
+											<option value="{{ $puesto->id }} "> {{ $puesto->job }}  </option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="nombre_completo_responsable">Nombre del responsable</label>
+								<input type="text" class="form-control" name="nombre_completo_responsable" placeholder="Nombre del departamento responsable" required>
+							</div>
+							<div class="form-group">
+								<label for="nombre_completo">Descripción del motivo de rechazo</label>
+								<textarea class="form-control" name="descripcion_motivo_rechazo" required></textarea>
+							</div>
+							<div class="form-group">
+								<label for="nivel_gravedad">Nivel de gravedad</label>
+								<select class="form-control selectpicker" name="nivel_gravedad" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($nivelGravedad) > 0)
+										@foreach($nivelGravedad as $nivel)
+											<option value="{{ $nivel }} "> {{ $nivel }}  </option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="numero_rechazo">Número de rechazo</label>
+								<select class="form-control selectpicker" name="numero_rechazo" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($numeroRechazo) > 0)
+										@foreach($numeroRechazo as $rechazo)
+											<option value="{{ $rechazo }} "> {{ $rechazo }}  </option>
+										@endforeach
+									@endif
+								</select>	
+							</div>
+							<div class="form-group">
+								<label for="id_coordinador">Coordinador</label>
+								<select class="form-control selectpicker"  id="id_coordinador" name="id_coordinador" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($coordinadores) > 0)
+										@foreach($coordinadores as $coordinador)
+											<option value="{{ $coordinador->id }} "> {{ $coordinador->name }} {{ $coordinador->ap_paterno }} {{ $coordinador->ap_materno }}  </option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="id_productor">Productor</label>
+								<select class="form-control selectpicker"  id="id_productor" name="id_productor" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($productores) > 0)
+										@foreach($productores as $productor)
+											<option value="{{ $productor->id }} "> {{ $productor->name }} {{ $productor->ap_paterno }} {{ $productor->ap_materno }}  </option>
+										@endforeach
+									@endif
+								</select>	
+							</div>
+							<div class="form-group">
+								<label for="id_director">Director</label>
+								<select class="form-control selectpicker"  id="id_director" name="id_director" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($directores) > 0)
+										@foreach($directores as $director)
+											<option value="{{ $director->id }} "> {{ $director->name }} {{ $director->ap_paterno }} {{ $director->ap_materno }}  </option>
+										@endforeach
+									@endif
+								</select>	
+							</div>
+							<div class="form-group">
+								<label for="id_editor">Editor</label>
+								<select class="form-control selectpicker"  id="id_editor" name="id_editor" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($editores) > 0)
+										@foreach($editores as $editor)
+											<option value="{{ $editor->id }} "> {{ $editor->name }} {{ $editor->ap_paterno }} {{ $editor->ap_materno }}  </option>
+										@endforeach
+									@endif
+								</select>		
+							</div>
+							<div class="form-group">
+								<label for="id_regrabador">Regrabador</label>
+								<select class="form-control selectpicker"  id="id_regrabador" name="id_regrabador" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+									@if(count($regrabadores) > 0)
+										@foreach($regrabadores as $regrabador)
+											<option value="{{ $regrabador->id }} "> {{ $regrabador->name }} {{ $regrabador->ap_paterno }} {{ $regrabador->ap_materno }}  </option>
+										@endforeach
+									@endif
+								</select>		
+							</div>
+							<div class="form-group">
+								<label for="observaciones">Observaciones</label>
+								<textarea class="form-control" name="observaciones" required></textarea>
+							</div>
+							<div class="form-group">
+								<label for="tomar_acciones_prevencion">Tomar acciones de prevención</label>
+								<textarea class="form-control" name="tomar_acciones_prevencion" required></textarea>
+							</div>
+							<div class="form-group">
+								<label for="acciones_tomadas">Acciones tomadas</label>
+								<textarea class="form-control" name="acciones_tomadas" required></textarea>
+							</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+				<button type="submit"  class="btn btn-primary btn-enviar">Guardar</button>
+				</div>
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="modal fade" id="modal_update_rechazos" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -458,6 +650,30 @@
 					}
 				});
 			});
+
+			$('#buscar').on('click', function(){
+				var buscar = $('#input-buscar').val();
+				if(buscar == '') { 
+					alert('Favor de ingresar un valor') 
+				} else {
+					$.ajax({
+						url: "{{ route('lista-rechazos') }}",
+						type: "POST",
+						data: {buscar: buscar,  _token: "{{ csrf_token() }}"},
+						success: function( data ){
+							console.log(data);
+							if(data.status == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							console.log(error)
+							//alert(error['message']);
+						}
+					});
+				}
+			})
+
 		});
 		
 	</script>

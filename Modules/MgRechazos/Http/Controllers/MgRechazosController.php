@@ -149,4 +149,11 @@ class MgRechazosController extends Controller
             return response()->json($data, 200);
         }
     }
+
+    public function listaRechazos(Request $request){
+        if($request->isMethod('post')){
+            $data = Rechazos::listaPersonalizadaRechazos($request);
+            return response()->json(['data'=>$data], 200);
+        }
+    }
 }

@@ -20,6 +20,7 @@ class MgClientesController extends Controller
 	        $paises = \Modules\MgClientes\Entities\Paises::get();
 			$estados = \Modules\MgClientes\Entities\Estados::get();
 			$puestos = \Modules\MgClientes\Entities\Puestos::get();
+			\Log::error(' clientes Log: ' .$clientes);
 	        return view('mgclientes::index', compact('paises', 'clientes', 'puestos', 'estados'));
     	} catch(\Exception $e){
 

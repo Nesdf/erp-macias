@@ -214,7 +214,7 @@
 								</li>-->
 								<li @if(\Request::is('mgtiporeporte')) class="active" @endif>
 									@if(\Request::session()->has('mgtiporeporte'))
-										<a href="{{ url('mgtiporeporte') }}"> Descripción de Timecode </a>
+										<a href="{{ url('mgtiporeporte') }}"> Tipo de reporte </a>
 										<b class="arrow"></b>
 									@endif
 								</li>

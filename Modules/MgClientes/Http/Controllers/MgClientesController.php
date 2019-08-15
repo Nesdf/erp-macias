@@ -24,7 +24,7 @@ class MgClientesController extends Controller
 			$puestos = \Modules\MgClientes\Entities\Puestos::get();
 			\Log::error(' clientes Log: ' .$clientes);
 			\Log::error(' clientes Log2: ' .$c);
-	        return view('mgclientes::index', compact('paises', 'clientes', 'puestos', 'estados'));
+	        return view('mgclientes::index2', compact('paises', 'clientes', 'puestos', 'estados'));
     	} catch(\Exception $e){
 
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

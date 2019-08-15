@@ -26,7 +26,7 @@
 						@if(\Request::session()->has('add_cliente'))
 							<!--Results for "Latest Registered Domains"-->
 							<a data-toggle="modal" data-target="#modal_save_clientes" class="btn btn-success">
-								Cliente Nuevo
+								Cliente Nuevo 
 							</a>
 						@endif
 					</div>
@@ -41,7 +41,7 @@
 									<th>ID</th>
 									<th>Razón Social</th>
 									<th>País</th>
-									<th>Estado</th>
+									<th>Ciudad</th>
 									@if(\Request::session()->has('update_cliente') || \Request::session()->has('delete_cliente'))
 										<th></th>
 									@endif
@@ -122,7 +122,7 @@
 						</select>
 					</div>	
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona una Localidad</label>
+						<label for="exampleInputEmail1">Selecciona una ciudad</label>
 						<select class="form-control" id="localidad" name="localidad">
 							<option select value="">Seleccionar</option>
 						</select>
@@ -170,7 +170,7 @@
 						</select>
 					</div>	
 					<div class="form-group">
-						<label for="exampleInputEmail1">Selecciona una Localidad</label>
+						<label for="exampleInputEmail1">Selecciona una ciudad</label>
 						<select class="form-control" id="localidad_update" name="localidad">
 							<option select value="">Seleccionar</option>
 							@foreach($estados as $estado)

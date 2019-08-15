@@ -5,6 +5,7 @@ namespace Modules\MgClientes\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\MgClientes\Entities\Clientes;
 
 class MgClientesController extends Controller
 {
@@ -16,11 +17,13 @@ class MgClientesController extends Controller
     {
     	try{
 
-    		$clientes = \Modules\MgClientes\Entities\Clientes::clientes_relation();
+			$clientes = Clientes::clientes_relation();
+			$c = Clientes::all();
 	        $paises = \Modules\MgClientes\Entities\Paises::get();
 			$estados = \Modules\MgClientes\Entities\Estados::get();
 			$puestos = \Modules\MgClientes\Entities\Puestos::get();
 			\Log::error(' clientes Log: ' .$clientes);
+			\Log::error(' clientes Log2: ' .$c);
 	        return view('mgclientes::index', compact('paises', 'clientes', 'puestos', 'estados'));
     	} catch(\Exception $e){
 

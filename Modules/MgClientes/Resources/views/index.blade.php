@@ -52,7 +52,7 @@
 								@foreach($clientes as $cliente)
 									<tr>
 										<td>
-											{{ $cliente->id }}
+											{{ $cliente->id }} {{ $cliente->razon_social }}
 										</td>
 										<td>
 											{{ $cliente->razon_social }}

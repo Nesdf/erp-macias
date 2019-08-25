@@ -8,7 +8,7 @@ class User extends Model
 {
 	//Tipo_empleado: 1 = Técnico; 0 = Administrativo
 	protected $table = 'users';
-    protected $fillable = ['name', 'email', 'password', 'job', 'ap_paterno', 'ap_materno', 'tipo_empleado', 'password', 'lista_estudios', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'email', 'password', 'job', 'ap_paterno', 'ap_materno', 'tipo_empleado', 'password', 'lista_estudios', 'created_at', 'updated_at', 'status_ingreso_sistema'];
 	protected $hidden = ['password'];
 
 	public static function Personal()

@@ -867,6 +867,7 @@
 			*/
 			$('#modal_save_episodio').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
+				
 
 				$('#form_create_episodio').on('submit', function(event){
 					event.preventDefault();

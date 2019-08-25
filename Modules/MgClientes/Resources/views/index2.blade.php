@@ -264,12 +264,12 @@
 			$('#form_create_cliente').on('submit', function(event){
 				event.preventDefault();
 				$.ajax({
-					url: "{{ url('mgclientes/save_cliente') }}",
+					url: "{{ route('add_cliente') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
 						if(data.msg == 'success'){
-							window.location.reload(true);
+							//window.location.reload(true);
 						}
 					},
 					error: function(error){

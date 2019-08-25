@@ -1,0 +1,16 @@
+{
+    "name": "MgTrafico",
+    "alias": "mgtrafico",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgTrafico\\Providers\\MgTraficoServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

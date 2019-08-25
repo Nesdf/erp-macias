@@ -1,0 +1,16 @@
+{
+    "name": "MgEntregables",
+    "alias": "mgentregables",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgEntregables\\Providers\\MgEntregablesServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

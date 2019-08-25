@@ -1,0 +1,16 @@
+{
+    "name": "MgMetodoEnvio",
+    "alias": "mgmetodoenvio",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgMetodoEnvio\\Providers\\MgMetodoEnvioServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

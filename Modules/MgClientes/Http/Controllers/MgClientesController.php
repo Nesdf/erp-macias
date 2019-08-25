@@ -54,18 +54,18 @@ class MgClientesController extends Controller
 			if( $request->method('post') && $request->ajax() ){
 			
 				$rules = [
-					'razon_social' => 'required|min:2|max:50',
+					'razon_social' => 'required|min:13|max:14|regex:/(^([a-zA-z0-1]+)(\d+)?$)/u',
 					'pais' => 'required',
 					'localidad' => 'required'
 					
 				];
 				
 				$messages = [
-					'razon_social.required' => trans('mgclientes::ui.display.error_required', ['attribute' => trans('mgclientes::ui.attribute.razon_social')]),
-					'razon_social.min' => trans('mgclientes::ui.display.error_min2', ['attribute' => trans('mgclientes::ui.attribute.razon_social')]),
-					'razon_social.max' => trans('mgclientes::ui.display.error_max50', ['attribute' => trans('mgclientes::ui.attribute.razon_social')]),
-					'pais.required' => trans('mgclientes::ui.display.error_required', ['attribute' => trans('mgclientes::ui.attribute.pais')]),
-					'localidad.required' => trans('mgclientes::ui.display.error_required', ['attribute' => trans('mgclientes::ui.attribute.localidad')])
+					'razon_social.required' => 'Formato incorrecto del RFC',
+					'razon_social.min' => 'Formato incorrecto del RFC',
+					'razon_social.max' => 'Formato incorrecto del RFC',
+					'pais.required' => 'Formato incorrecto del RFC',
+					'localidad.required' => 'Formato incorrecto del RFC'
 				]; 
 				
 				$validator = \Validator::make($request->all(), $rules, $messages);			
@@ -74,10 +74,10 @@ class MgClientesController extends Controller
 					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 				} else {
 					\Modules\MgClientes\Entities\Clientes::create([					
-						'razon_social' => ( $request->input('razon_social') ) ?  ucwords( $request->input('razon_social') ) : '',
-						'rfc' => ($request->input('rfc')) ? $request->input('rfc') : '',
-						'paisId' => $request->input('pais'),
-						'estadoId' => $request->input('localidad')
+						'razon_social' => ucwords( $request->razon_social ),
+						'rfc' => $request->rfc,
+						'paisId' => $request->pais,
+						'estadoId' => $request->localidad
 					]);
 					$request->session()->flash('success', trans('mgclientes::ui.flash.flash_create_cliente'));
 					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

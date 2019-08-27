@@ -31,12 +31,12 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Título Original Episodio</th>
-									<th>Título en Español</th>
-									<th>Título en Inglés</th>
-									<th>Título en Portugués</th>
-									<th>Número de episodio</th>
-									<th>Validar información</th>
+									<th>Nombre del proyecto</th>
+									<th>Cliente</th>
+									<th>Temporada</th>
+									<th>Título original del episodio inglés</th>
+									<th>Fecha entrega</th>
+									<th>Duración</th>
 									@if(\Request::session()->has('add_calificar_material'))
 										<th>Calificar Episodio</th>
 									@endif

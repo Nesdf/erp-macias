@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Ususario ó contraseña invalido.',
+    'failed' => 'Usuario ó contraseña invalido.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 	'label' => array(
 		'please_login' => 'Ingresa',

@@ -54,7 +54,7 @@ class MgClientesController extends Controller
 			if( $request->method('post') && $request->ajax() ){
 			
 				$rules = [
-					'razon_social' => 'required|min:13|max:14|regex:/(^([a-zA-z0-1]+)(\d+)?$)/u',
+					'razon_social' => 'required|min:13|max:14|regex:/^[A-Za-z0-9\s]+$/g',
 					'pais' => 'required',
 					'localidad' => 'required'
 					
@@ -65,6 +65,7 @@ class MgClientesController extends Controller
 					'razon_social.min' => 'Formato incorrecto del RFC',
 					'razon_social.max' => 'Formato incorrecto del RFC',
 					'pais.required' => 'Formato incorrecto del RFC',
+					'razon_social.regex' => 'Formato incorrecto del RFC',
 					'localidad.required' => 'Formato incorrecto del RFC'
 				]; 
 				
@@ -74,7 +75,7 @@ class MgClientesController extends Controller
 					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 				} else {
 					\Modules\MgClientes\Entities\Clientes::create([					
-						'razon_social' => ucwords( $request->razon_social ),
+						'razon_social' => strtoupper( $request->razon_social ),
 						'rfc' => $request->rfc,
 						'paisId' => $request->pais,
 						'estadoId' => $request->localidad

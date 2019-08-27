@@ -555,7 +555,7 @@
 							<label >Seleccionar Productor</label>
 							<select class="form-control selectpicker" name="productor" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 								@foreach($productores as $productor)
-									<option value="{{ $productor->id }}"> {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
+									<option value="{{ $productor->id }}">{{ $productor->id }}  {{ $productor->name }} {{ $productor->ap_paterno }} {{ ($productor->ap_materno )}} </option>
 								@endforeach
 							</select>
 						</div>
@@ -564,7 +564,7 @@
 							<select class="form-control selectpicker" name="responsable" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 								<option value="">Seleccionar</option>
 								@foreach($responsables as $responsable)
-									<option value="{{ $responsable->id }}"> {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
+									<option value="{{ $responsable->id }}"> {{ $responsable->id }} {{ $responsable->name }} {{ $responsable->ap_paterno }} {{ ($responsable->ap_materno )}} </option>
 								@endforeach
 							</select>
 						</div>
@@ -811,6 +811,7 @@
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function(data){
+						console.log("Episodio", data);
 						$(".loader").fadeOut("slow");
 						$('input[name=id]').val(data.id);
 						$('input[name=proyectoId]').val(data.proyectoId);
@@ -1435,6 +1436,7 @@
 						type: "POST",
 						data: $(this).serialize(),
 						success: function(data){
+							loval
 							if(data.msg = 'success'){
 								location.reload();
 							}

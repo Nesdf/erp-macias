@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\MgEpisodios\Entities\MaterialCalificado as MaterialCalificado;
-use Modules\MgEpisodios\Entities\Episodios as Episodios;
-use Modules\MgEpisodios\Entities\Timecode as Timecode;
-use Modules\MgEpisodios\Entities\Tcr as Tcr;
-use \Modules\MgEpisodios\Entities\Proyectos as Proyectos;
+use Modules\MgEpisodios\Entities\MaterialCalificado;
+use Modules\MgEpisodios\Entities\Episodios;
+use Modules\MgEpisodios\Entities\TimeCodes;
+use Modules\MgEpisodios\Entities\Timecode;
+use Modules\MgEpisodios\Entities\Tcr;
+use Modules\MgEpisodios\Entities\Proyectos;
+use Modules\MgEpisodios\Entities\TipoReporte;
 
 class MgCalificarMaterialController extends Controller
 {
@@ -83,7 +85,7 @@ class MgCalificarMaterialController extends Controller
             } catch(\Exception $e){
                 \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
                 \Log::error(' Trace2: ' .$e->getTraceAsString());
-                //return Response(['error' => $e.getMessage()], 400)->header('Content-Type', 'application/json');
+                return Response(['error' => $e.getMessage()], 400)->header('Content-Type', 'application/json');
             }
 
         
@@ -170,9 +172,9 @@ class MgCalificarMaterialController extends Controller
             $tcrs = Tcr::All();
             $allProyect = Proyectos::allProyect($id_episodio, $id_proyecto);
            
-            $reportes = \Modules\MgEpisodios\Entities\TipoReporte::get();
-            $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'desc')->get();
-            return view('mgepisodios::material-calificado', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones'));
+            $reportes = TipoReporte::get();
+            $timecodes = TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'desc')->get();
+            return view('mgepisodios::material-calificado-qc', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones'));
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

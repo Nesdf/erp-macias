@@ -27,7 +27,6 @@ class MgEpisodiosController extends Controller
 
             $proyecto_id = $id;
             $episodios = Episodios::allEpisodioOfProject($id);
-
             $tcrs = Tcr::All();
             $salas = Salas::All();
             $productores = Users::Productores();
@@ -41,7 +40,7 @@ class MgEpisodiosController extends Controller
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
-           return $request->session()->flash('success', trans('Error al cargar los datos, favor de revisar con el administrador'));
+           //return $request->session()->flash('success', trans('Error al cargar los datos, favor de revisar con el administrador'));
         }
 
     }
@@ -192,15 +191,15 @@ class MgEpisodiosController extends Controller
                     try{
                         Episodios::where('id', $request->input('id'))
                             ->update([
-                                'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
-                                'configuracion' => $request->input('configuracion'),
-                                'date_entrega' => $request->input('entrega_episodio') ,
-                                'proyectoId' => $request->input('proyectoId'),
-                                'configuracion' => $request->input('configuracion'),
-                                'num_episodio' => $request->input('num_episodio'),
-                                'date_m_and_e' => $request->input('entrega_me'),
-                                'productor' => $request->input('productor'),
-                                'responsable' => $request->input('responsable')
+                                'titulo_original' => ucwords( $request->titulo_original_episodio ),
+                                'configuracion' => $request->configuracion,
+                                'date_entrega' => $request->entrega_episodio,
+                                'proyectoId' => $request->proyectoId,
+                                'configuracion' => $request->configuracion,
+                                'num_episodio' => $request->num_episodio,
+                                'date_m_and_e' => $request->entrega_me,
+                                'productor' => $request->productor,
+                                'responsable' => $request->responsable
                             ]);
                             $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                             return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

@@ -152,8 +152,9 @@
 				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
-					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte')) class="open" @endif>
-						@if( \Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') | \Request::session()->has('mgtiporeporte'))
+					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento-responsable') || Request::url() == route('entregables') || Request::url() == route('metodo-envio') || Request::url() == route('destino')) class="open" @endif>
+						{{-- Permite --}}
+						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') )
 							<a href="#" class="dropdown-toggle">
 								<i class="menu-icon fa fa-list"></i>
 								<span class="menu-text"> Elementos </span>
@@ -212,8 +213,8 @@
 										<b class="arrow"></b>
 									endif
 								</li>-->
-								<li @if(\Request::is('mgtiporeporte')) class="active" @endif>
-									@if(\Request::session()->has('mgtiporeporte'))
+								<li @if(Request::is('mgtiporeporte')) class="active" @endif>
+									@if(Request::session()->has('mgtiporeporte'))
 										<a href="{{ url('mgtiporeporte') }}"> Tipo de reporte </a>
 										<b class="arrow"></b>
 									@endif
@@ -222,8 +223,20 @@
 									<a href="{{ route('tipo-error') }}"> Tipo de error</a> 
 									<b class="arrow"></b>
 								</li>
-								<li >
+								<li @if(Request::url() == route('departamento-responsable')) class="active" @endif>
 									<a href="{{ route('departamento-responsable') }}"> Departamento responsable </a>
+									<b class="arrow"></b>
+								</li>
+								<li @if(Request::url() == route('destino')) class="active" @endif>
+									<a href="{{ route('destino') }}"> Destino </a>
+									<b class="arrow"></b>
+								</li>
+								<li @if(Request::url() == route('metodo-envio')) class="active" @endif>
+									<a href="{{ route('metodo-envio') }}"> Método envío </a>
+									<b class="arrow"></b>
+								</li>
+								<li @if(Request::url() == route('entregables')) class="active" @endif>
+									<a href="{{ route('entregables') }}"> Entrgables </a>
 									<b class="arrow"></b>
 								</li>
 							</ul>
@@ -399,10 +412,17 @@
 						</ul>
 					</li>
 					@endif
-					<li class="">
+					<li @if(\Request::url() == route('rechazos')) class="active" @endif>
 						<a href="{{ route('rechazos') }}">
 							<i class="menu-icon fa fa-warning"></i>
 							<span class="menu-text"> Rechazos </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li @if(\Request::url() == route('trafico')) class="active" @endif>
+						<a href="{{ route('trafico') }}">
+							<i class="menu-icon fa fa-video-camera"></i>
+							<span class="menu-text"> Tráfico </span>
 						</a>
 						<b class="arrow"></b>
 					</li>

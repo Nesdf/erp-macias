@@ -16,7 +16,7 @@
 			    </div>
 			@endif
 			<!-- PAGE CONTENT BEGINS -->
-			<form method="POST"  action="{{route('save_pdf_actores')}}" >
+			<form id="modificarPersonajes" >
 				 {{ csrf_field() }}
 				<div class="col-md-4">
 					<label>Proyecto</label>
@@ -45,10 +45,7 @@
 	    <table class="table table-condensed" id="table-personajes">
 	      <thead>
 	        <tr>
-	          <th>Nombre</th>
-	          <th>Loops</th>
-	          <th>Asignado</th>
-	          <th>Agregar Personaje</th>
+	          <th>Nombre del personaje</th>
 	        </tr>
 	      </thead>
 	      <tbody> </tbody>
@@ -90,6 +87,11 @@
 			            $('select[name=episodios]').selectpicker('refresh');
 					});
 				});
+
+				//Listado de todos los personajes
+				$('form[id=modificarPersonajes]').on('submit', function(){
+					console.log($( this ).serialize());
+				})
 
 				/*$('form').on('submit', function(event){
 					event.preventDefault();

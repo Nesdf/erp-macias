@@ -124,28 +124,84 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Título original serie</td>
-                                        <td>Título español Episodio(tal como se grabó)</td>
-                                        <td>Nuevo capítulo completo del video</td>
+                                        <td>
+											<h6>Título original serie</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
+                                        <td>
+											<h6>Título español Episodio(tal como se grabó)</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
+                                        <td>
+											<h6>Nuevo capítulo completo del video</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
                                     </tr>
                                     <tr>
-                                        <td>Compañía</td>
-                                        <td>Fecha QC ADR / Edicion</td>
-                                        <td>Editor</td>
+                                        <td>
+											<h6>Compañía</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
+                                        <td>
+											<h6>Fecha QC ADR / Edicion</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
+                                        <td>
+											<h6>Editor</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
                                     </tr>
                                     <tr>
-                                        <td>Sincronia</td>
-                                        <td>Fecha de Re-Re</td>
-                                        <td>Regrabador</td>
+                                        <td>
+											<h6>Sincronia</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
+                                        <td>
+											<h6>Fecha de Re-Re</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
+                                        <td>
+											<h6>Regrabador</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+                                                <input type="text" value="" class="form-control" readonly="true">
+                                            </div>
+										</td>
                                     </tr>
                                     <tr>
-                                        <td>Mezcla
-                                                <div class="form-group has-{{$label}} has-feedback">
-                                                        <input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
-                                                    </div>
+                                        <td>
+											<h6>Mezcla</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
+											</div>
                                         </td>
-                                        <td>Hum/Hiss si ó no</td>
-                                        <td>Compresión</td>
+                                        <td>
+											<h6>Hum/Hiss si ó no</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
+											</div>
+										</td>
+                                        <td>
+											<h6>Compresión</h6>
+											<div class="form-group has-{{$label}} has-feedback">
+												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
+											</div>
+										</td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -334,8 +390,13 @@
 								<div id="show_music"></div>
 							</div>
 							<div>
-								<label>Observaciones</label>
-								<textarea class="form-control" name="observaciones"></textarea>
+								<label>Tipo de error</label>
+								{{--<textarea class="form-control" name="observaciones"></textarea>--}}
+								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+									@foreach($tipoErrores as $tipoError)
+										<option value="{{ $tipoError->id }}">{{ $tipoError->nombre}}</option>
+									@endforeach
+								</select>
 							</div>
 							<br><br>
 							<!--<div class="form-group">

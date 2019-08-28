@@ -13,6 +13,7 @@ use Modules\MgEpisodios\Entities\Timecode;
 use Modules\MgEpisodios\Entities\Tcr;
 use Modules\MgEpisodios\Entities\Proyectos;
 use Modules\MgEpisodios\Entities\TipoReporte;
+use Modules\MgCatalogos\Entities\TipoError;
 
 class MgCalificarMaterialController extends Controller
 {
@@ -174,7 +175,8 @@ class MgCalificarMaterialController extends Controller
            
             $reportes = TipoReporte::get();
             $timecodes = TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'desc')->get();
-            return view('mgepisodios::material-calificado-qc', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones'));
+            $tipoErrores = TipoError::all();
+            return view('mgepisodios::material-calificado-qc', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones', 'tipoErrores'));
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

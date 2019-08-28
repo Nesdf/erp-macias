@@ -54,16 +54,16 @@ class MgClientesController extends Controller
 			if( $request->method('post') && $request->ajax() ){
 			
 				$rules = [
-					'razon_social' => 'required|min:13|max:14|regex:/^[A-Za-z0-9\s]+$/g',
+					//'razon_social' => 'required|min:13|max:14|regex:/^[A-Za-z0-9\s]+$/g',
 					'pais' => 'required',
 					'localidad' => 'required'
 					
 				];
 				
 				$messages = [
-					'razon_social.required' => 'Formato incorrecto del RFC',
-					'razon_social.min' => 'Formato incorrecto del RFC',
-					'razon_social.max' => 'Formato incorrecto del RFC',
+					//'razon_social.required' => 'Formato incorrecto del RFC',
+					//'razon_social.min' => 'Formato incorrecto del RFC',
+					//'razon_social.max' => 'Formato incorrecto del RFC',
 					'pais.required' => 'Formato incorrecto del RFC',
 					'razon_social.regex' => 'Formato incorrecto del RFC',
 					'localidad.required' => 'Formato incorrecto del RFC'

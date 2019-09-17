@@ -22,3 +22,9 @@ Route::group(['middleware' => ['web', 'auth','verify_routes'], 'prefix' => 'mgep
 	Route::post('/add-productor', 'MgEpisodiosController@addProductor')->name('add_productor');
 
 });
+
+Route::group(['middleware' => ['web'], 'prefix' => 'mgepisodios', 'namespace' => 'Modules\MgEpisodios\Http\Controllers'], function()
+{
+	Route::post('/update-calificar-material', 'MgEpisodiosController@updateCalificarMaterial')->name('update-calificar-material');
+
+});

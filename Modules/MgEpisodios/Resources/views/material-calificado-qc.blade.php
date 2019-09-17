@@ -82,200 +82,213 @@
 					<div class="table-body">
 						<div class="row">
 							<div class="col-md-12">
-								<table class="table">
-                                    <tr>
-                                        <td>
-                                            <h6>Fecha de doblaje</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6>Estudio</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6>Sala</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Título español serie</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6>Operador</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6>Director</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-											<h6>Título original serie</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                        <td>
-											<h6>Título español Episodio(tal como se grabó)</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                        <td>
-											<h6>Nuevo capítulo completo del video</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-											<h6>Compañía</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                        <td>
-											<h6>Fecha QC ADR / Edicion</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                        <td>
-											<h6>Editor</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-											<h6>Sincronia</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                        <td>
-											<h6>Fecha de Re-Re</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                        <td>
-											<h6>Regrabador</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-										</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-											<h6>Mezcla</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
-											</div>
-                                        </td>
-                                        <td>
-											<h6>Hum/Hiss si ó no</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
-											</div>
-										</td>
-                                        <td>
-											<h6>Compresión</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
-											</div>
-										</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Duración</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="{{$allProyect[0]->duracion}}" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6>Hum/Hiss si ó no</h6>
-                                            <div class="form-group has-{{$label}} has-feedback">
-                                                <input type="text" value="" class="form-control" readonly="true">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <h6>Comentarios y observaciones del editor</h6>
-                                            <div  class="form-group has-{{$label}} has-feedback">
-                                                <textarea class="form-control" readonly="true"></textarea>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Comentarios y observaciones del regrabador</h6>
-                                            <div  class="form-group has-{{$label}} has-feedback">
-                                                <textarea class="form-control" readonly="true"></textarea>
-                                            </div>
-                                        </td>
-                                    </tr>
-									<tr>
-										<td>
-											<h6>Duración:</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->duracion}}" class="form-control" readonly="true">
-											</div>
-										</td>
-										<td>
-											<h6>TCR:</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->tcr2}}" class="form-control" readonly="true">
-											</div>
-										</td>									
-										<td>
-											<h6>Tipo de reporte:</h6>
-											<div class="form-group has-{{$label}} has-feedback ">
-												<textarea class="form-control" readonly="true">{{$allProyect[0]->tipo_reporte}}</textarea>
-											</div>
-										</td>
-									</tr>
-									<tr>
+								<form action="{{route('update-calificar-material')}}" method="POST">
+										{!! Form::token() !!}
+								<input type="hidden" value="{{$allProyect[0]->episodio_id}}">
+									<table class="table">
+										<tr>
+											<td>
+												<h6>Fecha de doblaje</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+												<input type="text" value="{{$allProyect[0]->fecha_doblaje}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Estudio</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+												<input type="text" value="{{$allProyect[0]->estudio}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Sala</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->sala}}" class="form-control" readonly="true">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Título español serie</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->titulo_aprobado}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Ingeniero de audio</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+												<input type="text" value="{{$allProyect[0]->ingeniero_audio_name}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Director</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->director}}" class="form-control" readonly="true">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Título original serie</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+												<input type="text" value="{{$allProyect[0]->titulo_original}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Título español Episodio(tal como se grabó)</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="" class="form-control" >
+												</div>
+											</td>
+											<td>
+												<h6>Nuevo capítulo completo del video</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="" class="form-control" readonly="true">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Compañía</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Fecha QC ADR / Edicion</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->fecha_qc}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Editor</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<select name="sincronia" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." >
+														@foreach($editores as $editor)
+													<option value="{{ $editor->id }}">{{ $editor->name}} {{$editor->ap_paterno}} {{$editor->ap_materno}}</option>
+														@endforeach
+													</select>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Sincronia</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<select name="sincronia" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." >
+														<option value="Regular">Regular</option>
+														<option value="Buena">Buena</option>
+														<option value="Mala">Mala</option>
+													</select>
+												</div>
+											</td>
+											<td>
+												<h6>Fecha de Regrabador</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->fecha_regrabacion}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Regrabador</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="" class="form-control" readonly="true">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Mezcla</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Hum/Hiss si ó no</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<select name="hiss" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." >
+														<option value="Si">Si</option>
+														<option value="No">No</option>
+													</select>
+												</div>
+											</td>
+											<td>
+												<h6>Compresión</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<select name="compresion" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." >
+														<option value="Si">Si</option>
+														<option value="No">No</option>
+													</select>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Duración</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->duracion}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>TCR:</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->tcr2}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Comentarios y observaciones del editor</h6>
+												<div  class="form-group has-{{$label}} has-feedback">
+													<textarea class="form-control" ></textarea>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Duración:</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->duracion}}" class="form-control" readonly="true">
+												</div>
+											</td>
+											<td>
+												<h6>Comentarios y observaciones del regrabador</h6>
+												<div  class="form-group has-{{$label}} has-feedback">
+													<textarea class="form-control" ></textarea>
+												</div>
+											</td>									
+											<td>
+												<h6>Tipo de reporte:</h6>
+												<div class="form-group has-{{$label}} has-feedback ">
+													<textarea class="form-control" readonly="true">{{$allProyect[0]->tipo_reporte}}</textarea>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<h6>Mezcla:</h6>
+												<div class="form-group has-{{$label}} has-feedback">
+													<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
+												</div>
+											</td>
 
-										<td>
-											<h6>Mezcla:</h6>
-											<div class="form-group has-{{$label}} has-feedback">
-												<input type="text" value="{{$allProyect[0]->mezcla}}" class="form-control" readonly="true">
-											</div>
-										</td>
+											<td>
+												<h6>Comentarios transfer:</h6> 
+												<div  class="form-group has-{{$label}} has-feedback">
+													<textarea class="form-control" readonly="true">{{$allProyect[0]->descripcion}}</textarea>
+												</div>
+											</td>
 
-										<td>
-											<h6>Comentarios transfer:</h6> 
-											<div  class="form-group has-{{$label}} has-feedback">
-												<textarea class="form-control" readonly="true">{{$allProyect[0]->descripcion}}</textarea>
-											</div>
-										</td>
-
-										<td>
-                                            <h6>Comentarios y observaciones del operador</h6>
-                                            <div  class="form-group has-{{$label}} has-feedback">
-                                                <textarea class="form-control" readonly="true">{{$allProyect[0]->descripcion}}</textarea>
-                                            </div>
-                                        </td>
-										<td></td>
-									</tr>
-								</table>
+											<td>
+												<h6>Comentarios y observaciones del Ingeniero de audio</h6>
+												<div  class="form-group has-{{$label}} has-feedback">
+													<textarea class="form-control" readonly="true">{{$allProyect[0]->descripcion}}</textarea>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<button type="submit" class="btn btn-primary">Guardar</button>
+											</td>
+										</tr>
+									</table>
+								</form>
 							</div>
 						</div>
 						<br><br>
@@ -392,7 +405,7 @@
 							<div>
 								<label>Tipo de error</label>
 								{{--<textarea class="form-control" name="observaciones"></textarea>--}}
-								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." >
 									@foreach($tipoErrores as $tipoError)
 										<option value="{{ $tipoError->id }}">{{ $tipoError->nombre}}</option>
 									@endforeach
@@ -401,7 +414,7 @@
 							<br><br>
 							<!--<div class="form-group">
 								<label>Observaciones</label>
-								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+								<select name="observaciones" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." >
 									foreach($observaciones as $observacion)
 										<option value="{{-- $observacion->timecode --}}">{{-- $observacion->timecode --}}</option>
 									endforeach

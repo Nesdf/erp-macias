@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Spatie\PdfToText\Pdf; 
-use \Modules\MgCalendar\Entities\Proyectos as Proyectos;
-use \Modules\MgCalendar\Entities\Episodios as Episodios;
-use \Modules\MgReadPdf\Entities\ActorPersonaje as ActorPersonaje;
+use \Modules\MgCalendar\Entities\Proyectos;
+use \Modules\MgCalendar\Entities\Episodios;
+use \Modules\MgReadPdf\Entities\ActorPersonaje;
 
 class MgReadPdfController extends Controller
 {
@@ -82,8 +82,9 @@ class MgReadPdfController extends Controller
     {
         $proyectos = Proyectos::get();
         $episodios = [];
+        $personajes = [];
 
-        return view('mgreadpdf::modificar', compact('proyectos', 'episodios'));
+        return view('mgreadpdf::modificar', compact('proyectos', 'episodios', 'personajes'));
     }
 
     /**
@@ -137,5 +138,30 @@ class MgReadPdfController extends Controller
     public function getEpisodiosPersonajes( $id )
     {
         return Episodios::where('proyectoId', '=', $id)->get();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @return Response
+     */
+    public function listaPersonajes( $folio )
+    {
+        return ActorPersonaje::getPersonajesByEpisodio($folio);
+    }
+
+    public function updatePersonaje( Request $request )
+    {
+        try{
+            if($request->isMethod('post')){
+                $personaje = ActorPersonaje::find($request->id);
+                $personaje->personaje = $request->personaje;
+                $personaje->save();
+                $request->session()->flash('status', 'Se '.$request->personje.' actualizó correctamente.');
+                return Response()->json(['msg' => 'success'], 200);
+            }
+        } catch(\Exception $e){
+    		return Response(['error' => $e->getMessage()], 404)->header('Content-Type', 'application/json');
+    	}
+        
     }
 }

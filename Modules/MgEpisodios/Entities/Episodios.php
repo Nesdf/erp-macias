@@ -55,6 +55,8 @@ class Episodios extends Model
       'nombre_qc',
       'fecha_qc',
       'observaciones_traductor',
+      'sincronia',
+      'ingeniero_audio_id',
       'created_at',
       'updated_at'];
 

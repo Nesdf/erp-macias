@@ -105,7 +105,8 @@ class Llamados extends Model
 		public static function getTrabajoActores($salas)
 		{
 			return \DB::select(\DB::raw("SELECT nombre_real, SUM(CAST(pago_total_loops AS float))
-FROM calendario WHERE sala  IN(".$salas.")  AND estatus_llamado = '".Config::RTK."' AND estatus= true GROUP BY nombre_real "));
+			FROM calendario WHERE sala  IN(".$salas.")  AND estatus= true GROUP BY nombre_real "));
+			//Se elimina rtk AND estatus_llamado = '".Config::RTK."' 
 		}
 
 		public static function getLlamadosAllActor($lunes, $sabado, $salas)

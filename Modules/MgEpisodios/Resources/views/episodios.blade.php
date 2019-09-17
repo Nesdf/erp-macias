@@ -299,8 +299,8 @@
 					@endforeach
 				</select>
 				<div class="add_date_script"></div>
-				<label> Operador </label>
-				<select name="responsable" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
+				<label> Ingeniero de audio </label>
+				<select name="ingeniero_audio_id" class="form-control selectpicker" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..." required>
 					@foreach($tecnicos as $tecnico)
 						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
 					@endforeach
@@ -356,8 +356,8 @@
 					@endforeach
 				</select>
 				<div id="add_date_script"></div>
-				<label> Operador </label>
-				<select name="responsable" class="form-control selectpicker"  data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+				<label> Ingeniero de audio </label>
+				<select name="ingeniero_audio_id" class="form-control selectpicker"  data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
 					@foreach($tecnicos as $tecnico)
 						<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>
 					@endforeach
@@ -1242,7 +1242,7 @@
 							$('input[name=id]').val(data.id);
 							$('select[name=sala]').val(data.salaId);
 							$('select[name=director]').val(data.directorId);
-							$('select[name=responsable]').val(data.responsable);
+							$('select[name=ingeniero_audio_id]').val(data.ingeniero_audio_id);
 							if(data.chk_qc == true){
 								$('input[name=chk_qc]').prop('checked', true)
 							}
@@ -1436,7 +1436,7 @@
 						type: "POST",
 						data: $(this).serialize(),
 						success: function(data){
-							loval
+							
 							if(data.msg = 'success'){
 								location.reload();
 							}

@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
-use \Modules\MgCalendar\Entities\Proyectos as Proyectos;
-use \Modules\MgCalendar\Entities\Estudios as Estudios;
-use \Modules\MgCalendar\Entities\Actores as Actores;
-use \Modules\MgCalendar\Entities\ActorPersonaje as ActorPersonaje;
-use \Modules\MgCalendar\Entities\Llamados as Llamados;
-use \Modules\MgCalendar\Entities\Episodios as Episodios;
-use \Modules\MgCalendar\Entities\Salas as Salas;
-use \Modules\MgCalendar\Entities\Tabulador as Tabulador;
-use \Modules\MgCalendar\Entities\User as User;
+use \Modules\MgCalendar\Entities\Proyectos;
+use \Modules\MgCalendar\Entities\Estudios;
+use \Modules\MgCalendar\Entities\Actores;
+use \Modules\MgCalendar\Entities\ActorPersonaje;
+use \Modules\MgCalendar\Entities\Llamados;
+use \Modules\MgCalendar\Entities\Salas;
+use \Modules\MgCalendar\Entities\Tabulador ;
+use \Modules\MgCalendar\Entities\User;
+use Modules\MgCalendar\Entities\Episodios;
 use App\Globals\Config;
 
 class MgCalendarController extends Controller
@@ -107,7 +107,6 @@ class MgCalendarController extends Controller
             } else {
                 $actores = ActorPersonaje::where('episodio_folio', '=', $folio[0]->folio)->get();
             }
-
             $folio = $folio[0];
 
             if($folio->directorId == null){
@@ -119,10 +118,11 @@ class MgCalendarController extends Controller
                 $data_estudios = Estudios::find($salas[0]->estudio_id);
             }
 
-            return Response(['actores' => $actores, 'msg' => $salas, 'estudio'=>$data_estudios->estudio, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200)->header('Content-Type', 'application/json');
+            return response()->json(['actores' => $actores, 'msg' => $salas, 'estudio'=>$data_estudios->estudio, 'llamados', $llamados, 'folio' => $folio->folio, 'capitulo' => $folio->num_episodio, 'director' => $director], 200);
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
+            return response()->json($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine(), 200);
         }
     }
 
@@ -148,7 +148,7 @@ class MgCalendarController extends Controller
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
-            return Response(['error' => $episodios], 400)->header('Content-Type', 'application/json');
+            return Response(['error' => $e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine()], 400)->header('Content-Type', 'application/json');
         }
 
     }
@@ -161,6 +161,14 @@ class MgCalendarController extends Controller
                 $meses = ['Jan'=>'01', 'Feb'=>'02', 'Mar'=>'03','Apr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'08','Sep'=>'09','Oct'=>'10', 'Nov'=>'11', 'Dec'=>'12'];
                 $meses = ['01'=>'01', '02'=>'02', '03'=>'03','04'=>'04','05'=>'05','06'=>'06','07'=>'07','08'=>'8','09'=>'09','10'=>'10', '11'=>'11', '12'=>'12'];
                 $date = explode('-', $request->input('dia'));
+
+                $existenLlamados = ActorPersonaje::where('episodio_folio', $request->episodio_folio)->where('asignado', true)->get();
+                
+                if(count($existenLlamados) == 0){
+                    Episodios::where(['folio' => $request->episodio_folio])->update([
+                        'fecha_doblaje' => Carbon::now()->toDateString()
+                    ]);
+                }
                 
                 $dt = Carbon::now();
                 $cita_entrada = $dt->year($date[0])->month($meses[$date[1]])->day($date[2])->hour($request->input('hora_entrada'))->minute($request->input('min_entrada'))->second(00)->toDateTimeString();
@@ -265,10 +273,6 @@ class MgCalendarController extends Controller
                     'estatus_grupo' => ($request->input('estatus_grupo') == 'on') ? true : false,
                     'estatus' => true
                 ]);
-
-
-
-                //$request->session()->flash('message', trans('mgcalendar::ui.flash.flash_create_llamdo'));
                 return Response(['msg' => 'success', 'actor'=>$request->input('actor'), 'start'=>$cita_entrada, 'end'=>$cita_salida], 200)->header('Content-Type', 'application/json');
             }
 
@@ -432,7 +436,6 @@ class MgCalendarController extends Controller
             ->update([
               'estatus_llamado' => Config::REAGENDAR
             ]);
-
             if($data){
               Llamados::create([
                   'actor' => $llamado->actor,
@@ -451,6 +454,8 @@ class MgCalendarController extends Controller
                   'estatus_llamado' => Config::RTK,
                   'descripcion_reagenda' => $request->input('descripcion_reagenda'),
                   'estatus_reagenda' => true,
+                  'nombre_real' => $llamado->capitulo,
+                  'estatus_pago' => $llamado->estatus_pago,
                   'id_llamado_reagendado' => $request->input('id')
                 ]);
             }

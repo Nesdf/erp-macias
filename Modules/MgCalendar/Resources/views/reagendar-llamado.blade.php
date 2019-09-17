@@ -45,7 +45,7 @@
           </div>
           <div class="col-md-4">
             <label>Fecha</label>
-            <input type="text" name="search_fecha" id="search_fecha" class="form-control" required>
+            <input type="text" name="search_fecha" id="search_fecha" class="form-control" autocomplete="off" readonly required>
           </div>
           <div class="col-md-2"><br>
             <button class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
@@ -94,7 +94,7 @@
               <input type="hidden" name="id" id="id">
 
               <label>Fecha: </label><br>
-              <input type="text" name="new_date" id="new_date" required><br><br>
+              <input type="text" name="new_date" id="new_date" autocomplete="off" readonly required><br><br>
             <label>Hora Entrada: </label><br>
             <input type="number" name="hora_entrada" id="hora_entrada" class="tipo_numero" min="00" max="23"  required> :
             <input type="number" name="min_entrada" class="tipo_numero" min="00" max="59" required>

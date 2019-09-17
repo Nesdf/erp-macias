@@ -63,11 +63,13 @@
 														<i class="ace-icon fa fa-pencil bigger-120"></i>
 													</a>
 												@endif
+												{{--
 												@if(\Request::session()->has('delete_reporte'))
 													<a data-toggle="modal" data-target="#modal_delete_reporte" data-id="{{ $reporte->id }}" class="btn btn-xs btn-danger delete_id" title="Eliminar">
 													 <i class="ace-icon fa fa-trash-o bigger-120"></i>
 													</a>
 												@endif
+												--}}
 											</td>
 										@endif
 									</tr>

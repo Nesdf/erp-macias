@@ -32,11 +32,11 @@ class Actores extends Model
             ->get();
     }
 
-		public static function nombreReal($id)
-		{
-			return \DB::table('actores')
-					->where('id', '=', $id)
-					->select('nombre_completo')
-					->get();
-		}
+    public static function nombreReal($id)
+    {
+        return \DB::table('actores')
+                ->where('id', '=', $id)
+                ->select('nombre_completo')
+                ->get();
+    }
 }

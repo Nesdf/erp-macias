@@ -14,6 +14,7 @@ use Modules\MgEpisodios\Entities\Tcr;
 use Modules\MgEpisodios\Entities\Proyectos;
 use Modules\MgEpisodios\Entities\TipoReporte;
 use Modules\MgCatalogos\Entities\TipoError;
+use Modules\MgPuestos\Entities\Puestos;
 
 class MgCalificarMaterialController extends Controller
 {
@@ -172,11 +173,20 @@ class MgCalificarMaterialController extends Controller
             $observaciones = Timecode::get();
             $tcrs = Tcr::All();
             $allProyect = Proyectos::allProyect($id_episodio, $id_proyecto);
+            //dd($allProyect);
            
             $reportes = TipoReporte::get();
             $timecodes = TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'desc')->get();
             $tipoErrores = TipoError::all();
-            return view('mgepisodios::material-calificado-qc', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones', 'tipoErrores'));
+            $editores = Puestos::editores();
+
+            if($allProyect[0]->tipo_reporte == 'QC'){
+                return view('mgepisodios::material-calificado-qc', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones', 'tipoErrores', 'editores'));
+            } else {
+                return view('mgepisodios::material-calificado-video', compact('allProyect', 'tcrs', 'id_episodio', 'id_proyecto', 'timecodes', 'reportes', 'observaciones', 'tipoErrores', 'editores'));
+            }
+
+            
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

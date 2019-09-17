@@ -28,6 +28,8 @@ input.tipo_numero{
                   de llamados.
                 </small>
               </h1>
+              <br>
+              <div class="col-md-12" id="msgSuccess"></div>
               <div class="col-md-4">
               <form><br><br>
                   <label>Proyectos:</label>
@@ -111,7 +113,7 @@ input.tipo_numero{
                             <label> Director: &nbsp;</label>
                             <input type="text" name="director"  class="form-control" readonly>
                             <label>Loops</label>
-                            <input type="number" min="1" name="loops" class="form-control" autocomplete="off" required><!--Agregar readonly-->
+                            <input type="number" min="1" name="loops" class="form-control" autocomplete="off" required readonly><!--Agregar readonly-->
                             <hr>
                             <div class="form-group">
                             <input type="hidden" name="episodio_folio" >
@@ -273,8 +275,7 @@ input.tipo_numero{
                       });
 
                       //Permite agregar a los actores en arreglo,
-                      //Ademas de sumar los loops por cada vez 
-                      //que den click
+                      //Ademas de sumar los loops por cada vez que se seleccione un checkbox
                       var datosLoops = 0;
                       var datosPersonajes = [];
                       var idsPersonajes = [];
@@ -354,11 +355,13 @@ input.tipo_numero{
                           type: 'POST',
                           data: $( this ).serialize(),
                           success: function(data){
+                            //Se agrega mensaje de guardado exitoso por medio de una variable flash
                             $(".loader").fadeOut("slow");
-                            console.log("MIDATA: " + JSON.stringify(data))
+                            $('#msg').remove();
+                            $('#msgSuccess').prepend('<div id="msg" class="alert alert-success">Se generó la cita con éxito.</div>');
                             $('.eliminar_select').remove();
-                              alert("Guardado Exitosamente");
-
+                              datosLoops = 0;
+                             // alert("Guardado Exitosamente");
                               dataDB.push( data );
 
                               /*var foo = dataDB.map(function(data){
@@ -366,7 +369,6 @@ input.tipo_numero{
                               })*/
                               $('#foo').html('');
                               for( var i = 0;   i < dataDB.length ; i++  ){
-                                
                                 $('#foo').append('<li>' + dataDB[i].actor + ' | ' + dataDB[i].start + '</li>');
                               }
                              // document.getElementById("foo").innerHTML = foo; 
@@ -380,11 +382,10 @@ input.tipo_numero{
                             $('select[name=credencial]').val('');
                             $('input[name=hora_entrada]').val('');
                             $('input[name=min_entrada]').val('');
-                            $('input[name=loops]').val('');
+                            $('input[name=loops]').val(0);
                             $('input[name=personaje]').val('');
                             $('input[name=hora_salida]').val('');
                             $('input[name=min_salida]').val('');
-                            //$('input[name=loops]').val('');
                             $('select[name=personaje]').val('').selectpicker('refresh');
                             $('.personaje').html('');
                             $('.msj-error').html('');
@@ -396,7 +397,6 @@ input.tipo_numero{
                                   if(data.msg == 'success'){
                                     for( var i=0; i<idsPersonajesSuccess.length; i++ ){
                                       $('#'+idsPersonajesSuccess[i]).html('Asignado');
-                                      console.log("Asignado", idsPersonajesSuccess[i]);
                                     }
 
                                     var valuePersonajes = "";
@@ -492,7 +492,6 @@ input.tipo_numero{
       });
     });
     $('select[name=cliente]').selectpicker();
-
     
    </script>
    <!--Funciones-->

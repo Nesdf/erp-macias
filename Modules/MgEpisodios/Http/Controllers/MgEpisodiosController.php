@@ -5,12 +5,13 @@ namespace Modules\MgEpisodios\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use \Modules\MgEpisodios\Entities\Episodios as Episodios;
-use \Modules\MgEpisodios\Entities\Proyectos as Proyectos;
-use \Modules\MgEpisodios\Entities\Tcr as Tcr;
-use \Modules\MgEpisodios\Entities\Salas as Salas;
-use \Modules\MgEpisodios\Entities\Users as Users;
-use \Modules\MgEpisodios\Entities\TipoReporte as TipoReporte;
+use \Modules\MgEpisodios\Entities\Episodios;
+use \Modules\MgEpisodios\Entities\Proyectos;
+use \Modules\MgEpisodios\Entities\Tcr;
+use \Modules\MgEpisodios\Entities\Salas;
+use \Modules\MgEpisodios\Entities\Users;
+use \Modules\MgEpisodios\Entities\TipoReporte;
+use Modules\MgPuestos\Entities\Puestos;
 use Carbon\Carbon;
 
 class MgEpisodiosController extends Controller
@@ -35,7 +36,8 @@ class MgEpisodiosController extends Controller
             $traductores = Users::traductores();
             $reportes = TipoReporte::get();
             $tecnicos = Users::Tecnicos();
-            return view('mgepisodios::episodios', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos'));
+            $editores = Puestos::editores();
+            return view('mgepisodios::episodios', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos', 'editores'));
 
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -422,7 +424,7 @@ class MgEpisodiosController extends Controller
                         'chk_reprobacion' => ($request->input('chk_reprobacion') ? true : false),
                         'chk_edicion' => ($request->input('chk_edicion') ? true : false),
                         'fecha_edicion' => $request->input('fecha_edicion'),
-                        'responsable' => $request->input('responsable'),
+                        'ingeniero_audio_id' => $request->input('ingeniero_audio_id'),
                         'fecha_regrabacion' => ($request->input('fecha_regrabacion') ? $request->input('fecha_regrabacion') : NULL),
                         'nombre_regrabador' => ($request->input('nombre_regrabador') ? $request->input('nombre_regrabador') : NULL),
                         'nombre_editor' => ($request->input('nombre_editor') ? $request->input('nombre_editor') : NULL),
@@ -445,5 +447,9 @@ class MgEpisodiosController extends Controller
             \Log::error(' Trace2: ' .$e->getTraceAsString());
             return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
         }
+    }
+
+    public function updateCalificarMaterial(Request $request){
+        dd($request);
     }
 }

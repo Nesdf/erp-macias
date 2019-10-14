@@ -450,6 +450,29 @@ class MgEpisodiosController extends Controller
     }
 
     public function updateCalificarMaterial(Request $request){
-        dd($request);
+        //dd($request->all());
+        try {
+            //Almacenar datos en episodios
+            $actualizarEpisodio = Episodios::find($request->episodio_id);  
+            $actualizarEpisodio->sincronia = ($request->sincronia) ? $request->sincronia : '';
+            $actualizarEpisodio->editor_id =  ($request->editor) ? $request->editor : 0;
+            $actualizarEpisodio->hiss = ($request->hiss) ? $request->hiss : '';
+            $actualizarEpisodio->compresion = ($request->compresion) ? $request->compresion : '';
+            $actualizarEpisodio->comentarios_observaciones = ($request->comentarios_observaciones) ? $request->comentarios_observaciones : '';
+            $actualizarEpisodio->save();
+
+
+                //Almacenar datos en proyectos
+            $actualizarProyecto = Proyectos::find($actualizarEpisodio->proyectoId);  
+            $actualizarProyecto->titulo_espanol = ($request->titulo_espaniol_episodio) ? $request->titulo_espaniol_episodio : '';
+            $actualizarProyecto->save();
+            return redirect('mgepisodios/material-calificado/'.$request->episodio_id .'/'.$actualizarEpisodio->proyectoId);
+
+        } catch(\Excepton $e){
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+            //return Response(['error' => $e->getMessage()], 400)->header('Content-Type', 'application/json');
+            return "sdfjsd";
+        }
     }
 }

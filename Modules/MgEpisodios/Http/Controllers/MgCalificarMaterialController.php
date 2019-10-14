@@ -246,8 +246,13 @@ class MgCalificarMaterialController extends Controller
 
             $allProyect = \Modules\MgEpisodios\Entities\Proyectos::allProyect($id_episodio, $id_proyecto);
             $timecodes = \Modules\MgEpisodios\Entities\TimeCodes::where('id_calificar_material', $allProyect[0]->id)->orderBy('timecode', 'asc')->get();
+            //dd($allProyect[0]);
+            if($allProyect[0]->tipo_reporte == 'QC'){
+                $pdf = \PDF::loadView('mgepisodios::calificar-material-completo-pdf', compact('allProyect', 'id_episodio', 'id_proyecto', 'timecodes'));
+            } else {
+                $pdf = \PDF::loadView('mgepisodios::calificar-material-pdf', compact('allProyect', 'id_episodio', 'id_proyecto', 'timecodes'));
+            }
             
-            $pdf = \PDF::loadView('mgepisodios::calificar-material-pdf', compact('allProyect', 'id_episodio', 'id_proyecto', 'timecodes'));
             return $pdf->stream();
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

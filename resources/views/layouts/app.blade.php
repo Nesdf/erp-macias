@@ -236,7 +236,7 @@
 									<b class="arrow"></b>
 								</li>
 								<li @if(Request::url() == route('entregables')) class="active" @endif>
-									<a href="{{ route('entregables') }}"> Entrgables </a>
+									<a href="{{ route('entregables') }}"> Entregables </a>
 									<b class="arrow"></b>
 								</li>
 							</ul>

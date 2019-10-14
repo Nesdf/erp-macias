@@ -57,6 +57,8 @@ class Episodios extends Model
       'observaciones_traductor',
       'sincronia',
       'ingeniero_audio_id',
+      'hiss',
+      'comentarios_observaciones',
       'created_at',
       'updated_at'];
 

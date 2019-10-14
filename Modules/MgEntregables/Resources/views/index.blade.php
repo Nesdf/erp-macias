@@ -7,7 +7,7 @@
 	</li>
 	<li>
 		<i class="ace-icon fa fa-tasks"></i>
-		<a href="{{ url('entregable') }}">Entrgables</a>
+		<a href="{{ url('entregable') }}">Entregables</a>
 	</li>
 @stop
 

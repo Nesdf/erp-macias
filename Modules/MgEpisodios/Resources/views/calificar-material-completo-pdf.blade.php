@@ -122,6 +122,7 @@
 					<th>TCR: 
 						<span class="resultado"><ins>{{$allProyect[0]->tcr2}}</ins></span>
 					</th>
+					<!--comentario-->
 					<th>Comentarios y observaciones del editor: 
 						<span class="resultado"><ins>{{$allProyect[0]->observaciones_editor}}</ins></span>
 					</th>

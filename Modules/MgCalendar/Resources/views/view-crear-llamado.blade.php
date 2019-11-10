@@ -128,11 +128,11 @@ input.tipo_numero{
                             <input type="checkbox" name="estatus_grupo"> Permitir varios actores en el mismo horario
                             </label>
                             <label>
-                            <input type="checkbox" name="fijo"> Personaje fijo
+                            <input type="checkbox" value="" name="fijo"> Personaje fijo
                             </label>
                             </div>
                             <br><label>Personaje: </label>
-                            <input type="text" class="form-control readonly" name="personaje" autocomplete="off" required>
+                            <input type="text" class="form-control readonly" value="" name="personaje" autocomplete="off" required>
                             <!--<div id="eliminar_select"><select name="personaje" class="form-control" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar..."  required>
                             </select></div>-->
                             <div class="personaje"> </div>
@@ -213,7 +213,7 @@ input.tipo_numero{
             success: function( data ){
               var dataAll = data;
               $(".loader").fadeOut("slow");
-              //console.log("LIST EPISODIOS: " + JSON.stringify(data));
+              
               if(data.msg.length > 0){
                 $('#list_episodios').html('<br><label>Episodio: </label><br><select id="data_episodios" class="form-control" data-style="btn-primary" data-show-subtext="true" name="ajaxEpisodio" data-live-search="true" title="Seleccionar..." >\
                         <option value="">Seleccionar...</option>\
@@ -224,21 +224,16 @@ input.tipo_numero{
                 $('select[name=ajaxEpisodio]').selectpicker();
 
                 $( '#data_episodios' ).on('change', function(){
+                  
                   $(".loader").fadeIn();
                     var id = $(this).val();
                     var id_episodio = $(this).find(':selected').data('id');
                     $('#foo').empty();
-                    console.log("Data 1" + dataDB.length);
                     dataDB =  [];
-                    console.log("Data 2" + dataDB.length);
-                    console.log(id +" - "+id_episodio);
                   $.ajax({
                     url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                     type: "GET",
                     success: function( data ){
-                      console.log("PRUEBA: " + JSON.stringify(data));
-                      //console.log("LIST SALAS: " + JSON.stringify(data['director']));
-                      //console.log("LIST SALAS: " + JSON.stringify(data));
                       var proyecto = $('#proyecto_id option:selected').text();
                       var episodio = $('#data_episodios option:selected').text();
                       var sala = $('#data_sala').text();
@@ -252,7 +247,7 @@ input.tipo_numero{
                       var table = $("#table-personajes tbody");
                       var asignado ='';
                       table.html('');
-                      console.log(data['actores']);
+                      
                       $.each(data['actores'], function(idx, elem){
                         id_personaje = elem['id'];
 
@@ -263,7 +258,6 @@ input.tipo_numero{
                             asignado = '<i class="glyphicon glyphicon-ok"></i>';
                             table.append("<tr><td>"+elem.personaje+"</td><td>"+elem.loops+"</td>   <td>"+asignado+"</td><td>Asignado</td></tr>");
                           }
-
 
                           $("#myInput").on("keyup", function() {
                             var value = $(this).val().toLowerCase();
@@ -279,20 +273,25 @@ input.tipo_numero{
                       var datosLoops = 0;
                       var datosPersonajes = [];
                       var idsPersonajes = [];
-                      $('.datos_personajes').on('change', function(){
+
+                      //Quitar el checked en cada checkbox
+                      
+                      $('.datos_personajes').on('change', function(val){
                         if( $(this).is(':checked') ){
                           datosLoops += parseInt( $(this).data('loops') );
-                          datosPersonajes.push( " "+$(this).data('personaje') );
+                          datosPersonajes.push(''+$(this).data('personaje') );
                           idsPersonajes.push( $(this).data('id') );
+                          
                           $( 'input[name=loops]' ).val(datosLoops);
                           $( 'input[name=personaje]' ).val(datosPersonajes);
                           $( 'input[name=ids]' ).val(idsPersonajes);
                         } else{
                           datosLoops -= parseInt( $(this).data('loops') );
-                          var i = datosPersonajes.indexOf(" "+$(this).data('personaje'));
+                          var i = datosPersonajes.indexOf($(this).data('personaje'));
                           if(i != -1) {
                             datosPersonajes.splice(i, 1);
                           }
+
                           var j = idsPersonajes.indexOf($(this).data('id'));
                           if(j != -1) {
                             idsPersonajes.splice(j, 1);
@@ -303,8 +302,6 @@ input.tipo_numero{
                         }
                       });
 
-                      //$('input[name=dia]').val($('input[name=dateNow]').val());
-                      //console.log("DATENOW: " + $('input[name=dateNow]').val());
                       $('input[name=folio]').val(data['folio']);
                       $('input[name=episodio_folio]').val(data['folio']);
                       $('input[name=nombre_real]').val(dataAll['msg'][0]['titulo_original']);
@@ -349,19 +346,21 @@ input.tipo_numero{
                       //Guardar datos
                       $('#form-llamado').on('submit', function(ev){
                         ev.preventDefault();
-                        
+                          
                         $.ajax({
                           url: '{{url("mgcalendar/cita-llamado")}}',
                           type: 'POST',
                           data: $( this ).serialize(),
                           success: function(data){
+                            //Limpiar variables
+                            datosPersonajes = [];
+
                             //Se agrega mensaje de guardado exitoso por medio de una variable flash
                             $(".loader").fadeOut("slow");
                             $('#msg').remove();
                             $('#msgSuccess').prepend('<div id="msg" class="alert alert-success">Se generó la cita con éxito.</div>');
                             $('.eliminar_select').remove();
                               datosLoops = 0;
-                             // alert("Guardado Exitosamente");
                               dataDB.push( data );
 
                               /*var foo = dataDB.map(function(data){
@@ -416,7 +415,7 @@ input.tipo_numero{
 
                                         $('.personaje').html('\
                                           <label>Agregar nuevo personaje</label>\
-                                          <input name="nuevo_personaje" class="form-control" required>\
+                                          <input name="nuevo_personaje" class="form-control" value="" required>\
                                           <label> Fijo\
                                           <input type="checkbox" name="fijo" >\
                                           </label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\

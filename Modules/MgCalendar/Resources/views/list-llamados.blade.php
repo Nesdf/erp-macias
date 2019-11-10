@@ -45,7 +45,7 @@
 							</div>
 							<div class="col-md-4">
 								<label>Fecha</label>
-								<input type="text" name="search_fecha" id="search_fecha" class="form-control" required>
+								<input type="text" name="search_fecha" id="search_fecha" class="form-control" autocomplete="off" required>
 							</div>
 							<div class="col-md-2"><br>
 								<button class="btn btn-primary"><i class="glyphicon glyphicon-search"> </i> Buscar</button>
@@ -144,7 +144,6 @@
                   type: 'POST',
                   data: $( this ).serialize(),
                   success: function(data){
-										console.log(data);
 
                   	$('#list-table').html('<br><br>\
                   		<div class="col-sm-12 col-md-12"><table style="width:100%;" class=" table table-condensed ">\
@@ -163,7 +162,7 @@
 			                  <th>Fecha</th>\
 			                  <th>Entrada</th>\
 			                  <th>Salida</th>\
-												<th>Firma</th>\
+							  <th>Firma</th>\
 			                </tr>\
 			              </thead>\
 			              <tbody> '+contenido(data)+'\
@@ -243,13 +242,14 @@
 
 
 		function contenido(data){
+
+			console.log('CONTENIDO ', data);
 			if(data.llamados.length <= 0){
 				return "";
 			}
 
 			var formArray = [];
 			for(var i=0; i<data.llamados.length; i++){
-				//JSON.stringify : Convierte valor a notacion json
 				formArray[i] = JSON.stringify({actor: data.llamados[i].actor});
 			}
 
@@ -262,14 +262,13 @@
 					nuevoArray.push(data.llamados[i]);
 				}
 			}
-			console.log(nuevoArray);
 
 			// Genera el nuevo arreglo
 			var list_new_llamados = [];
+			
       		for(var i=0; i<data.llamados.length; i++){
 
       			if(list_new_llamados[data.llamados[i].credencial]){
-
       				//Suma los loops por proyectos
       				for(var j=0; j<data.proyectos.length; j++){
       					if( data.proyectos[j].folios == data.llamados[i].folio ) {
@@ -279,16 +278,14 @@
 	      			// suma el total de loops
 	      			list_new_llamados[data.llamados[i].credencial].total = 0;
 	      			for(var j=0; j<data.proyectos.length; j++){
-
       					list_new_llamados[data.llamados[i].credencial].total += parseInt( list_new_llamados[data.llamados[i].credencial][String(data.proyectos[j].folios)] );
-
 	      			}
 
       			} else{
       				list_new_llamados[data.llamados[i].credencial] = new Array();
       				list_new_llamados[data.llamados[i].credencial].actor =  data.llamados[i].actor;
       				list_new_llamados[data.llamados[i].credencial].credencial = data.llamados[i].credencial;
-      				list_new_llamados[data.llamados[i].credencial].descripcion = data.llamados[i].descr;
+      				list_new_llamados[data.llamados[i].credencial].descripcion = data.llamados[i].descr; //Aqui se almacenan los personajes
       				list_new_llamados[data.llamados[i].credencial].director = data.llamados[i].director;
 
 
@@ -309,9 +306,6 @@
 
       			}
       		}
-
-					console.log("Nueva lista de llamados");
-					console.log(list_new_llamados);
 
       		//console.log(list_new_llamados);
       		//Permite mostrar las llaves del arreglo

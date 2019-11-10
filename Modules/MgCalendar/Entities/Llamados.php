@@ -18,14 +18,22 @@ class Llamados extends Model
 
     public static function allLlamados($sala, $date)
     {
-        return \DB::select(\DB::raw("SELECT  actor, director, folio, sala, loops, credencial, descripcion AS descr,
-        (SELECT estudio FROM estudios where id = (SELECT estudio_id FROM salas where sala = '".$sala."')) AS estudio,
-        CASE WHEN actor IS NOT NULL THEN  cita_start::time  END AS entrada,
-        CASE WHEN actor IS NOT NULL THEN cita_end::time END AS salida,
-        CASE WHEN actor IS NOT NULL THEN cita_end::date END AS fecha
-        FROM calendario
-        WHERE  cita_end::text LIKE '%".$date."%' AND sala='".$sala."' AND estatus = true AND  estatus_llamado = '".Config::RTK."'
-				ORDER BY cita_end DESC"));
+        // return \DB::select(\DB::raw("SELECT  actor, director, folio, sala, loops, credencial, descripcion AS descr,
+        // (SELECT estudio FROM estudios where id = (SELECT estudio_id FROM salas where sala = '".$sala."')) AS estudio,
+        // CASE WHEN actor IS NOT NULL THEN  cita_start::time  END AS entrada,
+        // CASE WHEN actor IS NOT NULL THEN cita_end::time END AS salida,
+        // CASE WHEN actor IS NOT NULL THEN cita_end::date END AS fecha
+        // FROM calendario
+        // WHERE  cita_end::text LIKE '%".$date."%' AND sala='".$sala."' AND estatus = true AND  estatus_llamado = '".Config::RTK."'
+        // 		ORDER BY cita_end DESC"));
+        
+        return \DB::table('calendario')
+            ->select( 'actor', 'director', 'folio', 'sala', 'loops', 'credencial', 'descripcion AS descr', \DB::raw('CASE WHEN actor IS NOT NULL THEN  cita_start::time  END AS entrada'), \DB::raw('CASE WHEN actor IS NOT NULL THEN cita_end::time END AS salida'), \DB::raw('CASE WHEN actor IS NOT NULL THEN cita_end::date END AS fecha'))
+            ->where('sala', '=', $sala)
+            ->whereBetween('cita_end', array( $date.' 00:00:00', $date.' 24:00:00'))
+            ->where('estatus', '=', 1)
+            ->where('estatus_llamado', '=', Config::RTK)
+            ->get();
 
     }
 

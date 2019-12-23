@@ -100,7 +100,7 @@ input.tipo_numero{
                             <input type="hidden" name="capitulo" id="capitulo"/>
                             <input type="hidden" name="fecha" id="fecha" />
                             <input type="hidden" name="ids" />
-                            <label> Actor: &nbsp;</label>
+                            <label> Actor(Nombre artístico): &nbsp;</label>
                             <select class="form-control" name="actor" id="actor" data-style="btn-primary" data-show-subtext="false" data-live-search="true" title="Seleccionar..." required>
                             @foreach($actores as $actor)
                              <option value="{{$actor->nombre_artistico}}" data-id="{{$actor->id}}">{{$actor->nombre_artistico}}</option>

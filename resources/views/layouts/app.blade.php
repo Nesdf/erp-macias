@@ -251,6 +251,13 @@
 							<b class="arrow"></b>
 						@endif
 					</li>
+					<li>
+							<a href="{{ url('mgprogramacionavances') }}">
+								<i class="menu-icon fa fa-history"></i>
+								<span class="menu-text"> Program y Avances </span>
+							</a>
+							<b class="arrow"></b>
+					</li>
 					<li @if(\Request::is('mgclientes')) class="active" @endif>
 						@if(\Request::session()->has('mgclientes'))
 							<a href="{{ url('mgclientes') }}">

@@ -103,6 +103,11 @@ class MgEpisodiosController extends Controller
                         'num_episodio' => ucwords( $request->input('num_episodio') ),
                         'date_m_and_e' => $request->input('entrega_me'),
                         'productor' => $request->input('productor'),
+                        'date_download' => $request->input('fecha_descarga_create') ,
+                        'reference_download' => $request->input('referencia'),
+                        'send_sebastians' => ($request->input('envio_sebastians') == 'on') ? true : false,
+                        'notify_pistas' => ($request->input('notificacion_pistas') == 'on') ? true : false,
+                        'ot' => ($request->input('ot') == 'on') ? true : false,
                         'folio' => $folio,
                         'responsable' => $request->input('responsable'),
                         'material_calificado' => false,
@@ -201,6 +206,11 @@ class MgEpisodiosController extends Controller
                                 'num_episodio' => $request->num_episodio,
                                 'date_m_and_e' => $request->entrega_me,
                                 'productor' => $request->productor,
+                                'date_download' => $request->fecha_descarga_update,
+                                'reference_download' => $request->referencia,
+                                'send_sebastians' => ($request->envio_sebastians) ? true : false,
+                                'notify_pistas' => ($request->notificacion_pistas) ? true : false,
+                                'ot' => ($request->ot) ? true : false,
                                 'responsable' => $request->responsable
                             ]);
                             $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));

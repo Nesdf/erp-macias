@@ -59,6 +59,9 @@ class Episodios extends Model
       'ingeniero_audio_id',
       'hiss',
       'comentarios_observaciones',
+      'notify_pistas',
+      'send_sebastians',
+      'ot',
       'created_at',
       'updated_at'];
 

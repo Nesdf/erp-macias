@@ -241,6 +241,16 @@
 					<input type="text" class="form-control" id="num_episodio" name="num_episodio" placeholder="Número de episodio">
 				</div>
 				<div>
+				   <div class=" col-md-6 form-group">
+						<label for="entrega_me">Fecha de descarga</label>
+						<input type="text" class="form-control" id="fecha_descarga_create" name="fecha_descarga_create" readonly="true" placeholder="Fecha de descarga">
+					</div>
+					<div class=" col-md-6 form-group">
+						<label for="entrega_me">Referencia</label>
+						<input type="text" class="form-control" id="referencia" name="referencia"  placeholder="Referencia">
+					</div>
+				</div>
+				<div>
 					<table class="table">
 				  		<tr>
 				  			<td><input type="checkbox" name="bw"><label> &nbsp; BW</label></td>
@@ -250,21 +260,31 @@
 				  		</tr>
 				  	</table>
 				</div>
-				@if( $proyecto->m_and_e == true )
-				<div class="form-group">
-					<label for="exampleInputEmail1">Fecha de entrega M&E</label>
-					<input type="text" class="form-control" id="entrega_me" name="entrega_me" readonly="true" placeholder="Fecha de entrega M&E">
+				<div>
+					<table class="table">
+				  		<tr>
+				  			<td><input type="checkbox" name="notificacion_pistas"><label> &nbsp; Notificación a producción y pistas</label></td>
+				  			<td><input type="checkbox" name="envio_sebastians"><label> &nbsp; Envío Sebastians</label></td>
+				  			<td><input type="checkbox" name="ot"><label> &nbsp; OT</label></td>
+				  		</tr>
+				  	</table>
 				</div>
-				@endif
-				<div class="form-group">
-					<label for="entrega_episodio">Fecha de entrega del Episodio</label>
-					<input type="text" class="form-control" id="entrega_episodio" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
+					@if( $proyecto->m_and_e == true )
+					<div class="form-group">
+						<label for="entrega_me">Fecha de entrega M&E</label>
+						<input type="text" class="form-control" id="entrega_me" name="entrega_me" readonly="true" placeholder="Fecha de entrega M&E">
+					</div>
+					@endif
+					<div class="form-group">
+						<label for="entrega_episodio">Fecha de entrega del Episodio</label>
+						<input type="text" class="form-control" id="entrega_episodio" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
+					</div>
+				
+				
+				<div class=" modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+					<button type="submit" class="btn btn-primary" id="btn_crear_episodio">Guardar</button>
 				</div>
-
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			  </div>
 			  </form>
 			</div>
 		  </div>
@@ -580,6 +600,25 @@
 							<label>Número de Episodio</label>
 							<input type="text" class="form-control" name="num_episodio" placeholder="Número de episodio">
 						</div>
+						<div>
+						<div class=" col-md-6 form-group">
+								<label for="entrega_me">Fecha de descarga</label>
+								<input type="text" class="form-control" id="fecha_descarga_update" name="fecha_descarga_update" readonly="true" placeholder="Fecha de descarga">
+							</div>
+							<div class=" col-md-6 form-group">
+								<label for="entrega_me">Referencia</label>
+								<input type="text" class="form-control" id="referencia" name="referencia"  placeholder="Referencia">
+							</div>
+						</div>
+						<div>
+							<table class="table">
+								<tr>
+									<td><input type="checkbox" name="notificacion_pistas"><label> &nbsp; Notificación a producción y pistas</label></td>
+									<td><input type="checkbox" name="envio_sebastians"><label> &nbsp; Envío Sebastians</label></td>
+									<td><input type="checkbox" name="ot"><label> &nbsp; OT</label></td>
+								</tr>
+							</table>
+						</div>
 						@if( $proyecto->m_and_e == true )
 						<div class="form-group">
 							<label>Fecha de entrega M&E</label>
@@ -800,7 +839,23 @@
 	        		},
 		        }
 			});
-
+			
+			/**
+			 * Formato Fecha
+			 */
+			$('input[name=fecha_descarga_create]').datepicker({
+				dateFormat: "yy-mm-dd",
+				minDate: 0,
+				closeText: 'Cerrar',
+				prevText: '<Ant',
+				nextText: 'Sig>',
+				currentText: 'Hoy',
+				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			});
 			/*
 			* Modal para actualizar episodios
 			*/
@@ -811,7 +866,6 @@
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function(data){
-						console.log("Episodio", data);
 						$(".loader").fadeOut("slow");
 						$('input[name=id]').val(data.id);
 						$('input[name=proyectoId]').val(data.proyectoId);
@@ -821,8 +875,49 @@
 						$('textarea[name=configuracion]').val(data.configuracion);
 						$('input[name=num_episodio]').val(data.num_episodio);
 						$('input[name=entrega_me]').val(data.date_m_and_e);
+						$('input[name=fecha_descarga_update]').val(data.date_download);
+						$('input[name=referencia]').val(data.reference_download);
 						$('input[name=entrega_episodio').val(data.date_entrega);
+						$('input[name=notificacion_pistas]').val(data.notify_pistas);
+						$('input[name=envio_sebastians]').val(data.send_sebastians);
+						$('input[name=ot').val(data.ot);
 						$('.selectpicker').selectpicker('refresh');
+
+						//Notificacion de pistas
+						if(data.notify_pistas == true){
+							$('input[name=notificacion_pistas').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('input[name=notificacion_pistas').prop( "checked", false ).attr( "disabled", false ).attr('name', 'notificacion_pistas');
+						}
+
+						//BW
+						if(data.send_sebastians == true){
+							$('input[name=envio_sebastians').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('input[name=envio_sebastians').prop( "checked", false ).attr( "disabled", false ).attr('name', 'envio_sebastians');
+						}
+
+						//BW
+						if(data.ot == true){
+							$('input[name=ot').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
+						} else {
+							$('input[name=ot').prop( "checked", false ).attr( "disabled", false ).attr('name', 'ot');
+						}
+
+						$('input[name=fecha_descarga_update]').datepicker({
+							dateFormat: "yy-mm-dd",
+							minDate: 0,
+							closeText: 'Cerrar',
+							prevText: '<Ant',
+							nextText: 'Sig>',
+							currentText: 'Hoy',
+							monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+							monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+							dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+							dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+						});
+						
 					},
 					error: function(error){
 						var err = "";
@@ -868,20 +963,27 @@
 			*/
 			$('#modal_save_episodio').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
-				
 
 				$('#form_create_episodio').on('submit', function(event){
 					event.preventDefault();
+					/**
+					 * Deshabilitar boton de crear despues de dar clcik
+					 */
+
+					$('#btn_crear_episodio').prop('disabled', true);
+					
 					$.ajax({
 						url: "{{ url('mgepisodios/save') }}",
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function( data ){
+							$('#btn_crear_episodio').delay( 2000 ).prop('disabled', false);
 							if(data.msg == 'success'){
 								window.location.reload(true);
 							}
 						},
 						error: function(error){
+							$('#btn_crear_episodio').delay( 2000 ).prop('disabled', false);
 							var err = "";
 							for(var i in error.responseJSON.msg){
 								err += error.responseJSON.msg[i] + "<br>";

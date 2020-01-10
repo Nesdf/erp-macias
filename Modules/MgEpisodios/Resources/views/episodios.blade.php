@@ -251,6 +251,12 @@
 					</div>
 				</div>
 				<div>
+				   <div class=" col-md-6 form-group">
+						<label for="envio_mp4_create">Fecha de envío de MP4 a traductor</label>
+						<input type="text" class="form-control" id="envio_mp4_create" name="envio_mp4_create" readonly="true" placeholder="Fecha de envío de MP4 a traductor">
+					</div>
+				</div>
+				<div>
 					<table class="table">
 				  		<tr>
 				  			<td><input type="checkbox" name="bw"><label> &nbsp; BW</label></td>
@@ -259,6 +265,24 @@
 				  			<td><input type="checkbox" name="final"><label> &nbsp; Final</label></td>
 				  		</tr>
 				  	</table>
+				</div>
+				<div class="form-group">
+					<label for="entrega_episodio">Título LAS</label>
+					<input type="text" class="form-control" id="las_or_lm_create" name="las_or_lm_create" placeholder="Título LAS">
+				</div>
+				<div class="form-group">
+					<label for="entrega_episodio">Título BPO</label>
+					<input type="text" class="form-control" id="bpo_or_lm_create" name="bpo_or_lm_create" placeholder="Título BPO">
+				</div>
+				<div class="form-group">
+					<label>Seleccionar Tipos de trabajos</label>
+					<select class="form-control selectpicker" id="tipo_trabajo_create" name="tipo_trabajo_create" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+						@if(count($tiposTrabajo) > 0)
+							@foreach($tiposTrabajo as $trabajo)
+								<option value="{{ $trabajo->id }}"> {{ $trabajo->nombre }} </option>
+							@endforeach
+						@endif
+					</select>
 				</div>
 				<div>
 					<table class="table">
@@ -279,8 +303,6 @@
 						<label for="entrega_episodio">Fecha de entrega del Episodio</label>
 						<input type="text" class="form-control" id="entrega_episodio" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 					</div>
-				
-				
 				<div class=" modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 					<button type="submit" class="btn btn-primary" id="btn_crear_episodio">Guardar</button>
@@ -426,14 +448,18 @@
 						@endforeach
 					</select>
 					<label>Fecha de entrega del traductor</label>
-					<input type="text" name="fecha_entrega_traductor" id="fecha_entrega_traductor" class="form-control" required>
+					<input type="text" name="fecha_entrega_traductor" id="fecha_entrega_traductor" class="form-control" readonly=true required>
 					<label>
 					<input type="checkbox" name="aprobacion_cliente" id="aprobacion_cliente" > Aprobación del cliente
 					</label><br>
 					<div id="input_aprobacion_cliente"></div>
 					<label>
 					<input type="checkbox" name="sin_script" id="sin_script" > Sin script
-					</label><br>
+					</label>
+					<div class="form-group">
+						<label for="script_original_create">Script Original</label>
+						<input type="text" class="form-control" id="script_original" name="script_original" readonly="true" placeholder="Script Original">
+					</div>
 					<label>
 					<input type="checkbox" name="rayado" id="rayado" > Rayado
 					</label><br>
@@ -442,6 +468,7 @@
 					</label><br>
 					<label>
 					<input type="checkbox" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
+					<div id="input_subtitulos_create"></div>
 					</label><br>
 					<label>
 					<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
@@ -488,7 +515,11 @@
 						<div id="input_aprobacion2_cliente"></div>
 						<label>
 						<input type="checkbox" name="sin_script" id="sin_script" > Sin script
-						</label><br>
+						</label>
+						<div class="form-group">
+							<label for="script_original_create">Script Original</label>
+							<input type="text" class="form-control" id="script_original" name="script_original" readonly="true" placeholder="Script Original">
+						</div>
 						<label>
 						<input type="checkbox" name="rayado" id="rayado" > Rayado
 						</label><br>
@@ -497,6 +528,7 @@
 						</label><br>
 						<label>
 						<input type="checkbox" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
+						<div id="input_subtitulos_update"></div>
 						</label><br>
 						<label>
 						<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
@@ -589,6 +621,14 @@
 							</select>
 						</div>
 						<div class="form-group">
+							<label for="entrega_episodio">Título LAS</label>
+							<input type="text" class="form-control" id="las_or_lm_update" name="las_or_lm_update" placeholder="Título LAS">
+						</div>
+						<div class="form-group">
+							<label for="entrega_episodio">Título BPO</label>
+							<input type="text" class="form-control" id="bpo_or_lm_update" name="bpo_or_lm_update" placeholder="Título BPO">
+						</div>
+						<div class="form-group">
 							<label>Título Original del episodio</label>
 							<input type="text" class="form-control" name="titulo_original_episodio" placeholder="Título Original del episodio">
 						</div>
@@ -610,6 +650,16 @@
 								<input type="text" class="form-control" id="referencia" name="referencia"  placeholder="Referencia">
 							</div>
 						</div>
+						<div class=" col-md-6 form-group">
+								<label for="envio_mp4_update">Fecha de envío de MP4 a traductor</label>
+								<input type="text" class="form-control" id="envio_mp4_update" name="envio_mp4_update" readonly="true" placeholder="Fecha de envío de MP4 a traductor">
+							</div>
+							<div class=" col-md-6 form-group">
+								<label for="script_original_update">Script Original</label>
+								<input type="text" class="form-control" id="script_original_update" name="script_original_update" readonly="true" placeholder="Script Original">
+							</div>
+						</div>
+						<div>
 						<div>
 							<table class="table">
 								<tr>
@@ -619,17 +669,42 @@
 								</tr>
 							</table>
 						</div>
+						<div class="col-md-12 form-group">
+							<label>Seleccionar Tipos de trabajos</label>
+							<select class="form-control selectpicker" id="tipo_trabajo_update" name="tipo_trabajo_update" data-style="btn-primary" data-show-subtext="true" data-live-search="true" title="Seleccionar...">
+								@if(count($tiposTrabajo) > 0)
+									@foreach($tiposTrabajo as $trabajo)
+										<option value="{{ $trabajo->id }}"> {{ $trabajo->nombre }} </option>
+									@endforeach
+								@endif
+							</select>
+						</div>
 						@if( $proyecto->m_and_e == true )
-						<div class="form-group">
+						<div class="col-md-12 form-group">
 							<label>Fecha de entrega M&E</label>
 							<input type="text" class="form-control" name="entrega_me" readonly="true" placeholder="Fecha de entrega M&E">
 						</div>
 						@endif
-				<div class="form-group">
+				<div class="col-md-12 form-group">
 					<label>Fecha de entrega del Episodio</label>
 					<input type="text" class="form-control" name="entrega_episodio" readonly="true" placeholder="Fecha de entrega del Episodio">
 				</div>
 
+				<div class="col-md-12 form-group">
+					<label for="referencia_envio">Enviado a</label>
+					<input type="text" class="form-control" id="enviado_a" name="enviado_a"  placeholder="Enviado a">
+				</div>
+
+				<div class="col-md-12 form-group">
+					<label for="referencia_envio">Método de envío</label>
+					<input type="text" class="form-control" id="metodo_envio" name="metodo_envio"  placeholder="Método de envío">
+				</div>
+				
+				<div class="col-md-12 form-group">
+					<label for="referencia_envio">Referencia de envío</label>
+					<input type="text" class="form-control" id="referencia_envio" name="referencia_envio"  placeholder="Referencia de envío">
+				</div>
+				
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
@@ -710,7 +785,6 @@
 			  <form role="form" id="form_create_calificar_material">
 				  <div class="modal-body">
 						{{ csrf_field() }}
-
 					<div class="form-group">
 					@if( !empty($episodio->id) )
 					<input type="hidden" name="id" id="episodioId">
@@ -856,6 +930,34 @@
 				dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
 				dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 			});
+
+			$('input[name=envio_mp4_create], input[name=envio_mp4_update]').datepicker({
+				dateFormat: "yy-mm-dd",
+				minDate: 0,
+				closeText: 'Cerrar',
+				prevText: '<Ant',
+				nextText: 'Sig>',
+				currentText: 'Hoy',
+				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			});
+
+			$('input[name=script_original_create], input[name=script_original_update]').datepicker({
+				dateFormat: "yy-mm-dd",
+				minDate: 0,
+				closeText: 'Cerrar',
+				prevText: '<Ant',
+				nextText: 'Sig>',
+				currentText: 'Hoy',
+				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			});
 			/*
 			* Modal para actualizar episodios
 			*/
@@ -871,6 +973,7 @@
 						$('input[name=proyectoId]').val(data.proyectoId);
 						$('select[name=productor]').val(data.productor);
 						$('select[name=responsable]').val(data.responsable);
+						$('select[name=tipo_trabajo_update]').val(data.tipo_trabajo_id);
 						$('input[name=titulo_original_episodio]').val(data.titulo_original);
 						$('textarea[name=configuracion]').val(data.configuracion);
 						$('input[name=num_episodio]').val(data.num_episodio);
@@ -881,6 +984,12 @@
 						$('input[name=notificacion_pistas]').val(data.notify_pistas);
 						$('input[name=envio_sebastians]').val(data.send_sebastians);
 						$('input[name=ot').val(data.ot);
+						$('input[name=envio_mp4_update').val(data.envio_mp4);
+						$('input[name=enviado_a').val(data.enviado_a);
+						$('input[name=metodo_envio').val(data.metodo_envio);
+						$('input[name=referencia_envio').val(data.referencia_envio);
+						$('input[name=las_or_lm_update').val(data.las_or_lm);
+						$('input[name=bpo_or_lm_update').val(data.bpo_or_lm);
 						$('.selectpicker').selectpicker('refresh');
 
 						//Notificacion de pistas
@@ -1591,7 +1700,7 @@
 
 				$('#rayado').on('click',function(){
 					if($(this).is(':checked')){
-							$('#input_rayado').html('<label >Fecha de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" required>');
+							$('#input_rayado').html('<label >Envío de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" required>');
 							$('#fecha_rayado').datepicker({
 								dateFormat: "yy-mm-dd",
 								minDate: 0,
@@ -1607,6 +1716,26 @@
 							});
 					} else{
 						$('#input_rayado').html('');
+					}
+				});
+				$('#chk_subtitulos').on('click',function(){
+					if($(this).is(':checked')){
+							$('#input_subtitulos_create').html('<label >Fecha subtitulo</label> <input type="text" class="form-control "  name="fecha_subtitulos_create" id="fecha_subtitulos" required readonly=true>');
+							$('#fecha_subtitulos').datepicker({
+								dateFormat: "yy-mm-dd",
+								minDate: 0,
+								closeText: 'Cerrar',
+							    prevText: '<Ant',
+							    nextText: 'Sig>',
+							    currentText: 'Hoy',
+							    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+							    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+							    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+							    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+							});
+					} else{
+						$('#fecha_subtitulos').html('');
 					}
 				});
 				$('#form_agregar_traductor').on('submit', function(event){
@@ -1642,17 +1771,34 @@
 				$('input[name=id]').val(id);
 				$(".loader").fadeIn();
 				$.ajax({
-						url: '{{ url('/mgepisodios/edit') }}'+'/'+id,
+						url: "{{ url('/mgepisodios/edit') }}"+"/"+id,
 						type: 'GET',
 						success: function(data){
+							console.log("datas - EDIT", data);
 							$(".loader").fadeOut("slow");
 							$('select[name=traductor]').val(data.traductorId);
+							$('input[name=script_original]').val(data.script_original);
+							$('input[name=fecha_entrega_traductor]').val(data.fecha_entrega_traductor);
 							$('input[name=fecha_entrega_traductor]').val(data.fecha_entrega_traductor);
 							if(data.chk_canciones == true){
 								$('input[name=chk_canciones]').prop('checked', true)
 							}
 							if(data.chk_subtitulos == true){
 								$('input[name=chk_subtitulos]').prop('checked', true)
+								$('#input_subtitulos_update').html('<label >Fecha subtitulo</label> <input type="text" class="form-control "  name="fecha_subtitulo_update" id="fecha_subtitulo_update" value="'+data.send_date_subtitle_transfer+'" readonly=true required>');
+								$('input[name=fecha_subtitulo_update]').datepicker({
+									dateFormat: "yy-mm-dd",
+									minDate: 0,
+									closeText: 'Cerrar',
+								    prevText: '<Ant',
+								    nextText: 'Sig>',
+								    currentText: 'Hoy',
+								    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+								    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+								    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+								    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+								    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+								});
 							}
 							if(data.chk_lenguaje_diferente_original == true){
 								$('input[name=chk_lenguaje_diferente_original]').prop('checked', true)
@@ -1666,7 +1812,27 @@
 							if(data.rayado == true){
 								$('input[name=rayado]').prop('checked',true);
 
-								$('#input_rayado2').html('<label >Fecha de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" value="'+data.fecha_rayado+'" required>');
+								$('#input_rayado2').html('<label >Envío de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" value="'+data.fecha_rayado+'" readonly=true required>');
+								$('#fecha_rayado').datepicker({
+									dateFormat: "yy-mm-dd",
+									minDate: 0,
+									closeText: 'Cerrar',
+								    prevText: '<Ant',
+								    nextText: 'Sig>',
+								    currentText: 'Hoy',
+								    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+								    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+								    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+								    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+								    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+								});
+							}
+
+
+							if(data.rayado == true){
+								$('input[name=rayado]').prop('checked',true);
+
+								$('#input_rayado2').html('<label >Envío de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" value="'+data.fecha_rayado+'" readonly=true required>');
 								$('#fecha_rayado').datepicker({
 									dateFormat: "yy-mm-dd",
 									minDate: 0,

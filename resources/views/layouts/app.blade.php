@@ -239,6 +239,10 @@
 									<a href="{{ route('entregables') }}"> Entregables </a>
 									<b class="arrow"></b>
 								</li>
+								<li @if(Request::url() == route('list-tipo-trabajo')) class="active" @endif>
+									<a href="{{ route('list-tipo-trabajo') }}"> Tipo de trabajo </a>
+									<b class="arrow"></b>
+								</li>
 							</ul>
 						@endif
 					</li>

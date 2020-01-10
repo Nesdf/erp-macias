@@ -40,7 +40,7 @@
 									<th>Proyecto</th>
                                     <th>Episodio</th>
                                     <th>Descarga</th>
-                                    <th>Referencia</th>
+                                    <th>Referencia de llegada</th>
                                     <th>Notificación a Producción y Pistas</th>
                                     <th>Envío a Sebastian</th>
                                     <th>OT</th>
@@ -65,7 +65,7 @@
                                     <th>Enviado a</th>
                                     <th>Método de envío</th>
                                     <th>Tipo de trabajo</th>
-                                    <th>Referencia</th>
+                                    <th>Referencia e envío</th>
 								</tr>
 							</thead>
 
@@ -87,22 +87,22 @@
                                         <td>{{ $proyecto->productor }}</td>
                                         <td>{{ $proyecto->director }}</td>
                                         <td>{{ $proyecto->sala }}</td>
+                                        <td>{{ $proyecto->traductor }}</td>
+                                        <td>{{ $proyecto->envio_mp4 }}</td>
+                                        <td>{{ $proyecto->script_original }}</td>
+                                        <td>@if($proyecto->fecha_rayado) {{ $proyecto->fecha_rayado }} @else ------ @endif</td>
+                                        <td>@if($proyecto->chk_subtitulos == true) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->send_date_subtitle_transfer)  {{$proyecto->send_date_subtitle_transfer}}  @else ---- @endif</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>@if($proyecto->las_or_lm)  {{$proyecto->las_or_lm}}  @else ---- @endif </td>
+                                        <td>@if($proyecto->bpo_or_lm)  {{$proyecto->bpo_or_lm}}  @else ---- @endif </td>
+                                        <td>@if($proyecto->duracion) {{$proyecto->duracion}} @else ------ @endif</td>
+                                        <td>@if($proyecto->enviado_a) {{$proyecto->enviado_a}} @else ------ @endif</td>
+                                        <td>@if($proyecto->metodo_envio) {{$proyecto->metodo_envio}} @else ------ @endif</td>
+                                        <td>@if($proyecto->tipo_trabajo) {{$proyecto->tipo_trabajo}} @else ------ @endif </td>
+                                        <td>@if($proyecto->referencia_envio) {{$proyecto->referencia_envio}} @else ------ @endif</td>
 									</tr>
 								@endforeach
 							</tbody>

@@ -1,0 +1,16 @@
+{
+    "name": "MgCatalogoTipoTrabajo",
+    "alias": "mgcatalogotipotrabajo",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MgCatalogoTipoTrabajo\\Providers\\MgCatalogoTipoTrabajoServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

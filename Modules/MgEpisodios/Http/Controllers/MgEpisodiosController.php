@@ -13,6 +13,7 @@ use \Modules\MgEpisodios\Entities\Users;
 use \Modules\MgEpisodios\Entities\TipoReporte;
 use Modules\MgPuestos\Entities\Puestos;
 use Carbon\Carbon;
+use \Modules\MgCatalogoTipoTrabajo\Entities\TiposTrabajo;
 
 class MgEpisodiosController extends Controller
 {
@@ -37,7 +38,8 @@ class MgEpisodiosController extends Controller
             $reportes = TipoReporte::get();
             $tecnicos = Users::Tecnicos();
             $editores = Puestos::editores();
-            return view('mgepisodios::episodios', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos', 'editores'));
+            $tiposTrabajo = TiposTrabajo::all();
+            return view('mgepisodios::episodios', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos', 'editores', 'tiposTrabajo'));
 
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -63,6 +65,7 @@ class MgEpisodiosController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         try{
 
             if( $request->isMethod('post') && $request->ajax() ){
@@ -105,13 +108,17 @@ class MgEpisodiosController extends Controller
                         'productor' => $request->input('productor'),
                         'date_download' => $request->input('fecha_descarga_create') ,
                         'reference_download' => $request->input('referencia'),
+                        'las_or_lm' => $request->input('las_or_lm_create'),
+                        'bpo_or_lm' => $request->input('bpo_or_lm_create'),
                         'send_sebastians' => ($request->input('envio_sebastians') == 'on') ? true : false,
                         'notify_pistas' => ($request->input('notificacion_pistas') == 'on') ? true : false,
+                        'envio_mp4' => $request->input('envio_mp4_create'),
                         'ot' => ($request->input('ot') == 'on') ? true : false,
                         'folio' => $folio,
                         'responsable' => $request->input('responsable'),
                         'material_calificado' => false,
-                        'material_entregado' => false
+                        'material_entregado' => false,
+                        'tipo_trabajo_id' => $request->input('tipo_trabajo_create')
                     ]);
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
@@ -210,8 +217,15 @@ class MgEpisodiosController extends Controller
                                 'reference_download' => $request->referencia,
                                 'send_sebastians' => ($request->envio_sebastians) ? true : false,
                                 'notify_pistas' => ($request->notificacion_pistas) ? true : false,
+                                'envio_mp4' => $request->input('envio_mp4_update'),
                                 'ot' => ($request->ot) ? true : false,
-                                'responsable' => $request->responsable
+                                'responsable' => $request->responsable,
+                                'las_or_lm' => $request->input('las_or_lm_update'),
+                                'bpo_or_lm' => $request->input('bpo_or_lm_update'),
+                                'tipo_trabajo_id' => $request->input('tipo_trabajo_update'),
+                                'enviado_a' => $request->input('enviado_a'),
+                                'metodo_envio' => $request->input('metodo_envio'),
+                                'referencia_envio' => $request->input('referencia_envio')
                             ]);
                             $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                             return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
@@ -370,23 +384,24 @@ class MgEpisodiosController extends Controller
                     return Response(['validator' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
                 } else{
 
-                    $arrayData = Episodios::where('id', $request->input('id'))->get();
+                    $arrayData = Episodios::where('id', $request->id)->get();
 
-                    Episodios::where('id', $request->input('id'))
+                    Episodios::where('id', $request->id)
                     ->update([
-                        'traductorId' => ucwords( $request->input('traductor') ),
-                        'fecha_entrega_traductor' => $request->input('fecha_entrega_traductor'),
-                        'aprobacion_cliente' => $request->input('aprobacion_cliente'),
-                        'fecha_aprobacion_cliente' => $request->input('fecha_aprobacion_cliente'),
-                        'sin_script' => ($request->input('sin_script') == 'on') ? true : false ,
-                        'rayado' => ($request->input('rayado') == 'on') ? true : false ,
-                        'fecha_rayado' => $request->input('fecha_rayado'),
+                        'traductorId' => ucwords( $request->traductor ),
+                        'fecha_entrega_traductor' => $request->fecha_entrega_traductor,
+                        'aprobacion_cliente' => $request->aprobacion_cliente,
+                        'fecha_aprobacion_cliente' => $request->fecha_aprobacion_cliente,
+                        'sin_script' => ($request->sin_script == 'on') ? true : false ,
+                        'rayado' => ($request->rayado == 'on') ? true : false ,
+                        'fecha_rayado' => $request->fecha_rayado,
                         'quien_modifico_traductor' => $arrayData[0]->quien_modifico_traductor.','. \Auth::user()->name.' '.\Auth::user()->ap_paterno.' '.\Auth::user()->name,
-                        'chk_canciones' => ($request->input('chk_canciones') ? true : false),
-                        'chk_subtitulos' => ($request->input('chk_subtitulos') ? true : false),
-                        'chk_lenguaje_diferente_original' => ($request->input('chk_lenguaje_diferente_original') ? true : false),
-                        'observaciones_traductor' => $request->input('observaciones_traductor')
-
+                        'chk_canciones' => ($request->chk_canciones ? true : false),
+                        'chk_subtitulos' => ($request->chk_subtitulos ? true : false),
+                        'chk_lenguaje_diferente_original' => ($request->chk_lenguaje_diferente_original ? true : false),
+                        'observaciones_traductor' => $request->observaciones_traductor,
+                        'script_original' => $request->script_original,
+                        'send_date_subtitle_transfer' => $request->fecha_subtitulos_create ? $request->fecha_subtitulos_create : $request->fecha_subtitulo_update
                     ]);
                     $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

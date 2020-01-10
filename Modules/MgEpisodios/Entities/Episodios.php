@@ -62,6 +62,11 @@ class Episodios extends Model
       'notify_pistas',
       'send_sebastians',
       'ot',
+      'envio_mp4',
+      'script_original',
+      'send_date_subtitle_transfer',
+      'tipo_trabajo_id',
+      'referencia_envio',
       'created_at',
       'updated_at'];
 

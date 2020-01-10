@@ -30,23 +30,34 @@
 						<table id="table_episodios" class="stripe row-border">
 							<thead>
 								<tr>
-									<th>ID</th>
 									<th>Nombre del proyecto</th>
 									<th>Cliente</th>
 									<th>Temporada</th>
-									<th>Título original del episodio inglés</th>
 									<th>Fecha entrega</th>
 									<th>Duración</th>
-									@if(\Request::session()->has('add_calificar_material'))
-										<th>Calificar Episodio</th>
-									@endif
-									@if(\Request::session()->has('show_episodio') || \Request::session()->has('edit_episodio') || \Request::session()->has('delete_episodio'))
-										<th></th>
-									@endif
+									<th>Acciones</th>
 								</tr>
 							</thead>
 
 							<tbody>
+                                @foreach($proyectos as $proyecto)
+									<tr>
+										<td> {{ $proyecto->nombre_clientes }} </td>
+                                        <td> {{ $proyecto->proyecto_titulo }} </td>
+                                        <td> {{ $proyecto->num_episodio }}</td>
+                                        <td> {{ $proyecto->fecha_entrega }}</td>
+                                        <td>{{ $proyecto->duracion }}</td>
+                                        <td>
+										@if($proyecto->date_boarding !== '' || $proyecto->date_boarding !== null )
+										<a href="#" title="Fecha de embarque" data-toggle="modal" data-target="#modal_fecha_embarque" data-id="{{ $proyecto->episodio_id }}">
+										<i class="glyphicon glyphicon-calendar "></i>
+													</a>
+										@else
+										<i class="glyphicon glyphicon-calendar" style="color:red;"></i>
+										@endif
+										</td>
+									</tr>
+								@endforeach
 							</tbody>
 						</table>
 					</div>
@@ -59,7 +70,33 @@
 @stop
 
 @section('modales')
-	
+	<!-- FEcha de embarque -->
+	<div class="modal fade" id="modal_fecha_embarque" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+			<h4 class="modal-title" id="t_header">Asignar Productor</h4>
+			<div id="error_agregar_productor"></div>
+			</div>
+			<form role="form" id="form_fecha_embarque">
+			<div class="modal-body">
+				{{ csrf_field() }}
+			<input type="hidden" name="id" id="id">
+			<div>
+				<div class="form-group">
+					<label>Fecha de embarque</label>
+					<input type="text" name="date_embarque" class="form-control" readonly=true required>
+				</div>
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
+			<button type="submit" class="btn btn-primary">Guardar</button>
+			</div>
+			</form>
+		</div>
+		</div>
+	</div>
 @stop
 
 @section('script')
@@ -82,6 +119,42 @@
 	        		},
 		        }
 			});
+
+			$('input[name=date_embarque]').datepicker({
+				dateFormat: "yy-mm-dd",
+				//minDate: 0,
+				closeText: 'Cerrar',
+				prevText: '<Ant',
+				nextText: 'Sig>',
+				currentText: 'Hoy',
+				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			});
+
+
+			$('#form_fecha_embarque').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						url: "{{ route('fecha-embarque-update') }}",
+						type: "POST",
+						data: $( this ).serialize(),
+						success: function( data ){
+							if(data.msg == 'success'){
+								window.location.reload(true);
+							}
+						},
+						error: function(error){
+							var err = "";
+							for(var i in error.responseJSON.msg){
+								err += error.responseJSON.msg[i] + "<br>";
+							}
+							$('#error_update_episodios').html('<div class="alert alert-danger">' + err + '</div>');
+						}
+					});
+				});
 			
 		});
 	</script>

@@ -5,6 +5,7 @@ namespace Modules\MgTrafico\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\MgProgramacionAvances\Entities\Proyectos;
 
 class MgTraficoController extends Controller
 {
@@ -14,7 +15,10 @@ class MgTraficoController extends Controller
      */
     public function index()
     {
-        return view('mgtrafico::index');
+        $proyectos = Proyectos::getAllProjects();
+
+        return view('mgtrafico::index', compact('proyectos'));
+        //return view('mgtrafico::index');
     }
 
     /**
@@ -69,4 +73,28 @@ class MgTraficoController extends Controller
     public function destroy()
     {
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     * @return Response
+     */
+    public function fechaEmbarqueUpdate(Request $request)
+    {
+        try{
+
+			$proyectos = Proyectos::fullProyects();
+	        $clientes = Clientes::get();
+	        $idiomas = Idiomas::get();
+	        $vias = Vias::get();
+            
+            $request->session()->flash('success', trans('mgproyectos::ui.flash.flash_create_cliente'));
+					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+		} catch(\Exception $e){
+
+            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            \Log::error(' Trace2: ' .$e->getTraceAsString());
+        }
+    }
+    
 }

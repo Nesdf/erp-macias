@@ -83,10 +83,7 @@ class MgTraficoController extends Controller
     {
         try{
 
-			$proyectos = Proyectos::fullProyects();
-	        $clientes = Clientes::get();
-	        $idiomas = Idiomas::get();
-	        $vias = Vias::get();
+			
             
             $request->session()->flash('success', trans('mgproyectos::ui.flash.flash_create_cliente'));
 					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');

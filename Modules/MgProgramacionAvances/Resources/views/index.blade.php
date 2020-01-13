@@ -68,41 +68,41 @@
                                     <th>Referencia e envío</th>
 								</tr>
 							</thead>
-
+							
 							<tbody>
                                 @foreach($proyectos as $proyecto)
 									<tr>
-										<td> {{ $proyecto->proyecto_date }} </td>
+										<td> {{ \Carbon\Carbon::parse($proyecto->proyecto_date)->format('m/d/Y')}} </td>
 										<td> {{ $proyecto->nombre_clientes }} </td>
                                         <td> {{ $proyecto->proyecto_titulo }} </td>
                                         <td> {{ $proyecto->num_episodio }}</td>
-                                        <td> {{ $proyecto->date_download }} </td>
+                                        <td> {{ \Carbon\Carbon::parse($proyecto->date_download)->format('m/d/Y')}}  </td>
                                         <td> {{ $proyecto->reference_download }}</td>
                                         <td>@if($proyecto->notify_pistas) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
                                         <td>@if($proyecto->send_sebastians) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
                                         <td>@if($proyecto->ot) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
-                                        <td>{{ $proyecto->fecha_entrega_rayado }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($proyecto->fecha_entrega_rayado)->format('m/d/Y')}} </td>
                                         <td>????{{ $proyecto->fecha_qc }}</td>
-                                        <td>{{ $proyecto->fecha_entrega }}</td>
+                                        <td> {{ \Carbon\Carbon::parse($proyecto->fecha_entrega)->format('m/d/Y')}} </td>
                                         <td>{{ $proyecto->productor }}</td>
                                         <td>{{ $proyecto->director }}</td>
                                         <td>{{ $proyecto->sala }}</td>
                                         <td>{{ $proyecto->traductor }}</td>
                                         <td>{{ $proyecto->envio_mp4 }}</td>
                                         <td>{{ $proyecto->script_original }}</td>
-                                        <td>@if($proyecto->fecha_rayado) {{ $proyecto->fecha_rayado }} @else ------ @endif</td>
+                                        <td>@if($proyecto->fecha_rayado) {{ $proyecto->fecha_rayado }} @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
                                         <td>@if($proyecto->chk_subtitulos == true) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
-                                        <td>@if($proyecto->send_date_subtitle_transfer)  {{$proyecto->send_date_subtitle_transfer}}  @else ---- @endif</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>@if($proyecto->las_or_lm)  {{$proyecto->las_or_lm}}  @else ---- @endif </td>
-                                        <td>@if($proyecto->bpo_or_lm)  {{$proyecto->bpo_or_lm}}  @else ---- @endif </td>
-                                        <td>@if($proyecto->duracion) {{$proyecto->duracion}} @else ------ @endif</td>
-                                        <td>@if($proyecto->enviado_a) {{$proyecto->enviado_a}} @else ------ @endif</td>
-                                        <td>@if($proyecto->metodo_envio) {{$proyecto->metodo_envio}} @else ------ @endif</td>
-                                        <td>@if($proyecto->tipo_trabajo) {{$proyecto->tipo_trabajo}} @else ------ @endif </td>
-                                        <td>@if($proyecto->referencia_envio) {{$proyecto->referencia_envio}} @else ------ @endif</td>
+                                        <td>@if($proyecto->send_date_subtitle_transfer)  {{$proyecto->send_date_subtitle_transfer}}  @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->send_date_subtitle_miami)  {{$proyecto->send_date_subtitle_miami}}  @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->date_boarding)  {{$proyecto->date_boarding}}  @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->titulo_original)  {{$proyecto->titulo_original}}  @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->las_or_lm)  {{$proyecto->las_or_lm}}  @else <span class="glyphicon glyphicon-remove text-danger"> @endif </td>
+                                        <td>@if($proyecto->bpo_or_lm)  {{$proyecto->bpo_or_lm}}  @else <span class="glyphicon glyphicon-remove text-danger"> @endif </td>
+                                        <td>@if($proyecto->duracion) {{$proyecto->duracion}} @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->enviado_a) {{$proyecto->enviado_a}} @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->metodo_envio) {{$proyecto->metodo_envio}} @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
+                                        <td>@if($proyecto->tipo_trabajo) {{$proyecto->tipo_trabajo}} @else <span class="glyphicon glyphicon-remove text-danger"> @endif </td>
+                                        <td>@if($proyecto->referencia_envio) {{$proyecto->referencia_envio}} @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
 									</tr>
 								@endforeach
 							</tbody>

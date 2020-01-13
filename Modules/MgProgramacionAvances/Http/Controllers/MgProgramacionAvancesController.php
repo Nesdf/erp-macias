@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\MgProgramacionAvances\Entities\Proyectos;
+use Carbon\Carbon;
 
 class MgProgramacionAvancesController extends Controller
 {
@@ -15,7 +16,7 @@ class MgProgramacionAvancesController extends Controller
      */
     public function index()
     {
-
+        setlocale(LC_ALL, 'es_ES');
         $proyectos = Proyectos::getAllProjects();
 
         return view('mgprogramacionavances::index', compact('proyectos'));

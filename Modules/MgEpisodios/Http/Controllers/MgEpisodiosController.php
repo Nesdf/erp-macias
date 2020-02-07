@@ -14,6 +14,8 @@ use \Modules\MgEpisodios\Entities\TipoReporte;
 use Modules\MgPuestos\Entities\Puestos;
 use Carbon\Carbon;
 use \Modules\MgCatalogoTipoTrabajo\Entities\TiposTrabajo;
+use Modules\MgCatalogos\Entities\CatalogoConfiguraciones;
+use Modules\MgCatalogos\Entities\EpisodioRelacionConfiguracion;
 
 class MgEpisodiosController extends Controller
 {
@@ -24,9 +26,9 @@ class MgEpisodiosController extends Controller
     public function index($id)
     {
         try{
-
             $proyecto = Proyectos::find($id);
 
+            $catalogos = CatalogoConfiguraciones::all();
             $proyecto_id = $id;
             $episodios = Episodios::allEpisodioOfProject($id);
             $tcrs = Tcr::All();
@@ -39,7 +41,7 @@ class MgEpisodiosController extends Controller
             $tecnicos = Users::Tecnicos();
             $editores = Puestos::editores();
             $tiposTrabajo = TiposTrabajo::all();
-            return view('mgepisodios::episodios', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos', 'editores', 'tiposTrabajo'));
+            return view('mgepisodios::episodios', compact('proyecto', 'proyecto_id', 'episodios', 'tcrs', 'salas', 'productores', 'responsables', 'traductores', 'reportes', 'directores', 'tecnicos', 'editores', 'tiposTrabajo', 'catalogos'));
 
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -65,7 +67,6 @@ class MgEpisodiosController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         try{
 
             if( $request->isMethod('post') && $request->ajax() ){
@@ -90,7 +91,7 @@ class MgEpisodiosController extends Controller
                         $folio = $this->generateFolio();
                     }
 
-                    Episodios::create([
+                    $dataaCreate = Episodios::create([
                         'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                         'bw' => ($request->input('bw') == 'on') ? true : false ,
                         'netcut' => ($request->input('netcut') == 'on') ? true : false ,
@@ -120,6 +121,24 @@ class MgEpisodiosController extends Controller
                         'material_entregado' => false,
                         'tipo_trabajo_id' => $request->input('tipo_trabajo_create')
                     ]);
+
+                    if($dataaCreate){
+                        $dataCatalogos = CatalogoConfiguraciones::pluck('id');
+        
+                        $dataCatalogosArray = $dataCatalogos->toArray();
+
+                        $dataConfiguracion = [];
+                        foreach ($request->all() as $key => $value) {
+                            foreach($dataCatalogos as $key2 => $value2){
+                                if( $key === $value2){
+                                    EpisodioRelacionConfiguracion::create([
+                                        'id_episodio' => $dataaCreate->id,
+                                        'id_catalogo_configuracion' => $key
+                                    ]);
+                                }
+                            }
+                        }
+                    }
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
                     return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }
@@ -170,12 +189,26 @@ class MgEpisodiosController extends Controller
      */
     public function edit($id)
     {
+        
         try{
-            return Episodios::find($id);
+            //return Episodios::find($id);
+            $dataRelacion = EpisodioRelacionConfiguracion::select('id','id_episodio', 'id_catalogo_configuracion', 'created_at')
+            ->where('id_episodio', $id)
+            ->get();
+
+            $dataRelacionAll = EpisodioRelacionConfiguracion::all();
+
+            $data = [
+                'data' => $dataRelacion,
+                'dataClear' => $dataRelacionAll,
+                'msg' => 'success' 
+            ];
+
+            return response()->json($data, 200);
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
-            return Response(['error' => 'error', 400])->header('Content-Type', 'application/json');
+            return Response(['error' => $e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine() , 400])->header('Content-Type', 'application/json');
         }
     }
 
@@ -310,31 +343,49 @@ class MgEpisodiosController extends Controller
     {
         try{
 
-            Carbon::today('America/Mexico_City');
-            $hoy = Carbon::now();
+            
+            // Carbon::today('America/Mexico_City');
+            // $hoy = Carbon::now();
 
             $data = [];
 
-            if($request->input('bw') == 'on'){
-                $data = ['bw' => $request->input('bw'), 'date_bw' => $hoy];
-            }
-            if($request->input('netcut') == 'on'){
-                $data = ['netcut' => $request->input('netcut'), 'date_netcut' => $hoy];
-            }
-            if($request->input('lockcut') == 'on'){
-                $data = ['lockcut' => $request->input('lockcut'), 'date_lockcut' => $hoy];
-            }
-            if($request->input('final') == 'on'){
-                $data = ['final' => $request->input('final'), 'date_final' => $hoy];
+            // if($request->input('bw') == 'on'){
+            //     $data = ['bw' => $request->input('bw'), 'date_bw' => $hoy];
+            // }
+            // if($request->input('netcut') == 'on'){
+            //     $data = ['netcut' => $request->input('netcut'), 'date_netcut' => $hoy];
+            // }
+            // if($request->input('lockcut') == 'on'){
+            //     $data = ['lockcut' => $request->input('lockcut'), 'date_lockcut' => $hoy];
+            // }
+            // if($request->input('final') == 'on'){
+            //     $data = ['final' => $request->input('final'), 'date_final' => $hoy];
+            // }
+
+            $arrayData = [];
+            foreach($request->all() as $key => $val){
+                if($key != "_token" && $key != "id"){
+                    array_push($arrayData, $key);
+                }
             }
 
-            Episodios::where('id', $request->input('id'))
-                ->update($data);
+            foreach($arrayData as $key2 => $val2){
+                EpisodioRelacionConfiguracion::create([
+                    'id_episodio' => $request->id,
+                    'id_catalogo_configuracion' => $val2
+                ]);
+            }
+
             $request->session()->flash('success', trans('mgpersonal::ui.flash.flash_create_episodio'));
-            return Response(['msg' => 'success', 'status' => 200], 200)->header('Content-Type', 'application/json');
+            return response()->json(['msg' => 'success'], 200);
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
+            $error = [
+                'status' => 'error',
+                'msg' => $e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine()
+            ];
+            return response()->json($error);
         }
     }
 

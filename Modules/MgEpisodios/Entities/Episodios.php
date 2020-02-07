@@ -82,7 +82,7 @@ class Episodios extends Model
     {
 
         return \DB::table('episodios')
-            ->select('id', 'titulo_original', 'status_coordinador', 'num_episodio', 'proyectoId', 'date_m_and_e', 'date_entrega', 'material_calificado', 'bw', 'netcut', 'lockcut', 'final', 'date_bw', 'date_netcut', 'date_lockcut', 'date_final', 'quien_modifico_productor', 'quien_modifico_traductor')
+            ->select('id', 'titulo_original', 'status_coordinador', 'num_episodio', 'proyectoId', 'date_m_and_e', 'date_entrega', 'material_calificado', 'quien_modifico_productor', 'quien_modifico_traductor')
             ->where ('proyectoId', '=', $id)
             ->get();
     }

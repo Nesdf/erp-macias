@@ -152,7 +152,7 @@
 				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
-					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento-responsable') || Request::url() == route('entregables') || Request::url() == route('metodo-envio') || Request::url() == route('destino')) class="open" @endif>
+					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento-responsable') || Request::url() == route('entregables') || Request::url() == route('metodo-envio') || Request::url() == route('destino') || \Request::is('mgcatalogos/configuracion')) class="open" @endif>
 						{{-- Permite --}}
 						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') )
 							<a href="#" class="dropdown-toggle">
@@ -204,15 +204,15 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<!--<li if(\Request::is('mgtimecode')) class="active" endif>
-									if(\Request::session()->has('mgtimecode'))
-										<a href="{{-- url('mgtimecode') --}}">
+								<li @if(\Request::is('mgcatalogos/configuracion')) class="active" @endif>
+									@if(\Request::session()->has('catalogo-configuracion'))
+										<a href="{{ url('mgcatalogos/configuracion') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
-											Timecode
+											Configuraciones {{--\Request::path()--}}
 										</a>
 										<b class="arrow"></b>
-									endif
-								</li>-->
+									@endif
+								</li>
 								<li @if(Request::is('mgtiporeporte')) class="active" @endif>
 									@if(Request::session()->has('mgtiporeporte'))
 										<a href="{{ url('mgtiporeporte') }}"> Tipo de reporte </a>

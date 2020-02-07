@@ -41,13 +41,13 @@
 						<div class="container-fluid">
 							<div class="col-lg-12 col-md-12 col-xs-12">
 								<div class="panel panel-primary">
-									<div class="panel-heading">{{$rechazo->fecha_rechazo}} | {{$rechazo->cliente}} | {{$rechazo->titulo_programa}} | <a data-toggle="modal" data-target="#modal_update_rechazos" style="color:white">
+									<div class="panel-heading"> {{ \Carbon\Carbon::parse($rechazo->fecha_rechazo)->format('m/d/Y')}} | {{$rechazo->cliente}} | {{$rechazo->titulo_programa}} | <a data-toggle="modal" data-target="#modal_update_rechazos" style="color:white">
 										<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
 									</a> </div>
 									<div class="panel-body">
 										<div class="col-md-4">
 												<div class="form-group">
-													<strong>Fecha original del envío al cliente: </strong><br> {{$rechazo->fecha_original_envio}}
+													<strong>Fecha original del envío al cliente: </strong><br> {{ \Carbon\Carbon::parse($rechazo->fecha_original_envio)->format('m/d/Y')}} 
 												</div>
 												<div class="form-group">
 													<strong>Temporada: </strong> {{$rechazo->temporada}}

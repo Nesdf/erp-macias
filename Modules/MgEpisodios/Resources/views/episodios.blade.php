@@ -42,7 +42,6 @@
 								<tr>
 									<th>ID</th>
 									<th>Título Original Episodio</th>
-									<th>Configuración</th>
 									<th>Número de episodio</th>
 									@if(\Request::session()->has('show_fecha_entrega'))
 										<th>Fecha de entrega episodio</th>
@@ -63,33 +62,6 @@
 										</td>
 										<td>
 											{{ $episodio->titulo_original }}
-										</td>
-										<td>
-											@php
-												$arraymax =[];
-												$episodio->bw;
-
-												if($episodio->bw == true){
-													$arraymax = ['BW' => $episodio->date_bw];
-												}
-												if($episodio->netcut == true){
-													$arraymax = ['NetCut' => $episodio->date_netcut];
-												}
-												if($episodio->lockcut == true){
-													$arraymax = ['Lockcut' => $episodio->date_lockcut];
-												}
-												if($episodio->final == true){
-													$arraymax = ['Final' => $episodio->date_final];
-												}
-												if( count($arraymax) > 0 ){
-													$max = array_search(max($arraymax), $arraymax);
-											    }else{
-											    	$max = "Sin configuración";
-												}
-
-
-											@endphp
-											{{$max}}
 										</td>
 										<td> {{ $episodio->num_episodio }} </td>
 										@if(\Request::session()->has('show_fecha_entrega'))
@@ -235,7 +207,8 @@
 				<div class="form-group">
 					<label for="configuracion">Configuración</label>
 					<textarea id="configuracion" name="configuracion" class="form-control"></textarea>
-				</div>
+				</div> 
+				
 				<div class="form-group">
 					<label for="exampleInputEmail1">Número de Episodio</label>
 					<input type="text" class="form-control" id="num_episodio" name="num_episodio" placeholder="Número de episodio">
@@ -257,14 +230,27 @@
 					</div>
 				</div>
 				<div>
-					<table class="table">
+					<h2>Configuraciones</h2>
+					{{-- <table class="table">
 				  		<tr>
 				  			<td><input type="checkbox" name="bw"><label> &nbsp; BW</label></td>
 				  			<td><input type="checkbox" name="netcut"><label> &nbsp; NetCut</label></td>
 				  			<td><input type="checkbox" name="lockcut"><label> &nbsp; LockCut</label></td>
 				  			<td><input type="checkbox" name="final"><label> &nbsp; Final</label></td>
 				  		</tr>
-				  	</table>
+					  </table> --}}
+				
+				<table class="table">
+					<tr>
+						@foreach($catalogos as $c)
+							<td>
+								<input type="checkbox" name="{{$c->id}}" >
+								<label> &nbsp; {{strtoupper($c->nombre)}} </label>
+							</td>
+						@endforeach
+					</tr>
+				</table>
+				
 				</div>
 				<div class="form-group">
 					<label for="entrega_episodio">Título LAS</label>
@@ -325,7 +311,6 @@
 			  <form role="form" id="form_agregar_productor">
 			  <div class="modal-body">
 					{{ csrf_field() }}
-
 				<br>
 				<input type="hidden" name="id" id="id">
 				<label>Sala</label>
@@ -560,27 +545,28 @@
 					  <div class="modal-body">
 						{{ csrf_field() }}
 						<input type="hidden" name="id" id="id_configuracion">
-						<input type="hidden" name="proyectoId" value="{{ $proyecto_id }}">
 						<table class="table table-striped ">
+							<tr>
+								@foreach($catalogos as $c)
+									<td>
+										<input type="checkbox" name="{{$c->id}}" >
+										<label> &nbsp; {{strtoupper($c->nombre)}}</label>
+										<p id='{{$c->id}}'></p>
+									</td>
+								@endforeach
+							</tr>
+						</table>
+						{{-- <table class="table table-striped ">
 							<tr>
 								<td>
 									<input type="checkbox"  id="bw_update" name="bw"> BW
 								</td>
-								<td>
-									<input type="checkbox"  id="netcut_update" name="netcut"> NetCut
-								</td>
-								<td>
-									<input type="checkbox"  id="lockcut_update" name="lockcut"> LockCut
-								</td>
-								<td>
-									<input type="checkbox"  id="final_update" name="final"> Final
-								</td>
 							</tr>
-						</table>
+						</table> --}}
 					  </div>
 					  <div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
-						<button type="submit" class="btn btn-primary">Guardar</button>
+						<button type="submit" class="btn btn-primary" id="btn_update_configuracion">Guardar</button>
 					  </div>
 				  </form>
 			</div>
@@ -1086,8 +1072,8 @@
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function( data ){
-							$('#btn_crear_episodio').delay( 2000 ).prop('disabled', false);
 							if(data.msg == 'success'){
+								$('#btn_crear_episodio').delay( 2000 ).prop('disabled', false);
 								window.location.reload(true);
 							}
 						},
@@ -1138,53 +1124,44 @@
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function( data ){
+						console.log('REF-DATA', data);
+						data['dataClear'].forEach(element => {
+							var num = element['id_catalogo_configuracion'];
+							$(`input[name = ${num}]`).prop( "checked", false ).attr( "disabled", false );
+							$(`#${num}`).html('');
+						});
+
+						data['data'].forEach(element => {
+							var num = element['id_catalogo_configuracion'];
+							var fecha = element['created_at'];
+							var d = new Date(`${fecha}`).toLocaleDateString();
+							$(`input[name = ${num}]`).prop( "checked", true ).attr( "disabled", true );
+							$(`#${num}`).html(d);
+						});
+
+						
 						$(".loader").fadeOut("slow");
-						//BW
-						if(data.bw == true){
-							$('#bw_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
-						} else {
-							$('#bw_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'bw');
-						}
-
-						//LOCKOUT
-						if(data.lockcut == true){
-							$('#lockcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
-						} else {
-							$('#lockcut_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'lockcut');
-						}
-
-						//NETCUT
-						if(data.netcut == true){
-							$('#netcut_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
-						} else {
-							$('#netcut_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'netcut');
-						}
-
-						//FINAL
-						if(data.final == true){
-							$('#final_update').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
-						} else {
-							$('#final_update').prop( "checked", false ).attr( "disabled", false ).attr('name', 'FINAL');
-						}
 					}
 				});
 
 				$('#form_update_configuracion').on('submit', function(event){
 					event.preventDefault();
 
+					$('#btn_update_configuracion').prop('disabled', true);
+
 					$.ajax({
 						url: "{{ url('mgepisodios/update-configuracion') }}",
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function(data) {
-						console.log(data);
-							if(data.status == 200){
+							if(data['msg'] == 'success'){
 								window.location.reload(true);
+								$('#btn_update_configuracion').delay( 2000 ).prop('disabled', false);
 							}
-
 						},
 						error: function(error) {
-							console.log(error);
+							console.log("REF-error", error);
+							$('#btn_update_configuracion').delay( 2000 ).prop('disabled', false);
 						}
 					});
 				})

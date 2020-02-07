@@ -45,7 +45,7 @@
 										<td> {{ $proyecto->nombre_clientes }} </td>
                                         <td> {{ $proyecto->proyecto_titulo }} </td>
                                         <td> {{ $proyecto->num_episodio }}</td>
-                                        <td> {{ $proyecto->fecha_entrega }}</td>
+                                        <td> {{ \Carbon\Carbon::parse($proyecto->fecha_entrega)->format('m/d/Y')}}</td>
                                         <td>{{ $proyecto->duracion }}</td>
                                         <td>
 										@if($proyecto->date_boarding !== '' || $proyecto->date_boarding !== null )

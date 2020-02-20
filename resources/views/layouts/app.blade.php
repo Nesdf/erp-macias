@@ -152,7 +152,7 @@
 				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
-					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento-responsable') || Request::url() == route('entregables') || Request::url() == route('metodo-envio') || Request::url() == route('destino') || \Request::is('mgcatalogos/configuracion')) class="open" @endif>
+					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento_responsable') || Request::url() == route('mgentregables') || Request::url() == route('mgmetodoenvio') || Request::url() == route('mgdestino') || \Request::is('mgcatalogos/configuracion')) class="open" @endif>
 						{{-- Permite --}}
 						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') )
 							<a href="#" class="dropdown-toggle">
@@ -205,7 +205,7 @@
 									@endif
 								</li>
 								<li @if(\Request::is('mgcatalogos/configuracion')) class="active" @endif>
-									@if(\Request::session()->has('catalogo-configuracion'))
+									@if(\Request::session()->has('catalogo_configuracion'))
 										<a href="{{ url('mgcatalogos/configuracion') }}">
 											<i class="menu-icon fa fa-caret-right"></i>
 											Configuraciones {{--\Request::path()--}}
@@ -219,29 +219,41 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li >
-									<a href="{{ route('tipo-error') }}"> Tipo de error</a> 
-									<b class="arrow"></b>
+								<li @if(Request::is('tipo_error')) class="active" @endif>
+									@if(Request::session()->has('tipo_error'))
+										<a href="{{ route('tipo_error') }}"> Tipo de error</a> 
+										<b class="arrow"></b>
+									@endif
 								</li>
-								<li @if(Request::url() == route('departamento-responsable')) class="active" @endif>
-									<a href="{{ route('departamento-responsable') }}"> Departamento responsable </a>
-									<b class="arrow"></b>
+								<li @if(Request::is('departamento_responsable')) class="active" @endif>
+									@if(Request::session()->has('departamento_responsable')) 
+										<a href="{{ route('departamento_responsable') }}"> Departamento responsable </a>
+										<b class="arrow"></b>
+									@endif
 								</li>
-								<li @if(Request::url() == route('destino')) class="active" @endif>
-									<a href="{{ route('destino') }}"> Destino </a>
-									<b class="arrow"></b>
+								<li @if(Request::is('mgdestino')) class="active" @endif>
+									@if(\Request::session()->has('mgvias'))
+										<a href="{{ route('mgdestino') }}"> Destino </a>
+										<b class="arrow"></b>
+									@endif
 								</li>
-								<li @if(Request::url() == route('metodo-envio')) class="active" @endif>
-									<a href="{{ route('metodo-envio') }}"> Método envío </a>
-									<b class="arrow"></b>
+								<li @if(Request::is('mgmetodoenvio')) class="active" @endif>
+									@if(Request::session()->has('mgmetodoenvio'))
+										<a href="{{ route('mgmetodoenvio') }}"> Método envío </a>
+										<b class="arrow"></b>
+									@endif
 								</li>
-								<li @if(Request::url() == route('entregables')) class="active" @endif>
-									<a href="{{ route('entregables') }}"> Entregables </a>
-									<b class="arrow"></b>
+								<li @if(Request::is('mgentregables')) class="active" @endif>
+									@if(Request::session()->has('mgentregables'))
+										<a href="{{ route('mgentregables') }}"> Entregables </a>
+										<b class="arrow"></b>
+									@endif
 								</li>
-								<li @if(Request::url() == route('list-tipo-trabajo')) class="active" @endif>
-									<a href="{{ route('list-tipo-trabajo') }}"> Tipo de trabajo </a>
-									<b class="arrow"></b>
+								<li @if(Request::is('mgcatalogotipotrabajo')) class="active" @endif>
+									@if(Request::session()->has('mgcatalogotipotrabajo')) 
+										<a href="{{ route('mgcatalogotipotrabajo') }}"> Tipo de trabajo </a>
+										<b class="arrow"></b>
+									@endif
 								</li>
 							</ul>
 						@endif
@@ -255,12 +267,14 @@
 							<b class="arrow"></b>
 						@endif
 					</li>
-					<li>
+					<li @if(\Request::is('mgprogramacionavances')) class="active" @endif>
+						@if(\Request::session()->has('mgprogramacionavances'))
 							<a href="{{ url('mgprogramacionavances') }}">
 								<i class="menu-icon fa fa-history"></i>
-								<span class="menu-text"> Program y Avances </span>
+								<span class="menu-text"> Programación </span>
 							</a>
 							<b class="arrow"></b>
+						@endif
 					</li>
 					<li @if(\Request::is('mgclientes')) class="active" @endif>
 						@if(\Request::session()->has('mgclientes'))
@@ -423,19 +437,23 @@
 						</ul>
 					</li>
 					@endif
-					<li @if(\Request::url() == route('rechazos')) class="active" @endif>
-						<a href="{{ route('rechazos') }}">
+					<li @if(\Request::is('mgrechazos')) class="active" @endif>
+						@if(\Request::session()->has('mgrechazos'))
+						<a href="{{ route('mgrechazos') }}">
 							<i class="menu-icon fa fa-warning"></i>
 							<span class="menu-text"> Rechazos </span>
 						</a>
 						<b class="arrow"></b>
+						@endif
 					</li>
-					<li @if(\Request::url() == route('trafico')) class="active" @endif>
-						<a href="{{ route('trafico') }}">
+					<li @if(\Request::is('mgtrafico'))  class="active" @endif>
+						@if(\Request::session()->has('mgtrafico'))
+						<a href="{{ route('mgtrafico') }}">
 							<i class="menu-icon fa fa-video-camera"></i>
 							<span class="menu-text"> Tráfico </span>
 						</a>
 						<b class="arrow"></b>
+						@endif
 					</li>
 				</ul><!-- /.nav-list -->
 

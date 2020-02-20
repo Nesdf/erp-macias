@@ -26,7 +26,7 @@
 						<a data-toggle="modal" data-target="#modal_create_rechazos" class="btn btn-success">
 							Rechazo nuevo
 						</a>
-						<a data-toggle="modal" data-target="#modal_aadd_programa" class="btn btn-success">
+						<a data-toggle="modal" data-target="#modal_add_programa" class="btn btn-success">
 							Agregar programa 
 						</a>
 						<div class="pull-right"><span class="glyphicon glyphicon-save-file" aria-hidden="true" title="Excel"></span> | <span class="glyphicon glyphicon-list-alt " aria-hidden="true" title="PDF" right></span> | </div>
@@ -557,7 +557,7 @@
 			$('#cliente').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue){
 				if(isSelected){
 					$.ajax({
-						url: "{{ route('rechazos-select-proyectos') }}",
+						url: "{{ route('rechazos_select_proyectos') }}",
 						type: "POST",
 						data: {id:this.value, _token: "{{ csrf_token() }}"},
 						success: function(e){
@@ -582,7 +582,7 @@
 				console.log(this.value)
 				if(isSelected){
 					$.ajax({
-						url: "{{ route('rechazos-select-proyectos-id') }}",
+						url: "{{ route('rechazos_select_proyectos_id') }}",
 						type: "POST",
 						data: {id:this.value, _token: "{{ csrf_token() }}"},
 						success: function(e){
@@ -609,7 +609,7 @@
 				console.log(this.value);
 				console.log("ness");
 					$.ajax({
-						url: "{{ route('rechazos-select-temporada') }}",
+						url: "{{ route('rechazos_select_temporada') }}",
 						type: "POST",
 						data: {id:this.value, _token: "{{ csrf_token() }}"},
 						success: function(e){
@@ -635,7 +635,7 @@
 			$('#form_create_rechazo').on('submit', function(event){
 				event.preventDefault();
 				$.ajax({
-					url: "{{ route('create-rechazos') }}",
+					url: "{{ route('create_rechazos') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
@@ -657,7 +657,7 @@
 					alert('Favor de ingresar un valor') 
 				} else {
 					$.ajax({
-						url: "{{ route('lista-rechazos') }}",
+						url: "{{ route('lista_rechazos') }}",
 						type: "POST",
 						data: {buscar: buscar,  _token: "{{ csrf_token() }}"},
 						success: function( data ){

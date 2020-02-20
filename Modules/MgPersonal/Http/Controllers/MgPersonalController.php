@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
-use Modules\MgPersonal\Entities\Estudios as Estudios;
-use Modules\MgPersonal\Entities\User as User;
-use Modules\MgPersonal\Entities\Jobs as Jobs;
+use Modules\MgPersonal\Entities\Estudios;
+use Modules\MgPersonal\Entities\User;
+use Modules\MgPersonal\Entities\Jobs;
+use \Modules\MgPersonal\Entities\RoutesAccess;
 
 class MgPersonalController extends Controller
 {
@@ -183,7 +184,7 @@ class MgPersonalController extends Controller
 
     public function permisos($id)
     {
-    	$urls = \Modules\MgPersonal\Entities\RoutesAccess::where('user_id', $id)->get();
+    	$urls = RoutesAccess::where('user_id', $id)->get();
     	$urlArray=array();
     	foreach ($urls as $value) {
     		$urlArray[$value->alias_name] = $value->alias_name;

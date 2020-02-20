@@ -162,7 +162,7 @@
 				$('#form_create_destino').on('submit', function(event){
 					event.preventDefault();
 					$.ajax({
-						url: "{{ route('nuevo-destino') }}",
+						url: "{{ route('nuevo_destino') }}",
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function( data ){
@@ -184,7 +184,7 @@
 			$('#modal_update_destino').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
 				$.ajax({
-					url: "{{ route('show-destino') }}",
+					url: "{{ route('show_destino') }}",
 					type: "POST",
 					data: {id: id, _token: "{{ csrf_token() }}"},
 					success: function( data ){
@@ -197,7 +197,7 @@
 						$('#form_update_destino').on('submit', function(event){
 							event.preventDefault();
 							$.ajax({
-								url: "{{ route('update-destino') }}",
+								url: "{{ route('update_destino') }}",
 								type: "POST",
 								data: $( this ).serialize(),
 								success: function( data ){

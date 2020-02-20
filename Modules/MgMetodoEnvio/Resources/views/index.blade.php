@@ -25,11 +25,11 @@
 					</div>
 					<div class="table-header">
 						<!--Results for "Latest Registered Domains"-->
-						{{--@if(\Request::session()->has('add_via'))--}}
+						@if(\Request::session()->has('add_via'))
 							<a data-toggle="modal" data-target="#modal_metodo" class="btn btn-success">
 								Método envío nuevo
 							</a>
-						{{--@endif--}}
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -55,11 +55,11 @@
 											{{ $metodo->metodo_envio }}
 										</td>
 										<td>
-											{{--@if(\Request::session()->has('update_metodo'))--}}
+											@if(\Request::session()->has('update_tipo_trabajo'))
 												<a data-id="{{ $metodo->id }}" data-toggle="modal" data-target="#modal_update_metodo" class="btn btn-xs btn-info update_id" title="Editar">
 													<i class="ace-icon fa fa-pencil bigger-120"></i>
 												</a>		
-											{{--@endif--}}
+											@endif
 										</td>
 									</tr>
 								@endforeach
@@ -182,7 +182,7 @@
 				$('#form_create_metodo').on('submit', function(event){
 					event.preventDefault();
 					$.ajax({
-						url: "{{ route('crear-metodo-envio') }}",
+						url: "{{ route('crear_metodo_envio') }}",
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function( data ){
@@ -204,7 +204,7 @@
 			$('#modal_update_metodo').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
 				$.ajax({
-					url: "{{ route('show-metodo-envio') }}",
+					url: "{{ route('show_metodo_envio') }}",
 					type: "POST",
 					data:{id: id, _token: "{{ csrf_token() }}"},
 					success: function( data ){
@@ -217,7 +217,7 @@
 						$('#form_update_metodo').on('submit', function(event){
 							event.preventDefault();
 							$.ajax({
-								url: "{{ route('update-metodo-envio') }}",
+								url: "{{ route('update_metodo_envio') }}",
 								type: "POST",
 								data: $( this ).serialize(),
 								success: function( data ){

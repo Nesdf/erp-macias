@@ -496,8 +496,235 @@
 											</p>
 							      </div>
 							    </div>
-						  </div>
+						    </div>
+						    <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Administrar Configuraciones</h3>
+										<p>
+											<label>Dashboard Configuraciones<br>
+											<input type="checkbox" name="catalogo_configuracion" class="toggle" @if( isset($urlArray['catalogo_configuracion']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Agregar Configuración<br>
+											<input type="checkbox" name="create_configuracion" class="toggle" @if( isset($urlArray['create_configuracion']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Editar Configuración<br>
+											<input type="checkbox" name="update_configuracion" class="toggle" @if( isset($urlArray['update_configuracion']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							<div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Tipos de reporte</h3>
+										<p>
+											<label>Dashboard Tipos de reporte<br>
+											<input type="checkbox" name="mgtiporeporte" class="toggle" @if( isset($urlArray['mgtiporeporte']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Agregar Tipos de reporte<br>
+											<input type="checkbox" name="add_reporte" class="toggle" @if( isset($urlArray['add_reporte']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Editar Tipos de reporte<br>
+											<input type="checkbox" name="edit_reporte-update_reporte" class="toggle" @if( isset($urlArray['edit_reporte']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Eliminar Tipos de reporte<br>
+											<input type="checkbox" name="delete_reporte" class="toggle" @if( isset($urlArray['delete_reporte']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							 <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Departamento responsable</h3>
+										<p>
+											<label>Dashboard Departamento responsable<br>
+											<input type="checkbox" name="departamento_responsable" class="toggle" @if( isset($urlArray['departamento_responsable']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Agregar Departamento responsable<br>
+											<input type="checkbox" name="create_departamento_responsable" class="toggle" @if( isset($urlArray['create_departamento_responsable']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Editar Departamento responsable<br>
+											<input type="checkbox" name="update_departamento_responsable" class="toggle" @if( isset($urlArray['update_departamento_responsable']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
 						</div>
+						<div class="row">
+						    <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Programas y avances</h3>
+										<p>
+											<label>Dashboard Configuraciones<br>
+											<input type="checkbox" name="mgprogramacionavances" class="toggle" @if( isset($urlArray['mgprogramacionavances']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							<div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Rechazos</h3>
+										<p>
+											<label>Dashboard rechazos<br>
+											<input type="checkbox" name="mgrechazos" class="toggle" @if( isset($urlArray['mgrechazos']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Agregar Tipos de reporte<br>
+											<input type="checkbox" name="create_rechazos" class="toggle" @if( isset($urlArray['create_rechazos']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Editar Tipos de reporte<br>
+											<input type="checkbox" name="update_rechazos" class="toggle" @if( isset($urlArray['update_rechazos']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							 <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Tráfico</h3>
+										<p>
+											<label>Dashboard tráfico<br>
+											<input type="checkbox" name="mgtrafico" class="toggle" @if( isset($urlArray['mgtrafico']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Fecha de embarque<br>
+											<input type="checkbox" name="fecha_embarque_update" class="toggle" @if( isset($urlArray['fecha_embarque_update']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							 <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Tipo de error</h3>
+										<p>
+											<label>Dashboard tipo de error<br>
+											<input type="checkbox" name="tipo_error" class="toggle" @if( isset($urlArray['tipo_error']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Fecha de embarque<br>
+											<input type="checkbox" name="fecha_embarque_update" class="toggle" @if( isset($urlArray['fecha_embarque_update']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+						</div>
+						<div class="row">
+						    <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Destino</h3>
+										<p>
+											<label>Dashboard destino<br>
+											<input type="checkbox" name="mgdestino" class="toggle" @if( isset($urlArray['mgdestino']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Agregar destino<br>
+											<input type="checkbox" name="nuevo_destino" class="toggle" @if( isset($urlArray['nuevo_destino']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Editar destino<br>
+											<input type="checkbox" name="update_destino-show_destino" class="toggle" @if( isset($urlArray['update_destino']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							<div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Método de envío</h3>
+										<p>
+											<label>Dashboard rechazos<br>
+											<input type="checkbox" name="mgmetodoenvio" class="toggle" @if( isset($urlArray['mgmetodoenvio']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Agregar método de envío<br>
+											<input type="checkbox" name="crear_metodo_envio" class="toggle" @if( isset($urlArray['crear_metodo_envio']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Editar método de envío<br>
+											<input type="checkbox" name="update_metodo_envio-show_metodo_envio" class="toggle" @if( isset($urlArray['update_metodo_envio']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							 <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Entregables</h3>
+										<p>
+											<label>Dashboard tráfico<br>
+											<input type="checkbox" name="mgentregables" class="toggle" @if( isset($urlArray['mgentregables']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Fecha de embarque<br>
+											<input type="checkbox" name="fecha_embarque_update" class="toggle" @if( isset($urlArray['fecha_embarque_update']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+							 <div class="col-sm-6 col-md-3">
+						    	<div class="thumbnail">
+									<div class="caption">
+										<h3>Tipo de trabajo</h3>
+										<p>
+											<label>Dashboard tipo de trabajo<br>
+											<input type="checkbox" name="mgcatalogotipotrabajo" class="toggle" @if( isset($urlArray['mgcatalogotipotrabajo']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Agregar tipo de trabajo<br>
+											<input type="checkbox" name="create_tipo_trabajo" class="toggle" @if( isset($urlArray['create_tipo_trabajo']) ) checked @endif >
+											</label>
+										</p>
+										<p>
+											<label>Editar yipo de trabajo<br>
+											<input type="checkbox" name="update_tipo_trabajo-edit_tipo_trabajo" class="toggle" @if( isset($urlArray['update_tipo_trabajo']) ) checked @endif >
+											</label>
+										</p>
+									</div>
+								</div>
+							 </div>
+						</div>
+					</div>	
 
 @stop
 

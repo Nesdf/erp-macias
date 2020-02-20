@@ -171,7 +171,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('update-departamento-responsable') }}",
+					url: "{{ route('update_departamento_responsable') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
@@ -194,7 +194,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('create-departamento-responsable') }}",
+					url: "{{ route('create_departamento_responsable') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){

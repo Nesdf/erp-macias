@@ -23,7 +23,9 @@
 						<div class="pull-right tableTools-container"></div>
 					</div>
 					<div class="table-header">
-						<a data-toggle="modal" data-target="#modal_create_error" class="btn btn-success"> Nuevo </a> 
+						@if(\Request::session()->has('create_configuracion'))
+							<a data-toggle="modal" data-target="#modal_create_error" class="btn btn-success"> Nuevo </a> 
+						@endif
 					</div>
 
 					<!-- div.table-responsive -->
@@ -43,11 +45,15 @@
 								@foreach($configuraciones as $config)
 									<tr>
 										<td>{{strtoupper($config->nombre)}}</td>
-										<td>
-											<a data-id="{{ $config->id }}" data-nombre="{{ strtoupper($config->nombre) }}"  data-toggle="modal" data-target="#modal_update_error" class="btn btn-xs btn-info" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>									
-										</td>
+										@if(\Request::session()->has('update_configuracion')) 
+											<td>
+												@if(\Request::session()->has('update_configuracion'))
+													<a data-id="{{ $config->id }}" data-nombre="{{ strtoupper($config->nombre) }}"  data-toggle="modal" data-target="#modal_update_error" class="btn btn-xs btn-info" title="Editar">
+														<i class="ace-icon fa fa-pencil bigger-120"></i>
+													</a>	
+												@endif								
+											</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>
@@ -166,7 +172,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('update-configuracion') }}",
+					url: "{{ route('update_configuracion') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
@@ -190,7 +196,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('create-configuracion') }}",
+					url: "{{ route('create_configuracion') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){

@@ -433,7 +433,7 @@
 						@endforeach
 					</select>
 					<label>Fecha de entrega del traductor</label>
-					<input type="text" name="fecha_entrega_traductor" id="fecha_entrega_traductor" class="form-control" readonly=true required>
+					<input type="text" name="fecha_entrega_traductor" class="form-control"  required>
 					<label>
 					<input type="checkbox" name="aprobacion_cliente" id="aprobacion_cliente" > Aprobación del cliente
 					</label><br>
@@ -447,7 +447,8 @@
 					</div>
 					<label>
 					<input type="checkbox" name="rayado" id="rayado" > Rayado
-					</label><br>
+					</label>
+					<div id="input_rayado"></div>
 					<label>
 					<input type="checkbox" name="chk_canciones" id="chk_canciones" > Canciones
 					</label><br>
@@ -458,7 +459,6 @@
 					<label>
 					<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 					</label><br>
-					<div id="input_rayado"></div>
 					<label>Observaciones</label>
 					<textarea class="form-control" name="observaciones_traductor" ></textarea>
 				  </div>
@@ -507,7 +507,8 @@
 						</div>
 						<label>
 						<input type="checkbox" name="rayado" id="rayado" > Rayado
-						</label><br>
+						</label>
+						<div id="input_rayado2"></div>
 						<label>
 						<input type="checkbox" name="chk_canciones" id="chk_canciones" > Canciones
 						</label><br>
@@ -518,7 +519,6 @@
 						<label>
 						<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 						</label><br>
-						<div id="input_rayado2"></div>
 						<label>Observaciones</label>
 						<textarea class="form-control" name="observaciones_traductor" ></textarea>
 					  </div>
@@ -549,7 +549,7 @@
 							<tr>
 								@foreach($catalogos as $c)
 									<td>
-										<input type="checkbox" name="{{$c->id}}" >
+										<input type="checkbox" name="{{$c->id}}" class="checkConfig" >
 										<label> &nbsp; {{strtoupper($c->nombre)}}</label>
 										<p id='{{$c->id}}'></p>
 									</td>
@@ -953,47 +953,48 @@
 				$.ajax({
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
-					success: function(data){
+					success: function(resp){
+						console.log(resp.data['0']);
 						$(".loader").fadeOut("slow");
-						$('input[name=id]').val(data.id);
-						$('input[name=proyectoId]').val(data.proyectoId);
-						$('select[name=productor]').val(data.productor);
-						$('select[name=responsable]').val(data.responsable);
-						$('select[name=tipo_trabajo_update]').val(data.tipo_trabajo_id);
-						$('input[name=titulo_original_episodio]').val(data.titulo_original);
-						$('textarea[name=configuracion]').val(data.configuracion);
-						$('input[name=num_episodio]').val(data.num_episodio);
-						$('input[name=entrega_me]').val(data.date_m_and_e);
-						$('input[name=fecha_descarga_update]').val(data.date_download);
-						$('input[name=referencia]').val(data.reference_download);
-						$('input[name=entrega_episodio').val(data.date_entrega);
-						$('input[name=notificacion_pistas]').val(data.notify_pistas);
-						$('input[name=envio_sebastians]').val(data.send_sebastians);
-						$('input[name=ot').val(data.ot);
-						$('input[name=envio_mp4_update').val(data.envio_mp4);
-						$('input[name=enviado_a').val(data.enviado_a);
-						$('input[name=metodo_envio').val(data.metodo_envio);
-						$('input[name=referencia_envio').val(data.referencia_envio);
-						$('input[name=las_or_lm_update').val(data.las_or_lm);
-						$('input[name=bpo_or_lm_update').val(data.bpo_or_lm);
+						$('input[name=id]').val(resp.data['0'].id);
+						$('input[name=proyectoId]').val(resp.data['0'].proyectoId);
+						$('select[name=productor]').val(resp.data['0'].productor);
+						$('select[name=responsable]').val(resp.data['0'].responsable);
+						$('select[name=tipo_trabajo_update]').val(resp.data['0'].tipo_trabajo_id);
+						$('input[name=titulo_original_episodio]').val(resp.data['0'].titulo_original);
+						$('textarea[name=configuracion]').val(resp.data['0'].configuracion);
+						$('input[name=num_episodio]').val(resp.data['0'].num_episodio);
+						$('input[name=entrega_me]').val(resp.data['0'].date_m_and_e);
+						$('input[name=fecha_descarga_update]').val(resp.data['0'].date_download);
+						$('input[name=referencia]').val(resp.data['0'].reference_download);
+						$('input[name=entrega_episodio').val(resp.data['0'].date_entrega);
+						$('input[name=notificacion_pistas]').val(resp.data['0'].notify_pistas);
+						$('input[name=envio_sebastians]').val(resp.data['0'].send_sebastians);
+						$('input[name=ot').val(resp.data['0'].ot);
+						$('input[name=envio_mp4_update').val(resp.data['0'].envio_mp4);
+						$('input[name=enviado_a').val(resp.data['0'].enviado_a);
+						$('input[name=metodo_envio').val(resp.data['0'].metodo_envio);
+						$('input[name=referencia_envio').val(resp.data['0'].referencia_envio);
+						$('input[name=las_or_lm_update').val(resp.data['0'].las_or_lm);
+						$('input[name=bpo_or_lm_update').val(resp.data['0'].bpo_or_lm);
 						$('.selectpicker').selectpicker('refresh');
 
 						//Notificacion de pistas
-						if(data.notify_pistas == true){
+						if(resp.data['0'].notify_pistas == true){
 							$('input[name=notificacion_pistas').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
 						} else {
 							$('input[name=notificacion_pistas').prop( "checked", false ).attr( "disabled", false ).attr('name', 'notificacion_pistas');
 						}
 
 						//BW
-						if(data.send_sebastians == true){
+						if(resp.data['0'].send_sebastians == true){
 							$('input[name=envio_sebastians').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
 						} else {
 							$('input[name=envio_sebastians').prop( "checked", false ).attr( "disabled", false ).attr('name', 'envio_sebastians');
 						}
 
 						//BW
-						if(data.ot == true){
+						if(resp.data['0'].ot == true){
 							$('input[name=ot').prop( "checked", true ).attr( "disabled", true ).removeAttr('name');
 						} else {
 							$('input[name=ot').prop( "checked", false ).attr( "disabled", false ).attr('name', 'ot');
@@ -1118,6 +1119,7 @@
 			*/
 			$('#modal_update_configuracion').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
+				$('.checkConfig').prop("checked", false);
 				$('#id_configuracion').val(id);
 				$(".loader").fadeIn();
 				$.ajax({
@@ -1419,26 +1421,28 @@
 					$.ajax({
 						url: "{{ url('/mgepisodios/edit') }}"+"/"+id,
 						type: 'GET',
-						success: function(data){
+						success: function(resp){
+							console.log("REF-RESPONSE", resp.data[0])
 							$(".loader").fadeOut("slow");
 							$('.date-type-rayado').html('');
-							if(data.fecha_rayado){
-								$('.date-type-rayado').html('Fecha rayado: ' + data.fecha_rayado);
+							if(resp.data[0].fecha_rayado){
+								$('.date-type-rayado').html('Fecha rayado: ' + resp.data[0].fecha_rayado);
 							} else {
 								$('.date-type-rayado').html('Sin fecha asignada');
 							}
-							$('input[name=id]').val(data.id);
-							$('select[name=sala]').val(data.salaId);
-							$('select[name=director]').val(data.directorId);
-							$('select[name=ingeniero_audio_id]').val(data.ingeniero_audio_id);
-							if(data.chk_qc == true){
+							$('input[name=id]').val(resp.data[0].id);
+							$('select[name=sala]').val(resp.data[0].salaId);
+							$('select[name=director]').val(resp.data[0].directorId);
+							$('select[name=ingeniero_audio_id]').val(resp.data[0].ingeniero_audio_id);
+							$('.selectpicker').selectpicker('refresh');
+							if(resp.data[0].chk_qc == true){
 								$('input[name=chk_qc]').prop('checked', true)
 							}
-							if(data.chk_reprobacion == true){
+							if(resp.data[0].chk_reprobacion == true){
 								$('input[name=chk_reprobacion]').prop('checked', true)
 							}
 
-							if(data.sin_script == false){
+							if(resp.data[0].sin_script == false){
 								/*var fechaScript = '';
 								if(data.fecha_script != null){
 									fechaScript = data.fecha_script;
@@ -1460,15 +1464,15 @@
 								});
 							}
 
-							if($('input[name=chk_reprobacion]').val(data.chk_reprobacion) == true){
+							if($('input[name=chk_reprobacion]').val(resp.data[0].chk_reprobacion) == true){
 
 								$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
-										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_regrabacion+'" required>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+resp.data[0].fecha_regrabacion+'" required>\
 										<label>Editor</label>\
 										<select name="nombre_regrabador"  class="form-control" required>\
 										<option value="">Seleccionar</option>\
 										@foreach($tecnicos as $tecnico)\
-										<option value="{{ $tecnico->id }}" '+(data.nombre_regrabador == {{ $tecnico->id }}) ? selected : ""+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										<option value="{{ $tecnico->id }}" '+(resp.data[0].nombre_regrabador == {{ $tecnico->id }}) ? selected : ""+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 										@endforeach\
 										</select>');
 							} else{
@@ -1476,25 +1480,25 @@
 								$('div.dateRegrabacion').html('');
 							}
 
-							if(data.chk_edicion == true){
+							if(resp.data[0].chk_edicion == true){
 								$('input[name=chk_edicion]').prop('checked', true);
 								$('div.dateEdicion').html('<label>Fecha Edición</label>\
-										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>\
+										<input type="text" name="fecha_edicion" class="form-control" value="'+resp.data[0].fecha_edicion+'" required>\
 										<label>Editor</label>\
 										<select name="nombre_editor"  class="form-control" required>\
 										<option value="">Seleccionar</option>\
 										@foreach($tecnicos as $tecnico)\
-										<option value="{{ $tecnico->id }}" '+(data.nombre_editor == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										<option value="{{ $tecnico->id }}" '+(resp.data[0].nombre_editor == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 										@endforeach\
 										</select>');
 							} else{
 								$('input[name=chk_edicion]').prop('checked', false);
 							}
 
-							if(data.chk_reprobacion== true){
+							if(resp.data[0].chk_reprobacion== true){
 								var fechaRegrabacion = '';
-								if(data.fecha_regrabacion != 'null'){
-									fechaRegrabacion = data.fecha_regrabacion;
+								if(resp.data[0].fecha_regrabacion != 'null'){
+									fechaRegrabacion = resp.data[0].fecha_regrabacion;
 								}
 								$('input[name=chk_reprobacion]').prop('checked', true);
 								$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
@@ -1503,7 +1507,7 @@
 										<select name="nombre_regrabador"  class="form-control" required>\
 										<option value="">Seleccionar</option>\
 										@foreach($tecnicos as $tecnico)\
-										<option value="{{ $tecnico->id }}" '+(data.nombre_regrabador == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+										<option value="{{ $tecnico->id }}" '+(resp.data[0].nombre_regrabador == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 										@endforeach\
 										</select>');
 							} else{
@@ -1512,9 +1516,9 @@
 
 							$('input[name=chk_edicion]').on('click', function(){
 								if($(this).is(':checked')){
-									if(data.fecha_edicion){
+									if(resp.data[0].fecha_edicion){
 										$('div.dateEdicion').html('<label>Fecha Edición</label>\
-										<input type="text" name="fecha_edicion" class="form-control" value="'+data.fecha_edicion+'" required>\
+										<input type="text" name="fecha_edicion" class="form-control" value="'+resp.data[0].fecha_edicion+'" required>\
 										<label>Editor</label>\
 										<select name="nombre_editor"  class="form-control" required>\
 										<option value="">Seleccionar</option>\
@@ -1534,10 +1538,10 @@
 
 							$('input[name=chk_reprobacion]').on('click', function(){
 								if($(this).is(':checked')){
-									if(data.fecha_edicion){
+									if(resp.data[0].fecha_edicion){
 										var fechaRegrabacion = '';
-										if(data.fecha_regrabacion != 'null'){
-											fechaRegrabacion = data.fecha_regrabacion;
+										if(resp.data[0].fecha_regrabacion != 'null'){
+											fechaRegrabacion = resp.data[0].fecha_regrabacion;
 										}
 										$('div.dateRegrabacion').html('<label>Fecha Regrabación</label>\
 										<input type="text" name="fecha_regrabacion" class="form-control" value="'+fechaRegrabacion+'" required>\
@@ -1560,9 +1564,9 @@
 
 							$('input[name=chk_qc]').on('click', function(){
 								if($(this).is(':checked')){
-									if(data.fecha_edicion){
+									if(resp.data[0].fecha_edicion){
 										$('div.dateQC').html('<label>Fecha QC</label>\
-										<input type="text" name="fecha_regrabacion" class="form-control" value="'+data.fecha_qc+'" required>\
+										<input type="text" name="fecha_regrabacion" class="form-control" value="'+resp.data[0].fecha_qc+'" required>\
 										<label>QC</label>\
 										<select name="nombre_qc"  class="form-control" required>\
 										<option value="">Seleccionar</option>\
@@ -1580,15 +1584,15 @@
 								}
 							});
 
-							if(data.chk_qc== true){
+							if(resp.data[0].chk_qc== true){
 								$('input[name=chk_qc]').prop('checked', true);
 								$('div.dateQC').html('<label>Fecha QC</label>\
-									<input type="text" name="fecha_qc" class="form-control"  value="'+data.fecha_qc+'" required>\
+									<input type="text" name="fecha_qc" class="form-control"  value="'+resp.data[0].fecha_qc+'" required>\
 									<label>QC</label>\
 									<select name="nombre_qc"  class="form-control" required>\
 									<option value="">Seleccionar</option>\
 									@foreach($tecnicos as $tecnico)\
-									<option value="{{ $tecnico->id }}" '+(data.nombre_qc == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
+									<option value="{{ $tecnico->id }}" '+(resp.data[0].nombre_qc == {{ $tecnico->id }} ? 'selected' : '')+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 									@endforeach\
 									</select>');
 							} else{
@@ -1609,7 +1613,7 @@
 							    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 							});
 
-							$('input[name=fecha_doblaje]').val(data.fecha_doblaje);
+							$('input[name=fecha_doblaje]').val(resp.data[0].fecha_doblaje);
 							$('.selectpicker').selectpicker('refresh');
 						},
 						error: function(error){
@@ -1750,19 +1754,19 @@
 				$.ajax({
 						url: "{{ url('/mgepisodios/edit') }}"+"/"+id,
 						type: 'GET',
-						success: function(data){
-							console.log("datas - EDIT", data);
+						success: function(resp){
+							console.log("REF-RESPONSE00",resp.data['0']);
 							$(".loader").fadeOut("slow");
-							$('select[name=traductor]').val(data.traductorId);
-							$('input[name=script_original]').val(data.script_original);
-							$('input[name=fecha_entrega_traductor]').val(data.fecha_entrega_traductor);
-							$('input[name=fecha_entrega_traductor]').val(data.fecha_entrega_traductor);
-							if(data.chk_canciones == true){
+							$('select[name=traductor]').val(resp.data['0'].traductorId);
+							$('input[name=script_original]').val(resp.data['0'].script_original);
+							$('input[name=fecha_entrega_traductor]').val(resp.data['0'].fecha_entrega_traductor);
+							$('input[name=fecha_entrega_traductor]').val(resp.data['0'].fecha_entrega_traductor);
+							if(resp.data['0'].chk_canciones == true){
 								$('input[name=chk_canciones]').prop('checked', true)
 							}
-							if(data.chk_subtitulos == true){
+							if(resp.data['0'].chk_subtitulos == true){
 								$('input[name=chk_subtitulos]').prop('checked', true)
-								$('#input_subtitulos_update').html('<label >Fecha subtitulo</label> <input type="text" class="form-control "  name="fecha_subtitulo_update" id="fecha_subtitulo_update" value="'+data.send_date_subtitle_transfer+'" readonly=true required>');
+								$('#input_subtitulos_update').html('<label >Fecha subtitulo</label> <input type="text" class="form-control "  name="fecha_subtitulo_update" id="fecha_subtitulo_update" value="'+resp.data['0'].send_date_subtitle_transfer+'" readonly=true required>');
 								$('input[name=fecha_subtitulo_update]').datepicker({
 									dateFormat: "yy-mm-dd",
 									minDate: 0,
@@ -1777,19 +1781,19 @@
 								    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 								});
 							}
-							if(data.chk_lenguaje_diferente_original == true){
+							if(resp.data['0'].chk_lenguaje_diferente_original == true){
 								$('input[name=chk_lenguaje_diferente_original]').prop('checked', true)
 							}
-							if(data.aprobacion_cliente == true){
+							if(resp.data['0'].aprobacion_cliente == true){
 								$('input[name=aprobacion_cliente]').prop('checked',true);
 							}
-							if(data.sin_script == true){
+							if(resp.data['0'].sin_script == true){
 								$('input[name=sin_script]').prop('checked',true);
 							}
-							if(data.rayado == true){
+							if(resp.data['0'].rayado == true){
 								$('input[name=rayado]').prop('checked',true);
 
-								$('#input_rayado2').html('<label >Envío de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" value="'+data.fecha_rayado+'" readonly=true required>');
+								$('#input_rayado2').html('<label >Envío de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" value="'+resp.data['0'].fecha_rayado+'" readonly=true required>');
 								$('#fecha_rayado').datepicker({
 									dateFormat: "yy-mm-dd",
 									minDate: 0,
@@ -1806,10 +1810,10 @@
 							}
 
 
-							if(data.rayado == true){
+							if(resp.data['0'].rayado == true){
 								$('input[name=rayado]').prop('checked',true);
 
-								$('#input_rayado2').html('<label >Envío de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" value="'+data.fecha_rayado+'" readonly=true required>');
+								$('#input_rayado2').html('<label >Envío de rayado</label> <input type="text" class="form-control "  name="fecha_rayado" id="fecha_rayado" value="'+resp.data['0'].fecha_rayado+'" readonly=true required>');
 								$('#fecha_rayado').datepicker({
 									dateFormat: "yy-mm-dd",
 									minDate: 0,
@@ -1870,7 +1874,7 @@
 			});
 
 			//Calendarios
-				$('input[name=entrega_episodio], input[name=entrega_me], #fecha_entrega_traductor, #fecha_entrega_traductor, input[name=fecha_doblaje]').datepicker({
+				$('input[name=entrega_episodio], input[name=entrega_me], input[name=fecha_entrega_traductor], input[name=fecha_doblaje]').datepicker({
 					dateFormat: "yy-mm-dd",
 					minDate: 0,
 					closeText: 'Cerrar',

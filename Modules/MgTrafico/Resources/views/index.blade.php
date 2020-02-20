@@ -3,7 +3,7 @@
 @section('guia')
 	<li>
 		<i class="ace-icon fa fa-video-camera"></i>
-		<a href="{{ route('trafico') }}">Tráfico</a>
+		<a href="{{ route('mgtrafico') }}">Tráfico</a>
 	</li>
 @stop
 
@@ -48,12 +48,14 @@
                                         <td> {{ \Carbon\Carbon::parse($proyecto->fecha_entrega)->format('m/d/Y')}}</td>
                                         <td>{{ $proyecto->duracion }}</td>
                                         <td>
-										@if($proyecto->date_boarding !== '' || $proyecto->date_boarding !== null )
-										<a href="#" title="Fecha de embarque" data-toggle="modal" data-target="#modal_fecha_embarque" data-id="{{ $proyecto->episodio_id }}">
-										<i class="glyphicon glyphicon-calendar "></i>
-													</a>
-										@else
-										<i class="glyphicon glyphicon-calendar" style="color:red;"></i>
+										@if(\Request::session()->has('fecha_embarque_update'))
+											@if($proyecto->date_boarding !== '' || $proyecto->date_boarding !== null )
+												<a href="#" title="Fecha de embarque" data-toggle="modal" data-target="#modal_fecha_embarque" data-id="{{ $proyecto->episodio_id }}">
+													<i class="glyphicon glyphicon-calendar "></i>
+												</a>
+											@else
+											<i class="glyphicon glyphicon-calendar" style="color:red;"></i>
+											@endif
 										@endif
 										</td>
 									</tr>
@@ -70,7 +72,7 @@
 @stop
 
 @section('modales')
-	<!-- FEcha de embarque -->
+	<!-- Fecha de embarque -->
 	<div class="modal fade" id="modal_fecha_embarque" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -138,7 +140,7 @@
 			$('#form_fecha_embarque').on('submit', function(event){
 					event.preventDefault();
 					$.ajax({
-						url: "{{ route('fecha-embarque-update') }}",
+						url: "{{ route('fecha_embarque_update') }}",
 						type: "POST",
 						data: $( this ).serialize(),
 						success: function( data ){

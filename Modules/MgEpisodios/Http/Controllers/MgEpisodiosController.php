@@ -189,18 +189,18 @@ class MgEpisodiosController extends Controller
      */
     public function edit($id)
     {
-        
         try{
             //return Episodios::find($id);
             $dataRelacion = EpisodioRelacionConfiguracion::select('id','id_episodio', 'id_catalogo_configuracion', 'created_at')
             ->where('id_episodio', $id)
             ->get();
 
-            $dataRelacionAll = EpisodioRelacionConfiguracion::all();
+            $dataRelacionAll = Episodios::where('id', $id)
+            ->get();
 
             $data = [
-                'data' => $dataRelacion,
-                'dataClear' => $dataRelacionAll,
+                'data' => $dataRelacionAll,
+                'dataClear' => $dataRelacion,
                 'msg' => 'success' 
             ];
 

@@ -2,8 +2,10 @@
 
 @section('guia')
 	<li>
-		<i class="ace-icon fa fa-building-o"></i>
-		<a href="{{ route('list-tipo-trabajo') }}">Tipos de trabajo</a>
+		@if(\Request::session()->has('add_via'))
+			<i class="ace-icon fa fa-building-o"></i>
+			<a href="{{ route('create_tipo_trabajo') }}">Tipos de trabajo</a>
+		@endif
 	</li>
 @stop
 
@@ -44,9 +46,11 @@
 										<td>{{$tiposTrabajo->nombre}}</td>
 										<td>{{$tiposTrabajo->descripcion}}</td>
 										<td>
-											<a data-id="{{ $tiposTrabajo->id }}" data-nombre="{{ $tiposTrabajo->nombre }}" data-descripcion="{{ $tiposTrabajo->descripcion }}" data-toggle="modal" data-target="#modal_update_tipo_trabajo" class="btn btn-xs btn-info" title="Editar">
-												<i class="ace-icon fa fa-pencil bigger-120"></i>
-											</a>					
+											@if(\Request::session()->has('update_tipo_trabajo'))
+												<a data-id="{{ $tiposTrabajo->id }}" data-nombre="{{ $tiposTrabajo->nombre }}" data-descripcion="{{ $tiposTrabajo->descripcion }}" data-toggle="modal" data-target="#modal_update_tipo_trabajo" class="btn btn-xs btn-info" title="Editar">
+													<i class="ace-icon fa fa-pencil bigger-120"></i>
+												</a>	
+											@endif				
 										</td>
 									</tr>
 								@endforeach
@@ -171,7 +175,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('update-tipo-trabajo') }}",
+					url: "{{ route('update_tipo_trabajo') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
@@ -194,7 +198,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('create-tipo-trabajo') }}",
+					url: "{{ route('create_tipo_trabajo') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){

@@ -173,7 +173,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('update-tipo-error') }}",
+					url: "{{ route('update_tipo_error') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){
@@ -197,7 +197,7 @@
 				event.preventDefault();
 				$('.btn-enviar').attr('disabled', 'disabled');
 				$.ajax({
-					url: "{{ route('create-tipo-error') }}",
+					url: "{{ route('create_tipo_error') }}",
 					type: "POST",
 					data: $( this ).serialize(),
 					success: function( data ){

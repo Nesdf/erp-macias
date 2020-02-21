@@ -201,6 +201,7 @@ class MgEpisodiosController extends Controller
             $data = [
                 'data' => $dataRelacionAll,
                 'dataClear' => $dataRelacion,
+                'listConfig' => CatalogoConfiguraciones::all(),
                 'msg' => 'success' 
             ];
 

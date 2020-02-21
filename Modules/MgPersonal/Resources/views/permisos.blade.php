@@ -404,11 +404,6 @@
 											</label>
 										</p>
 										<p>
-											<label>Editar Descripción de Timecode<br>
-											<input type="checkbox" name="edit_reporte-update_reporte" class="toggle" @if( isset($urlArray['edit_reporte']) ) checked @endif >
-											</label>
-										</p>
-										<p>
 											<label>Eliminar Descripción de Timecode<br>
 											<input type="checkbox" name="delete_reporte" class="toggle" @if( isset($urlArray['delete_reporte']) ) checked @endif >&nbsp;
 											</label>

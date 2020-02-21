@@ -94,7 +94,7 @@
 				</button>
 
 				<div class="navbar-header pull-left">
-					<a href="index.html" class="navbar-brand">
+				<a href="{{url('/home')}}" class="navbar-brand">
 						<small> GPS by MG </small>
 					</a>
 				</div>
@@ -154,10 +154,10 @@
 				<ul class="nav nav-list">
 					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento_responsable') || Request::url() == route('mgentregables') || Request::url() == route('mgmetodoenvio') || Request::url() == route('mgdestino') || \Request::is('mgcatalogos/configuracion')) class="open" @endif>
 						{{-- Permite --}}
-						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') )
+						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') | \Request::session()->has('tipo_error') )
 							<a href="#" class="dropdown-toggle">
 								<i class="menu-icon fa fa-list"></i>
-								<span class="menu-text"> Elementos </span>
+								<span class="menu-text"> Catálogos </span>
 								<b class="arrow fa fa-angle-down"></b>
 							</a>
 							<b class="arrow"></b>

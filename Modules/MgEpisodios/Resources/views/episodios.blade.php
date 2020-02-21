@@ -435,29 +435,29 @@
 					<label>Fecha de entrega del traductor</label>
 					<input type="text" name="fecha_entrega_traductor" class="form-control"  required>
 					<label>
-					<input type="checkbox" name="aprobacion_cliente" id="aprobacion_cliente" > Aprobación del cliente
+					<input type="checkbox" class="check" name="aprobacion_cliente" id="aprobacion_cliente" > Aprobación del cliente
 					</label><br>
 					<div id="input_aprobacion_cliente"></div>
 					<label>
-					<input type="checkbox" name="sin_script" id="sin_script" > Sin script
+					<input type="checkbox" class="check" name="sin_script" id="sin_script" > Sin script
 					</label>
 					<div class="form-group">
 						<label for="script_original_create">Script Original</label>
 						<input type="text" class="form-control" id="script_original" name="script_original" readonly="true" placeholder="Script Original">
 					</div>
 					<label>
-					<input type="checkbox" name="rayado" id="rayado" > Rayado
+					<input type="checkbox" class="check" name="rayado" id="rayado" > Rayado
 					</label>
 					<div id="input_rayado"></div>
 					<label>
-					<input type="checkbox" name="chk_canciones" id="chk_canciones" > Canciones
+					<input type="checkbox" class="check" name="chk_canciones" id="chk_canciones" > Canciones
 					</label><br>
 					<label>
-					<input type="checkbox" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
+					<input type="checkbox" class="check" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
 					<div id="input_subtitulos_create"></div>
 					</label><br>
 					<label>
-					<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
+					<input type="checkbox" class="check" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 					</label><br>
 					<label>Observaciones</label>
 					<textarea class="form-control" name="observaciones_traductor" ></textarea>
@@ -495,29 +495,29 @@
 						<label>Fecha de entrega del traductor</label>
 						<input type="text" name="fecha_entrega_traductor" id="fecha_entrega_traductor" class="form-control" required>
 						<label>
-						<input type="checkbox" name="aprobacion_cliente" id="aprobacion_cliente" > Aprobación del cliente
+						<input type="checkbox" class="check" name="aprobacion_cliente" id="aprobacion_cliente" > Aprobación del cliente
 						</label><br>
 						<div id="input_aprobacion2_cliente"></div>
 						<label>
-						<input type="checkbox" name="sin_script" id="sin_script" > Sin script
+						<input type="checkbox" class="check" name="sin_script" id="sin_script" > Sin script
 						</label>
 						<div class="form-group">
 							<label for="script_original_create">Script Original</label>
 							<input type="text" class="form-control" id="script_original" name="script_original" readonly="true" placeholder="Script Original">
 						</div>
 						<label>
-						<input type="checkbox" name="rayado" id="rayado" > Rayado
+						<input type="checkbox" class="check" name="rayado" id="rayado" > Rayado
 						</label>
 						<div id="input_rayado2"></div>
 						<label>
-						<input type="checkbox" name="chk_canciones" id="chk_canciones" > Canciones
+						<input type="checkbox" class="check" name="chk_canciones" id="chk_canciones" > Canciones
 						</label><br>
 						<label>
-						<input type="checkbox" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
+						<input type="checkbox" class="check" name="chk_subtitulos" id="chk_subtitulos" > Subtitulos
 						<div id="input_subtitulos_update"></div>
 						</label><br>
 						<label>
-						<input type="checkbox" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
+						<input type="checkbox" class="check" name="chk_lenguaje_diferente_original" id="chk_lenguaje_diferente_original" > Lenguaje diferente al original
 						</label><br>
 						<label>Observaciones</label>
 						<textarea class="form-control" name="observaciones_traductor" ></textarea>
@@ -1127,13 +1127,13 @@
 					type: "GET",
 					success: function( data ){
 						console.log('REF-DATA', data);
-						data['dataClear'].forEach(element => {
-							var num = element['id_catalogo_configuracion'];
+						data['listConfig'].forEach(element => {
+							var num = element['id'];
 							$(`input[name = ${num}]`).prop( "checked", false ).attr( "disabled", false );
 							$(`#${num}`).html('');
 						});
 
-						data['data'].forEach(element => {
+						data['dataClear'].forEach(element => {
 							var num = element['id_catalogo_configuracion'];
 							var fecha = element['created_at'];
 							var d = new Date(`${fecha}`).toLocaleDateString();
@@ -1237,7 +1237,8 @@
 			* Ventana modal para asignar Productor
 			*/
 			$('#modal_create_productor').on('show.bs.modal', function(e){
-
+				$(".selectpicker").val('default');
+				$('.selectpicker').selectpicker('refresh');
 				var id = $(e.relatedTarget).data().id;
 				$('input[name=chk_edicion]').attr('checked', false);
 				$('div.dateEdicion').html('');
@@ -1257,16 +1258,21 @@
 				$('input[name=chk_edicion]').on('click', function(){
 					if($(this).is(':checked')){
 						$('div.dateEdicion').html('<label>Fecha Edición</label>\
-							<input type="text" name="fecha_edicion" class="form-control" required>\
+							<input type="text" name="fecha_edicion" class="form-control" title="Seleccionar..." required>\
 							<br>\
 							<label>Editor</label>\
-							<select name="nombre_editor"  class="form-control" required>\
+							<select name="nombre_editor" class="form-control " required>\
 							<option value="">Seleccionar</option>\
 							@foreach($tecnicos as $tecnico)\
 							<option value="{{ $tecnico->id }}">{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 							@endforeach\
 							</select>\
 							');
+
+							$('select[name=nombre_editor]').selectpicker({
+								liveSearch: true,
+								style: 'btn-primary'
+							});
 					} else{
 						$('div.dateEdicion').html('');
 					}
@@ -1299,23 +1305,29 @@
 							@endforeach\
 							</select>\
 							');
+							$('input[name=fecha_regrabacion]').datepicker({
+								dateFormat: "yy-mm-dd",
+								minDate: 0,
+								closeText: 'Cerrar',
+								prevText: '<Ant',
+								nextText: 'Sig>',
+								currentText: 'Hoy',
+								monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+								monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+								dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+								dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+								dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+							});
+
+							$('select[name=nombre_regrabador]').selectpicker({
+								liveSearch: true,
+								style: 'btn-primary'
+							});
 					} else{
 						$('div.dateRegrabacion').html('');
 					}
 
-					$('input[name=fecha_regrabacion]').datepicker({
-						dateFormat: "yy-mm-dd",
-						minDate: 0,
-						closeText: 'Cerrar',
-					    prevText: '<Ant',
-					    nextText: 'Sig>',
-					    currentText: 'Hoy',
-					    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-					    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-					    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-					    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-					    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-					});
+					
 				});
 
 				$('input[name=chk_qc]').on('click', function(){
@@ -1331,6 +1343,11 @@
 							@endforeach\
 							</select>\
 							');
+
+							$('select[name=nombre_qc]').selectpicker({
+								liveSearch: true,
+								style: 'btn-primary'
+							});
 					} else{
 						$('div.dateQC').html('');
 					}
@@ -1416,6 +1433,8 @@
 				* Ventana modal para modificar al Productor
 				*/
 				$('#modal_update_productor').on('shown.bs.modal', function(e){
+					$(".selectpicker").val('default');
+					$('.selectpicker').selectpicker('refresh');
 					var id = $(e.relatedTarget).data().id;
 					$(".loader").fadeIn();
 					$.ajax({
@@ -1447,7 +1466,7 @@
 								if(data.fecha_script != null){
 									fechaScript = data.fecha_script;
 								}*/
-								$('#add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script2" name="fecha_script" class="form-control" value="'+data.fecha_rayado+'" required></input>');
+								$('#add_date_script').html('<label>Fecha de script</label><input type="text" id="fecha_script2" name="fecha_script" class="form-control" value="'+resp.data[0].fecha_rayado+'" required></input>');
 
 								$('#fecha_doblaje_update, #fecha_script2').datepicker({
 									dateFormat: "yy-mm-dd",
@@ -1475,6 +1494,11 @@
 										<option value="{{ $tecnico->id }}" '+(resp.data[0].nombre_regrabador == {{ $tecnico->id }}) ? selected : ""+'>{{ $tecnico->name }} {{ $tecnico->ap_paterno }} {{ $tecnico->ap_materno }}</option>\
 										@endforeach\
 										</select>');
+
+									$('select[name=nombre_regrabador]').selectpicker({
+										liveSearch: true,
+										style: 'btn-primary'
+									});
 							} else{
 								$('input[name=chk_reprobacion]').attr('checked', false)
 								$('div.dateRegrabacion').html('');
@@ -1614,6 +1638,7 @@
 							});
 
 							$('input[name=fecha_doblaje]').val(resp.data[0].fecha_doblaje);
+							
 							$('.selectpicker').selectpicker('refresh');
 						},
 						error: function(error){
@@ -1649,6 +1674,7 @@
 
 			//Ventana modal para asignar traductor
 			$('#modal_create_traductor').on('shown.bs.modal', function (e) {
+				$('.check').prop("checked", false);
 				var id = $(e.relatedTarget).data().id;
 				$('select[name=traductor]').val('');
 				$('input[name=fecha_entrega_traductor]').val('');
@@ -1748,6 +1774,7 @@
 			* Ventana modal para modificar traductor
 			*/
 			$('#modal_update_traductor').on('shown.bs.modal', function (e) {
+				$('.check').prop("checked", false);
 				var id = $(e.relatedTarget).data().id;
 				$('input[name=id]').val(id);
 				$(".loader").fadeIn();
@@ -1755,7 +1782,6 @@
 						url: "{{ url('/mgepisodios/edit') }}"+"/"+id,
 						type: 'GET',
 						success: function(resp){
-							console.log("REF-RESPONSE00",resp.data['0']);
 							$(".loader").fadeOut("slow");
 							$('select[name=traductor]').val(resp.data['0'].traductorId);
 							$('input[name=script_original]').val(resp.data['0'].script_original);

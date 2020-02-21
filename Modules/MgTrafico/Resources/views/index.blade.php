@@ -78,7 +78,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 			<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-			<h4 class="modal-title" id="t_header">Asignar Productor</h4>
+			<h4 class="modal-title" id="t_header">Asignar Fecha</h4>
 			<div id="error_agregar_productor"></div>
 			</div>
 			<form role="form" id="form_fecha_embarque">

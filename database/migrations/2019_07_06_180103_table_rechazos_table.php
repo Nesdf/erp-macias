@@ -19,7 +19,7 @@ class TableRechazosTable extends Migration
             $table->date('fecha_rechazo');
             $table->date('fecha_original_envio');
             $table->integer('cliente');
-            $table->text('titulo_programa');
+            $table->integer('titulo_programa');
             $table->integer('temporada');
             $table->integer('numero_episodio');
             $table->string('idioma', 10);
@@ -39,6 +39,7 @@ class TableRechazosTable extends Migration
             $table->text('tomar_acciones_prevencion');
             $table->text('accion_tomada');
             $table->string('nombre_completo_responsable',100);
+            $table->text('acciones_tomadas');
             $table->integer('id_episodio_temporada');
             $table->integer('id_numero_episodio');
 

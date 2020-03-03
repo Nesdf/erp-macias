@@ -83,6 +83,7 @@ class CreateEpisodiosTable extends Migration
             $table->string('bpo_or_lm',150)->nullable();
             $table->string('referencia_envio',100)->nullable();
             $table->string('enviado_a',100)->nullable();
+            $table->string('metodo_envio',100)->nullable();
             $table->integer('ingeniero_audio_id')->nullable();
             $table->integer('tipo_trabajo_id')->nullable();
             $table->char('hiss', 2)->nullable();

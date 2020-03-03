@@ -72,18 +72,18 @@
 							<tbody>
                                 @foreach($proyectos as $proyecto)
 									<tr>
-										<td> {{ \Carbon\Carbon::parse($proyecto->proyecto_date)->format('m/d/Y')}} </td>
+										<td> {{ \Carbon\Carbon::parse($proyecto->proyecto_date)->format('d/m/Y')}} </td>
 										<td> {{ $proyecto->nombre_clientes }} </td>
                                         <td> {{ $proyecto->proyecto_titulo }} </td>
                                         <td> {{ $proyecto->num_episodio }}</td>
-                                        <td> {{ \Carbon\Carbon::parse($proyecto->date_download)->format('m/d/Y')}}  </td>
+                                        <td> {{ \Carbon\Carbon::parse($proyecto->date_download)->format('d/m/Y')}}  </td>
                                         <td> {{ $proyecto->reference_download }}</td>
                                         <td>@if($proyecto->notify_pistas) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
                                         <td>@if($proyecto->send_sebastians) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
                                         <td>@if($proyecto->ot) <span class="glyphicon glyphicon-ok text-success"></span> @else <span class="glyphicon glyphicon-remove text-danger"> @endif</td>
-                                        <td>{{ \Carbon\Carbon::parse($proyecto->fecha_entrega_rayado)->format('m/d/Y')}} </td>
+                                        <td>{{ \Carbon\Carbon::parse($proyecto->fecha_entrega_rayado)->format('d/m/Y')}} </td>
                                         <td>????{{ $proyecto->fecha_qc }}</td>
-                                        <td> {{ \Carbon\Carbon::parse($proyecto->fecha_entrega)->format('m/d/Y')}} </td>
+                                        <td> {{ \Carbon\Carbon::parse($proyecto->fecha_entrega)->format('d/m/Y')}} </td>
                                         <td>{{ $proyecto->productor }}</td>
                                         <td>{{ $proyecto->director }}</td>
                                         <td>{{ $proyecto->sala }}</td>

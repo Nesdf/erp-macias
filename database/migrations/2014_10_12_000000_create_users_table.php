@@ -22,7 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password', 60);
             $table->boolean('tipo_empleado');// 1 = Técnico; 0 = Administrativo
-			$table->integer('job');
+            $table->integer('job');
+            $table->text('lista_estudios')->nullable();
+            $table->boolean('status_ingreso_sistema')->nullable()->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

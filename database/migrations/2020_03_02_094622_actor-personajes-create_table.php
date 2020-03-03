@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActoresTable extends Migration
+class ActorPersonajesCreateTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,15 @@ class CreateActoresTable extends Migration
     public function up()
     {
         //
-        Schema::create('actores', function(Blueprint $table){
+        Schema::create('actor_personaje', function(Blueprint $table){
             $table->increments('id');
-            $table->string('nombre_completo', 150);
-            $table->string('nombre_artistico', 50);
+            $table->string('episodio_folio', 10);
+            $table->string('personaje', 100);
+            $table->boolean('fijo');
+            $table->string('proyecto', 100);
+            $table->string('loops', 10);
+            $table->boolean('asignado');
+
             $table->timestamps();
         });
     }
@@ -30,6 +35,6 @@ class CreateActoresTable extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('actores');
+        Schema::dropIfExists('actor_personaje');
     }
 }

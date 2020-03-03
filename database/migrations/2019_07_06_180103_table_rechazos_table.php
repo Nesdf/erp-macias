@@ -17,7 +17,7 @@ class TableRechazosTable extends Migration
         Schema::create('rechazos', function(Blueprint $table){
             $table->increments('id');
             $table->date('fecha_rechazo');
-            $table->date('fecha_envio_cliente');
+            $table->date('fecha_original_envio');
             $table->integer('cliente');
             $table->text('titulo_programa');
             $table->integer('temporada');
@@ -28,7 +28,7 @@ class TableRechazosTable extends Migration
             $table->integer('id_puesto_responsable');
             $table->string('nombre_responsable', 100);
             $table->text('descripcion_motivo_rechazo');
-            $table->string('nivel_gravedad', 15);
+            $table->string('nivel_gravedad', 20);
             $table->integer('numero_rechazo');
             $table->integer('id_coordinador');
             $table->integer('id_productor');
@@ -38,7 +38,9 @@ class TableRechazosTable extends Migration
             $table->text('observaciones');
             $table->text('tomar_acciones_prevencion');
             $table->text('accion_tomada');
-
+            $table->string('nombre_completo_responsable',100);
+            $table->integer('id_episodio_temporada');
+            $table->integer('id_numero_episodio');
 
             $table->timestamps();
         });
@@ -52,5 +54,6 @@ class TableRechazosTable extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('rechazos');
     }
 }

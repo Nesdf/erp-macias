@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rechazos extends Model
 {
+    //
     protected $table = 'rechazos';
     protected $fillable = [
         'fecha_rechazo',

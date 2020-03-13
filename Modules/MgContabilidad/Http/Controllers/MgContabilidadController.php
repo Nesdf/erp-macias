@@ -98,6 +98,8 @@ class MgContabilidadController extends Controller
      */
     public function reporteLlamadoActores() {
 
+      //
+
         try{
             $salas = Salas::salasAll();
             return view('mgcontabilidad::reporte-llamado-actores', compact('salas'));

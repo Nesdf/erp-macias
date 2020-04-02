@@ -201,7 +201,7 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<label for="exampleInputEmail1">Título Original del episodio</label>
+					<label for="titulo_original_episodio">Título Original del episodio</label>
 					<input type="text" class="form-control" id="titulo_original_episodio" name="titulo_original_episodio" placeholder="Título Original del episodio">
 				</div>
 				<div class="form-group">
@@ -210,16 +210,16 @@
 				</div> 
 				
 				<div class="form-group">
-					<label for="exampleInputEmail1">Número de Episodio</label>
+					<label for="num_episodio">Número de Episodio</label>
 					<input type="text" class="form-control" id="num_episodio" name="num_episodio" placeholder="Número de episodio">
 				</div>
 				<div>
 				   <div class=" col-md-6 form-group">
-						<label for="entrega_me">Fecha de descarga</label>
+						<label for="fecha_descarga_create">Fecha de descarga</label>
 						<input type="text" class="form-control" id="fecha_descarga_create" name="fecha_descarga_create" readonly="true" placeholder="Fecha de descarga">
 					</div>
 					<div class=" col-md-6 form-group">
-						<label for="entrega_me">Referencia</label>
+						<label for="referencia">Referencia</label>
 						<input type="text" class="form-control" id="referencia" name="referencia"  placeholder="Referencia">
 					</div>
 				</div>
@@ -954,7 +954,7 @@
 					url: "{{ url('mgepisodios/edit') }}" + "/" + id,
 					type: "GET",
 					success: function(resp){
-						console.log(resp.data['0']);
+						console.log(resp);
 						$(".loader").fadeOut("slow");
 						$('input[name=id]').val(resp.data['0'].id);
 						$('input[name=proyectoId]').val(resp.data['0'].proyectoId);

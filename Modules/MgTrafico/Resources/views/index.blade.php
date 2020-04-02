@@ -42,8 +42,8 @@
 							<tbody>
                                 @foreach($proyectos as $proyecto)
 									<tr>
-										<td> {{ $proyecto->nombre_clientes }} </td>
-                                        <td> {{ $proyecto->proyecto_titulo }} </td>
+										<td> {{ $proyecto->proyecto_titulo }} </td>
+                                        <td> {{ $proyecto->nombre_clientes }} </td>
                                         <td> {{ $proyecto->num_episodio }}</td>
                                         <td> {{ \Carbon\Carbon::parse($proyecto->fecha_entrega)->format('d/m/Y')}}</td>
                                         <td>{{ $proyecto->duracion }}</td>

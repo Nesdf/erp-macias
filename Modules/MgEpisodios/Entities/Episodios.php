@@ -63,6 +63,7 @@ class Episodios extends Model
       'send_sebastians',
       'ot',
       'envio_mp4',
+      'reference_download',
       'script_original',
       'send_date_subtitle_transfer',
       'tipo_trabajo_id',

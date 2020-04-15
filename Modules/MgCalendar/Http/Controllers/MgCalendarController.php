@@ -12,7 +12,7 @@ use \Modules\MgCalendar\Entities\Actores;
 use \Modules\MgCalendar\Entities\ActorPersonaje;
 use \Modules\MgCalendar\Entities\Llamados;
 use \Modules\MgCalendar\Entities\Salas;
-use \Modules\MgCalendar\Entities\Tabulador ;
+use \Modules\MgCalendar\Entities\Tabulador;
 use \Modules\MgCalendar\Entities\User;
 use Modules\MgCalendar\Entities\Episodios;
 use App\Globals\Config;
@@ -229,7 +229,7 @@ class MgCalendarController extends Controller
                 } 
                 
 
-               
+                
 
                 $request->session()->put('key', 'value');
 
@@ -255,31 +255,61 @@ class MgCalendarController extends Controller
 
                 setlocale(LC_MONETARY, 'en_US.UTF-8');
 
-                Llamados::create([
-                    'actor' => $request->input('actor'),
-                    'director' => $request->input('director'),
-                    'cita_start' => $cita_entrada,
-                    'cita_end' => $cita_salida,
-                    'folio' => $request->input('folio'),
-                    'capitulo' => $request->input('capitulo'),
-                    'credencial' => $request->input('credencial'),
-                    'loops' => $request->input('loops'),
-                    'pago_total_loops' => round($pago_total_loops[0]->tabulador,2),
-                    'estatus_llamado' => Config::RTK,
-                    'sala' => $request->input('sala'),
-                    'estatus_pago' => 'No Pagado',
-                    'nombre_real' => $request->input('nombre_real'),
-                    'descripcion' => ($request->input('nuevo_personaje')) ? ucwords( strtolower( $request->input('nuevo_personaje') ) ) : ucwords( strtolower( $request->input('personaje') ) ),
-                    'estatus_grupo' => ($request->input('estatus_grupo') == 'on') ? true : false,
-                    'estatus' => true
-                ]);
-                return Response(['msg' => 'success', 'actor'=>$request->input('actor'), 'start'=>$cita_entrada, 'end'=>$cita_salida], 200)->header('Content-Type', 'application/json');
+                
+
+                $llamado = new Llamados();
+                
+                // Llamados::create([
+                //     'actor' => $request->input('actor'),
+                //     'director' => $request->input('director'),
+                //     'cita_start' => $cita_entrada,
+                //     'cita_end' => $cita_salida,
+                //     'folio' => $request->input('folio'),
+                //     'capitulo' => $request->input('capitulo'),
+                //     'credencial' => $request->input('credencial'),
+                //     'loops' => $request->input('loops'),
+                //     'pago_total_loops' => round($pago_total_loops[0]->tabulador,2),
+                //     'estatus_llamado' => Config::RTK,
+                //     'sala' => $request->input('sala'),
+                //     'estatus_pago' => 'No Pagado',
+                //     'nombre_real' => $request->input('nombre_real'),
+                //     'descripcion' => ($request->input('nuevo_personaje')) ? ucwords( strtolower( $request->input('nuevo_personaje') ) ) : ucwords( strtolower( $request->input('personaje') ) ),
+                //     'estatus_grupo' => ($request->input('estatus_grupo') == 'on') ? true : false,
+                //     'estatus' => true
+                // ]);
+                
+                $llamado->actor = $request->input('actor');
+                $llamado->director = $request->input('director');
+                $llamado->cita_start = $cita_entrada;
+                $llamado->cita_end = $cita_salida;
+                $llamado->folio = $request->input('folio');
+                $llamado->capitulo = $request->input('capitulo');
+                $llamado->credencial = $request->input('credencial');
+                $llamado->loops = $request->input('loops');
+                $llamado->pago_total_loops = round($pago_total_loops[0]->tabulador,2);
+                $llamado->estatus_llamado = Config::RTK;
+                $llamado->sala = $request->input('sala');
+                $llamado->estatus_pago = 'No Pagado';
+                $llamado->nombre_real = $request->input('nombre_real');
+                $llamado->descripcion = ($request->input('nuevo_personaje')) ? ucwords( strtolower( $request->input('nuevo_personaje') ) ) : ucwords( strtolower( $request->input('personaje') ) );
+                $llamado->estatus_grupo = ($request->input('estatus_grupo') == 'on') ? true : false;
+                $llamado->estatus = true;
+
+                $llamado->save();
+
+
+
+
+                // return Response(['msg' => 'success', 'actor'=>$request->input('actor'), 'start'=>$cita_entrada, 'end'=>$cita_salida], 200)->header('Content-Type', 'application/json');
+
+                return response()->json(['msg' => 'success', 'actor'=>$request->input('actor'), 'start'=>$cita_entrada, 'end'=>$cita_salida], 200);
             }
 
         } catch(\Exception $e){
-            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            $err = $e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine();
+            \Log::info($err);
             \Log::error(' Trace2: ' .$e->getTraceAsString());
-            return Response(['error' => 'Error: Revisar con el administrador' ], 400)->header('Content-Type', 'application/json');
+            return Response(['error' => 'Error: Revisar con el administrador', 'err' => $err], 400)->header('Content-Type', 'application/json');
         }
     }
 

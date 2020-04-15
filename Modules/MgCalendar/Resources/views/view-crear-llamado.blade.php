@@ -211,6 +211,7 @@ input.tipo_numero{
             url: "{{ url('mgcalendar/list_episodios') }}" + '/' +id,
             type: "GET",
             success: function( data ){
+              console.log("REF00:", data);
               var dataAll = data;
               $(".loader").fadeOut("slow");
               
@@ -228,12 +229,15 @@ input.tipo_numero{
                   $(".loader").fadeIn();
                     var id = $(this).val();
                     var id_episodio = $(this).find(':selected').data('id');
+                    console.log("REF0: ", id);
+                    console.log("REF1: ", id_episodio);
                     $('#foo').empty();
                     dataDB =  [];
                   $.ajax({
                     url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                     type: "GET",
                     success: function( data ){
+                      console.log("REF11: ", data);
                       var proyecto = $('#proyecto_id option:selected').text();
                       var episodio = $('#data_episodios option:selected').text();
                       var sala = $('#data_sala').text();
@@ -242,7 +246,6 @@ input.tipo_numero{
                       $('input[name=director]').val(data['director']);
                       $('input[name=proyecto]').val(proyecto);
                       $('input[name=episodio]').val(episodio);
-                      $('input[name=sala]').val(data['msg'][0]['sala']);
 
                       var table = $("#table-personajes tbody");
                       var asignado ='';
@@ -307,6 +310,7 @@ input.tipo_numero{
                       $('input[name=nombre_real]').val(dataAll['msg'][0]['titulo_original']);
                       $('input[name=capitulo]').val(['capitulo']);
                       $('input[name=fecha]').val(dataAll['msg'][0]['date_entrega']);
+                      $('input[name=sala]').val(data.msg[0].sala);
                       $('div#reload').html('');
                         $('#name_sala').html('<h3 style="text-align: center;" ><strong>Estudio: </strong> '+data.estudio+' </h3>\
                         <h3 style="text-align: center;" ><strong>Sala:</strong> <span id="data_sala">'+data.msg[0].sala+'</span></h3>'); 

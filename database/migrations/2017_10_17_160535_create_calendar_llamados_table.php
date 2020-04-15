@@ -31,8 +31,8 @@ class CreateCalendarLlamadosTable extends Migration
             $table->string('capitulo', 255);
             $table->string('pago_total_loops', 30);
             $table->string('estatus_llamado', 30);
-            $table->string('id_llamado_reagendado', 10);
-            $table->text('descripcion_reagenda', 10);
+            $table->string('id_llamado_reagendado', 10)->nullable();
+            $table->text('descripcion_reagenda', 10)->nullable();
             $table->string('nombre_real', 255);
             $table->string('estatus_pago', 200);
             $table->timestamps();

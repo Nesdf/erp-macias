@@ -184,7 +184,7 @@
 						var id = $('input[name=id]').val();
 						var personaje = $('input[name=personaje]').val();
 						$.ajax({
-							url: "{{ route('update-personaje') }}",
+							url: "{{ route('update_personaje') }}",
 							type: "POST",
 							data: {id: id, personaje: personaje, _token: "{{ csrf_token() }}"},
 							success: function( data ){

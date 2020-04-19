@@ -282,16 +282,26 @@ class MgEpisodiosController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy($id, $id_proyecto)
+    public function destroy(Request $request)
     {
         try{
 
-            $eliminar = Episodios::destroy($id);
-            if($eliminar){
-                Episodios::eliminarCalificacion($id);
+            if($request->method('post')){
+                $episodio  = Episodios::find($request->id);
+                $episodio->delete = true;
+                
+                if($episodio->save()){
+                    \Request::session()->flash('success', 'El episodio se eliminó correctamnete');
+                    return redirect('mgepisodios/'.$request->id_proyecto);
+                }
             }
-            \Request::session()->flash('success', trans('mgclientes::ui.flash.flash_delete_episodio'));
-            return redirect('mgepisodios/'.$id_proyecto);
+
+            
+            // $eliminar = Episodios::destroy($id);
+            // if($eliminar){
+            //     Episodios::eliminarCalificacion($id);
+            // }
+            
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());

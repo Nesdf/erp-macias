@@ -201,8 +201,8 @@ class MgProyectosController extends Controller
     {
 		try{
 
-			\Modules\MgProyectos\Entities\Proyectos::destroy($id);
-			\Request::session()->flash('success', trans('mgproyectos::ui.flash.flash_delete_proyecto'));
+			Proyectos::destroy($id);
+			\Request::session()->flash('success', 'El proyecto se eliminó corretamente');
 			return redirect('mgproyectos');
 		} catch(\Exception $e) {
 			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
@@ -214,7 +214,7 @@ class MgProyectosController extends Controller
 	{
 		try{
 
-			$proyecto = \Modules\MgProyectos\Entities\Proyectos::proyecto($id);
+			$proyecto = Proyectos::proyecto($id);
 			return Response(['msg' => 'success', 'proyecto' => $proyecto], 200)->header('Content-Type', 'application/json');
 		} catch(\Exception $e) {
 			\Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());

@@ -85,6 +85,7 @@ class Episodios extends Model
         return \DB::table('episodios')
             ->select('id', 'titulo_original', 'status_coordinador', 'num_episodio', 'proyectoId', 'date_m_and_e', 'date_entrega', 'material_calificado', 'quien_modifico_productor', 'quien_modifico_traductor')
             ->where ('proyectoId', '=', $id)
+            ->where('delete', '=', false)
             ->get();
     }
 

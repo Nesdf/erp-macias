@@ -22,6 +22,7 @@ class Proyectos extends Model
             ->leftjoin('tipos_trabajo', 'tipos_trabajo.id', '=', 'episodios.tipo_trabajo_id')
             ->leftjoin('salas', 'salas.id', '=', 'episodios.salaId')
             ->leftjoin('calificar_materiales', 'calificar_materiales.id_episodio', '=', 'episodios.id')
+            ->where('episodios.delete', '=', false)
             ->get();
     }
 }

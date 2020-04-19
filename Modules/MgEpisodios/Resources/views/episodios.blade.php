@@ -711,10 +711,11 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title " id="myModalLabel">Eliminar Episodio</h4>
 			  </div>
-			  <form id="form_delete_episodio" method="GET" action="{{ url('mgepisodios/delete/') }}">
+			  <form id="form_delete_episodio" method="POST" action="{{ route('delete_episodio') }}">
 				  <img src="{{ asset('assets/dashboard/images/error/peligro.png') }}">
 				  {{ csrf_field() }}
-				  <div id="inputs"></div>
+				  <input type="hidden" name="id" value="">
+				  <input type="hidden" name="id_proyecto" value="">
 				  <label class="label label-default">¿Realmente deseas eliminarlo?</label><br>
 				  <p class="label label-danger">Tomar en cuenta que también se eliminará su calificación.</p>
 				  <div class="modal-footer">
@@ -1051,7 +1052,9 @@
 			*/
 			$('#modal_delete_episodio').on('shown.bs.modal', function(e){
 				var id = $(e.relatedTarget).data().id;
-				  $('#form_delete_episodio').attr('action', '{{ url("mgepisodios/delete") }}/' + id + '/' + {{$proyecto->id}} );
+				$("input[name=id]").val(id);
+				$("input[name=id_proyecto]").val({{$proyecto->id}});
+				//   $('#form_delete_episodio').attr('action',  url("mgepisodios/delete") /' + id + '/' + $proyecto->id );
 			});
 
 			/*

@@ -4,7 +4,7 @@ Route::group(['middleware' => ['web', 'auth','verify_routes'], 'prefix' => 'mgep
 {
     Route::get('/{id}', 'MgEpisodiosController@index')->name('mgepisodios');//Cargar el listado
 	Route::post('/save', 'MgEpisodiosController@store')->name('add_episodio');//Crear
-	Route::get('/delete/{id}/{id_proyecto}', 'MgEpisodiosController@destroy')->name('delete_episodio');//Eliminar
+	Route::post('/delete', 'MgEpisodiosController@destroy')->name('delete_episodio');//Eliminar
 	Route::get('/edit/{id}', 'MgEpisodiosController@edit')->name('edit_episodio');//Editar
 	Route::post('/update', 'MgEpisodiosController@update')->name('update_episodio');//Update
 	Route::post('/update-configuracion', 'MgEpisodiosController@updateConfiguration')->name('update_configuracion_episodio');//Update

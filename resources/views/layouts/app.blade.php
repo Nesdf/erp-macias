@@ -294,8 +294,8 @@
 							<b class="arrow"></b>
 						@endif
 					</li>
-					<li @if(\Request::is('mgactores') || \Request::is('mgcalendar') || \Request::is('mgcalendar/*') ) class="open" @endif>
-						@if(\Request::session()->has('mgactores') || \Request::session()->has('mgcalendar') || \Request::session()->has('list_llamado') || \Request::session()->has('reagendar_llamado'))
+					<li @if(\Request::is('mgactores') || \Request::is('mgcalendar') || \Request::is('mgcalendar/*') || \Request::is('mgreadpdf')  || \Request::is('mgreadpdf/*') ) class="open" @endif>
+						@if(\Request::session()->has('mgactores') || \Request::session()->has('mgcalendar') || \Request::session()->has('list_llamado') || \Request::session()->has('reagendar_llamado')  || \Request::session()->has('mgreadpdf')   || \Request::session()->has('modificar_personajes'))
 							<a href="#" class="dropdown-toggle">
 									<i class="menu-icon fa fa-calendar"></i>
 									<span class="menu-text"> Llamados </span>
@@ -344,14 +344,14 @@
 											</a>
 											<b class="arrow"></b>
 									</li>
-									<li @if(\Request::is('mgcalendar/view-crear-llamado')) class="active" @endif>
+									<li @if(\Request::is('mgreadpdf')) class="active" @endif>
 										
 											<a href="{{ url('mgreadpdf') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Agregar Personajes
 											</a>
 											<b class="arrow"></b>
 									</li>
-									<li @if(\Request::is('mgcalendar/view-crear-llamado')) class="active" @endif>
+									<li @if(\Request::is('mgreadpdf/modificar-personajes')) class="active" @endif>
 										
 											<a href="{{ url('mgreadpdf/modificar-personajes') }}">
 												<i class="menu-icon fa fa-caret-right"></i> Modificar Personajes

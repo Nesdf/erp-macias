@@ -314,10 +314,16 @@
 											</label>
 										</p>
 										<p>
+											<label>Eliminar Episodio<br>
+											<input type="checkbox" name="delete_episodio" class="toggle" @if( isset($urlArray['delete_episodio']) ) checked @endif >
+											</label>
+										</p>
+										<p>
 											<label style="color: blue;">Mostrar Fecha de Entrega<br>
 											<input type="checkbox" name="show_fecha_entrega" class="toggle"  @if( isset($urlArray['show_fecha_entrega']) ) checked @endif >
 											</label>
 										</p>
+										
 						      </div>
 						    </div>
 						  </div>

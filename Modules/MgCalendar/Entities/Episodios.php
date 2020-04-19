@@ -13,7 +13,7 @@ class Episodios extends Model
     {
     	return \DB::table('episodios')
 			->where('proyectoId', '=', $id)
-			//->where('salaId', '!=', null)
+			->where('delete', '=', false)
 			->get();
     }
 

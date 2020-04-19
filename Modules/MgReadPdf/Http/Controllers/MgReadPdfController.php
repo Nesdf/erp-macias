@@ -84,7 +84,7 @@ class MgReadPdfController extends Controller
         $episodios = [];
         $personajes = [];
 
-        return view('mgreadpdf::modificar', compact('proyectos', 'episodios', 'personajes'));
+        return view('mgreadpdf::modificar-personajes', compact('proyectos', 'episodios', 'personajes'));
     }
 
     /**

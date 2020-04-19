@@ -8,6 +8,7 @@ class Episodios extends Model
 {
     protected $table = 'episodios';
     protected $fillable = [
+      'id',
       'titulo_original',
       'date_entrega',
       'salaId',
@@ -85,7 +86,8 @@ class Episodios extends Model
 
         return \DB::table('episodios')
             ->select('id', 'titulo_original', 'status_coordinador', 'num_episodio', 'proyectoId', 'date_m_and_e', 'date_entrega', 'material_calificado', 'quien_modifico_productor', 'quien_modifico_traductor')
-            ->where (['proyectoId', '=' => $id, 'delete', '=' => false])
+            ->where ('proyectoId', '=', $id)
+            ->where('delete', '=', false)
             ->get();
     }
 

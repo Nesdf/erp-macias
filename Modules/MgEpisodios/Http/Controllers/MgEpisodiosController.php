@@ -26,8 +26,8 @@ class MgEpisodiosController extends Controller
     public function index($id)
     {
         try{
+            
             $proyecto = Proyectos::find($id);
-
             $catalogos = CatalogoConfiguraciones::all();
             $proyecto_id = $id;
             $episodios = Episodios::allEpisodioOfProject($id);
@@ -46,6 +46,7 @@ class MgEpisodiosController extends Controller
         } catch(\Exception $e){
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
+            return $e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine();
            //return $request->session()->flash('success', trans('Error al cargar los datos, favor de revisar con el administrador'));
         }
 

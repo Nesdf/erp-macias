@@ -87,7 +87,7 @@ class CreateEpisodiosTable extends Migration
             $table->integer('ingeniero_audio_id')->nullable();
             $table->integer('tipo_trabajo_id')->nullable();
             $table->char('hiss', 2)->nullable();
-            $table->boolean('delete')->default(false);
+            $table->boolean('delete_episodio')->default(false);
 			$table->timestamps();
 
         });

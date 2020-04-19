@@ -69,6 +69,7 @@ class Episodios extends Model
       'tipo_trabajo_id',
       'referencia_envio',
       'created_at',
+      'delete',
       'updated_at'];
 
     /*public static function allEpisodioOfProject($id)
@@ -84,8 +85,7 @@ class Episodios extends Model
 
         return \DB::table('episodios')
             ->select('id', 'titulo_original', 'status_coordinador', 'num_episodio', 'proyectoId', 'date_m_and_e', 'date_entrega', 'material_calificado', 'quien_modifico_productor', 'quien_modifico_traductor')
-            ->where ('proyectoId', '=', $id)
-            ->where('delete', '=', false)
+            ->where (['proyectoId', '=' => $id, 'delete', '=' => false])
             ->get();
     }
 

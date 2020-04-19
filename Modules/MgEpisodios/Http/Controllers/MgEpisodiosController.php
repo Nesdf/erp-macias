@@ -119,6 +119,7 @@ class MgEpisodiosController extends Controller
                         'responsable' => $request->input('responsable'),
                         'material_calificado' => false,
                         'material_entregado' => false,
+                        'delete' => false,
                         'tipo_trabajo_id' => $request->input('tipo_trabajo_create')
                     ]);
 

@@ -70,7 +70,7 @@ class Episodios extends Model
       'tipo_trabajo_id',
       'referencia_envio',
       'created_at',
-      'delete',
+      'delete_episodio',
       'updated_at'];
 
     /*public static function allEpisodioOfProject($id)

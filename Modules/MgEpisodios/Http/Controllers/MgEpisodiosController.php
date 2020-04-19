@@ -120,7 +120,7 @@ class MgEpisodiosController extends Controller
                         'responsable' => $request->input('responsable'),
                         'material_calificado' => false,
                         'material_entregado' => false,
-                        'delete' => false,
+                        'delete_episodio' => false,
                         'tipo_trabajo_id' => $request->input('tipo_trabajo_create')
                     ]);
 
@@ -290,7 +290,7 @@ class MgEpisodiosController extends Controller
 
             if($request->method('post')){
                 $episodio  = Episodios::find($request->id);
-                $episodio->delete = true;
+                $episodio->delete_episodio = true;
                 
                 if($episodio->save()){
                     \Request::session()->flash('success', 'El episodio se eliminó correctamnete');

@@ -95,7 +95,7 @@
 
 				<div class="navbar-header pull-left">
 				<a href="{{url('/home')}}" class="navbar-brand">
-						<small> GPS by MG </small>
+						<small> GPS by MG</small>
 					</a>
 				</div>
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
@@ -152,9 +152,9 @@
 				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
-					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento_responsable') || Request::url() == route('mgentregables') || Request::url() == route('mgmetodoenvio') || Request::url() == route('mgdestino') || \Request::is('mgcatalogos/configuracion')) class="open" @endif>
+					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento_responsable') || \Request::is('mgcatalogos/tipo-error') || Request::url() == route('mgentregables') || Request::url() == route('mgmetodoenvio') || Request::url() == route('mgdestino') || \Request::is('mgcatalogos/configuracion')) class="open" @endif>
 						{{-- Permite --}}
-						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') | \Request::session()->has('tipo_error') )
+						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') | \Request::session()->has('mgcatalogos/tipo-error') )
 							<a href="#" class="dropdown-toggle">
 								<i class="menu-icon fa fa-list"></i>
 								<span class="menu-text"> Catálogos </span>
@@ -213,15 +213,15 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li @if(Request::is('mgtiporeporte')) class="active" @endif>
-									@if(Request::session()->has('mgtiporeporte'))
+								<li @if(\Request::is('mgtiporeporte')) class="active" @endif>
+									@if(\Request::session()->has('mgtiporeporte'))
 										<a href="{{ url('mgtiporeporte') }}"> Tipo de reporte </a>
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li @if(Request::is('tipo_error')) class="active" @endif>
-									@if(Request::session()->has('tipo_error'))
-										<a href="{{ route('tipo_error') }}"> Tipo de error</a> 
+								<li @if(\Request::getPathInfo() == '/mgcatalogos/tipo-error') class="active" @endif>
+									@if(\Request::session()->has('tipo_error'))
+										<a href="{{ route('tipo_error') }}"> Tipo de error </a> 
 										<b class="arrow"></b>
 									@endif
 								</li>

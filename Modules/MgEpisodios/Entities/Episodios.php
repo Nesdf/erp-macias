@@ -126,4 +126,10 @@ class Episodios extends Model
         $search = \DB::table('episodios')->where('folio', '=', $folio)->get();
         return (count($search) > 0) ? true : true;
     }
+
+    public static function validateEpisodio($id_proyecto, $num_episodio){
+        return Episodios::where('proyectoId', '=', $id_proyecto)
+            ->where('num_episodio', '=', $num_episodio)
+            ->count();
+    }
 }

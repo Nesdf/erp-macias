@@ -92,6 +92,14 @@ class MgEpisodiosController extends Controller
                         $folio = $this->generateFolio();
                     }
 
+                    //Validar que no se haya capturado el episodio
+
+                    $valida = Episodios::validateEpisodio($request->input('proyectoId'), ucwords( $request->input('num_episodio') ) );
+
+                    if($valida >= 1){
+                        return response()->json(['status' =>201, 'type' => 'success', 'msg' => 'Ya se encuentra registrado el episodio.'], 201);
+                    }
+
                     $dataaCreate = Episodios::create([
                         'titulo_original' => ucwords( $request->input('titulo_original_episodio') ),
                         // 'bw' => ($request->input('bw') == 'on') ? true : false ,
@@ -142,7 +150,7 @@ class MgEpisodiosController extends Controller
                         }
                     }
                     $request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_episodio'));
-                    return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+                    return Response(['status' => 200, 'type' => 'success', 'msg' => 'success'], 200)->header('Content-Type', 'application/json');
                 }
 
             }

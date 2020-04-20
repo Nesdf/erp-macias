@@ -293,6 +293,7 @@
 					<button type="button" class="btn btn-default" data-dismiss="modal" >Cerrar</button>
 					<button type="submit" class="btn btn-primary" id="btn_crear_episodio">Guardar</button>
 				</div>
+				<div id="info_episodio" ></div>
 			  </form>
 			</div>
 		  </div>
@@ -1075,16 +1076,25 @@
 						url: "{{ url('mgepisodios/save') }}",
 						type: "POST",
 						data: $( this ).serialize(),
-						success: function( data ){
-							if(data.msg == 'success'){
+						success: function( res ){
+
+							$('#info_episodio').html('');
+
+							if(res['status'] == 200){
 								$('#btn_crear_episodio').delay( 2000 ).prop('disabled', false);
 								window.location.reload(true);
+							}
+
+							if(res['status']  == 201){
+								console.log(res['status']);
+								$('#btn_crear_episodio').delay( 2000 ).prop('disabled', false);
+								$('#info_episodio').append("<div class='alert alert-danger' id='info-episodio' role='alert'>"+res['msg']+"</div>");
 							}
 						},
 						error: function(error){
 							$('#btn_crear_episodio').delay( 2000 ).prop('disabled', false);
 							var err = "";
-							for(var i in error.responseJSON.msg){
+							for(var i in error.responseJSON['msg']){
 								err += error.responseJSON.msg[i] + "<br>";
 							}
 							$('#error_create_episodio').html('<div class="alert alert-danger">' + err + '</div>');

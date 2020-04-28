@@ -152,9 +152,9 @@
 				</div><!-- /.sidebar-shortcuts -->
 
 				<ul class="nav nav-list">
-					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento_responsable') || \Request::is('mgcatalogos/tipo-error') || Request::url() == route('mgentregables') || Request::url() == route('mgmetodoenvio') || Request::url() == route('mgdestino') || \Request::is('mgcatalogos/configuracion')) class="open" @endif>
+					<li @if(\Request::is('mgpuestos') || \Request::is('mgsucursales') || \Request::is('mgsalas') || \Request::is('mgvias') || \Request::is('mgtcr') || \Request::is('mgtimecode') || \Request::is('mgtiporeporte') || Request::url() == route('departamento_responsable') || \Request::is('mgcatalogos/tipo-error') || Request::url() == route('mgentregables') || Request::url() == route('mgmetodoenvio') || Request::url() == route('mgdestino') || \Request::is('mgcatalogos/configuracion') || \Request::is('mgcatalogotipotrabajo'))  class="open" @endif>
 						{{-- Permite --}}
-						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') | \Request::session()->has('mgcatalogos/tipo-error') )
+						@if(\Request::session()->has('mgpuestos') || \Request::session()->has('mgsucursales') || \Request::session()->has('mgsalas') || \Request::session()->has('mgvias') || \Request::session()->has('mgtcr') || \Request::session()->has('mgtimecode') || \Request::session()->has('mgtiporeporte') || \Request::session()->has('mgcatalogos/tipo-error') || \Request::session()->has('mgcatalogotipotrabajo') )
 							<a href="#" class="dropdown-toggle">
 								<i class="menu-icon fa fa-list"></i>
 								<span class="menu-text"> Catálogos </span>
@@ -410,7 +410,7 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<li @if(\Request::is('mgcontabilidad/reporte-proyceto')) class="active" @endif>
+							<li @if(\Request::is('mgcontabilidad/detalle-trabajo-actor')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/detalle-trabajo-actor') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Detalle por Actor
 								</a>
@@ -428,7 +428,7 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
-							<li @if(\Request::is('mgcontabilidad/show-pagos-actores')) class="active" @endif>
+							<li @if(\Request::is('mgcontabilidad/show-status-actores')) class="active" @endif>
 								<a href="{{ url('mgcontabilidad/show-status-actores') }}">
 									<i class="menu-icon fa fa-caret-right"></i> Consulta por Estatus
 								</a>

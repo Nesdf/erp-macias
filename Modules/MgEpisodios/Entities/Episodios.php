@@ -3,6 +3,8 @@
 namespace Modules\MgEpisodios\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
+use Log;
 
 class Episodios extends Model
 {
@@ -131,5 +133,20 @@ class Episodios extends Model
         return Episodios::where('proyectoId', '=', $id_proyecto)
             ->where('num_episodio', '=', $num_episodio)
             ->count();
+    }
+
+    public static function deleteEpisodioConfig($idProyecto){
+
+        $dataEpisodios = Episodios::where("proyectoId", $idProyecto)->get();
+        
+        foreach ($dataEpisodios as $valor) {
+            DB::select(DB::raw('DELETE FROM calificar_materiales WHERE id_episodio = ' . $valor->id));
+            DB::select(DB::raw('DELETE FROM actor_personaje WHERE episodio_folio = ' . $valor->folio));
+            DB::select(DB::raw('DELETE FROM calendario WHERE folio = ' . $valor->folio));
+            DB::select(DB::raw('DELETE FROM episodio_relacion WHERE id_episodio = ' . $valor->folio));
+            DB::select(DB::raw('DELETE FROM llamado WHERE folio_id = ' . $valor->folio));
+        }
+        //**Eliminar los episodios relacionados al proyecto */
+        DB::select(DB::raw('DELETE FROM episodios WHERE episodios."proyectoId" = ' . $idProyecto));
     }
 }

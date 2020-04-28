@@ -441,6 +441,10 @@
 				  {{ csrf_field() }}
 				  <div id="inputs"></div>
 				  <label>{{trans('mgproyectos::ui.label.deseas_eliminarlo')}}</label>
+				  <br>
+				  <p>
+				  	<span class="label label-danger">Nota: Serán eliminados todos los episodios y configuraciones creados para este proyecto.</span>
+				  </p>
 				  <div class="modal-footer">
 					<button type="submit" class="btn btn-danger">Eliminar</button>
 				  </div>

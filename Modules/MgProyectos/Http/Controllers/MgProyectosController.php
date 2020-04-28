@@ -9,6 +9,8 @@ use Modules\MgProyectos\Entities\Proyectos;
 use Modules\MgProyectos\Entities\Clientes;
 use Modules\MgProyectos\Entities\Idiomas;
 use Modules\MgEpisodios\Entities\Vias;
+use Modules\MgEpisodios\Entities\Episodios;
+use Log;
 
 class MgProyectosController extends Controller
 {
@@ -200,7 +202,9 @@ class MgProyectosController extends Controller
     public function destroy($id)
     {
 		try{
-
+			Log::info('Eliminar proyecto');
+			
+			Episodios::deleteEpisodioConfig($id);
 			Proyectos::destroy($id);
 			\Request::session()->flash('success', 'El proyecto se eliminó corretamente');
 			return redirect('mgproyectos');

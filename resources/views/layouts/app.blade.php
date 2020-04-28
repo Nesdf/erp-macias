@@ -225,8 +225,8 @@
 										<b class="arrow"></b>
 									@endif
 								</li>
-								<li @if(Request::is('departamento_responsable')) class="active" @endif>
-									@if(Request::session()->has('departamento_responsable')) 
+								<li @if(Request::getPathInfo() == '/mgcatalogos/departamento-responsable') class="active" @endif>
+									@if(\Request::session()->has('departamento_responsable')) 
 										<a href="{{ route('departamento_responsable') }}"> Departamento responsable </a>
 										<b class="arrow"></b>
 									@endif

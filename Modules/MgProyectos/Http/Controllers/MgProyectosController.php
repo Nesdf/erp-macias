@@ -67,6 +67,13 @@ class MgProyectosController extends Controller
 					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 				} 
 
+				//Validar si existe el proyecto
+				$validar = Proyectos::where('titulo_original', '=', $request->titulo_proyecto)->first();
+				if($validar){
+					$request->session()->flash('danger', 'Ya existe el proyecto');
+					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
+				}
+
 				$guardar =  Proyectos::create([					
 					'clienteId' => $request->input('cliente'),
 					'titulo_original' => ucwords( strtolower($request->input('titulo_proyecto')) ),
@@ -154,7 +161,7 @@ class MgProyectosController extends Controller
 				if ( $validator->fails() ) {
 					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
 				} else {
-					\Modules\MgProyectos\Entities\Proyectos::where('id', $request->input('id'))
+					Proyectos::where('id', $request->input('id'))
 						->update([					
 							'clienteId' => $request->input('cliente'),
 							'titulo_original' => ucwords( $request->input('titulo_serie') ),

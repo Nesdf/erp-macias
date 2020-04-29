@@ -141,10 +141,10 @@ class Episodios extends Model
         
         foreach ($dataEpisodios as $valor) {
             DB::select(DB::raw('DELETE FROM calificar_materiales WHERE id_episodio = ' . $valor->id));
-            DB::select(DB::raw('DELETE FROM actor_personaje WHERE episodio_folio = ' . $valor->folio));
-            DB::select(DB::raw('DELETE FROM calendario WHERE folio = ' . $valor->folio));
-            DB::select(DB::raw('DELETE FROM episodio_relacion WHERE id_episodio = ' . $valor->folio));
-            DB::select(DB::raw('DELETE FROM llamado WHERE folio_id = ' . $valor->folio));
+            DB::select(DB::raw('DELETE FROM actor_personaje WHERE episodio_folio = ' . "'".$valor->folio."'"));
+            DB::select(DB::raw('DELETE FROM calendario WHERE folio = ' . "'".$valor->folio."'"));
+            DB::select(DB::raw('DELETE FROM episodio_relacion WHERE id_episodio = ' . $valor->id));
+            DB::select(DB::raw('DELETE FROM calendario WHERE folio = ' . "'".$valor->folio."'"));
         }
         //**Eliminar los episodios relacionados al proyecto */
         DB::select(DB::raw('DELETE FROM episodios WHERE episodios."proyectoId" = ' . $idProyecto));

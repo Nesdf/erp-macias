@@ -202,8 +202,6 @@ class MgProyectosController extends Controller
     public function destroy($id)
     {
 		try{
-			Log::info('Eliminar proyecto');
-			
 			Episodios::deleteEpisodioConfig($id);
 			Proyectos::destroy($id);
 			\Request::session()->flash('success', 'El proyecto se eliminó corretamente');

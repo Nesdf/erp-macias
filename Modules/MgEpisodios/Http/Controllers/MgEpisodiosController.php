@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use \Modules\MgCatalogoTipoTrabajo\Entities\TiposTrabajo;
 use Modules\MgCatalogos\Entities\CatalogoConfiguraciones;
 use Modules\MgCatalogos\Entities\EpisodioRelacionConfiguracion;
+use Log;
 
 class MgEpisodiosController extends Controller
 {
@@ -297,13 +298,12 @@ class MgEpisodiosController extends Controller
         try{
 
             if($request->method('post')){
-                $episodio  = Episodios::find($request->id);
-                $episodio->delete_episodio = true;
+
+                Log::info($request->all());
+                Episodios::deleteEpisodioConfig($request->id_proyecto);
+                \Request::session()->flash('success', 'El episodio se eliminó correctamnete');
+                return redirect('mgepisodios/'.$request->id_proyecto);
                 
-                if($episodio->save()){
-                    \Request::session()->flash('success', 'El episodio se eliminó correctamnete');
-                    return redirect('mgepisodios/'.$request->id_proyecto);
-                }
             }
 
             

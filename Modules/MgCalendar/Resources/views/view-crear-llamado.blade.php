@@ -185,6 +185,24 @@ input.tipo_numero{
 @stop
 
 @section('modales')
+<div class="modal fade" id="salaNull" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Aviso importante</h4>
+      </div>
+      <div class="modal-body">
+        <p class="label label-danger">
+            Aviso: Es necesario asignar un productor al episodio para poder continuar.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @stop
 
 @section('script')
@@ -231,8 +249,15 @@ input.tipo_numero{
                     var id_episodio = $(this).find(':selected').data('id');
                     console.log("REF0: ", id);
                     console.log("REF1: ", id_episodio);
+                    
+                    
                     $('#foo').empty();
                     dataDB =  [];
+                    if(id === 'null'){
+                      $(".loader").fadeOut();
+                      $('#salaNull').modal('show');
+                      return;
+                    }
                   $.ajax({
                     url: "{{ url('mgcalendar/list_salas') }}" + '/' + id + '/' + id_episodio,
                     type: "GET",

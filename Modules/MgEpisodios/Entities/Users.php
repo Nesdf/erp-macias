@@ -3,6 +3,8 @@
 namespace Modules\MgEpisodios\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use \Modules\MgEpisodios\Entities\Jobs;
+use \Modules\MgEpisodios\Entities\Users;
 
 class Users extends Model
 {
@@ -11,9 +13,9 @@ class Users extends Model
 
     public static function Productores()
     {
-    	$jobs = \Modules\MgEpisodios\Entities\Jobs::where('job', 'Productor')->get();
+    	$jobs = Jobs::where('job', 'Productor')->get();
 
-    	return \Modules\MgEpisodios\Entities\Users::where('job', $jobs[0]->id)->get();
+    	return Users::where('job', $jobs[0]->id)->get();
     }
 
     public static function Directores()
@@ -32,7 +34,7 @@ class Users extends Model
     	/*return \DB::select( \DB::raw('SELECT name, ap_paterno, ap_materno, id FROM users
 WHERE name IN(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\', \'Pedro Matthiesen\', \'Fabio\') AND ap_paterno IN(\'Solís\', \'Solis\', \'Mejía\', \'Mejia\', \'Galina\', \'Matthiesen Matthiesen\', \'Fabio\')'));*/
 return \DB::select( \DB::raw('SELECT name, ap_paterno, ap_materno, id FROM users
-WHERE name IN(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\', \'Pedro Matthiesen\', \'Fabio\')'));
+WHERE name IN(\'Héctor\', \'Hector\', \'Lorena\', \'Lorena\', \'Alexandro\', \'Ricardo\', \'Pedro Matthiesen\', \'Fabio\')'));
     }
 
     public static function Traductores()

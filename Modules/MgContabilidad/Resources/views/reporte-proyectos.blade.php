@@ -20,7 +20,7 @@
 						<form id="form_search">
 							<div class="col-md-4">
 								<label>Lunes</label>
-								<input type="text" name="lunes_search" id="lunes_search" class="form-control" required>
+								<input type="text" name="lunes_search" autocomplete="off" id="lunes_search" class="form-control" required>
 							</div>
 							<!--<div class="col-md-4">
 								<label>Estudios</label>

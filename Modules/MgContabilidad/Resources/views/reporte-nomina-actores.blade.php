@@ -31,10 +31,13 @@
 						</div>
 					</div>
 					<form id="form_search">
+					@if(Session::has('studios'))
+						<div class="alert alert-danger">{{ Session::get('studios') }}</div>
+					@endif
 						{{ csrf_field() }}
 						<div class="col-md-3">
 							<label>Fecha día lunes</label>
-							<input type="text" name="lunes_search"  class="form-control" required>
+							<input type="text" name="lunes_search" autocomplete="off" class="form-control" required>
 						</div>
 						<div class="col-md-3">
 							<label>Estudio</label>
@@ -225,7 +228,7 @@
 						e.preventDefault();
 
 						$.ajax({
-							url: '{{url("mgcontabilidad/ajax-nomina-actores")}}',
+							url: '{{route("ajax_nomina_actores")}}',
 		          	type: 'POST',
 		          	data: $( this ).serialize(),
 		          	success: function(data){

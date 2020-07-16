@@ -11,6 +11,7 @@ use Modules\MgPersonal\Entities\Estudios;
 use Modules\MgPersonal\Entities\User;
 use Modules\MgPersonal\Entities\Jobs;
 use \Modules\MgPersonal\Entities\RoutesAccess;
+use Log;
 
 class MgPersonalController extends Controller
 {
@@ -114,61 +115,76 @@ class MgPersonalController extends Controller
      * @return Response
      */
     public function update(Request $request)
-    {
-		if( $request->isMethod('post') && $request->ajax() ){
+    {	
+		try{ 
+			if( $request->isMethod('post') && $request->ajax() ){
 
-			$rules = [
-				'nombre' => 'required|min:2|max:50',
-				'ap_paterno' => 'required|min:2|max:50',
-				'correo' => 'required|email',
-				'puesto' => 'required',
-				'lista_estudios' => 'required'
+				$rules = [
+					'nombre' => 'required|min:2|max:50',
+					'ap_paterno' => 'required|min:2|max:50',
+					'correo' => 'required|email',
+					'puesto' => 'required',
+					'lista_estudios' => 'required'
+					
+				];
 				
-			];
-			
-			$messages = [
-				'nombre.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
-				'nombre.min' => trans('mgpersonal::ui.display.error_min2', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
-				'nombre.max' => trans('mgpersonal::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
-				'ap_paterno.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
-				'ap_paterno.min' => trans('mgpersonal::ui.display.error_min2', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
-				'ap_paterno.max' => trans('mgpersonal::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
-				'lista_estudios.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.lista_estudios')]),
-				'correo.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.correo')]),
-				'correo.email' => trans('mgpersonal::ui.display.error_email', ['attribute' => trans('mgpersonal::ui.attribute.correo')]),
-				'puesto.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.puesto')])
-			]; 
-			
-			$validator = \Validator::make($request->all(), $rules, $messages);			
-			
-			if ( $validator->fails() ) {
-				return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
-			} else {
+				$messages = [
+					'nombre.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
+					'nombre.min' => trans('mgpersonal::ui.display.error_min2', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
+					'nombre.max' => trans('mgpersonal::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.nombre')]),
+					'ap_paterno.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
+					'ap_paterno.min' => trans('mgpersonal::ui.display.error_min2', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
+					'ap_paterno.max' => trans('mgpersonal::ui.display.error_max50', ['attribute' => trans('mgpersonal::ui.attribute.ap_paterno')]),
+					'lista_estudios.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.lista_estudios')]),
+					'correo.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.correo')]),
+					'correo.email' => trans('mgpersonal::ui.display.error_email', ['attribute' => trans('mgpersonal::ui.attribute.correo')]),
+					'puesto.required' => trans('mgpersonal::ui.display.error_required', ['attribute' => trans('mgpersonal::ui.attribute.puesto')])
+				]; 
 				
-				$data = array(
-					'ap_paterno' => ucwords( strtolower($request->input('ap_paterno')) ),
-					'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
-					'email' => strtolower( $request->input('correo') ),
-					'name' => ucwords( strtolower($request->input('nombre')) ),
-					//'lista_estudios' => $request->input('estudios'),
-					'job' => $request->input('puesto'),
-					'tipo_empleado' => $request->input('tipo_empleado') == 'on' ? true : false 
-				);
+				$validator = \Validator::make($request->all(), $rules, $messages);			
+				
+				if ( $validator->fails() ) {
+					return Response(['msg' => $validator->errors()->all()], 402)->header('Content-Type', 'application/json');
+				} else {
+					
+					$data = array(
+						'ap_paterno' => ucwords( strtolower($request->input('ap_paterno')) ),
+						'ap_materno' => ucwords( strtolower($request->input('ap_materno')) ),
+						'email' => strtolower( $request->input('correo') ),
+						'name' => ucwords( strtolower($request->input('nombre')) ),
+						//'lista_estudios' => $request->input('estudios'),
+						'job' => $request->input('puesto'),
+						'tipo_empleado' => $request->input('tipo_empleado') == 'on' ? true : false 
+					);
 
-				if(!User::verificarEstudios($request->estudios)){
-					$data['lista_estudios'] = $request->estudios;
+					if(!User::verificarEstudios($request->estudios)){
+						$data['lista_estudios'] = $request->estudios;
+					}
+
+					if( $request->input('password') != '' ){
+						$data['password'] = \Hash::make($request->input('password'));
+					}
+
+					$updateData = User::where('id', $request->input('id'))
+					->update( $data );
+
+					
+
+					$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_personal'));
+
+					return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
 				}
+			}	
+		 } catch( \Exception $e ){
 
-				if( $request->input('password') ){
-					$data['password'] = \Hash::make($request->input('password'));
-				}
-
-				User::where('id', $request->input('id'))
-				->update( $data );
-				$request->session()->flash('message', trans('mgpersonal::ui.flash.flash_create_personal'));
-				return Response(['msg' => 'success'], 200)->header('Content-Type', 'application/json');
-			}
-		}		
+            Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
+            Log::error(' Trace2: ' .$e->getTraceAsString());
+            return response()->json([
+              'response' => 'error',
+              'msg1' => $e->getTraceAsString(),
+              'code' => 400
+            ]);
+        }
     }
 	
     /**

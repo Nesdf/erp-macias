@@ -15,7 +15,7 @@ use Carbon\Carbon as Carbon;
 
 class MgContabilidadController extends Controller
 {
-  public $estudios;
+  private  $estudios;
     /**
      * Display a listing of the resource.
      * @return Response
@@ -139,10 +139,16 @@ class MgContabilidadController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function reporteNominaActores() {
+    public function reporteNominaActores(Request $request) {
 
         try{
+
+          if(\Auth::user()->lista_estudios == null){
+            $estudiosArray = [];
+          } else {
             $estudiosArray = explode(',', \Auth::user()->lista_estudios);
+          }
+            
             $actores = Actores::all();
             //$estudios = Estudios::whereIn('estudio', $estudiosArray);
             $estudiosString  = '';
@@ -153,7 +159,10 @@ class MgContabilidadController extends Controller
             $estudiosString = trim($estudiosString, ',');
             //$estudios = Estudios::estudios($estudiosArray);
             $estudios = $estudiosArray;
-            return view('mgcontabilidad::reporte-nomina-actores1', compact('actores', 'estudios'));
+            if(count($estudiosArray) == 0){
+              $request->session()->flash('studios', 'Es necesario que te asignen a un estudio, es por eso que no se muestran en el campo Estudio.');
+            }
+            return view('mgcontabilidad::reporte-nomina-actores', compact('actores', 'estudios'));
         } catch(\Exception $e) {
             \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
             \Log::error(' Trace2: ' .$e->getTraceAsString());
@@ -268,6 +277,7 @@ class MgContabilidadController extends Controller
             $fechaArray = explode("-", $lunes);
             $date = Carbon::create($fechaArray[0], $fechaArray[1], $fechaArray[2])->toDateString();
             //Seleccionar fecha por día
+            
             Carbon::setTestNow($date);
             $lunes = new Carbon('this monday');
             $martes = new Carbon('this tuesday');
@@ -278,7 +288,8 @@ class MgContabilidadController extends Controller
             Carbon::setTestNow();
 
             //Permite buscar por estudio
-            $this->estudios ;
+            $this->estudios = $request->input('estudio_search');
+            
             if($request->input('estudio_search') == "ALL"){
               $consultaEstudios = Salas::All();
               foreach($consultaEstudios as $value){
@@ -291,6 +302,8 @@ class MgContabilidadController extends Controller
               $this->estudios = trim($this->estudios, ',');
             } else{
               $consultaEstudios = Salas::searchEstudio($request->input('estudio_search'));
+
+              $this->estudios = ''; //Limpiar atributo estudios(Hace referencia a las salas de un estudio en específico)
               foreach($consultaEstudios as $value){
                 if ($value == end($consultaEstudios)) {
                     $this->estudios .= "'".$value->sala."'";
@@ -301,9 +314,10 @@ class MgContabilidadController extends Controller
               $this->estudios = trim($this->estudios, ',');
             }
 
+            
             $allRegister = Llamados::allRegisters($lunes, $sabado->toDateString(), $this->estudios);
             $allIntRegister = Llamados::allIntRegisters($lunes, $sabado->toDateString(), $this->estudios);
-            //return Response(['msg'=>'success', 'datos'=>$allIntRegister], 200)->header('Content-Type', 'application/json');
+            
             $newRegisters = [];
 
             $int = 0;
@@ -329,32 +343,39 @@ class MgContabilidadController extends Controller
                   //Lunes
                   if($lunes->toDateString() == $cita_db){
                     $newRegisters[$i]['lunes'] += (float)$val->pago_total_loops;
-                    $newRegisters[$i]['lunes'] = money_format($newRegisters[$i]['lunes'], 2);
+                    //$newRegisters[$i]['lunes'] = number_format($newRegisters[$i]['lunes'], 2);
+                    $newRegisters[$i]['lunes'] = $newRegisters[$i]['lunes'];
                   }
                   //Martes
                   if($martes->toDateString() == $cita_db){
                     $newRegisters[$i]['martes'] += (float)$val->pago_total_loops;
-                    $newRegisters[$i]['martes'] = money_format($newRegisters[$i]['martes'], 2);
+                    //--$newRegisters[$i]['martes'] = number_format($newRegisters[$i]['martes'], 2);
+                    $newRegisters[$i]['martes'] = $newRegisters[$i]['martes'];
                   }
                   //Miércoles
                   if($miercoles->toDateString() == $cita_db){
                     $newRegisters[$i]['miercoles'] += (float)$val->pago_total_loops;
-                    $newRegisters[$i]['miercoles'] = money_format($newRegisters[$i]['miercoles'], 2);
+                    //$newRegisters[$i]['miercoles'] = number_format($newRegisters[$i]['miercoles'], 2);
+                    $newRegisters[$i]['miercoles'] = $newRegisters[$i]['miercoles'];
+                    
                   }
                   //Jueves
                   if($jueves->toDateString() == $cita_db){
                     $newRegisters[$i]['jueves'] += (float)$val->pago_total_loops;
-                    $newRegisters[$i]['jueves'] = money_format($newRegisters[$i]['jueves'], 2);
+                    //$newRegisters[$i]['jueves'] = number_format($newRegisters[$i]['jueves'], 2);
+                    $newRegisters[$i]['jueves'] = $newRegisters[$i]['jueves'];
                   }
                   //Viernes
                   if($viernes->toDateString() == $cita_db){
                     $newRegisters[$i]['viernes'] += (float)$val->pago_total_loops;
-                    $newRegisters[$i]['viernes'] = money_format($newRegisters[$i]['viernes'], 2);
+                    //$newRegisters[$i]['viernes'] = number_format($newRegisters[$i]['viernes'], 2);
+                    $newRegisters[$i]['viernes'] = $newRegisters[$i]['viernes'];
                   }
                   //Sábado
                   if($sabado->toDateString() == $cita_db){
                     $newRegisters[$i]['sabado'] += (float)$val->pago_total_loops;
-                    $newRegisters[$i]['sabado'] = money_format($newRegisters[$i]['sabado'], 2);
+                    //$newRegisters[$i]['sabado'] = number_format($newRegisters[$i]['sabado'], 2);
+                    $newRegisters[$i]['sabado'] = $newRegisters[$i]['sabado'];
                   }
 
                 }
@@ -364,20 +385,35 @@ class MgContabilidadController extends Controller
             for($i=0; $i < count($newRegisters); $i++){
               $newRegisters[$i]['importe'] = (float)$newRegisters[$i]['lunes'] + (float)$newRegisters[$i]['martes'] +(float)$newRegisters[$i]['miercoles'] + (float)$newRegisters[$i]['jueves'] + (float)$newRegisters[$i]['viernes'] +
               + (float)$newRegisters[$i]['sabado'];
-              $newRegisters[$i]['importe'] = money_format($newRegisters[$i]['importe'], 2);
+              //$newRegisters[$i]['importe'] = money_format($newRegisters[$i]['importe'], 2);
+              $newRegisters[$i]['importe'] = $newRegisters[$i]['importe'];
             }
             $total = 0;
             for($i=0; $i < count($newRegisters); $i++){
               $total += (float)$newRegisters[$i]['importe'];
-              $total = money_format($total,2);
+              $total = $total;
             }
 
-            return Response(['msg'=>'success', 'total'=> $total, 'datos'=>$newRegisters], 200)->header('Content-Type', 'application/json');
+            $dataSuccess = [
+              "msg" => "success",
+              "total" => $total,
+              "datos" =>$newRegisters
+            ];
+
+            return Response($dataSuccess, 200)->header('Content-Type', 'application/json');
           }
 
       } catch(\Exception $e){
            \Log::info($e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine());
           \Log::error(' Trace2: ' .$e->getTraceAsString());
+
+
+          $dataError = [
+            "status" => "Error",
+            "info" => $e->getMessage() . ' Archivo: ' . $e->getFile() . ' Codigo '. $e->getCode() . ' Linea: ' . $e->getLine()
+          ];
+
+          return Response($dataError, 200)->header('Content-Type', 'application/json');
       }
     }
 

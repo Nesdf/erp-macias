@@ -202,7 +202,7 @@
 						<input type="text" class="form-control" id="ap_materno_update" name="ap_materno" placeholder="Apellido Materno">
 					</div>
 					<div class="form-group">
-						<label for="lista_estudios">Estudios</label><br>
+						<label for="lista_estudios">Estudios &nbsp;&nbsp;&nbsp; <span class="label label-info">Por seguridad no se pueden eliminar estudios</span></label><br>
 						<select name="lista_estudios" class="form-control" multiple="multiple" required>
 							@foreach( $estudios as $data )
 								<option value="{{ $data->estudio }}">{{ $data->estudio }}</option>
@@ -350,6 +350,7 @@
 						$('#ap_materno_update').val(data.ap_materno);
 						$('#correo_update').val(data.email);
 						$('#nombre_update').val(data.name);
+						$('#password_update').val('');
 						$("#puesto_update option[value="+ data.job +"]").attr("selected",true);	
 						(data.tipo_empleado == true) ? $('input[name=tipo_empleado]').prop("checked", true) : $('input[name=tipo_empleado]').prop("checked", false);
 
